@@ -744,6 +744,19 @@
       "descriptionLinkURL": "https://aragon.org/how-to/governance-ii-setting-dao-governance-thresholds",
       "shortTitle": "Select governance settings"
     },
+    "step5": {
+      "label": "Step 5",
+      "title": "Select plugins to install",
+      "description": "These plugins will be installed into your DAO on creation",
+      "governance": {
+        "title": "Sub-governance groups",
+        "description": "This plugin enables the creation of sub governance groups within an existing DAO. This plugin remove the need to create a new DAO, allowing an organisation to jointly vote for the creation of this subgroup that has its own budget from the join treasury and own decision making rules."
+      },
+      "creditDelegation": {
+        "title": "Credit delegation plugin",
+        "description": "This plugin enables the DAO to become a credit delegator in AAVE by depositing their treasury in AAVE and add all the needed features to open credit lines through proposals."
+      }
+    },
     "review": {
       "title": "Deploy your DAO",
       "description": "Double-check that everything is correct before launching your organization.",
