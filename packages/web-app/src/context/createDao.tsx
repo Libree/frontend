@@ -93,6 +93,7 @@ const CreateDaoProvider: React.FC = ({children}) => {
         : '0',
     });
 
+
     if (creationProcessState === TransactionState.SUCCESS) {
       handleCloseModal();
       return;

@@ -1,23 +1,24 @@
-import React, {useEffect, useMemo} from 'react';
-import {withTransaction} from '@elastic/apm-rum-react';
-import {useTranslation} from 'react-i18next';
-import {FormProvider, useForm, useFormState, useWatch} from 'react-hook-form';
+import React, { useEffect, useMemo } from 'react';
+import { withTransaction } from '@elastic/apm-rum-react';
+import { useTranslation } from 'react-i18next';
+import { FormProvider, useForm, useFormState, useWatch } from 'react-hook-form';
 
-import {FullScreenStepper, Step} from 'components/fullScreenStepper';
-import {OverviewDAOHeader, OverviewDAOStep} from 'containers/daoOverview';
+import { FullScreenStepper, Step } from 'components/fullScreenStepper';
+import { OverviewDAOHeader, OverviewDAOStep } from 'containers/daoOverview';
 import SelectChain from 'containers/selectChainForm';
 import DefineMetadata from 'containers/defineMetadata';
 import ConfigureCommunity from 'containers/configureCommunity';
 import SetupCommunity from 'containers/setupCommunity';
-import GoLive, {GoLiveHeader, GoLiveFooter} from 'containers/goLive';
-import {WalletField} from '../components/addWallets/row';
-import {Landing} from 'utils/paths';
-import {CreateDaoProvider} from 'context/createDao';
-import {CHAIN_METADATA, getSupportedNetworkByChainId} from 'utils/constants';
-import {useNetwork} from 'context/network';
-import {useWallet} from 'hooks/useWallet';
-import {trackEvent} from 'services/analytics';
-import {htmlIn} from 'utils/htmlIn';
+import GoLive, { GoLiveHeader, GoLiveFooter } from 'containers/goLive';
+import { WalletField } from '../components/addWallets/row';
+import { Landing } from 'utils/paths';
+import { CreateDaoProvider } from 'context/createDao';
+import { CHAIN_METADATA, getSupportedNetworkByChainId } from 'utils/constants';
+import { useNetwork } from 'context/network';
+import { useWallet } from 'hooks/useWallet';
+import { trackEvent } from 'services/analytics';
+import { htmlIn } from 'utils/htmlIn';
+import ConfigurePlugins from 'containers/configurePlugins';
 
 export type WalletItem = {
   id: string;
@@ -38,7 +39,7 @@ export type CreateDaoFormData = {
   tokenSymbol: string;
   tokenTotalSupply: number;
   isCustomToken: boolean;
-  links: {name: string; url: string}[];
+  links: { name: string; url: string }[];
   wallets: WalletField[];
   tokenAddress: string;
   durationMinutes: string;
@@ -54,6 +55,8 @@ export type CreateDaoFormData = {
   voteReplacement: boolean;
   multisigWallets: WalletItem[];
   multisigMinimumApprovals: number;
+  creditDelegationPlugin: string;
+  subGobernancePlugin: string;
 };
 
 const defaultValues = {
@@ -61,7 +64,7 @@ const defaultValues = {
   tokenAddress: '',
   tokenSymbol: '',
   tokenTotalSupply: 1,
-  links: [{name: '', url: ''}],
+  links: [{ name: '', url: '' }],
 
   // Uncomment when DAO Treasury minting is supported
   // wallets: [{address: constants.AddressZero, amount: '0'}],
@@ -77,14 +80,14 @@ const defaultValues = {
 };
 
 const CreateDAO: React.FC = () => {
-  const {t} = useTranslation();
-  const {chainId} = useWallet();
-  const {setNetwork, isL2Network} = useNetwork();
+  const { t } = useTranslation();
+  const { chainId } = useWallet();
+  const { setNetwork, isL2Network } = useNetwork();
   const formMethods = useForm<CreateDaoFormData>({
     mode: 'onChange',
     defaultValues,
   });
-  const {errors, dirtyFields} = useFormState({control: formMethods.control});
+  const { errors, dirtyFields } = useFormState({ control: formMethods.control });
   const [
     multisigWallets,
     isCustomToken,
@@ -326,6 +329,18 @@ const CreateDAO: React.FC = () => {
             }
           >
             <ConfigureCommunity />
+          </Step>
+          <Step
+            wizardTitle={t('createDAO.step5.title')}
+            wizardDescription={htmlIn(t)('createDAO.step5.description')}
+            onNextButtonClicked={next =>
+              handleNextButtonTracking(next, '5_configure_plugins', {
+                sub_governance: formMethods.getValues('subGobernancePlugin'),
+                credit_delegation: formMethods.getValues('creditDelegationPlugin')
+              })
+            }
+          >
+            <ConfigurePlugins />
           </Step>
           <Step
             hideWizard
