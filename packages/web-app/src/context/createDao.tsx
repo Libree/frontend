@@ -232,7 +232,6 @@ const CreateDaoProvider: React.FC = ({ children }) => {
     const { membership, daoName, daoEnsName, daoSummary, daoLogo, links, subGobernancePlugin, creditDelegationPlugin } =
       getValues();
 
-    console.log(subGobernancePlugin)
     let networkSelected;
     const plugins: IPluginInstallItem[] = [];
     switch (membership) {
