@@ -12,30 +12,31 @@ import {
   VotingSettings,
   SupportedNetworks as sdkSupportedNetworks,
 } from '@aragon/sdk-client';
-import {parseUnits} from 'ethers/lib/utils';
-import React, {createContext, useCallback, useContext, useState} from 'react';
-import {useFormContext} from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import { parseUnits } from 'ethers/lib/utils';
+import React, { createContext, useCallback, useContext, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 
 import PublishModal from 'containers/transactionModals/publishModal';
-import {useClient} from 'hooks/useClient';
-import {useAddFavoriteDaoMutation} from 'hooks/useFavoritedDaos';
-import {useAddPendingDaoMutation} from 'hooks/usePendingDao';
-import {usePollGasFee} from 'hooks/usePollGasfee';
-import {useWallet} from 'hooks/useWallet';
-import {CreateDaoFormData} from 'pages/createDAO';
-import {trackEvent} from 'services/analytics';
+import { useClient } from 'hooks/useClient';
+import { useAddFavoriteDaoMutation } from 'hooks/useFavoritedDaos';
+import { useAddPendingDaoMutation } from 'hooks/usePendingDao';
+import { usePollGasFee } from 'hooks/usePollGasfee';
+import { useWallet } from 'hooks/useWallet';
+import { CreateDaoFormData } from 'pages/createDAO';
+import { trackEvent } from 'services/analytics';
 import {
   CHAIN_METADATA,
   SupportedNetworks,
   TransactionState,
 } from 'utils/constants';
-import {getSecondsFromDHM} from 'utils/date';
-import {readFile, translateToNetworkishName} from 'utils/library';
-import {Dashboard} from 'utils/paths';
-import {useGlobalModalContext} from './globalModals';
-import {useNetwork} from './network';
+import { getSecondsFromDHM } from 'utils/date';
+import { readFile, translateToNetworkishName } from 'utils/library';
+import { Dashboard } from 'utils/paths';
+import { useGlobalModalContext } from './globalModals';
+import { useNetwork } from './network';
+import { getPluginInstallCreditDelegation } from 'utils/encoding';
 
 type CreateDaoContextType = {
   /** Prepares the creation data and awaits user confirmation to start process */
@@ -44,14 +45,14 @@ type CreateDaoContextType = {
 
 const CreateDaoContext = createContext<CreateDaoContextType | null>(null);
 
-const CreateDaoProvider: React.FC = ({children}) => {
-  const {open} = useGlobalModalContext();
+const CreateDaoProvider: React.FC = ({ children }) => {
+  const { open } = useGlobalModalContext();
   const navigate = useNavigate();
-  const {isOnWrongNetwork, provider} = useWallet();
-  const {network} = useNetwork();
-  const {t} = useTranslation();
-  const {getValues} = useFormContext<CreateDaoFormData>();
-  const {client} = useClient();
+  const { isOnWrongNetwork, provider } = useWallet();
+  const { network } = useNetwork();
+  const { t } = useTranslation();
+  const { getValues } = useFormContext<CreateDaoFormData>();
+  const { client } = useClient();
 
   const addFavoriteDaoMutation = useAddFavoriteDaoMutation();
   const addPendingDaoMutation = useAddPendingDaoMutation();
@@ -203,8 +204,8 @@ const CreateDaoProvider: React.FC = ({children}) => {
           eligibilityType === 'token' && eligibilityTokenAmount !== undefined
             ? parseUnits(eligibilityTokenAmount.toString(), 18).toBigInt()
             : eligibilityType === 'multisig'
-            ? BigInt(0)
-            : parseUnits('1', 18).toBigInt(),
+              ? BigInt(0)
+              : parseUnits('1', 18).toBigInt(),
         votingMode,
       },
       translatedNetwork,
@@ -213,7 +214,7 @@ const CreateDaoProvider: React.FC = ({children}) => {
 
   const getErc20PluginParams =
     useCallback((): ITokenVotingPluginInstall['newToken'] => {
-      const {tokenName, tokenSymbol, wallets} = getValues();
+      const { tokenName, tokenSymbol, wallets } = getValues();
       return {
         name: tokenName,
         symbol: tokenSymbol,
@@ -228,12 +229,15 @@ const CreateDaoProvider: React.FC = ({children}) => {
 
   // Get dao setting configuration for creation process
   const getDaoSettings = useCallback(async (): Promise<CreateDaoParams> => {
-    const {membership, daoName, daoEnsName, daoSummary, daoLogo, links} =
+    const { membership, daoName, daoEnsName, daoSummary, daoLogo, links, subGobernancePlugin, creditDelegationPlugin } =
       getValues();
+
+    let networkSelected;
     const plugins: IPluginInstallItem[] = [];
     switch (membership) {
       case 'multisig': {
         const [params, network] = getMultisigPluginInstallParams();
+        networkSelected = network;
         const multisigPlugin = MultisigClient.encoding.getPluginInstallItem(
           params,
           network
@@ -252,11 +256,17 @@ const CreateDaoProvider: React.FC = ({children}) => {
             network
           );
 
+        networkSelected = network;
         plugins.push(tokenVotingPlugin);
         break;
       }
       default:
         throw new Error(`Unknown dao type: ${membership}`);
+    }
+
+    if (creditDelegationPlugin) {
+      const creditDelegationPluginData = getPluginInstallCreditDelegation(networkSelected)
+      plugins.push(creditDelegationPluginData);
     }
 
     const metadata: DaoMetadata = {
@@ -325,7 +335,7 @@ const CreateDaoProvider: React.FC = ({children}) => {
       throw new Error('deposit function is not initialized correctly');
     }
 
-    const {daoName, daoSummary, daoLogo, links} = getValues();
+    const { daoName, daoSummary, daoLogo, links } = getValues();
     const metadata: DaoMetadata = {
       name: daoName,
       description: daoSummary,
@@ -409,7 +419,7 @@ const CreateDaoProvider: React.FC = ({children}) => {
    *                    Render                     *
    *************************************************/
   return (
-    <CreateDaoContext.Provider value={{handlePublishDao}}>
+    <CreateDaoContext.Provider value={{ handlePublishDao }}>
       {children}
       <PublishModal
         subtitle={t('TransactionModal.publishDaoSubtitle')}
@@ -433,4 +443,4 @@ function useCreateDaoContext(): CreateDaoContextType {
   return useContext(CreateDaoContext) as CreateDaoContextType;
 }
 
-export {useCreateDaoContext, CreateDaoProvider};
+export { useCreateDaoContext, CreateDaoProvider };

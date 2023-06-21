@@ -9,10 +9,10 @@ import {
   VoteValues,
   VotingSettings,
 } from '@aragon/sdk-client';
-import {BigNumber} from 'ethers/lib/ethers';
+import { BigNumber } from 'ethers/lib/ethers';
 
-import {TimeFilter, TransferTypes} from './constants';
-import {Web3Address} from './library';
+import { TimeFilter, TransferTypes } from './constants';
+import { Web3Address } from './library';
 
 /*************************************************
  *                   Finance types               *
@@ -80,7 +80,7 @@ export type VaultToken = TokenWithMarketData & {
   treasurySharePercentage?: number;
 };
 
-export type PollTokenOptions = {interval?: number; filter: TimeFilter};
+export type PollTokenOptions = { interval?: number; filter: TimeFilter };
 
 // Transfers
 /** A transfer transaction */
@@ -476,3 +476,31 @@ export class ProposalId {
     return this.id;
   }
 }
+
+export type ContractsDeployment = {
+  aavePool: string;
+};
+
+export type PluginsDeployment = {
+  creditDelegation: string;
+};
+
+export enum SupportedNetwork {
+  MUMBAI = "maticmum",
+  HOMESTEAD = "homestead",
+  GOERLI = "goerli",
+  MATIC = "matic",
+}
+
+export interface PluginInstallItem {
+  id: string; // ENS domain or address of the plugin's Repo
+  data: Uint8Array;
+}
+
+export type MetadataAbiInput = {
+  name: string;
+  type: string;
+  internalType: string;
+  description: string;
+  components?: MetadataAbiInput[];
+};
