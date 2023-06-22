@@ -31,10 +31,10 @@ const ExploreNav: React.FC = () => {
       <Menu>
         <GridLayout>
           <LeftContent>
-            <LogoContainer
+            {/* <LogoContainer
               src={Logo}
               onClick={() => window.open(path, '_blank')}
-            />
+            /> */}
           </LeftContent>
           <RightContent>
             <ActionsWrapper>

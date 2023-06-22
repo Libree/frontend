@@ -364,7 +364,7 @@
     "noAddresses": "No address Found"
   },
   "TransactionModal": {
-    "approveSubtitle": "To sign your first transaction, you must approve Aragon App to make a transaction with your token.",
+    "approveSubtitle": "To sign your first transaction, you must approve Libree App to make a transaction with your token.",
     "approveToken": "Approve token",
     "depositTitle": "Sign Deposit",
     "dismiss": "Dismiss",
