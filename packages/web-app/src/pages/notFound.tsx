@@ -21,10 +21,10 @@ const NotFound: React.FC = () => {
       <Container>
         <Menu>
           <GridLayout>
-            <img
+            {/* <img
               className="col-span-2 col-start-2 tablet:col-start-4 desktop:col-start-auto mx-auto desktop:mx-0 h-4"
               src={Logo}
-            />
+            /> */}
           </GridLayout>
         </Menu>
       </Container>

@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
             {isDesktop ? (
               <>
                 <FlexDiv>
-                  <LogoContainer src={IconLogoBlue} />
+                  {/* <LogoContainer src={IconLogoBlue} /> */}
                   <StyledNavList>{ExploreNavLinks}</StyledNavList>
                 </FlexDiv>
                 <FlexDiv>
@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
               </>
             ) : (
               <>
-                <LogoContainer src={IconLogoBlue} />
+                {/* <LogoContainer src={IconLogoBlue} /> */}
                 <StyledNavList>{ExploreNavLinks}</StyledNavList>
                 <StyledNavList>{PrivacyNavLinks}</StyledNavList>
                 <Copyright>

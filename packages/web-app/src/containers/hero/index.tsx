@@ -17,12 +17,12 @@ function Hero() {
             <Subtitle>{t('explore.hero.subtitle1')}</Subtitle>
           </ContentWrapper>
           <ImageWrapper>
-            <StyledImage src={Logo} />
+            {/* <StyledImage src={Logo} /> */}
           </ImageWrapper>
           <GradientContainer>
             <GradientWrapper>
-              <GradientGreen src={Green} />
-              <GradientPurple src={Purple} />
+              {/* <GradientGreen src={Green} /> */}
+              {/* <GradientPurple src={Purple} /> */}
             </GradientWrapper>
           </GradientContainer>
         </Wrapper>
