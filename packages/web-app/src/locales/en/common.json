@@ -915,15 +915,15 @@
     "cancel": "Cancel"
   },
   "cta": {
-    "create": {
-      "title": "Create your DAO",
-      "description": "Mint tokens, set governance parameters, and deploy your DAO on-chain in minutes with our no-code setup process.",
-      "actionLabel": "Create a DAO"
+    "smart": {
+      "title": "Smart DAO",
+      "description": "Smart DAO provides a simple onboarding process to join DAOs, allows users to gain economic benefits without daily involvement, and features a straightforward dashboard for tracking financial results.",
+      "actionLabel": "Create a SmartDAO"
     },
-    "learn": {
-      "title": "Learn about DAOs",
-      "description": "Find inspiration and learn about DAOs in our education portal designed for builders at every stage of the journey.",
-      "actionLabel": "Learn about DAOs"
+    "unity": {
+      "title": "Unity DAO",
+      "description": "Unity DAO fosters DeFi community involvement in decision-making, automates execution of proposals, and provides a dashboard for comprehensive financial analysis and treasury tracking.",
+      "actionLabel": "Create a UnityDAO"
     },
     "build": {
       "title": "Build faster",
