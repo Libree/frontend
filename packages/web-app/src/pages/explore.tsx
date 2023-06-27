@@ -14,6 +14,7 @@ import Hero from 'containers/hero';
 import {useNetwork} from 'context/network';
 import {translateToNetworkishName} from 'utils/library';
 import {i18n} from '../../i18n.config';
+import { fetchDaoPlugins } from 'services/aragon';
 
 const Explore: React.FC = () => {
   const {network, setNetwork} = useNetwork();
@@ -29,6 +30,7 @@ const Explore: React.FC = () => {
       console.warn('Unsupported network, defaulting to ethereum');
       setNetwork('ethereum');
     }
+
   }, [network, setNetwork]);
 
   return (

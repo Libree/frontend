@@ -1,14 +1,14 @@
 // FIXME: Change route to ApmRoute once package has been updated to be
 // compatible with react-router-dom v6
-import React, {lazy, Suspense, useEffect} from 'react';
-import {Navigate, Outlet, Route, Routes, useLocation} from 'react-router-dom';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 // HACK: All pages MUST be exported with the withTransaction function
 // from the '@elastic/apm-rum-react' package in order for analytics to
 // work properly on the pages.
-import {GridLayout} from 'components/layout';
+import { GridLayout } from 'components/layout';
 import ProtectedRoute from 'components/protectedRoute';
-import {Loading} from 'components/temporary/loading';
+import { Loading } from 'components/temporary/loading';
 import ExploreFooter from 'containers/exploreFooter';
 import Footer from 'containers/footer';
 import Navbar from 'containers/navbar';
@@ -17,18 +17,19 @@ import ExploreNav from 'containers/navbar/exploreNav';
 import NetworkErrorMenu from 'containers/networkErrorMenu';
 import TransactionDetail from 'containers/transactionDetail';
 import TransferMenu from 'containers/transferMenu';
-import {WalletMenu} from 'containers/walletMenu';
-import {ProposalTransactionProvider} from 'context/proposalTransaction';
-import {useTransactionDetailContext} from 'context/transactionDetail';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useWallet} from 'hooks/useWallet';
+import { WalletMenu } from 'containers/walletMenu';
+import { ProposalTransactionProvider } from 'context/proposalTransaction';
+import { useTransactionDetailContext } from 'context/transactionDetail';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useWallet } from 'hooks/useWallet';
 import CreateDAO from 'pages/createDAO';
-import {FormProvider, useForm} from 'react-hook-form';
-import {identifyUser, trackPage} from 'services/analytics';
-import {NotFound} from 'utils/paths';
+import { FormProvider, useForm } from 'react-hook-form';
+import { identifyUser, trackPage } from 'services/analytics';
+import { NotFound } from 'utils/paths';
 import '../i18n.config';
 import DepositModal from 'containers/transactionModals/DepositModal';
 import PoapClaimModal from 'containers/poapClaiming/PoapClaimModal';
+import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 const ExplorePage = lazy(() => import('pages/explore'));
 const NotFoundPage = lazy(() => import('pages/notFound'));
@@ -54,8 +55,8 @@ const ManageMembersProposalPage = lazy(() => import('pages/manageMembers'));
 function App() {
   // TODO this needs to be inside a Routes component. Will be moved there with
   // further refactoring of layout (see further below).
-  const {pathname} = useLocation();
-  const {methods, status, network, address, provider} = useWallet();
+  const { pathname } = useLocation();
+  const { methods, status, network, address, provider } = useWallet();
 
   useEffect(() => {
     if (status === 'connected') {
@@ -76,6 +77,7 @@ function App() {
     trackPage(pathname);
     window.scrollTo(0, 0);
   }, [pathname]);
+
 
   return (
     <>
@@ -146,7 +148,7 @@ const NewSettingsWrapper: React.FC = () => {
   const formMethods = useForm({
     mode: 'onChange',
     defaultValues: {
-      links: [{name: '', url: ''}],
+      links: [{ name: '', url: '' }],
       startSwitch: 'now',
       durationSwitch: 'duration',
       durationDays: '1',
@@ -169,9 +171,9 @@ const ProposalDetailsWrapper: React.FC = () => (
 );
 
 const NotFoundWrapper: React.FC = () => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
-  return <Navigate to={NotFound} state={{incorrectPath: pathname}} replace />;
+  return <Navigate to={NotFound} state={{ incorrectPath: pathname }} replace />;
 };
 
 const ExploreWrapper: React.FC = () => (
@@ -185,12 +187,12 @@ const ExploreWrapper: React.FC = () => (
 );
 
 const DaoWrapper: React.FC = () => {
-  const {data: daoDetails} = useDaoDetailsQuery();
+  const { data: daoDetails } = useDaoDetailsQuery();
 
   // using isOpen to conditionally render TransactionDetail so that
   // api call is not made on mount regardless of whether the user
   // wants to open the modal
-  const {isOpen} = useTransactionDetailContext();
+  const { isOpen } = useTransactionDetailContext();
 
   return (
     <>

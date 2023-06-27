@@ -1,6 +1,6 @@
 import {SupportedNetworks} from './chains';
 
-type SubgraphNetworkUrl = Record<SupportedNetworks, string | undefined>;
+type SubgraphNetworkUrl = Record<SupportedNetworks, string | undefined>
 
 export const FEEDBACK_FORM =
   'https://aragonassociation.atlassian.net/servicedesk/customer/portal/3';
@@ -16,7 +16,11 @@ export const SUBGRAPH_API_URL: SubgraphNetworkUrl = {
     'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.1.1/api',
   arbitrum: undefined,
   'arbitrum-test': undefined,
-  unsupported: undefined,
+  unsupported: undefined
+};
+
+export const SUBGRAPH_API_URL_PLUGIN: any = {
+  mumbai: "https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.0/api"
 };
 
 export const BASE_URL = 'https://api.coingecko.com/api/v3';

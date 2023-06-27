@@ -1,6 +1,6 @@
 /* SUPPORTED NETWORK TYPES ================================================== */
 
-import {infuraApiKey} from './api';
+import { infuraApiKey } from './api';
 
 export const SUPPORTED_CHAIN_ID = [1, 5, 137, 80001, 42161, 421613] as const;
 export type SupportedChainID = typeof SUPPORTED_CHAIN_ID[number];
@@ -27,6 +27,9 @@ export type availableNetworks = 'mainnet' | 'goerli' | 'polygon' | 'mumbai';
 export type SupportedNetworks =
   | typeof SUPPORTED_NETWORKS[number]
   | 'unsupported';
+
+export type SupportedNetworksPlugin =
+  | 'mumbaiPlugin'
 
 export function isSupportedNetwork(
   network: string
