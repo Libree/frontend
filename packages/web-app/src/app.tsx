@@ -51,7 +51,7 @@ const ProposalPage = lazy(() => import('pages/proposal'));
 const MintTokensProposalPage = lazy(() => import('pages/mintTokens'));
 const ManageMembersProposalPage = lazy(() => import('pages/manageMembers'));
 
-const CommunityGroupsPage = lazy(() => import('pages/communityGroups'));
+const Groups = lazy(() => import('pages/communityGroups'));
 
 function App() {
   // TODO this needs to be inside a Routes component. Will be moved there with
@@ -122,7 +122,7 @@ function App() {
                 />
                 <Route
                   path="community/groups"
-                  element={<CommunityGroupsPage />}
+                  element={<Groups />}
                 />
               </Route>
               <Route path="governance" element={<GovernancePage />} />
