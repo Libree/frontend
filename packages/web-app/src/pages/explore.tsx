@@ -14,7 +14,6 @@ import Hero from 'containers/hero';
 import {useNetwork} from 'context/network';
 import {translateToNetworkishName} from 'utils/library';
 import {i18n} from '../../i18n.config';
-import { fetchDaoPlugins } from 'services/aragon';
 
 const Explore: React.FC = () => {
   const {network, setNetwork} = useNetwork();
