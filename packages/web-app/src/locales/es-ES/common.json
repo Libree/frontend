@@ -172,7 +172,8 @@
     "totalHolders": "Total Holders",
     "mintable": "Mintable",
     "new": "New",
-    "pendingTransaction": "Pending Transaction..."
+    "pendingTransaction": "Pending Transaction...",
+    "newGroup": "New Group"
   },
   "placeHolders": {
     "selectToken": "Select a Token ...",

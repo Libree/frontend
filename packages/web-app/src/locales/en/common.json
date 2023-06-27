@@ -231,7 +231,9 @@
     "helptext": {
       "snapshot": "Based on this proposal snapshot"
     },
-    "currentHolders": "Current holders"
+    "currentHolders": "Current holders",
+    "newGroup": "New group",
+    "seeAllGroups": "See all groups"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -1106,6 +1108,16 @@
       "title": "Another proposal is active",
       "description": "Beware of another proposal that mints additional tokens. This implies that the token supply may not be the final one and that it may affect future votes.",
       "ctaLabel": "OK, understood"
+    }
+  },
+  "community": {
+    "groups": {
+      "groupsSection": "Groups",
+      "noGroupsData": "No groups yet",
+      "emptyState": {
+        "title": "Create a new group",
+        "description": "Create a new group to organize your community."
+      }
     }
   }
 }

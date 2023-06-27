@@ -2,8 +2,6 @@ import {
     IllustrationHuman,
     Breadcrumb,
     ButtonText,
-    IconAdd,
-    Tag,
     IlluObject,
 } from '@aragon/ui-components';
 import { withTransaction } from '@elastic/apm-rum-react';
@@ -13,18 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import GroupList from 'components/groupList';
-import TransferList from 'components/transferList';
 import {
+    GroupSectionWrapper,
     PageWrapper,
-    TokenSectionWrapper,
-    TransferSectionWrapper,
 } from 'components/wrappers';
-import { useGlobalModalContext } from 'context/globalModals';
-import { useTransactionDetailContext } from 'context/transactionDetail';
-import { useDaoVault } from 'hooks/useDaoVault';
 import { useMappedBreadcrumbs } from 'hooks/useMappedBreadcrumbs';
 import useScreen from 'hooks/useScreen';
-import { trackEvent } from 'services/analytics';
 import PageEmptyState from 'containers/pageEmptyState';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
@@ -39,53 +31,39 @@ const colors: Record<Sign, string> = {
 
 const CommunityGroups: React.FC = () => {
     const { t } = useTranslation();
-    const { data: daoDetails, isLoading } = useDaoDetailsQuery();
-    const { open } = useGlobalModalContext();
+    const { isLoading } = useDaoDetailsQuery();
     const { isMobile, isDesktop } = useScreen();
 
     // load dao details
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
 
-    const { handleTransferClicked } = useTransactionDetailContext();
-    const { totalAssetChange, totalAssetValue, transfers } = useDaoVault();
-
     const groups = [
         {
-          metadata: {
-            id: 'dljfaliet53853w5h',
-            name: 'Group 1',
-            symbol: 'TKN1',
-            decimals: 18,
-            imgUrl: '',
-          },
-          balance: '100000000000000000000',
-          marketData: {
-            price: '0.000000000000000001',
-            balanceValue: '0.0000000000000001',
-            percentageChangedDuringInterval: 0.1,
-            valueChangeDuringInterval: true,
-          },
-          treasurySharePercentage: 0.5,
+          id: 'lkdjsgihgeh839t5jhd',
+          name: 'NFT Group',
+          description: 'Collector group finding best NFT projects to invest in',
+          imgUrl: '',
+          memberCount: 5,
+          value: 1200,
         },
         {
-          metadata: {
-            id: 'dljdgsdgasdgiet53853w5h',
-            name: 'Group 2',
-            symbol: 'TKN2',
-            decimals: 18,
-            imgUrl: '',
-          },
-          balance: '100000000000000000000',
-          marketData: {
-            price: '0.000000000000000001',
-            balanceValue: '0.0000000000000001',
-            percentageChangedDuringInterval: 0.1,
-            valueChangeDuringInterval: true,
-          },
-          treasurySharePercentage: 0.5,
+          id: 'kdsgaslelilañdjañlj55',
+          name: 'Trading Group',
+          description: 'Conservative trading group in Uniswap',
+          imgUrl: '',
+          memberCount: 15,
+          value: 4200,
         },
-      ];
+        {
+          id: 'kdsgassdfsadteañdjañlj55',
+          name: 'Research',
+          description: 'Doing research to find best DeFi projects',
+          imgUrl: '',
+          memberCount: 2,
+          value: 2200,
+        },
+    ];
 
     /*************************************************
      *                    Render                     *
@@ -97,8 +75,8 @@ const CommunityGroups: React.FC = () => {
     if (groups.length === 0 && isDesktop)
         return (
             <PageEmptyState
-                title={t('finance.emptyState.title')}
-                subtitle={htmlIn(t)('finance.emptyState.description')}
+                title={t('community.groups.emptyState.title')}
+                subtitle={htmlIn(t)('community.groups.emptyState.description')}
                 Illustration={
                     <div className="flex">
                         <IllustrationHuman
@@ -114,10 +92,8 @@ const CommunityGroups: React.FC = () => {
                         <IlluObject object={'wallet'} className="-ml-36" />
                     </div>
                 }
-                buttonLabel={t('finance.emptyState.buttonLabel')}
-                onClick={() => {
-                    open('deposit');
-                }}
+                buttonLabel={t('labels.newGroup')}
+                onClick={() => { }}
             />
         );
 
@@ -138,40 +114,13 @@ const CommunityGroups: React.FC = () => {
 
                             {/* Main */}
                             <ContentContainer>
-                                <TextContainer>
-                                    <Title>
-                                        {new Intl.NumberFormat('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }).format(totalAssetValue)}
-                                    </Title>
-
-                                    <SubtitleContainer>
-                                        <Tag label="24h" />
-                                        <Description
-                                            className={colors[Math.sign(totalAssetChange) as Sign]}
-                                        >
-                                            {new Intl.NumberFormat('en-US', {
-                                                style: 'currency',
-                                                currency: 'USD',
-                                                signDisplay: 'always',
-                                            }).format(totalAssetChange)}
-                                        </Description>
-                                    </SubtitleContainer>
-                                </TextContainer>
 
                                 {/* Button */}
                                 <ButtonText
                                     size="large"
-                                    label={t('TransferModal.newTransfer')}
-                                    iconLeft={<IconAdd />}
+                                    label={t('labels.newGroup')}
                                     className="w-full tablet:w-auto"
-                                    onClick={() => {
-                                        trackEvent('finance_newTransferBtn_clicked', {
-                                            dao_address: daoDetails?.address,
-                                        });
-                                        open();
-                                    }}
+                                    onClick={() => {}}
                                 />
                             </ContentContainer>
                         </Header>
@@ -180,8 +129,8 @@ const CommunityGroups: React.FC = () => {
             >
                 {groups.length === 0 ? (
                     <PageEmptyState
-                        title={t('finance.emptyState.title')}
-                        subtitle={htmlIn(t)('finance.emptyState.description')}
+                        title={t('community.groups.emptyState.title')}
+                        subtitle={htmlIn(t)('community.groups.emptyState.description')}
                         Illustration={
                             <div className="flex">
                                 <IllustrationHuman
@@ -197,31 +146,17 @@ const CommunityGroups: React.FC = () => {
                                 <IlluObject object={'wallet'} className="-ml-32" />
                             </div>
                         }
-                        buttonLabel={t('finance.emptyState.buttonLabel')}
-                        onClick={() => {
-                            open('deposit');
-                        }}
+                        buttonLabel={t('labels.newGroup')}
+                        onClick={() => { }}
                     />
                 ) : (
                     <>
                         <div className={'h-4'} />
-                        <TokenSectionWrapper title={t('finance.tokenSection')}>
+                        <GroupSectionWrapper title={t('community.groups.groupsSection')}>
                             <ListContainer>
                                 <GroupList groups={groups.slice(0, 5)} />
                             </ListContainer>
-                        </TokenSectionWrapper>
-                        <div className={'h-4'} />
-                        <TransferSectionWrapper
-                            title={t('finance.transferSection')}
-                            showButton
-                        >
-                            <ListContainer>
-                                <TransferList
-                                    transfers={transfers.slice(0, 5)}
-                                    onTransferClick={handleTransferClicked}
-                                />
-                            </ListContainer>
-                        </TransferSectionWrapper>
+                        </GroupSectionWrapper>
                     </>
                 )}
             </PageWrapper>
@@ -240,10 +175,6 @@ const HeaderContainer = styled.div.attrs({
         'col-span-full desktop:col-start-3 desktop:col-end-11 -mx-2 tablet:mx-0 tablet:mt-3',
 })``;
 
-const SubtitleContainer = styled.div.attrs({
-    className: 'flex gap-x-1.5 items-center mt-1',
-})``;
-
 const Header = styled.div.attrs({
     className: `p-2 desktop:p-0 pb-3 desktop:mt-5 space-y-2 tablet:space-y-3 
      bg-ui-0 desktop:bg-transparent tablet:rounded-xl tablet:border
@@ -252,17 +183,5 @@ const Header = styled.div.attrs({
 
 const ContentContainer = styled.div.attrs({
     className: `flex flex-col tablet:flex-row tablet:gap-x-6 gap-y-2 
-       tablet: gap - y - 3 tablet: items - start desktop: items - center`,
-})``;
-
-const TextContainer = styled.div.attrs({
-    className: 'tablet:flex-1 space-y-1 capitalize',
-})``;
-
-const Title = styled.h1.attrs({
-    className: 'font-bold text-ui-800 ft-text-3xl',
-})``;
-
-const Description = styled.p.attrs({
-    className: 'text-ui-600 ft-text-lg' as string,
+       tablet: gap - y - 3 tablet: items - start desktop: items - center desktop:justify-end`,
 })``;
