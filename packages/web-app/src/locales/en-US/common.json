@@ -138,7 +138,8 @@
     "selectWallets": "Select Wallets",
     "cancel": "Cancel",
     "addNWallets": "Add {{walletCount}} Wallets",
-    "noAddressSelected": "No address selected"
+    "noAddressSelected": "No address selected",
+    "newGroup": "New Group"
   },
   "placeHolders": {
     "selectToken": "Select a Token ...",

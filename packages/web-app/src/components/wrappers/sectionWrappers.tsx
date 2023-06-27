@@ -93,3 +93,23 @@ const Title = styled.p.attrs({
 const HeaderContainer = styled.div.attrs({
   className: 'flex justify-between content-center',
 })``;
+
+export const GroupSectionWrapper = ({title, children}: SectionWrapperProps) => {
+  const {t} = useTranslation();
+  const {network} = useNetwork();
+  const {dao} = useParams();
+
+  return (
+    <>
+      <SectionHeader title={title} />
+      {children}
+      <Link to={generatePath(AllTokens, {network, dao})}>
+        <ButtonText
+          mode="secondary"
+          label={t('labels.seeAllGroups')}
+          iconRight={<IconChevronRight />}
+        />
+      </Link>
+    </>
+  );
+};
