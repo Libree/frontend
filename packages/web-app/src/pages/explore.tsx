@@ -29,6 +29,7 @@ const Explore: React.FC = () => {
       console.warn('Unsupported network, defaulting to ethereum');
       setNetwork('ethereum');
     }
+
   }, [network, setNetwork]);
 
   return (

@@ -29,6 +29,7 @@ import {
   PENDING_PROPOSALS_KEY,
   PENDING_VOTES_KEY,
   SUBGRAPH_API_URL,
+  SUBGRAPH_API_URL_PLUGIN,
   SupportedChainID,
   SupportedNetworks,
 } from 'utils/constants';
@@ -116,6 +117,11 @@ const arbitrumTestClient = new ApolloClient({
   link: restLink.concat(new HttpLink({uri: SUBGRAPH_API_URL['arbitrum-test']})),
 });
 
+const mumbaiClientPlugin = new ApolloClient({
+  cache,
+  link: restLink.concat(new HttpLink({uri: SUBGRAPH_API_URL_PLUGIN['mumbai']})),
+});
+
 // TODO: remove undefined when all clients are defined
 const client: Record<
   SupportedNetworks,
@@ -129,6 +135,14 @@ const client: Record<
   'arbitrum-test': arbitrumTestClient,
   unsupported: undefined,
 };
+
+const clientPlugin: Record<
+  string,
+  ApolloClient<NormalizedCacheObject> | undefined
+> = {
+  'mumbai': mumbaiClientPlugin,
+};
+
 
 /*************************************************
  *            FAVORITE & SELECTED DAOS           *
@@ -308,4 +322,5 @@ export {
   // proposals
   pendingMultisigProposalsVar,
   pendingTokenBasedProposalsVar,
+  clientPlugin
 };

@@ -1,7 +1,7 @@
 import {
     SupportedNetwork,
-    ContractsDeployment, 
-    PluginsDeployment 
+    ContractsDeployment,
+    PluginsDeployment
 } from "./types"
 
 export const CONTRACT_ADDRESSES: { [K in SupportedNetwork]: ContractsDeployment } = {
@@ -22,6 +22,22 @@ export const CONTRACT_ADDRESSES: { [K in SupportedNetwork]: ContractsDeployment 
 export const PLUGIN_ADDRESSES: { [K in SupportedNetwork]: PluginsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
         creditDelegation: "0xb42a901356c989f988b476abcb4fca847caf83ba"
+    },
+    [SupportedNetwork.GOERLI]: {
+        creditDelegation: ""
+    },
+    [SupportedNetwork.HOMESTEAD]: {
+        creditDelegation: ""
+    },
+    [SupportedNetwork.MATIC]: {
+        creditDelegation: ""
+    }
+};
+
+
+export const PLUGIN_IDS: { [K in SupportedNetwork]: PluginsDeployment } = {
+    [SupportedNetwork.MUMBAI]: {
+        creditDelegation: "my-cool-plugin-78999"
     },
     [SupportedNetwork.GOERLI]: {
         creditDelegation: ""
