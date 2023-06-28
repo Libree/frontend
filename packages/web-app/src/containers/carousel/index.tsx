@@ -1,19 +1,19 @@
-import React, {useMemo, useCallback} from 'react';
-import {Carousel as ReactResponsiveCarousel} from 'react-responsive-carousel';
+import React, { useMemo, useCallback } from 'react';
+import { Carousel as ReactResponsiveCarousel } from 'react-responsive-carousel';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import CTACard from 'components/ctaCard';
-import {CTACards} from 'components/ctaCard/data';
+import { CTACards } from 'components/ctaCard/data';
 import useScreen from 'hooks/useScreen';
-import {useWallet} from 'hooks/useWallet';
-import {trackEvent} from 'services/analytics';
+import { useWallet } from 'hooks/useWallet';
+import { trackEvent } from 'services/analytics';
 
 const Carousel: React.FC = () => {
-  const {isDesktop} = useScreen();
+  const { isDesktop } = useScreen();
   const navigate = useNavigate();
-  const {methods, isConnected} = useWallet();
+  const { methods, isConnected } = useWallet();
 
   // TODO
   // this prevents the user from entering the creation
@@ -62,61 +62,81 @@ const Carousel: React.FC = () => {
   );
 
   if (isDesktop) {
-    return <DesktopCTA>{ctaList}</DesktopCTA>;
+    return (
+      <DesktopContainer>
+        <Subtitle>Create from Template</Subtitle>
+        <DesktopCTA>{ctaList}</DesktopCTA>
+      </DesktopContainer>
+    );
   } else {
     return (
-      <MobileCTA>
-        <StyledCarousel
-          swipeable
-          emulateTouch
-          centerMode
-          autoPlay
-          preventMovementUntilSwipeScrollTolerance
-          swipeScrollTolerance={100}
-          interval={4000}
-          showArrows={false}
-          showStatus={false}
-          transitionTime={300}
-          centerSlidePercentage={92}
-          showThumbs={false}
-          infiniteLoop
-          renderIndicator={(onClickHandler, isSelected, index, label) => {
-            if (isSelected) {
+      <MobileContainer>
+        <Subtitle>Create from Template</Subtitle>
+        <MobileCTA>
+          <StyledCarousel
+            swipeable
+            emulateTouch
+            centerMode
+            autoPlay
+            preventMovementUntilSwipeScrollTolerance
+            swipeScrollTolerance={100}
+            interval={4000}
+            showArrows={false}
+            showStatus={false}
+            transitionTime={300}
+            centerSlidePercentage={92}
+            showThumbs={false}
+            infiniteLoop
+            renderIndicator={(onClickHandler, isSelected, index, label) => {
+              if (isSelected) {
+                return (
+                  <ActiveIndicator
+                    aria-label={`Selected: ${label} ${index + 1}`}
+                    title={`Selected: ${label} ${index + 1}`}
+                  />
+                );
+              }
               return (
-                <ActiveIndicator
-                  aria-label={`Selected: ${label} ${index + 1}`}
-                  title={`Selected: ${label} ${index + 1}`}
+                <Indicator
+                  onClick={onClickHandler}
+                  onKeyDown={onClickHandler}
+                  value={index}
+                  key={index}
+                  role="button"
+                  tabIndex={0}
+                  title={`${label} ${index + 1}`}
+                  aria-label={`${label} ${index + 1}`}
                 />
               );
-            }
-            return (
-              <Indicator
-                onClick={onClickHandler}
-                onKeyDown={onClickHandler}
-                value={index}
-                key={index}
-                role="button"
-                tabIndex={0}
-                title={`${label} ${index + 1}`}
-                aria-label={`${label} ${index + 1}`}
-              />
-            );
-          }}
-        >
-          {ctaList}
-        </StyledCarousel>
-      </MobileCTA>
+            }}
+          >
+            {ctaList}
+          </StyledCarousel>
+        </MobileCTA>
+      </MobileContainer>
     );
   }
 };
 
+const DesktopContainer = styled.div.attrs({
+  className: 'flex flex-col space-y-2 -mt-16 mb-4',
+})``;
+
+const MobileContainer = styled.div.attrs({
+  className: 'flex flex-col space-y-2 -mt-13 mb-5',
+})``;
+
+const Subtitle = styled.h2.attrs({
+  className: 'font-bold text-lg text-white',
+})``;
+
 const DesktopCTA = styled.div.attrs({
   className:
-    'relative flex desktop:flex-row flex-col mb-4 space-x-3 max-w-fit -mt-16',
+    'relative flex desktop:flex-row flex-col space-x-3 max-w-fit',
 })``;
 
 const MobileCTA = styled.div.attrs({
-  className: 'relative -mt-13 mb-5 -mx-2 tablet:-mx-3 desktop:mx-0',
+  className: 'relative -mx-2 tablet:-mx-3 desktop:mx-0',
 })``;
 
 export const ActiveIndicator = styled.li.attrs({
