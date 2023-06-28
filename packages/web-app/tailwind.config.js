@@ -74,6 +74,10 @@ module.exports = {
           800: '#901132',
           900: '#770A30',
         },
+        neutral: {
+          100: '#3D5570',
+          200: '#33475b',
+        },
       },
       // extends spacing according to design system
       spacing: {

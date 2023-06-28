@@ -57,10 +57,8 @@ const ExploreNav: React.FC = () => {
 };
 
 const Menu = styled.nav.attrs({
-  className: 'py-2 desktop:py-3',
-})`
-  background: linear-gradient(180deg, #3164fa 0%, rgba(49, 100, 250, 0) 100%);
-`;
+  className: 'py-2 bg-neutral-200',
+})``;
 
 const LeftContent = styled.div.attrs({
   className: 'col-span-3 tablet:col-span-2 flex items-center',
