@@ -3,13 +3,19 @@ import styled from 'styled-components';
 import Logo from 'public/coloredLogo.svg';
 import Green from 'public/circleGreenGradient.svg';
 import Purple from 'public/purpleGradient.svg';
-import {useTranslation} from 'react-i18next';
-import {GridLayout} from 'components/layout';
+import LogoBg from 'public/libree-bg-logo.png';
+import { useTranslation } from 'react-i18next';
+import { GridLayout } from 'components/layout';
 
 function Hero() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Container>
+
+      <div className='absolute top-0 opacity-70 desktop:left-1/3 desktop:top-4 desktop:opacity-90'>
+        <img src={LogoBg} alt='' />
+      </div>
+
       <GridLayout>
         <Wrapper>
           <ContentWrapper>
@@ -38,7 +44,7 @@ function Hero() {
 // desktop.
 const Container = styled.div.attrs({
   className:
-    'bg-primary-400 h-56 -mt-10 pt-10  desktop:h-67 desktop:pt-12 desktop:-mt-12 overflow-hidden',
+    'relative bg-neutral-100 h-56 -mt-10 pt-10 desktop:h-67 desktop:pt-12 desktop:-mt-12 overflow-hidden',
 })``;
 
 const Wrapper = styled.div.attrs({
