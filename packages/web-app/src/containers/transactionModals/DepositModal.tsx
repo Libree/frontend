@@ -1,31 +1,29 @@
 import {
   ButtonText,
-  IconLinkExternal,
-  Link,
   WalletInputLegacy,
   shortenAddress,
 } from '@aragon/ui-components';
-import React, {useCallback} from 'react';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
-import {useAlertContext} from 'context/alert';
-import {useGlobalModalContext} from 'context/globalModals';
-import {useNetwork} from 'context/network';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {CHAIN_METADATA} from 'utils/constants';
-import {toDisplayEns} from 'utils/library';
-import {AllTransfers} from 'utils/paths';
+import { useAlertContext } from 'context/alert';
+import { useGlobalModalContext } from 'context/globalModals';
+import { useNetwork } from 'context/network';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { toDisplayEns } from 'utils/library';
+import { AllTransfers } from 'utils/paths';
 
 const DepositModal: React.FC = () => {
-  const {t} = useTranslation();
-  const {isDepositOpen, close} = useGlobalModalContext();
-  const {data: daoDetails} = useDaoDetailsQuery();
-  const {network} = useNetwork();
-  const {alert} = useAlertContext();
+  const { t } = useTranslation();
+  const { isDepositOpen, close } = useGlobalModalContext();
+  const { data: daoDetails } = useDaoDetailsQuery();
+  const { network } = useNetwork();
+  const { alert } = useAlertContext();
   const navigate = useNavigate();
+  const amountToDeposit = 100;
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -65,8 +63,8 @@ const DepositModal: React.FC = () => {
         {toDisplayEns(daoDetails?.ensDomain) !== '' && (
           <>
             <EnsHeaderWrapper>
-              <EnsTitle>{t('modal.deposit.inputLabelEns')}</EnsTitle>
-              <EnsSubtitle>{t('modal.deposit.inputHelptextEns')}</EnsSubtitle>
+              <InputTitle>{t('modal.deposit.inputLabelEns')}</InputTitle>
+              <InputSubtitle>{t('modal.deposit.inputHelptextEns')}</InputSubtitle>
             </EnsHeaderWrapper>
             <WalletInputLegacy
               adornmentText={t('labels.copy')}
@@ -77,37 +75,37 @@ const DepositModal: React.FC = () => {
             <Divider />
           </>
         )}
-        <AddressHeaderWrapper>
-          <EnsTitle>{t('modal.deposit.inputLabelContract')}</EnsTitle>
-        </AddressHeaderWrapper>
         <BodyWrapper>
-          <WalletInputLegacy
-            adornmentText={t('labels.copy')}
-            value={shortenAddress(daoDetails?.address as string)}
-            onAdornmentClick={() => copyToClipboard(daoDetails?.address)}
-            disabledFilled
-          />
-          <Link
-            href={
-              CHAIN_METADATA[network].explorer +
-              '/address/' +
-              daoDetails?.address
-            }
-            label={t('modal.deposit.linkLabelBlockExplorer')}
-            iconRight={<IconLinkExternal />}
-          />
+          <div>
+            <InputTitleWrapper>
+              <InputTitle>{t('modal.deposit.inputTokenAddress')}</InputTitle>
+            </InputTitleWrapper>
+            <DepositInput
+              value={shortenAddress(daoDetails?.address as string)}
+            />
+          </div>
+          <div>
+            <InputTitleWrapper>
+              <InputTitle>{t('labels.amount')}</InputTitle>
+            </InputTitleWrapper>
+            <DepositInput
+              value={amountToDeposit}
+            />
+          </div>
           <ActionWrapper>
             <ButtonText
               mode="primary"
               size="large"
-              label={t('modal.deposit.ctaLabel')}
+              label={t('labels.deposit')}
               onClick={handleCtaClicked}
+              className='w-full'
             />
             <ButtonText
               mode="secondary"
               size="large"
               label={t('modal.deposit.cancelLabel')}
               onClick={() => close('deposit')}
+              className='w-full'
             />
           </ActionWrapper>
         </BodyWrapper>
@@ -124,15 +122,15 @@ const EnsHeaderWrapper = styled.div.attrs({
   className: 'space-y-0.5 mb-1.5',
 })``;
 
-const EnsTitle = styled.h2.attrs({
-  className: 'ft-text-base font-bold text-ui-800',
+const InputTitle = styled.h2.attrs({
+  className: 'ft-text-base text-ui-800',
 })``;
 
-const EnsSubtitle = styled.p.attrs({
+const InputSubtitle = styled.p.attrs({
   className: 'text-ui-600 ft-text-sm',
 })``;
 
-const AddressHeaderWrapper = styled.div.attrs({
+const InputTitleWrapper = styled.div.attrs({
   className: 'mb-1',
 })``;
 
@@ -141,11 +139,15 @@ const BodyWrapper = styled.div.attrs({
 })``;
 
 const ActionWrapper = styled.div.attrs({
-  className: 'flex space-x-1.5',
+  className: 'flex space-x-1.5 justify-center',
 })``;
 
 const DividerWrapper = styled.div.attrs({
   className: 'flex items-center my-1',
+})``;
+
+const DepositInput = styled(WalletInputLegacy).attrs({
+  className: 'text-right px-2',
 })``;
 
 export default DepositModal;
