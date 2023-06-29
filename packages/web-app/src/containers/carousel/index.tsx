@@ -127,7 +127,7 @@ const MobileContainer = styled.div.attrs({
 })``;
 
 const Subtitle = styled.h2.attrs({
-  className: 'font-bold text-lg text-white',
+  className: 'font-bold text-lg text-white z-10',
 })``;
 
 const DesktopCTA = styled.div.attrs({

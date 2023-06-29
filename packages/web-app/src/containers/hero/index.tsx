@@ -12,9 +12,13 @@ function Hero() {
   return (
     <Container>
 
-      <div className='absolute top-0 opacity-70 desktop:left-1/3 desktop:top-4 desktop:opacity-90'>
-        <img src={LogoBg} alt='' />
-      </div>
+      <MobileLogoWrapper>
+        <MobileLogo src={LogoBg} />
+      </MobileLogoWrapper>
+
+      <DesktopLogoWrapper>
+        <img src={LogoBg} />
+      </DesktopLogoWrapper>
 
       <GridLayout>
         <Wrapper>
@@ -71,6 +75,18 @@ const Subtitle = styled.h3.attrs({
 
 const ImageWrapper = styled.div.attrs({
   className: 'h-full',
+})``;
+
+const MobileLogoWrapper = styled.div.attrs({
+  className: 'absolute mt-10 top-0 left-0 w-full h-full flex justify-center items-center object-cover desktop:hidden',
+})``;
+
+const MobileLogo = styled.img.attrs({
+  className: 'w-full h-full object-cover opacity-40 tablet:opacity-50',
+})``;
+
+const DesktopLogoWrapper = styled.div.attrs({
+  className: 'absolute hidden desktop:block left-1/3 top-4 opacity-90',
 })``;
 
 const StyledImage = styled.img.attrs({
