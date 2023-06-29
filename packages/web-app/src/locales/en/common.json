@@ -257,6 +257,14 @@
       "descriptionLinkURL": "https://aragon.org/how-to/manage-a-dao-treasury",
       "descriptionLinkLabel": "in this guide",
       "buttonLabel": "Deposit funds"
+    },
+    "lending": {
+      "netWorth": "Net worth",
+      "netAPY": "Net APY",
+      "healthFactor": "Health factor",
+      "newCreditDelegation": "New credit delegation",
+      "yourCollateral": "Your collateral",
+      "yourBorrows": "Your borrows"
     }
   },
   "governance": {
