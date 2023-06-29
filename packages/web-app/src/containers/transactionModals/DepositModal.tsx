@@ -9,7 +9,6 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
-import { DepositInput } from 'components/depositInput';
 import { useAlertContext } from 'context/alert';
 import { useGlobalModalContext } from 'context/globalModals';
 import { useNetwork } from 'context/network';
@@ -64,8 +63,8 @@ const DepositModal: React.FC = () => {
         {toDisplayEns(daoDetails?.ensDomain) !== '' && (
           <>
             <EnsHeaderWrapper>
-              <EnsTitle>{t('modal.deposit.inputLabelEns')}</EnsTitle>
-              <EnsSubtitle>{t('modal.deposit.inputHelptextEns')}</EnsSubtitle>
+              <InputTitle>{t('modal.deposit.inputLabelEns')}</InputTitle>
+              <InputSubtitle>{t('modal.deposit.inputHelptextEns')}</InputSubtitle>
             </EnsHeaderWrapper>
             <WalletInputLegacy
               adornmentText={t('labels.copy')}
@@ -79,7 +78,7 @@ const DepositModal: React.FC = () => {
         <BodyWrapper>
           <div>
             <InputTitleWrapper>
-              <EnsTitle>{t('modal.deposit.inputTokenAddress')}</EnsTitle>
+              <InputTitle>{t('modal.deposit.inputTokenAddress')}</InputTitle>
             </InputTitleWrapper>
             <DepositInput
               value={shortenAddress(daoDetails?.address as string)}
@@ -87,7 +86,7 @@ const DepositModal: React.FC = () => {
           </div>
           <div>
             <InputTitleWrapper>
-              <EnsTitle>{t('labels.amount')}</EnsTitle>
+              <InputTitle>{t('labels.amount')}</InputTitle>
             </InputTitleWrapper>
             <DepositInput
               value={amountToDeposit}
@@ -123,11 +122,11 @@ const EnsHeaderWrapper = styled.div.attrs({
   className: 'space-y-0.5 mb-1.5',
 })``;
 
-const EnsTitle = styled.h2.attrs({
+const InputTitle = styled.h2.attrs({
   className: 'ft-text-base text-ui-800',
 })``;
 
-const EnsSubtitle = styled.p.attrs({
+const InputSubtitle = styled.p.attrs({
   className: 'text-ui-600 ft-text-sm',
 })``;
 
@@ -145,6 +144,10 @@ const ActionWrapper = styled.div.attrs({
 
 const DividerWrapper = styled.div.attrs({
   className: 'flex items-center my-1',
+})``;
+
+const DepositInput = styled(WalletInputLegacy).attrs({
+  className: 'text-right px-2',
 })``;
 
 export default DepositModal;
