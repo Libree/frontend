@@ -1,31 +1,30 @@
 import {
   ButtonText,
-  IconLinkExternal,
-  Link,
   WalletInputLegacy,
   shortenAddress,
 } from '@aragon/ui-components';
-import React, {useCallback} from 'react';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
-import {useAlertContext} from 'context/alert';
-import {useGlobalModalContext} from 'context/globalModals';
-import {useNetwork} from 'context/network';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {CHAIN_METADATA} from 'utils/constants';
-import {toDisplayEns} from 'utils/library';
-import {AllTransfers} from 'utils/paths';
+import { DepositInput } from 'components/depositInput';
+import { useAlertContext } from 'context/alert';
+import { useGlobalModalContext } from 'context/globalModals';
+import { useNetwork } from 'context/network';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { toDisplayEns } from 'utils/library';
+import { AllTransfers } from 'utils/paths';
 
 const DepositModal: React.FC = () => {
-  const {t} = useTranslation();
-  const {isDepositOpen, close} = useGlobalModalContext();
-  const {data: daoDetails} = useDaoDetailsQuery();
-  const {network} = useNetwork();
-  const {alert} = useAlertContext();
+  const { t } = useTranslation();
+  const { isDepositOpen, close } = useGlobalModalContext();
+  const { data: daoDetails } = useDaoDetailsQuery();
+  const { network } = useNetwork();
+  const { alert } = useAlertContext();
   const navigate = useNavigate();
+  const amountToDeposit = 100;
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -77,37 +76,37 @@ const DepositModal: React.FC = () => {
             <Divider />
           </>
         )}
-        <AddressHeaderWrapper>
-          <EnsTitle>{t('modal.deposit.inputLabelContract')}</EnsTitle>
-        </AddressHeaderWrapper>
         <BodyWrapper>
-          <WalletInputLegacy
-            adornmentText={t('labels.copy')}
-            value={shortenAddress(daoDetails?.address as string)}
-            onAdornmentClick={() => copyToClipboard(daoDetails?.address)}
-            disabledFilled
-          />
-          <Link
-            href={
-              CHAIN_METADATA[network].explorer +
-              '/address/' +
-              daoDetails?.address
-            }
-            label={t('modal.deposit.linkLabelBlockExplorer')}
-            iconRight={<IconLinkExternal />}
-          />
+          <div>
+            <InputTitleWrapper>
+              <EnsTitle>{t('modal.deposit.inputTokenAddress')}</EnsTitle>
+            </InputTitleWrapper>
+            <DepositInput
+              value={shortenAddress(daoDetails?.address as string)}
+            />
+          </div>
+          <div>
+            <InputTitleWrapper>
+              <EnsTitle>{t('labels.amount')}</EnsTitle>
+            </InputTitleWrapper>
+            <DepositInput
+              value={amountToDeposit}
+            />
+          </div>
           <ActionWrapper>
             <ButtonText
               mode="primary"
               size="large"
-              label={t('modal.deposit.ctaLabel')}
+              label={t('labels.deposit')}
               onClick={handleCtaClicked}
+              className='w-full'
             />
             <ButtonText
               mode="secondary"
               size="large"
               label={t('modal.deposit.cancelLabel')}
               onClick={() => close('deposit')}
+              className='w-full'
             />
           </ActionWrapper>
         </BodyWrapper>
@@ -125,14 +124,14 @@ const EnsHeaderWrapper = styled.div.attrs({
 })``;
 
 const EnsTitle = styled.h2.attrs({
-  className: 'ft-text-base font-bold text-ui-800',
+  className: 'ft-text-base text-ui-800',
 })``;
 
 const EnsSubtitle = styled.p.attrs({
   className: 'text-ui-600 ft-text-sm',
 })``;
 
-const AddressHeaderWrapper = styled.div.attrs({
+const InputTitleWrapper = styled.div.attrs({
   className: 'mb-1',
 })``;
 
@@ -141,7 +140,7 @@ const BodyWrapper = styled.div.attrs({
 })``;
 
 const ActionWrapper = styled.div.attrs({
-  className: 'flex space-x-1.5',
+  className: 'flex space-x-1.5 justify-center',
 })``;
 
 const DividerWrapper = styled.div.attrs({

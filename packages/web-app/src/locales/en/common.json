@@ -976,6 +976,7 @@
       "inputLabelEns": "ENS",
       "inputHelptextEns": "Copy the ENS or address below and use your wallet's send feature to send money to your DAO's treasury.",
       "inputLabelContract": "Contract address",
+      "inputTokenAddress": "Token address",
       "inputHelptextContract": "Copy the contract address below and use your wallet's send feature to send money to your DAO's treasury.",
       "linkLabelBlockExplorer": "View on block explorer",
       "ctaLabel": "View all transfers",
