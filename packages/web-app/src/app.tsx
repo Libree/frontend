@@ -45,6 +45,7 @@ const ProposeSettingsPage = lazy(() => import('pages/proposeSettings'));
 const TokensPage = lazy(() => import('pages/tokens'));
 const TransfersPage = lazy(() => import('pages/transfers'));
 const NewWithdrawPage = lazy(() => import('pages/newWithdraw'));
+const Lending = lazy(() => import('pages/lending'));
 
 const NewProposalPage = lazy(() => import('pages/newProposal'));
 const ProposalPage = lazy(() => import('pages/proposal'));
@@ -98,6 +99,7 @@ function App() {
               <Route path="finance" element={<FinancePage />} />
               <Route path="finance/tokens" element={<TokensPage />} />
               <Route path="finance/transfers" element={<TransfersPage />} />
+              <Route path="finance/lending" element={<Lending />} />
               <Route element={<ProtectedRoute />}>
                 <Route
                   path="finance/new-withdrawal"
