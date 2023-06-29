@@ -12,7 +12,6 @@ function Hero() {
   return (
     <Container>
 
-      {/* hasta que el width sea tablet, el logo se muestra como background-image.  */}
       <MobileLogoWrapper>
         <MobileLogo src={LogoBg} />
       </MobileLogoWrapper>
