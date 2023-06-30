@@ -21,7 +21,7 @@ const CTACard: React.FC<Props> = props => {
   return (
     <CTACardWrapper className={props.className}>
       <Content>
-        <StyledImg />
+        <StyledImg src={props.imgSrc}/>
         <Title>{props.title}</Title>
         <Subtitle>{props.subtitle}</Subtitle>
       </Content>
@@ -62,8 +62,8 @@ const Subtitle = styled.p.attrs({
   className: 'text-ui-600 h-12 ft-text-base desktop:mt-2 mt-1.5',
 })``;
 
-const StyledImg = styled.div.attrs({
-  className: 'h-5',
+const StyledImg = styled.img.attrs({
+  className: 'h-12 w-12',
 })``;
 
 const ButtonWrapper = styled.div.attrs({
