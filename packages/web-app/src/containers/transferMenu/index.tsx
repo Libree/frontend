@@ -56,6 +56,12 @@ const TransferMenu: React.FC = () => {
           iconRight={<IconChevronRight />}
           onClick={() => handleClick('withdraw_assets')}
         />
+        <ListItemAction
+          title={t('TransferModal.creditDelegation')}
+          subtitle={t('TransferModal.creditSubtitle')}
+          iconRight={<IconChevronRight />}
+          onClick={() => {}}
+        />
       </Container>
     </ModalBottomSheetSwitcher>
   );
