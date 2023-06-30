@@ -1,8 +1,6 @@
 import {
     IllustrationHuman,
     Breadcrumb,
-    ButtonText,
-    IconAdd,
     IlluObject,
 } from '@aragon/ui-components';
 import { withTransaction } from '@elastic/apm-rum-react';
@@ -19,7 +17,6 @@ import {
 import { useGlobalModalContext } from 'context/globalModals';
 import { useMappedBreadcrumbs } from 'hooks/useMappedBreadcrumbs';
 import useScreen from 'hooks/useScreen';
-import { trackEvent } from 'services/analytics';
 import PageEmptyState from 'containers/pageEmptyState';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
@@ -121,52 +118,34 @@ const Lending: React.FC = () => {
 
                             {/* Main */}
                             <ContentContainer>
-                                <TextWrapper>
-                                    <TextContainer>
-                                        <Title>
-                                            {new Intl.NumberFormat('en-US', {
-                                                style: 'currency',
-                                                currency: 'USD',
-                                            }).format(netWorth)}
-                                        </Title>
+                                <TextContainer>
+                                    <Title>
+                                        {new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        }).format(netWorth)}
+                                    </Title>
 
-                                        <SubtitleContainer>
-                                            <Description>{t('finance.lending.netWorth')}</Description>
-                                        </SubtitleContainer>
-                                    </TextContainer>
+                                    <SubtitleContainer>
+                                        <Description>{t('finance.lending.netWorth')}</Description>
+                                    </SubtitleContainer>
+                                </TextContainer>
 
-                                    <SubtextWrapper>
-                                        <TextContainer>
-                                            <Title>{netAPY}%</Title>
+                                <TextContainer>
+                                    <Title>{netAPY}%</Title>
 
-                                            <SubtitleContainer>
-                                                <Description>{t('finance.lending.netAPY')}</Description>
-                                            </SubtitleContainer>
-                                        </TextContainer>
+                                    <SubtitleContainer>
+                                        <Description>{t('finance.lending.netAPY')}</Description>
+                                    </SubtitleContainer>
+                                </TextContainer>
 
-                                        <TextContainer>
-                                            <Title style={{ color: '#00D16C' }}>{healthFactor}</Title>
+                                <TextContainer>
+                                    <Title style={{ color: '#00D16C' }}>{healthFactor}</Title>
 
-                                            <SubtitleContainer>
-                                                <Description>{t('finance.lending.healthFactor')}</Description>
-                                            </SubtitleContainer>
-                                        </TextContainer>
-                                    </SubtextWrapper>
-                                </TextWrapper>
-
-                                {/* Button */}
-                                <ButtonText
-                                    size="large"
-                                    label={t('finance.lending.newCreditDelegation')}
-                                    iconLeft={<IconAdd />}
-                                    className="w-full tablet:w-auto"
-                                    onClick={() => {
-                                        trackEvent('finance_newTransferBtn_clicked', {
-                                            dao_address: daoDetails?.address,
-                                        });
-                                        open();
-                                    }}
-                                />
+                                    <SubtitleContainer>
+                                        <Description>{t('finance.lending.healthFactor')}</Description>
+                                    </SubtitleContainer>
+                                </TextContainer>
                             </ContentContainer>
                         </Header>
                     </HeaderContainer>
@@ -244,17 +223,7 @@ const Header = styled.div.attrs({
 })``;
 
 const ContentContainer = styled.div.attrs({
-    className: `flex flex-col tablet:flex-row gap-y-2 
-       tablet: gap - y - 3 tablet: items - start desktop: items - center
-       tablet:justify-between`,
-})``;
-
-const TextWrapper = styled.div.attrs({
-    className: 'flex flex-col tablet:flex-row tablet:items-center justify-start space-y-2 tablet:space-y-0 space-x-0 tablet:space-x-3 desktop:space-x-5',
-})``;
-
-const SubtextWrapper = styled.div.attrs({
-    className: 'flex items-center justify-start space-x-2 desktop:space-x-5',
+    className: `flex gap-x-2 gap-y-2 tablet:gap-y-3 tablet:items-start desktop:items-center`,
 })``;
 
 const TextContainer = styled.div.attrs({
@@ -262,7 +231,7 @@ const TextContainer = styled.div.attrs({
 })``;
 
 const Title = styled.h2.attrs({
-    className: 'font-bold text-ui-800 ft-text-3xl',
+    className: 'font-bold text-ui-800 ft-text-2xl tablet:ft-text-3xl',
 })``;
 
 const Description = styled.p.attrs({
