@@ -29,7 +29,7 @@ const GroupDetails: React.FC = () => {
 
     const { data: daoDetails, isLoading: detailsAreLoading } = useDaoDetailsQuery();
     const {
-        data: { members, filteredMembers, daoToken },
+        data: { members, filteredMembers },
         isLoading: membersLoading,
     } = useDaoMembers(
         daoDetails?.plugins[0].instanceAddress as string,
@@ -62,7 +62,9 @@ const GroupDetails: React.FC = () => {
         setSearchTerm(event.target.value.trim());
     };
 
-    const handlePrimaryClick = () => { };
+    const handlePrimaryClick = () => {
+        navigate('add-member');
+    };
 
     /*************************************************
      *                     Render                    *

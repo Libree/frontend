@@ -804,6 +804,13 @@
       "description": "Authorized wallets can create proposals, propose to move funds in and out of the treasury, and vote in your DAO"
     }
   },
+  "addMember": {
+    "description": "Add a new members to the group, your proposal will need to pass a vote within group members.",
+    "subtitle": "Add new members to the group",
+    "input1Title": "Recipient",
+    "input1Subtitle": "The wallet that will be included in the group",
+    "ctaAddAnother": "Add another member"
+  },
   "votingTerminal": {
     "title": "Voting",
     "breakdown": "Breakdown",
