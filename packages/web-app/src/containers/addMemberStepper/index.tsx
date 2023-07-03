@@ -11,10 +11,7 @@ import SetupVotingForm, {
     isValid as setupVotingIsValid,
 } from 'containers/setupVotingForm';
 import { useNetwork } from 'context/network';
-import { useWallet } from 'hooks/useWallet';
 import { generatePath } from 'react-router-dom';
-import { trackEvent } from 'services/analytics';
-import { getCanonicalUtcOffset } from 'utils/date';
 import { toDisplayEns } from 'utils/library';
 import { Finance } from 'utils/paths';
 import { SupportedVotingSettings } from 'utils/types';
@@ -36,10 +33,9 @@ const AddMemberStepper: React.FC<AddMemberStepperProps> = ({
 }) => {
     const { t } = useTranslation();
     const { network } = useNetwork();
-    const { address } = useWallet();
     const { actions, addAction } = useActionsContext();
 
-    const { control, getValues } = useFormContext();
+    const { control } = useFormContext();
 
     const { errors, dirtyFields } = useFormState({ control: control });
 
@@ -69,91 +65,40 @@ const AddMemberStepper: React.FC<AddMemberStepperProps> = ({
                     isNextButtonDisabled={
                         !actions.length || !actionsAreValid(formActions, actions, errors)
                     }
-                    onNextButtonClicked={next => {
-                        trackEvent('newWithdraw_continueBtn_clicked', {
-                            step: '1_configure_withdraw',
-                            settings: actions.map((item, itemIdx) => ({
-                                to: getValues(`actions.${itemIdx}.to`),
-                                token_address: getValues(`actions.${itemIdx}.tokenAddress`),
-                                amount: getValues(`actions.${itemIdx}.amount`),
-                            })),
-                        });
-                        next();
-                    }}
                 >
                     <ConfigureActions
                         label=""
                         initialActions={['add_member']}
-                        whitelistedActions={['withdraw_assets']}
+                        whitelistedActions={['add_member']}
                         addExtraActionLabel={t(
                             'addMember.ctaAddAnother'
                         )}
                         onAddExtraActionClick={() => {
-                            addAction({ name: 'withdraw_assets' });
-                            trackEvent('newWithdraw_addAnother_clicked', {
-                                dao_address: daoDetails.address,
-                            });
+                            addAction({ name: 'add_member' });
                         }}
                         hideAlert
                         allowEmpty={false}
                     />
                 </Step>
                 <Step
-                    wizardTitle={t('newWithdraw.setupVoting.title')}
-                    wizardDescription={t('newWithdraw.setupVoting.description')}
+                    wizardTitle={t('addMember.setupVoting.title')}
+                    wizardDescription={t('addMember.setupVoting.description')}
                     isNextButtonDisabled={!setupVotingIsValid(errors)}
-                    onNextButtonClicked={next => {
-                        const [startDate, startTime, startUtc, endDate, endTime, endUtc] =
-                            getValues([
-                                'startDate',
-                                'startTime',
-                                'startUtc',
-                                'endDate',
-                                'endTime',
-                                'endUtc',
-                            ]);
-                        trackEvent('newWithdraw_continueBtn_clicked', {
-                            step: '2_setup_voting',
-                            settings: {
-                                start: `${startDate}T${startTime}:00${getCanonicalUtcOffset(
-                                    startUtc
-                                )}`,
-                                end: `${endDate}T${endTime}:00${getCanonicalUtcOffset(endUtc)}`,
-                            },
-                        });
-                        next();
-                    }}
                 >
                     <SetupVotingForm pluginSettings={pluginSettings} />
                 </Step>
                 <Step
-                    wizardTitle={t('newWithdraw.defineProposal.heading')}
-                    wizardDescription={t('newWithdraw.defineProposal.description')}
+                    wizardTitle={t('addMember.defineProposal.heading')}
+                    wizardDescription={t('addMember.defineProposal.description')}
                     isNextButtonDisabled={!defineProposalIsValid(dirtyFields, errors)}
-                    onNextButtonClicked={next => {
-                        trackEvent('newWithdraw_continueBtn_clicked', {
-                            step: '3_define_proposal',
-                            settings: {
-                                author_address: address,
-                                title: getValues('proposalTitle'),
-                                summary: getValues('proposalSummary'),
-                                proposal: getValues('proposal'),
-                                resources_list: getValues('links'),
-                            },
-                        });
-                        next();
-                    }}
                 >
                     <DefineProposal />
                 </Step>
                 <Step
-                    wizardTitle={t('newWithdraw.reviewProposal.heading')}
-                    wizardDescription={t('newWithdraw.reviewProposal.description')}
+                    wizardTitle={t('addMember.reviewProposal.heading')}
+                    wizardDescription={t('addMember.reviewProposal.description')}
                     nextButtonLabel={t('labels.submitProposal')}
                     onNextButtonClicked={() => {
-                        trackEvent('newWithdraw_publishBtn_clicked', {
-                            dao_address: daoDetails?.address,
-                        });
                         enableTxModal();
                     }}
                     fullWidth
