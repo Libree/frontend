@@ -262,7 +262,6 @@
       "netWorth": "Net worth",
       "netAPY": "Net APY",
       "healthFactor": "Health factor",
-      "newCreditDelegation": "New credit delegation",
       "yourCollateral": "Your collateral",
       "yourBorrows": "Your borrows"
     }
@@ -500,7 +499,9 @@
     "allTransfers": "All transfers",
     "newTransfer": "New transfer",
     "item2Title": "Withdraw assets",
-    "item2Subtitle": "Create a proposal to withdraw assets to a wallet."
+    "item2Subtitle": "Create a proposal to withdraw assets to a wallet.",
+    "creditDelegation": "Credit delegation",
+    "creditSubtitle": "Create a proposal to delegate credit to other wallet"
   },
   "TokenModal": {
     "noTokens": "No tokens available",
