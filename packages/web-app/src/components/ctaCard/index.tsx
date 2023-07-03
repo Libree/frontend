@@ -16,12 +16,19 @@ type Props = {
 };
 
 const CTACard: React.FC<Props> = props => {
-  const { isDesktop } = useScreen();
+  const { isTablet, isDesktop } = useScreen();
 
   return (
     <CTACardWrapper className={props.className}>
       <Content>
-        <StyledImg src={props.imgSrc}/>
+
+        {isDesktop ? (
+          <StyledImg src={props.imgSrc}/>
+        ) : (
+          <div style={{ width: isTablet ? '6rem' : '4rem' }}>
+            <img src={props.imgSrc} />
+          </div>
+        )}
         <Title>{props.title}</Title>
         <Subtitle>{props.subtitle}</Subtitle>
       </Content>
@@ -51,7 +58,7 @@ const CTACardWrapper = styled.div.attrs({
 `;
 
 const Content = styled.div.attrs({
-  className: 'flex desktop:items-start items-center flex-col desktop:mb-0 mb-3',
+  className: 'flex max-h-[4rem] desktop:max-h-none desktop:items-start items-center flex-col desktop:mb-0 mb-3',
 })``;
 
 const Title = styled.p.attrs({
