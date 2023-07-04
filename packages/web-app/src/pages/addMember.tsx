@@ -25,9 +25,6 @@ type AddMemberFormData = {
 };
 
 export const defaultValues = {
-    links: [{ name: '', url: '' }],
-    startSwitch: 'now',
-    durationSwitch: 'duration',
     actions: [],
 };
 
