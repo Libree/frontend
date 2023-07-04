@@ -5,7 +5,7 @@ import {
 } from '@aragon/ui-components';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { generatePath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
@@ -14,7 +14,7 @@ import { useGlobalModalContext } from 'context/globalModals';
 import { useNetwork } from 'context/network';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { toDisplayEns } from 'utils/library';
-import { AllTransfers } from 'utils/paths';
+import { useCreditDelegation } from 'hooks/useCreditDelegation';
 
 const DepositModal: React.FC = () => {
   const { t } = useTranslation();
@@ -22,6 +22,7 @@ const DepositModal: React.FC = () => {
   const { data: daoDetails } = useDaoDetailsQuery();
   const { network } = useNetwork();
   const { alert } = useAlertContext();
+  const { deposit } = useCreditDelegation(daoDetails?.address);
   const navigate = useNavigate();
   const [input, setInput] = useState({
     amount: '100',
@@ -38,13 +39,7 @@ const DepositModal: React.FC = () => {
   };
 
   const handleCtaClicked = useCallback(() => {
-    close('deposit');
-    navigate(
-      generatePath(AllTransfers, {
-        network,
-        dao: toDisplayEns(daoDetails?.ensDomain) || daoDetails?.address,
-      })
-    );
+    deposit(input.tokenAddress, input.amount);
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network]);
 
   const Divider: React.FC = () => {
