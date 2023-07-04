@@ -3,7 +3,7 @@ import {
   WalletInputLegacy,
   shortenAddress,
 } from '@aragon/ui-components';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,10 +27,6 @@ const DepositModal: React.FC = () => {
     amount: '100',
     tokenAddress: '',
   });
-
-  useEffect(() => {
-    daoDetails?.address && setInput({ ...input, tokenAddress: daoDetails?.address as string });
-  }, [daoDetails?.address]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
