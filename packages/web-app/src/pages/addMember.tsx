@@ -10,18 +10,7 @@ import { usePluginSettings } from 'hooks/usePluginSettings';
 import { InputValue } from '@aragon/ui-components';
 import AddMemberStepper from 'containers/addMemberStepper';
 
-export type TokenFormData = {
-    tokenName: string;
-    tokenSymbol: string;
-    tokenImgUrl: string;
-    tokenAddress: string;
-    tokenDecimals: number;
-    tokenBalance: string;
-    tokenPrice?: number;
-    isCustomToken: boolean;
-};
-
-export type AddMemberAction = TokenFormData & {
+export type AddMemberAction = {
     to: InputValue;
     from: string;
     amount: string;
@@ -32,18 +21,7 @@ type AddMemberFormData = {
     actions: AddMemberAction[];
 
     // Proposal data
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
-    duration: number;
-    startUtc: string;
-    endUtc: string;
-    durationSwitch: string;
-    proposalTitle: string;
-    proposalSummary: string;
-    proposal: unknown;
-    links: unknown;
+    address: string;
 };
 
 export const defaultValues = {

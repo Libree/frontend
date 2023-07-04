@@ -2,7 +2,6 @@ import { useApolloClient } from '@apollo/client';
 import {
     AlertInline,
     Label,
-    ValueInput,
     WalletInput,
     InputValue,
 } from '@aragon/ui-components';
@@ -264,7 +263,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
             <FormItem>
                 <Label
                     label={t('labels.recipient')}
-                    helpText={t('newWithdraw.configureWithdraw.toSubtitle')}
+                    helpText={t('addMember.input1Subtitle')}
                 />
                 <Controller
                     name={`actions.${actionIndex}.to`}
@@ -316,102 +315,6 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                     )}
                 />
             </FormItem>
-
-            {/* Recipient (to) */}
-            <FormItem>
-                <Label
-                    label={t('labels.recipient')}
-                    helpText={t('newWithdraw.configureWithdraw.toSubtitle')}
-                />
-                <Controller
-                    name={`actions.${actionIndex}.to`}
-                    control={control}
-                    defaultValue={{ address: '', ensName: '' }}
-                    rules={{ validate: recipientValidator }}
-                    render={({
-                        field: { name, onBlur, onChange, value },
-                        fieldState: { error },
-                    }) => (
-                        <>
-                            <WalletInput
-                                name={name}
-                                state={error && 'critical'}
-                                value={value}
-                                onBlur={onBlur}
-                                placeholder={networkSupportsENS ? 'ENS or 0x…' : '0x…'}
-                                onValueChange={value => handleValueChanged(value, onChange)}
-                                blockExplorerURL={CHAIN_METADATA[network].lookupURL}
-                                onEnsResolved={() => {
-                                    setAddressValidated(false);
-                                    setEnsResolved(true);
-                                }}
-                                onAddressValidated={() => {
-                                    setEnsResolved(false);
-                                    setAddressValidated(true);
-                                }}
-                                {...(networkSupportsENS && {
-                                    resolveEnsNameFromAddress,
-                                    resolveAddressFromEnsName,
-                                })}
-                            />
-                            {!error?.message && ensResolved && (
-                                <AlertInline
-                                    label={'ENS resolved successfully'}
-                                    mode="success"
-                                />
-                            )}
-                            {!error?.message && addressValidated && (
-                                <AlertInline
-                                    label={'Address resolved successfully'}
-                                    mode="success"
-                                />
-                            )}
-                            {error?.message && (
-                                <AlertInline label={error.message} mode="critical" />
-                            )}
-                        </>
-                    )}
-                />
-            </FormItem>
-
-            {/* Custom token address */}
-            {isCustomToken && (
-                <FormItem>
-                    <Label
-                        label={t('labels.address')}
-                        helpText={t('newDeposit.contractAddressSubtitle')}
-                    />
-                    <Controller
-                        name={`actions.${actionIndex}.tokenAddress`}
-                        control={control}
-                        defaultValue=""
-                        rules={{
-                            required: t('errors.required.tokenAddress'),
-                            validate: addressValidator,
-                        }}
-                        render={({
-                            field: { name, onBlur, onChange, value, ref },
-                            fieldState: { error },
-                        }) => (
-                            <>
-                                <ValueInput
-                                    mode={error ? 'critical' : 'default'}
-                                    ref={ref}
-                                    name={name}
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChange={onChange}
-                                    adornmentText={value ? t('labels.clear') : t('labels.paste')}
-                                    onAdornmentClick={() => handleAdornmentClick(value, onChange)}
-                                />
-                                {error?.message && (
-                                    <AlertInline label={error.message} mode="critical" />
-                                )}
-                            </>
-                        )}
-                    />
-                </FormItem>
-            )}
 
         </>
     );
