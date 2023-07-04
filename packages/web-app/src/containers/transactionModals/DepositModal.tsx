@@ -3,7 +3,7 @@ import {
   WalletInputLegacy,
   shortenAddress,
 } from '@aragon/ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -23,11 +23,22 @@ const DepositModal: React.FC = () => {
   const { network } = useNetwork();
   const { alert } = useAlertContext();
   const navigate = useNavigate();
-  const amountToDeposit = 100;
+  const [input, setInput] = useState({
+    amount: '100',
+    tokenAddress: '',
+  });
+
+  useEffect(() => {
+    daoDetails?.address && setInput({ ...input, tokenAddress: daoDetails?.address as string });
+  }, [daoDetails?.address]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
     alert(t('alert.chip.inputCopied'));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   const handleCtaClicked = useCallback(() => {
@@ -81,7 +92,9 @@ const DepositModal: React.FC = () => {
               <InputTitle>{t('modal.deposit.inputTokenAddress')}</InputTitle>
             </InputTitleWrapper>
             <DepositInput
-              value={shortenAddress(daoDetails?.address as string)}
+              name='tokenAddress'
+              value={shortenAddress(input.tokenAddress)}
+              onChange={handleInputChange}
             />
           </div>
           <div>
@@ -89,7 +102,9 @@ const DepositModal: React.FC = () => {
               <InputTitle>{t('labels.amount')}</InputTitle>
             </InputTitleWrapper>
             <DepositInput
-              value={amountToDeposit}
+              name='amount'
+              value={input.amount}
+              onChange={handleInputChange}
             />
           </div>
           <ActionWrapper>
