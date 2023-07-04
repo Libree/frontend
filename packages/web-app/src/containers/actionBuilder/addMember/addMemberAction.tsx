@@ -25,10 +25,7 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
         clearErrors(`actions.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
         setValue(`actions.${actionIndex}`, {
-            to: '',
-            amount: '',
-            tokenAddress: '',
-            tokenSymbol: '',
+            address: '',
         });
         alert(t('alert.chip.resetAction'));
     };
