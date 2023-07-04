@@ -11,7 +11,7 @@ import {useWallet} from 'hooks/useWallet';
 import {trackEvent} from 'services/analytics';
 import {NewWithDraw} from 'utils/paths';
 
-type Action = 'deposit_assets' | 'withdraw_assets';
+type Action = 'deposit_assets' | 'withdraw_assets' | 'credit_delegation';
 
 const TransferMenu: React.FC = () => {
   const {isTransferOpen, close, open} = useGlobalModalContext();
@@ -31,6 +31,8 @@ const TransferMenu: React.FC = () => {
       open('wallet');
     } else if (action === 'deposit_assets') {
       open('deposit');
+    } else if (action === 'credit_delegation') {
+      navigate('/credit-delegation')
     } else {
       navigate(generatePath(NewWithDraw, {network: network, dao: dao}));
     }
@@ -60,7 +62,7 @@ const TransferMenu: React.FC = () => {
           title={t('TransferModal.creditDelegation')}
           subtitle={t('TransferModal.creditSubtitle')}
           iconRight={<IconChevronRight />}
-          onClick={() => {}}
+          onClick={() => handleClick('credit_delegation')}
         />
       </Container>
     </ModalBottomSheetSwitcher>
