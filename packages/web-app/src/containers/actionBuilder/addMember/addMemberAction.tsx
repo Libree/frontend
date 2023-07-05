@@ -12,21 +12,22 @@ import ConfigureAddMemberForm from 'containers/configureAddMember';
 
 type AddMemberActionProps = ActionIndex & { allowRemove?: boolean };
 
+// TODO: remove address deleted from addresses list.
 const AddMemberAction: React.FC<AddMemberActionProps> = ({
     actionIndex,
     allowRemove = true,
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField } = useFormContext();
+    const { setValue, clearErrors, resetField, getValues, control } = useFormContext();
     const { alert } = useAlertContext();
 
     const resetAddMemberFields = () => {
         clearErrors(`actions.${actionIndex}`);
+        clearErrors(`addresses.${actionIndex}`)
         resetField(`actions.${actionIndex}`);
-        setValue(`actions.${actionIndex}`, {
-            address: '',
-        });
+        resetField(`addresses.${actionIndex}`)
+        setValue(`addresses.${actionIndex}`, '');
         alert(t('alert.chip.resetAction'));
     };
 
@@ -65,6 +66,8 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 
         return result;
     })();
+
+    console.log('getValues', getValues());
 
     return (
         <AccordionMethod
