@@ -24,7 +24,7 @@ import MintTokens from './mintTokens';
 import RemoveAddresses from './removeAddresses';
 import UpdateMinimumApproval from './updateMinimumApproval';
 import WithdrawAction from './withdraw/withdrawAction';
-import AddMemberAction from './addMember/addMemberAction';
+import AddMemberAction, { AddMemberGroupNameInput } from './addMember/addMemberAction';
 import CreditDelegationAction from './creditDelegation/creditDelegationAction';
 import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
@@ -156,6 +156,10 @@ const ActionBuilder: React.FC<ActionBuilderProps> = ({allowEmpty = true}) => {
 
   return (
     <>
+      {actions?.some((action) => action.name === 'add_member') && (
+        <AddMemberGroupNameInput />
+      )}
+
       {actions?.map((action: ActionItem, index: number) => (
         <Action
           key={index}

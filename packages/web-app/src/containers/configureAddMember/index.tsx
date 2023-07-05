@@ -113,7 +113,7 @@ const FormItem = styled.div.attrs({
     className: 'space-y-1.5 tablet:pb-1',
 })``;
 
-const StyledInput = styled(ValueInput)`
+export const StyledInput = styled(ValueInput)`
   ::-webkit-inner-spin-button,
   ::-webkit-outer-spin-button {
     -webkit-appearance: none;
