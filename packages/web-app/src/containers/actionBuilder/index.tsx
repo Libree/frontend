@@ -25,6 +25,7 @@ import RemoveAddresses from './removeAddresses';
 import UpdateMinimumApproval from './updateMinimumApproval';
 import WithdrawAction from './withdraw/withdrawAction';
 import AddMemberAction from './addMember/addMemberAction';
+import CreditDelegationAction from './creditDelegation/creditDelegationAction';
 import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
 
@@ -62,6 +63,8 @@ const Action: React.FC<ActionsComponentProps> = ({
   switch (name) {
     case 'withdraw_assets':
       return <WithdrawAction {...{actionIndex, allowRemove}} />;
+    case 'credit_delegation':
+      return <CreditDelegationAction {...{actionIndex, allowRemove}} />;
     case 'add_member':
       return <AddMemberAction {...{actionIndex, allowRemove}} />;
     case 'mint_tokens':
