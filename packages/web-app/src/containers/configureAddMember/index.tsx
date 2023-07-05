@@ -27,14 +27,13 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
     const { t } = useTranslation();
     const { network } = useNetwork();
 
-    const { control, setValue } =
+    const { control, setValue, getValues } =
         useFormContext();
 
     const [name] =
         useWatch({
             name: [
                 `actions.${actionIndex}.name`,
-                `actions.${actionIndex}.address`,
             ],
         });
 
@@ -70,7 +69,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                     helpText={t('addMember.input1Subtitle')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.address`}
+                    name={`addresses.${actionIndex}`}
                     control={control}
                     defaultValue={'0x'}
                     render={({
