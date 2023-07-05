@@ -9,7 +9,7 @@ import {useGlobalModalContext} from 'context/globalModals';
 import {useNetwork} from 'context/network';
 import {useWallet} from 'hooks/useWallet';
 import {trackEvent} from 'services/analytics';
-import {NewWithDraw} from 'utils/paths';
+import {NewCreditDelegation, NewWithDraw} from 'utils/paths';
 
 type Action = 'deposit_assets' | 'withdraw_assets' | 'credit_delegation';
 
@@ -32,7 +32,7 @@ const TransferMenu: React.FC = () => {
     } else if (action === 'deposit_assets') {
       open('deposit');
     } else if (action === 'credit_delegation') {
-      navigate('/credit-delegation')
+      navigate(generatePath(NewCreditDelegation, {network: network, dao: dao}));
     } else {
       navigate(generatePath(NewWithDraw, {network: network, dao: dao}));
     }
