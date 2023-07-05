@@ -7,14 +7,10 @@ import { CreateProposalProvider } from 'context/createProposal';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { PluginTypes } from 'hooks/usePluginClient';
 import { usePluginSettings } from 'hooks/usePluginSettings';
-import { InputValue } from '@aragon/ui-components';
 import CreditDelegationStepper from 'containers/creditDelegationStepper';
 
 export type CreditDelegationAction = {
-    to: InputValue;
-    from: string;
-    amount: string;
-    name: string; // This indicates the type of action; Deposit is NOT an action
+    name: string; // This indicates the type of action;
 };
 
 type CreditDelegationFormData = {

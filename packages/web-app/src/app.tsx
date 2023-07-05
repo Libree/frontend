@@ -102,11 +102,14 @@ function App() {
               <Route path="finance/tokens" element={<TokensPage />} />
               <Route path="finance/transfers" element={<TransfersPage />} />
               <Route path="finance/lending" element={<Lending />} />
-              <Route path="finance/credit-delegation" element={<NewCreditDelegationPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route
                   path="finance/new-withdrawal"
                   element={<NewWithdrawPage />}
+                />
+                <Route
+                  path="finance/credit-delegation"
+                  element={<NewCreditDelegationPage />}
                 />
                 <Route
                   path="governance/new-proposal"
