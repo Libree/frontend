@@ -212,6 +212,7 @@ export type ActionParameter = {
 export type ActionsTypes =
   | 'add_address'
   | 'remove_address'
+  | 'add_member'
   | 'withdraw_assets'
   | 'mint_tokens'
   | 'external_contract_modal'
