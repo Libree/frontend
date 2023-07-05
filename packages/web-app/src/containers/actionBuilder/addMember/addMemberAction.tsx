@@ -19,7 +19,7 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField, getValues, control } = useFormContext();
+    const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
     const resetAddMemberFields = () => {
@@ -66,8 +66,6 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 
         return result;
     })();
-
-    console.log('getValues', getValues());
 
     return (
         <AccordionMethod
