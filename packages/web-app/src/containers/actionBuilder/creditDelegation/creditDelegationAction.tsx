@@ -1,6 +1,6 @@
 import { ListItemAction } from '@aragon/ui-components';
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { AccordionMethod } from 'components/accordionMethod';
@@ -18,10 +18,11 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField, getValues } = useFormContext();
+    const { setValue, clearErrors, resetField, getValues, control } = useFormContext();
+    const { remove: removeInput } = useFieldArray({control, name: 'inputs'});
     const { alert } = useAlertContext();
 
-    const resetAddMemberFields = () => {
+    const resetCreditDelegationFields = () => {
         clearErrors(`actions.${actionIndex}`);
         clearErrors(`inputs.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
@@ -37,8 +38,9 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
         alert(t('alert.chip.resetAction'));
     };
 
-    const removeAddMemberFields = (actionIndex: number) => {
+    const removeCreditDelegationFields = (actionIndex: number) => {
         removeAction(actionIndex);
+        removeInput(actionIndex);
     };
 
     const methodActions = (() => {
@@ -54,7 +56,7 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
             },
             {
                 component: <ListItemAction title={t('labels.resetAction')} bgWhite />,
-                callback: resetAddMemberFields,
+                callback: resetCreditDelegationFields,
             },
         ];
 
@@ -64,7 +66,7 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
                     <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
                 ),
                 callback: () => {
-                    removeAddMemberFields(actionIndex);
+                    removeCreditDelegationFields(actionIndex);
                     alert(t('alert.chip.removedAction'));
                 },
             });
