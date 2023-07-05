@@ -72,7 +72,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                 <Controller
                     name={`actions.${actionIndex}.address`}
                     control={control}
-                    defaultValue={{ address: '' }}
+                    defaultValue={'0x'}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },

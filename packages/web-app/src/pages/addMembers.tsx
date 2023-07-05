@@ -10,19 +10,23 @@ import { usePluginSettings } from 'hooks/usePluginSettings';
 import AddMemberStepper from 'containers/addMemberStepper';
 
 export type AddMemberAction = {
+    name: string;
     address: string;
 };
 
-type AddMemberFormData = {
+type AddMembersFormData = {
+    actions: AddMemberAction[];
+
     // Proposal data
-    addresses: AddMemberAction[];
+    addresses: string[];
 };
 
 export const defaultValues = {
+    actions: [],
     addresses: [],
 };
 
-const AddMember: React.FC = () => {
+const AddMembers: React.FC = () => {
     const [showTxModal, setShowTxModal] = useState(false);
 
     const { data: daoDetails, isLoading: detailsLoading } = useDaoDetailsQuery();
@@ -31,7 +35,7 @@ const AddMember: React.FC = () => {
         daoDetails?.plugins[0].id as PluginTypes
     );
 
-    const formMethods = useForm<AddMemberFormData>({
+    const formMethods = useForm<AddMembersFormData>({
         defaultValues,
         mode: 'onChange',
     });
@@ -64,4 +68,4 @@ const AddMember: React.FC = () => {
     );
 };
 
-export default withTransaction('AddMember', 'component')(AddMember);
+export default withTransaction('AddMembers', 'component')(AddMembers);
