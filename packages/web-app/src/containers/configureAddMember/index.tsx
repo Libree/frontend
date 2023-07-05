@@ -1,10 +1,9 @@
 import {
     AlertInline,
     Label,
-    WalletInput,
-    InputValue,
+    ValueInput,
 } from '@aragon/ui-components';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
     Controller,
     FormState,
@@ -14,9 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { useNetwork } from 'context/network';
 import { WithdrawAction } from 'pages/newWithdraw';
-import { CHAIN_METADATA } from 'utils/constants';
 import { ActionIndex } from 'utils/types';
 
 type ConfigureAddMemberFormProps = ActionIndex;
@@ -25,10 +22,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
     actionIndex,
 }) => {
     const { t } = useTranslation();
-    const { network } = useNetwork();
-
-    const { control, setValue, getValues } =
-        useFormContext();
+    const { control, setValue } = useFormContext();
 
     const [name] =
         useWatch({
@@ -46,16 +40,6 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
             setValue(`actions.${actionIndex}.name`, 'add_member');
         }
     }, [actionIndex, name, setValue]);
-
-    /*************************************************
-     *             Callbacks and Handlers            *
-     *************************************************/
-
-    const handleValueChanged = useCallback(
-        (value: InputValue, onChange: (...event: unknown[]) => void) =>
-            onChange(value),
-        []
-    );
 
     /*************************************************
      *                    Render                     *
@@ -77,14 +61,14 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                         fieldState: { error },
                     }) => (
                         <>
-                            <WalletInput
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
                                 name={name}
-                                state={error && 'critical'}
+                                type="text"
                                 value={value}
+                                placeholder="0x..."
                                 onBlur={onBlur}
-                                placeholder={'0x…'}
-                                onValueChange={value => handleValueChanged(value, onChange)}
-                                blockExplorerURL={CHAIN_METADATA[network].lookupURL}
+                                onChange={onChange}
                             />
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
@@ -128,3 +112,12 @@ export function isValid(
 const FormItem = styled.div.attrs({
     className: 'space-y-1.5 tablet:pb-1',
 })``;
+
+const StyledInput = styled(ValueInput)`
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+`;
