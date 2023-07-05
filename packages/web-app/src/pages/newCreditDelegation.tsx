@@ -21,11 +21,12 @@ type CreditDelegationFormData = {
     actions: CreditDelegationAction[];
 
     // Proposal data
-    address: string;
+    addresses: string[];
 };
 
 export const defaultValues = {
     actions: [],
+    addresses: [],
 };
 
 const NewCreditDelegation: React.FC = () => {
