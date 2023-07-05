@@ -57,6 +57,8 @@ export type CreateDaoFormData = {
   multisigMinimumApprovals: number;
   creditDelegationPlugin: string;
   subGobernancePlugin: string;
+  vaultPlugin: string;
+  uniswapV3Plugin: string;
 };
 
 const defaultValues = {

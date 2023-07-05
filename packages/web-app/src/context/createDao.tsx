@@ -36,7 +36,7 @@ import { readFile, translateToNetworkishName } from 'utils/library';
 import { Dashboard } from 'utils/paths';
 import { useGlobalModalContext } from './globalModals';
 import { useNetwork } from './network';
-import { getPluginInstallCreditDelegation } from 'utils/encoding';
+import { getPluginInstallCreditDelegation, getPluginInstallSubgovernance, getPluginInstallUniswapV3, getPluginInstallVault } from 'utils/encoding';
 
 type CreateDaoContextType = {
   /** Prepares the creation data and awaits user confirmation to start process */
@@ -229,7 +229,18 @@ const CreateDaoProvider: React.FC = ({ children }) => {
 
   // Get dao setting configuration for creation process
   const getDaoSettings = useCallback(async (): Promise<CreateDaoParams> => {
-    const { membership, daoName, daoEnsName, daoSummary, daoLogo, links, subGobernancePlugin, creditDelegationPlugin } =
+    const { 
+      membership, 
+      daoName, 
+      daoEnsName, 
+      daoSummary, 
+      daoLogo, 
+      links, 
+      subGobernancePlugin, 
+      creditDelegationPlugin,
+      vaultPlugin,
+      uniswapV3Plugin
+     } =
       getValues();
 
     let networkSelected;
@@ -267,6 +278,21 @@ const CreateDaoProvider: React.FC = ({ children }) => {
     if (creditDelegationPlugin) {
       const creditDelegationPluginData = getPluginInstallCreditDelegation(networkSelected)
       plugins.push(creditDelegationPluginData);
+    }
+
+    if (subGobernancePlugin) {
+      const subGobernancePluginData = getPluginInstallSubgovernance(networkSelected)
+      plugins.push(subGobernancePluginData);
+    }
+
+    if (vaultPlugin) {
+      const vaultPluginData = getPluginInstallVault(networkSelected)
+      plugins.push(vaultPluginData);
+    }
+
+    if (uniswapV3Plugin) {
+      const uniswapV3PluginPluginData = getPluginInstallUniswapV3(networkSelected)
+      plugins.push(uniswapV3PluginPluginData);
     }
 
     const metadata: DaoMetadata = {
