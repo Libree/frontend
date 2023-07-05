@@ -24,6 +24,7 @@ import MintTokens from './mintTokens';
 import RemoveAddresses from './removeAddresses';
 import UpdateMinimumApproval from './updateMinimumApproval';
 import WithdrawAction from './withdraw/withdrawAction';
+import AddMemberAction from './addMember/addMemberAction';
 import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
 
@@ -61,6 +62,8 @@ const Action: React.FC<ActionsComponentProps> = ({
   switch (name) {
     case 'withdraw_assets':
       return <WithdrawAction {...{actionIndex, allowRemove}} />;
+    case 'add_member':
+      return <AddMemberAction {...{actionIndex, allowRemove}} />;
     case 'mint_tokens':
       return <MintTokens {...{actionIndex, allowRemove}} />;
     case 'external_contract_modal':

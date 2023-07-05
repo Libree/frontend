@@ -82,7 +82,7 @@ const MintToken: React.FC = () => {
           <FullScreenStepper
             wizardProcessName={t('newProposal.title')}
             processType="ProposalCreation"
-            navLabel={t('labels.addMember')}
+            navLabel={t('labels.addMembers')}
             returnPath={generatePath(Community, {
               network,
               dao: toDisplayEns(daoDetails.ensDomain) || daoDetails.address,

@@ -84,9 +84,9 @@ const NewWithdraw: React.FC = () => {
             setShowTxModal={setShowTxModal}
           >
             <WithdrawStepper
+              enableTxModal={() => setShowTxModal(true)}
               daoDetails={daoDetails}
               pluginSettings={pluginSettings}
-              enableTxModal={() => setShowTxModal(true)}
             />
           </CreateProposalProvider>
         </ActionsProvider>

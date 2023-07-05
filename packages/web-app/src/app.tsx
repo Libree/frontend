@@ -29,7 +29,6 @@ import { NotFound } from 'utils/paths';
 import '../i18n.config';
 import DepositModal from 'containers/transactionModals/DepositModal';
 import PoapClaimModal from 'containers/poapClaiming/PoapClaimModal';
-import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 const ExplorePage = lazy(() => import('pages/explore'));
 const NotFoundPage = lazy(() => import('pages/notFound'));
@@ -54,6 +53,8 @@ const MintTokensProposalPage = lazy(() => import('pages/mintTokens'));
 const ManageMembersProposalPage = lazy(() => import('pages/manageMembers'));
 
 const Groups = lazy(() => import('pages/communityGroups'));
+const GroupDetails = lazy(() => import('pages/groupDetails'));
+const AddMembersProposalPage = lazy(() => import('pages/addMembers'));
 
 function App() {
   // TODO this needs to be inside a Routes component. Will be moved there with
@@ -127,6 +128,14 @@ function App() {
                 <Route
                   path="community/groups"
                   element={<Groups />}
+                />
+                <Route
+                  path="community/groups/:id"
+                  element={<GroupDetails />}
+                />
+                <Route
+                  path="community/groups/:id/add-member"
+                  element={<AddMembersProposalPage />}
                 />
               </Route>
               <Route path="governance" element={<GovernancePage />} />

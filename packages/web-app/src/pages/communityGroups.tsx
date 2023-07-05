@@ -40,28 +40,28 @@ const CommunityGroups: React.FC = () => {
 
     const groups = [
         {
-          id: 'lkdjsgihgeh839t5jhd',
-          name: 'NFT Group',
-          description: 'Collector group finding best NFT projects to invest in',
-          imgUrl: '',
-          memberCount: 5,
-          value: 1200,
+            id: '01',
+            name: 'NFT Group',
+            description: 'Collector group finding best NFT projects to invest in',
+            imgUrl: '',
+            memberCount: 5,
+            value: 1200,
         },
         {
-          id: 'kdsgaslelilañdjañlj55',
-          name: 'Trading Group',
-          description: 'Conservative trading group in Uniswap',
-          imgUrl: '',
-          memberCount: 15,
-          value: 4200,
+            id: '02',
+            name: 'Trading Group',
+            description: 'Conservative trading group in Uniswap',
+            imgUrl: '',
+            memberCount: 15,
+            value: 4200,
         },
         {
-          id: 'kdsgassdfsadteañdjañlj55',
-          name: 'Research',
-          description: 'Doing research to find best DeFi projects',
-          imgUrl: '',
-          memberCount: 2,
-          value: 2200,
+            id: '03',
+            name: 'Research',
+            description: 'Doing research to find best DeFi projects',
+            imgUrl: '',
+            memberCount: 2,
+            value: 2200,
         },
     ];
 
@@ -120,7 +120,7 @@ const CommunityGroups: React.FC = () => {
                                     size="large"
                                     label={t('labels.newGroup')}
                                     className="w-full tablet:w-auto"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                 />
                             </ContentContainer>
                         </Header>

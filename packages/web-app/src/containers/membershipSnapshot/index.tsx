@@ -72,7 +72,7 @@ export const MembershipSnapshot: React.FC<Props> = ({
                 : t('explore.explorer.tokenBased')
             }
             buttonText={
-              walletBased ? t('labels.manageMember') : t('labels.addMember')
+              walletBased ? t('labels.manageMember') : t('labels.addMembers')
             }
             orientation="vertical"
             onClick={headerButtonHandler}
@@ -107,7 +107,7 @@ export const MembershipSnapshot: React.FC<Props> = ({
             : t('explore.explorer.tokenBased')
         }
         buttonText={
-          walletBased ? t('labels.manageMember') : t('labels.addMember')
+          walletBased ? t('labels.manageMember') : t('labels.addMembers')
         }
         orientation="vertical"
         onClick={headerButtonHandler}

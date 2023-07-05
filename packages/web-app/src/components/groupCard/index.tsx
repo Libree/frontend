@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import React, { SyntheticEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FallbackImg from '../../../../ui-components/src/assets/avatar-token.svg'
 
 export type CardGroupProps = {
+  groupId: string;
   groupName: string;
   groupDescription: string;
   groupImageUrl: string;
@@ -16,9 +18,17 @@ export const CardGroup: React.FC<CardGroupProps> = ({
   bgWhite = false,
   ...props
 }) => {
+  const navigate = useNavigate();
+
+  /*************************************************
+     *                    Handlers                   *
+     *************************************************/
+  const navigateToGroupDetails = () => {
+    navigate(props.groupId);
+  };
 
   return (
-    <Card data-testid="cardToken" bgWhite={bgWhite}>
+    <Card data-testid="cardToken" bgWhite={bgWhite} onClick={() => navigateToGroupDetails()}>
       <GroupDetailsWithImage>
         <GroupImage
           src={props.groupImageUrl}
@@ -43,7 +53,7 @@ type CardProps = Pick<CardGroupProps, 'bgWhite'>;
 
 const Card = styled.div.attrs(({ bgWhite }: CardProps) => ({
   className: `flex flex-col tablet:flex-row justify-between space-x-4 tablet:items-center py-1.5 tablet:py-2.5 px-2.5 tablet:px-3 overflow-hidden ${bgWhite ? 'bg-ui-50' : 'bg-ui-0'
-    } rounded-xl`,
+    } rounded-xl hover:shadow-100 hover:bg-ui-100 cursor-pointer`,
 })) <CardProps>``;
 
 const GroupDetailsWithImage = styled.div.attrs({
