@@ -40,7 +40,8 @@ const DepositModal: React.FC = () => {
 
   const handleCtaClicked = useCallback(() => {
     deposit(input.tokenAddress, input.amount);
-  }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network]);
+    close('deposit');
+  }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
   const Divider: React.FC = () => {
     return (
