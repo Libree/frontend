@@ -237,6 +237,11 @@ export type ActionWithdraw = {
   isCustomToken: boolean;
 };
 
+export type ActionAddMember = {
+  name: 'add_member';
+  addresses: string[];
+};
+
 // TODO: merge these types
 export type ActionAddAddress = {
   name: 'add_address';
@@ -332,6 +337,7 @@ export type ActionSCC = {
 // union of those subtypes. [VR 11-08-2022]
 export type Action =
   | ActionWithdraw
+  | ActionAddMember
   | ActionCreditDelegation
   | ActionAddAddress
   | ActionRemoveAddress
