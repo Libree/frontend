@@ -767,6 +767,14 @@
       "creditDelegation": {
         "title": "Credit delegation plugin",
         "description": "This plugin enables the DAO to become a credit delegator in AAVE by depositing their treasury in AAVE and add all the needed features to open credit lines through proposals."
+      },
+      "vault": {
+        "title": "Vault plugin plugin",
+        "description": "This plugin enables the DAO to create vaults to manage assets in a group or in an automated strategy"
+      },
+      "uniswap": {
+        "title": "Uniswap v3 plugin",
+        "description": "This plugin enables the DAO to swap tokens within the DAO or in a group vault."
       }
     },
     "review": {

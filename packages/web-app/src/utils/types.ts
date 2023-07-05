@@ -480,10 +480,15 @@ export class ProposalId {
 
 export type ContractsDeployment = {
   aavePool: string;
+  uniswapRouterAddress: string;
 };
 
 export type PluginsDeployment = {
   creditDelegation: string;
+  subgovernance: string;
+  uniswapV3: string;
+  vault: string;
+
 };
 
 export enum SupportedNetwork {

@@ -72,6 +72,46 @@ const ConfigurePlugins: React.FC = () => {
               )}
             />
           </FormItem>
+
+          {/* Vault plugin */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.vault.title')}
+              helpText={t('createDAO.step5.vault.description')}
+            />
+            <Controller
+              name="vaultPlugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "vaultPlugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
+            />
+          </FormItem>
+
+          {/* Uniswap v3 plugin */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.uniswap.title')}
+              helpText={t('createDAO.step5.uniswap.description')}
+            />
+            <Controller
+              name="uniswapV3Plugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "uniswapV3Plugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
+            />
+          </FormItem>
         </>
       }
     </>
