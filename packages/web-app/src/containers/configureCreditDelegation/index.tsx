@@ -1,10 +1,9 @@
 import {
     AlertInline,
     Label,
-    WalletInput,
-    InputValue,
+    ValueInput,
 } from '@aragon/ui-components';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
     Controller,
     FormState,
@@ -14,9 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { useNetwork } from 'context/network';
 import { WithdrawAction } from 'pages/newWithdraw';
-import { CHAIN_METADATA } from 'utils/constants';
 import { ActionIndex } from 'utils/types';
 
 type ConfigureCreditDelegationFormProps = ActionIndex;
@@ -25,10 +22,7 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
     actionIndex,
 }) => {
     const { t } = useTranslation();
-    const { network } = useNetwork();
-
-    const { control, setValue, getValues } =
-        useFormContext();
+    const { control, setValue } = useFormContext();
 
     const [name] =
         useWatch({
@@ -43,33 +37,23 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
 
     useEffect(() => {
         if (!name) {
-            setValue(`actions.${actionIndex}.name`, 'add_member');
+            setValue(`actions.${actionIndex}.name`, 'credit_delegation');
         }
     }, [actionIndex, name, setValue]);
-
-    /*************************************************
-     *             Callbacks and Handlers            *
-     *************************************************/
-
-    const handleValueChanged = useCallback(
-        (value: InputValue, onChange: (...event: unknown[]) => void) =>
-            onChange(value),
-        []
-    );
 
     /*************************************************
      *                    Render                     *
      *************************************************/
     return (
         <>
-            {/* Recipient (to) */}
+            {/* User address */}
             <FormItem>
                 <Label
-                    label={t('labels.recipient')}
-                    helpText={t('addMember.input1Subtitle')}
+                    label={t('creditDelegation.userInput')}
+                    helpText={t('creditDelegation.input1Subtitle')}
                 />
                 <Controller
-                    name={`addresses.${actionIndex}`}
+                    name={`inputs.${actionIndex}.user`}
                     control={control}
                     defaultValue={'0x'}
                     render={({
@@ -77,18 +61,86 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                         fieldState: { error },
                     }) => (
                         <>
-                            <WalletInput
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
                                 name={name}
-                                state={error && 'critical'}
+                                type='text'
                                 value={value}
+                                placeholder='0x…'
                                 onBlur={onBlur}
-                                placeholder={'0x…'}
-                                onValueChange={value => handleValueChanged(value, onChange)}
-                                blockExplorerURL={CHAIN_METADATA[network].lookupURL}
+                                onChange={onChange}
                             />
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Token address */}
+            <FormItem>
+                <Label
+                    label={t('creditDelegation.tokenInput')}
+                    helpText={t('creditDelegation.input1Subtitle')}
+                />
+                <Controller
+                    name={`inputs.${actionIndex}.token`}
+                    control={control}
+                    defaultValue={'0x'}
+                    render={({
+                        field: { name, onBlur, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
+                                name={name}
+                                type='text'
+                                value={value}
+                                placeholder='0x…'
+                                onBlur={onBlur}
+                                onChange={onChange}
+                            />
+                            {error?.message && (
+                                <AlertInline label={error.message} mode="critical" />
+                            )}
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Amount */}
+            <FormItem>
+                <Label
+                    label={t('creditDelegation.amountInput')}
+                    helpText={t('creditDelegation.input1Subtitle')}
+                />
+                <Controller
+                    name={`inputs.${actionIndex}.amount`}
+                    control={control}
+                    defaultValue=""
+                    render={({
+                        field: { name, onBlur, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
+                                name={name}
+                                type="number"
+                                value={value}
+                                placeholder="0"
+                                onBlur={onBlur}
+                                onChange={onChange}
+                            />
+                            <div className="flex justify-between items-start">
+                                <div className="space-y-1">
+                                    {error?.message && (
+                                        <AlertInline label={error.message} mode="critical" />
+                                    )}
+                                </div>
+                            </div>
                         </>
                     )}
                 />
@@ -128,3 +180,12 @@ export function isValid(
 const FormItem = styled.div.attrs({
     className: 'space-y-1.5 tablet:pb-1',
 })``;
+
+const StyledInput = styled(ValueInput)`
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+`;

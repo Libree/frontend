@@ -214,6 +214,7 @@ export type ActionsTypes =
   | 'remove_address'
   | 'add_member'
   | 'withdraw_assets'
+  | 'credit_delegation'
   | 'mint_tokens'
   | 'external_contract_modal'
   | 'external_contract_action'
@@ -285,6 +286,15 @@ export type ActionMintToken = {
   };
 };
 
+export type ActionCreditDelegation = {
+  name: 'credit_delegation';
+  inputs: {
+    user: string; // address type
+    token: string; // token address type
+    amount: number;
+  }
+};
+
 export type ActionUpdateMultisigPluginSettings = {
   name: 'modify_multisig_voting_settings';
   inputs: MultisigVotingSettings;
@@ -322,6 +332,7 @@ export type ActionSCC = {
 // union of those subtypes. [VR 11-08-2022]
 export type Action =
   | ActionWithdraw
+  | ActionCreditDelegation
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken

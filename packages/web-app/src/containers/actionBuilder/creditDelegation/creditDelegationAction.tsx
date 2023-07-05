@@ -18,14 +18,21 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField } = useFormContext();
+    const { setValue, clearErrors, resetField, getValues } = useFormContext();
     const { alert } = useAlertContext();
 
     const resetAddMemberFields = () => {
         clearErrors(`actions.${actionIndex}`);
+        clearErrors(`inputs.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
+        resetField(`inputs.${actionIndex}`);
         setValue(`actions.${actionIndex}`, {
             address: '',
+        });
+        setValue(`inputs.${actionIndex}`, {
+            user: '',
+            token: '',
+            amount: 0
         });
         alert(t('alert.chip.resetAction'));
     };
@@ -70,9 +77,9 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
         <AccordionMethod
             verified
             type="action-builder"
-            methodName={t('labels.addMember')}
+            methodName={t('TransferModal.creditDelegation')}
             dropdownItems={methodActions}
-            methodDescription={t('addMember.subtitle')}
+            methodDescription={t('TransferModal.creditSubtitle')}
         >
             <FormItem className="py-3 space-y-3 rounded-b-xl">
                 <ConfigureCreditDelegationForm actionIndex={actionIndex} />

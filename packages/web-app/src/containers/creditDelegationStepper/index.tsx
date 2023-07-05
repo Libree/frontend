@@ -51,7 +51,7 @@ const CreditDelegationStepper: React.FC<CreditDelegationStepperProps> = ({
     return (
         <>
             <FullScreenStepper
-                wizardProcessName={t('labels.addMembers')}
+                wizardProcessName={t('TransferModal.creditDelegation')}
                 navLabel={t('allTransfer.newTransfer')}
                 processType="ProposalCreation"
                 returnPath={generatePath(Finance, {
@@ -60,43 +60,43 @@ const CreditDelegationStepper: React.FC<CreditDelegationStepperProps> = ({
                 })}
             >
                 <Step
-                    wizardTitle={t('labels.addMembers')}
-                    wizardDescription={t('addMember.description')}
+                    wizardTitle={t('TransferModal.creditSubtitle')}
+                    wizardDescription={t('creditDelegation.description')}
                     isNextButtonDisabled={
                         !actions.length || !actionsAreValid(formActions, actions, errors)
                     }
                 >
                     <ConfigureActions
                         label=""
-                        initialActions={['add_member']}
-                        whitelistedActions={['add_member']}
+                        initialActions={['credit_delegation']}
+                        whitelistedActions={['credit_delegation']}
                         addExtraActionLabel={t(
-                            'addMember.ctaAddAnother'
+                            'creditDelegation.ctaAddAnother'
                         )}
                         onAddExtraActionClick={() => {
-                            addAction({ name: 'add_member' });
+                            addAction({ name: 'credit_delegation' });
                         }}
                         hideAlert
                         allowEmpty={false}
                     />
                 </Step>
                 <Step
-                    wizardTitle={t('addMember.setupVoting.title')}
-                    wizardDescription={t('addMember.setupVoting.description')}
+                    wizardTitle={t('creditDelegation.setupVoting.title')}
+                    wizardDescription={t('creditDelegation.setupVoting.description')}
                     isNextButtonDisabled={!setupVotingIsValid(errors)}
                 >
                     <SetupVotingForm pluginSettings={pluginSettings} />
                 </Step>
                 <Step
-                    wizardTitle={t('addMember.defineProposal.heading')}
-                    wizardDescription={t('addMember.defineProposal.description')}
+                    wizardTitle={t('creditDelegation.defineProposal.heading')}
+                    wizardDescription={t('creditDelegation.defineProposal.description')}
                     isNextButtonDisabled={!defineProposalIsValid(dirtyFields, errors)}
                 >
                     <DefineProposal />
                 </Step>
                 <Step
-                    wizardTitle={t('addMember.reviewProposal.heading')}
-                    wizardDescription={t('addMember.reviewProposal.description')}
+                    wizardTitle={t('creditDelegation.reviewProposal.heading')}
+                    wizardDescription={t('creditDelegation.reviewProposal.description')}
                     nextButtonLabel={t('labels.submitProposal')}
                     onNextButtonClicked={() => {
                         enableTxModal();
