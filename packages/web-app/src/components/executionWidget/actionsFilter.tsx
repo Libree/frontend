@@ -9,7 +9,7 @@ import {ModifyMultisigSettingsCard} from './actions/modifyMultisigSettingsCard';
 import {ModifyMvSettingsCard} from './actions/modifySettingsCard';
 import {RemoveAddressCard} from './actions/removeAddressCard';
 import {WithdrawCard} from './actions/withdrawCard';
-import { AddMemberCard } from './actions/addMemberCard';
+import {AddMemberCard} from './actions/addMemberCard';
 import {SCCExecutionCard} from './actions/sccExecutionWidget';
 
 type ActionsFilterProps = {

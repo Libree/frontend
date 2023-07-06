@@ -1,4 +1,4 @@
-import { ListItemAddress } from '@aragon/ui-components';
+import { ListItemAction, ListItemAddress } from '@aragon/ui-components';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -24,6 +24,9 @@ export const AddMemberCard: React.FC<{
             verified
             methodDescription={t('labels.addWalletsDescription')}
         >
+            <GroupNameContainer>
+                <ListItemAction title={action.groupName} />
+            </GroupNameContainer>
             <Container>
                 {memberWallets.map((address) => (
                     <ListItemAddress
@@ -47,6 +50,10 @@ export const AddMemberCard: React.FC<{
     );
 };
 
+const GroupNameContainer = styled.div.attrs({
+    className: 'bg-ui-50 border border-t-0 border-ui-100 space-y-1 p-2 mb-1',
+})``;
+
 const Container = styled.div.attrs({
-    className: 'bg-ui-50 border border-t-0 border-ui-100 space-y-1 p-2',
+    className: 'bg-ui-50 border border-ui-100 space-y-1 p-2',
 })``;

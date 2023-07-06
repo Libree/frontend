@@ -240,6 +240,7 @@ export type ActionWithdraw = {
 export type ActionAddMember = {
   name: 'add_member';
   addresses: string[];
+  groupName: string;
 };
 
 // TODO: merge these types
