@@ -55,7 +55,6 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 <Controller
                     name={`actions.${actionIndex}.inputs.user`}
                     control={control}
-                    defaultValue={'0x'}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },
@@ -87,7 +86,6 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 <Controller
                     name={`actions.${actionIndex}.inputs.token`}
                     control={control}
-                    defaultValue={'0x'}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },
