@@ -806,8 +806,6 @@
   "addMember": {
     "description": "Add a new members to the group, your proposal will need to pass a vote within group members.",
     "subtitle": "Add new members to the group",
-    "groupNameInput": "Group name",
-    "groupNameSubtitle": "Provide a name for the group",
     "input1Title": "Recipient",
     "input1Subtitle": "The wallet that will be included in the group",
     "ctaAddAnother": "Add another member",

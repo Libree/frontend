@@ -23,7 +23,6 @@ type AddMembersFormData = {
 
 export const defaultValues = {
     actions: [],
-    groupName: '',
     addresses: [],
 };
 

@@ -1,6 +1,6 @@
-import { AlertInline, Label, ListItemAction } from '@aragon/ui-components';
+import { ListItemAction } from '@aragon/ui-components';
 import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { AccordionMethod } from 'components/accordionMethod';
@@ -8,11 +8,11 @@ import { useActionsContext } from 'context/actions';
 import { ActionIndex } from 'utils/types';
 import { FormItem } from '../addAddresses';
 import { useAlertContext } from 'context/alert';
-import ConfigureAddMemberForm, { StyledInput } from 'containers/configureAddMember';
+import ConfigureAddMemberForm from 'containers/configureAddMember';
 
 type AddMemberActionProps = ActionIndex & { allowRemove?: boolean };
 
-// TODO: remove address deleted from addresses list.
+// TODO: remove address deleted from addresses list when removeAddMemberFields is called.
 const AddMemberAction: React.FC<AddMemberActionProps> = ({
     actionIndex,
     allowRemove = true,
@@ -83,45 +83,3 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 };
 
 export default AddMemberAction;
-
-export const AddMemberGroupNameInput = () => {
-    const { t } = useTranslation();
-    const { control } = useFormContext();
-
-    /*************************************************
-     *                    Render                     *
-     *************************************************/
-    return (
-        <>
-            <FormItem className="py-3 space-y-1 rounded-xl">
-                <Label
-                    label={t('addMember.groupNameInput')}
-                    helpText={t('addMember.groupNameSubtitle')}
-                />
-                <Controller
-                    name={`groupName`}
-                    control={control}
-                    render={({
-                        field: { name, onBlur, onChange, value },
-                        fieldState: { error },
-                    }) => (
-                        <>
-                            <StyledInput
-                                mode={error ? 'critical' : 'default'}
-                                name={name}
-                                type="text"
-                                value={value}
-                                placeholder="name..."
-                                onBlur={onBlur}
-                                onChange={onChange}
-                            />
-                            {error?.message && (
-                                <AlertInline label={error.message} mode="critical" />
-                            )}
-                        </>
-                    )}
-                />
-            </FormItem>
-        </>
-    );
-};
