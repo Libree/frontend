@@ -27,6 +27,8 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       );
     case 'add_member':
       return <AddMemberCard action={action} />;
+    case 'credit_delegation':
+      return <></>;
     case 'add_address':
       return <AddAddressCard action={action} />;
     case 'remove_address':
