@@ -32,10 +32,12 @@ export interface CreditDelegatorInterface extends utils.Interface {
   functions: {
     "APPROVE_DELEGATION_PERMISSION_ID()": FunctionFragment;
     "BORROW_AAVE_PERMISSION_ID()": FunctionFragment;
+    "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID()": FunctionFragment;
     "UPGRADE_PLUGIN_PERMISSION_ID()": FunctionFragment;
     "WITHDRAWN_AAVE_PERMISSION_ID()": FunctionFragment;
     "approveDelegation(address,address,uint256)": FunctionFragment;
     "borrow(address,uint256,uint256,uint16,address)": FunctionFragment;
+    "borrowAndTransfer(address,uint256,uint256,uint16,address,address)": FunctionFragment;
     "dao()": FunctionFragment;
     "implementation()": FunctionFragment;
     "initialize(address,address)": FunctionFragment;
@@ -53,10 +55,12 @@ export interface CreditDelegatorInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "APPROVE_DELEGATION_PERMISSION_ID"
       | "BORROW_AAVE_PERMISSION_ID"
+      | "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID"
       | "UPGRADE_PLUGIN_PERMISSION_ID"
       | "WITHDRAWN_AAVE_PERMISSION_ID"
       | "approveDelegation"
       | "borrow"
+      | "borrowAndTransfer"
       | "dao"
       | "implementation"
       | "initialize"
@@ -76,6 +80,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "BORROW_AAVE_PERMISSION_ID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -101,6 +109,17 @@ export interface CreditDelegatorInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "borrowAndTransfer",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>
     ]
   ): string;
@@ -159,6 +178,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "UPGRADE_PLUGIN_PERMISSION_ID",
     data: BytesLike
   ): Result;
@@ -171,6 +194,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "borrow", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "borrowAndTransfer",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "dao", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "implementation",
@@ -279,6 +306,10 @@ export interface CreditDelegator extends BaseContract {
 
     BORROW_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<[string]>;
 
+    BORROW_AND_TRANSFER_AAVE_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<[string]>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<[string]>;
@@ -296,6 +327,16 @@ export interface CreditDelegator extends BaseContract {
       _interestRateMode: PromiseOrValue<BigNumberish>,
       _referralCode: PromiseOrValue<BigNumberish>,
       _onBehalfOf: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    borrowAndTransfer(
+      _asset: PromiseOrValue<string>,
+      _amount: PromiseOrValue<BigNumberish>,
+      _interestRateMode: PromiseOrValue<BigNumberish>,
+      _referralCode: PromiseOrValue<BigNumberish>,
+      _onBehalfOf: PromiseOrValue<string>,
+      _beneficiary: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -349,6 +390,10 @@ export interface CreditDelegator extends BaseContract {
 
   BORROW_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
+  BORROW_AND_TRANSFER_AAVE_PERMISSION_ID(
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
   WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
@@ -366,6 +411,16 @@ export interface CreditDelegator extends BaseContract {
     _interestRateMode: PromiseOrValue<BigNumberish>,
     _referralCode: PromiseOrValue<BigNumberish>,
     _onBehalfOf: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  borrowAndTransfer(
+    _asset: PromiseOrValue<string>,
+    _amount: PromiseOrValue<BigNumberish>,
+    _interestRateMode: PromiseOrValue<BigNumberish>,
+    _referralCode: PromiseOrValue<BigNumberish>,
+    _onBehalfOf: PromiseOrValue<string>,
+    _beneficiary: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -421,6 +476,10 @@ export interface CreditDelegator extends BaseContract {
 
     BORROW_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
+    BORROW_AND_TRANSFER_AAVE_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
@@ -438,6 +497,16 @@ export interface CreditDelegator extends BaseContract {
       _interestRateMode: PromiseOrValue<BigNumberish>,
       _referralCode: PromiseOrValue<BigNumberish>,
       _onBehalfOf: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    borrowAndTransfer(
+      _asset: PromiseOrValue<string>,
+      _amount: PromiseOrValue<BigNumberish>,
+      _interestRateMode: PromiseOrValue<BigNumberish>,
+      _referralCode: PromiseOrValue<BigNumberish>,
+      _onBehalfOf: PromiseOrValue<string>,
+      _beneficiary: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -522,6 +591,10 @@ export interface CreditDelegator extends BaseContract {
 
     BORROW_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<BigNumber>;
 
+    BORROW_AND_TRANSFER_AAVE_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<BigNumber>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<BigNumber>;
@@ -539,6 +612,16 @@ export interface CreditDelegator extends BaseContract {
       _interestRateMode: PromiseOrValue<BigNumberish>,
       _referralCode: PromiseOrValue<BigNumberish>,
       _onBehalfOf: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    borrowAndTransfer(
+      _asset: PromiseOrValue<string>,
+      _amount: PromiseOrValue<BigNumberish>,
+      _interestRateMode: PromiseOrValue<BigNumberish>,
+      _referralCode: PromiseOrValue<BigNumberish>,
+      _onBehalfOf: PromiseOrValue<string>,
+      _beneficiary: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -597,6 +680,10 @@ export interface CreditDelegator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    BORROW_AND_TRANSFER_AAVE_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -618,6 +705,16 @@ export interface CreditDelegator extends BaseContract {
       _interestRateMode: PromiseOrValue<BigNumberish>,
       _referralCode: PromiseOrValue<BigNumberish>,
       _onBehalfOf: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    borrowAndTransfer(
+      _asset: PromiseOrValue<string>,
+      _amount: PromiseOrValue<BigNumberish>,
+      _interestRateMode: PromiseOrValue<BigNumberish>,
+      _referralCode: PromiseOrValue<BigNumberish>,
+      _onBehalfOf: PromiseOrValue<string>,
+      _beneficiary: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
