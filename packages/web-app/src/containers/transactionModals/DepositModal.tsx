@@ -15,6 +15,10 @@ import { useNetwork } from 'context/network';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { toDisplayEns } from 'utils/library';
 import { useCreditDelegation } from 'hooks/useCreditDelegation';
+import { getTokenInfo } from 'utils/tokens';
+import { CHAIN_METADATA } from 'utils/constants';
+import { useSpecificProvider } from 'context/providers';
+
 
 const DepositModal: React.FC = () => {
   const { t } = useTranslation();
@@ -24,6 +28,7 @@ const DepositModal: React.FC = () => {
   const { alert } = useAlertContext();
   const { deposit } = useCreditDelegation(daoDetails?.address);
   const navigate = useNavigate();
+  const provider = useSpecificProvider(CHAIN_METADATA[network].id);
   const [input, setInput] = useState({
     amount: '100',
     tokenAddress: '',
@@ -38,8 +43,14 @@ const DepositModal: React.FC = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleCtaClicked = useCallback(() => {
-    deposit(input.tokenAddress, input.amount);
+  const handleCtaClicked = useCallback(async () => {
+    const tokenInfo = await getTokenInfo(
+      input.tokenAddress,
+      provider,
+      CHAIN_METADATA[network].nativeCurrency
+    )
+    const amount = Number(input.amount) * 10**tokenInfo.decimals
+    deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
   const Divider: React.FC = () => {

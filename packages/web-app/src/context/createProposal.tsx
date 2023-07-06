@@ -70,6 +70,7 @@ import {
 import {useGlobalModalContext} from './globalModals';
 import {useNetwork} from './network';
 import {usePrivacyContext} from './privacyContext';
+import { encodeCreditDelegationAction } from 'utils/encoding';
 
 type Props = {
   showTxModal: boolean;
@@ -264,6 +265,20 @@ const CreateProposalProvider: React.FC<Props> = ({
               })
             );
           }
+          break;
+        }
+        case 'credit_delegation': {
+          actions.push(
+            Promise.resolve(
+              encodeCreditDelegationAction(
+              network,
+              action.inputs.token,
+              action.inputs.amount,
+              1,
+              daoDetails?.address || "",
+              action.inputs.user
+            ))
+          );
           break;
         }
       }
