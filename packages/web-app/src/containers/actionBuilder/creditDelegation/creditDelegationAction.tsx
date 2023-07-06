@@ -1,6 +1,6 @@
 import { ListItemAction } from '@aragon/ui-components';
 import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { AccordionMethod } from 'components/accordionMethod';
@@ -18,29 +18,25 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField, getValues, control } = useFormContext();
-    const { remove: removeInput } = useFieldArray({control, name: 'inputs'});
+    const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
     const resetCreditDelegationFields = () => {
         clearErrors(`actions.${actionIndex}`);
-        clearErrors(`inputs.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
-        resetField(`inputs.${actionIndex}`);
         setValue(`actions.${actionIndex}`, {
-            address: '',
-        });
-        setValue(`inputs.${actionIndex}`, {
-            user: '',
-            token: '',
-            amount: 0
+            inputs: {
+                user: '',
+                token: '',
+                amount: 0,
+            },
+            name: 'credit_delegation',
         });
         alert(t('alert.chip.resetAction'));
     };
 
     const removeCreditDelegationFields = (actionIndex: number) => {
         removeAction(actionIndex);
-        removeInput(actionIndex);
     };
 
     const methodActions = (() => {

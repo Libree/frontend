@@ -19,7 +19,6 @@ type CreditDelegationFormData = {
 
 export const defaultValues = {
     actions: [],
-    inputs: [],
 };
 
 const NewCreditDelegation: React.FC = () => {
