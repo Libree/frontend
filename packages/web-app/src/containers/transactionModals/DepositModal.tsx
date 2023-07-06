@@ -49,7 +49,7 @@ const DepositModal: React.FC = () => {
       provider,
       CHAIN_METADATA[network].nativeCurrency
     )
-    const amount = Number(input.amount) * 10**tokenInfo.decimals
+    const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
     deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
