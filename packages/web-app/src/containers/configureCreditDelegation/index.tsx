@@ -53,9 +53,8 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                     helpText={t('creditDelegation.input1Subtitle')}
                 />
                 <Controller
-                    name={`inputs.${actionIndex}.user`}
+                    name={`actions.${actionIndex}.inputs.user`}
                     control={control}
-                    defaultValue={'0x'}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },
@@ -85,9 +84,8 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                     helpText={t('creditDelegation.input1Subtitle')}
                 />
                 <Controller
-                    name={`inputs.${actionIndex}.token`}
+                    name={`actions.${actionIndex}.inputs.token`}
                     control={control}
-                    defaultValue={'0x'}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },
@@ -117,7 +115,7 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                     helpText={t('creditDelegation.input1Subtitle')}
                 />
                 <Controller
-                    name={`inputs.${actionIndex}.amount`}
+                    name={`actions.${actionIndex}.inputs.amount`}
                     control={control}
                     defaultValue=""
                     render={({
