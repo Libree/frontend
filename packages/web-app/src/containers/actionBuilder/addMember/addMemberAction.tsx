@@ -12,7 +12,7 @@ import ConfigureAddMemberForm from 'containers/configureAddMember';
 
 type AddMemberActionProps = ActionIndex & { allowRemove?: boolean };
 
-// TODO: remove address deleted from addresses list.
+// TODO: remove address deleted from addresses list when removeAddMemberFields is called.
 const AddMemberAction: React.FC<AddMemberActionProps> = ({
     actionIndex,
     allowRemove = true,

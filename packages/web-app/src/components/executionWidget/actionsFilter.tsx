@@ -9,6 +9,7 @@ import {ModifyMultisigSettingsCard} from './actions/modifyMultisigSettingsCard';
 import {ModifyMvSettingsCard} from './actions/modifySettingsCard';
 import {RemoveAddressCard} from './actions/removeAddressCard';
 import {WithdrawCard} from './actions/withdrawCard';
+import {AddMemberCard} from './actions/addMemberCard';
 import {SCCExecutionCard} from './actions/sccExecutionWidget';
 
 type ActionsFilterProps = {
@@ -24,6 +25,8 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       return (
         <WithdrawCard action={action} daoName={dao?.metadata?.name || ''} />
       );
+    case 'add_member':
+      return <AddMemberCard action={action} />;
     case 'add_address':
       return <AddAddressCard action={action} />;
     case 'remove_address':
