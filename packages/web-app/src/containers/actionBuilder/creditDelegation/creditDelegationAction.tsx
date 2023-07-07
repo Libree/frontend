@@ -29,6 +29,7 @@ const CreditDelegationAction: React.FC<CreditDelegationActionProps> = ({
                 user: '',
                 token: '',
                 amount: 0,
+                interestRateType: '',
             },
             name: 'credit_delegation',
         });
