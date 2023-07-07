@@ -12,7 +12,6 @@ import ConfigureCreateGroupForm from 'containers/configureCreateGroup';
 
 type CreateGroupActionProps = ActionIndex & { allowRemove?: boolean };
 
-// TODO: remove address deleted from addresses list when removeAddMemberFields is called.
 const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
     actionIndex,
     allowRemove = true,
@@ -24,10 +23,10 @@ const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
 
     const resetAddMemberFields = () => {
         clearErrors(`actions.${actionIndex}`);
-        clearErrors(`addresses.${actionIndex}`)
         resetField(`actions.${actionIndex}`);
-        resetField(`addresses.${actionIndex}`)
-        setValue(`addresses.${actionIndex}`, '');
+        setValue(`actions.${actionIndex}.inputs`, {
+            groupName: '',
+        });
         alert(t('alert.chip.resetAction'));
     };
 
@@ -71,9 +70,9 @@ const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
         <AccordionMethod
             verified
             type="action-builder"
-            methodName={t('labels.addMember')}
+            methodName={t('createGroup.nameInput')}
             dropdownItems={methodActions}
-            methodDescription={t('addMember.subtitle')}
+            methodDescription={t('createGroup.namePlaceholder')}
         >
             <FormItem className="py-3 space-y-3 rounded-b-xl">
                 <ConfigureCreateGroupForm actionIndex={actionIndex} />

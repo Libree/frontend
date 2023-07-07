@@ -7,7 +7,7 @@ import {
 import { withTransaction } from '@elastic/apm-rum-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import GroupList from 'components/groupList';
@@ -21,6 +21,8 @@ import PageEmptyState from 'containers/pageEmptyState';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { htmlIn } from 'utils/htmlIn';
+import { useNetwork } from 'context/network';
+import { CreateGroupProposal } from 'utils/paths';
 
 type Sign = -1 | 0 | 1;
 const colors: Record<Sign, string> = {
@@ -37,6 +39,8 @@ const CommunityGroups: React.FC = () => {
     // load dao details
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
+    const { network } = useNetwork();
+    const { dao } = useParams();
 
     const groups = [
         {
@@ -93,7 +97,7 @@ const CommunityGroups: React.FC = () => {
                     </div>
                 }
                 buttonLabel={t('labels.newGroup')}
-                onClick={() => navigate('/new-group')}
+                onClick={() => navigate(generatePath(CreateGroupProposal, {network: network, dao: dao}))}
             />
         );
 
@@ -120,7 +124,7 @@ const CommunityGroups: React.FC = () => {
                                     size="large"
                                     label={t('labels.newGroup')}
                                     className="w-full tablet:w-auto"
-                                    onClick={() => navigate('/new-group')}
+                                    onClick={() => navigate(generatePath(CreateGroupProposal, {network: network, dao: dao}))}
                                 />
                             </ContentContainer>
                         </Header>
@@ -147,7 +151,7 @@ const CommunityGroups: React.FC = () => {
                             </div>
                         }
                         buttonLabel={t('labels.newGroup')}
-                        onClick={() => navigate('/new-group')}
+                        onClick={() => navigate(generatePath(CreateGroupProposal, {network: network, dao: dao}))}
                     />
                 ) : (
                     <>

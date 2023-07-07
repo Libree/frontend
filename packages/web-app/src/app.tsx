@@ -136,7 +136,7 @@ function App() {
                   element={<Groups />}
                 />
                 <Route
-                  path="community/new-group"
+                  path="community/create-group"
                   element={<NewGroupPage />}
                 />
                 <Route
