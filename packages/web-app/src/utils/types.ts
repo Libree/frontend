@@ -239,7 +239,9 @@ export type ActionWithdraw = {
 
 export type ActionAddMember = {
   name: 'add_member';
-  addresses: string[];
+  inputs: {
+    address: string;
+  }
 };
 
 // TODO: merge these types
