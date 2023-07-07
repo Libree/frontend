@@ -1,4 +1,4 @@
-import { ListItemAddress } from '@aragon/ui-components';
+import { CardText, ListItemAddress } from '@aragon/ui-components';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ export const CreditDelegationCard: React.FC<{
 }> = ({ action }) => {
     const { t } = useTranslation();
     const { network } = useNetwork();
-    const { user, amount } = action.inputs;
+    const { user, amount, interestRateType } = action.inputs;
 
     return (
         <AccordionMethod
@@ -39,6 +39,11 @@ export const CreditDelegationCard: React.FC<{
                             '_blank'
                         )
                     }
+                />
+                <CardText
+                    type='title'
+                    title={t('creditDelegation.interestRateType')}
+                    content={interestRateType}
                 />
             </Container>
         </AccordionMethod>

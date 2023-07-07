@@ -865,6 +865,9 @@
     "tokenInput": "Token",
     "amountInput": "Amount",
     "input1Subtitle": "The wallet that will be included in the group",
+    "interestRateType": "Interest rate type",
+    "interestRateTypeDescription": "Select the interest rate type for the credit line",
+    "interestRateTypePlaceholder": "Select an option",
     "ctaAddAnother": "Add another credit",
     "setupVoting": {
       "title": "Initiate the vote",

@@ -144,6 +144,35 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 />
             </FormItem>
 
+            {/* Select Interest rate type */}
+            <FormItem>
+                <Label
+                    label={t('creditDelegation.interestRateType')}
+                    helpText={t('creditDelegation.interestRateTypeDescription')}
+                />
+                <Controller
+                    name={`actions.${actionIndex}.inputs.interestRateType`}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { name, value, onChange }, fieldState: { error } }) => (
+                        <>
+                            <StyledSelect
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                            >
+                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="variable">Variable</option>
+                            </StyledSelect>
+                            {error?.message && (
+                                <AlertInline label={error.message} mode="critical" />
+                            )}
+                        </>
+                    )}
+                />
+            </FormItem>
+
         </>
     );
 };
@@ -187,3 +216,9 @@ const StyledInput = styled(ValueInput)`
   }
   -moz-appearance: textfield;
 `;
+
+const StyledSelect = styled.select.attrs({
+    className: `w-full flex items-center h-6 space-x-1.5 p-0.75 pl-2 text-ui-600 
+    rounded-xl border-2 border-ui-100 focus-within:ring-2 focus-within:ring-primary-500
+    hover:border-ui-300 active:border-primary-500 active:ring-0`,
+})``;

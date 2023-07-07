@@ -297,6 +297,7 @@ export type ActionCreditDelegation = {
     user: string; // address type
     token: string; // token address type
     amount: number;
+    interestRateType: string;
   }
 };
 
