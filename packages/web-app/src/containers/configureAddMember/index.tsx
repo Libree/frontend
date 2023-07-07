@@ -53,9 +53,9 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                     helpText={t('addMember.input1Subtitle')}
                 />
                 <Controller
-                    name={`addresses.${actionIndex}`}
+                    name={`actions.${actionIndex}.inputs.address`}
                     control={control}
-                    defaultValue={'0x'}
+                    defaultValue={''}
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },

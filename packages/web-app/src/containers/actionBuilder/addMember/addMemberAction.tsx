@@ -24,10 +24,10 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 
     const resetAddMemberFields = () => {
         clearErrors(`actions.${actionIndex}`);
-        clearErrors(`addresses.${actionIndex}`)
         resetField(`actions.${actionIndex}`);
-        resetField(`addresses.${actionIndex}`)
-        setValue(`addresses.${actionIndex}`, '');
+        setValue(`actions.${actionIndex}.inputs`, {
+            address: '',
+        });
         alert(t('alert.chip.resetAction'));
     };
 
