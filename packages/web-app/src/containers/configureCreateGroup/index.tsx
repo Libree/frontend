@@ -53,7 +53,7 @@ const ConfigureCreateGroupForm: React.FC<ConfigureCreateGroupFormProps> = ({
                     helpText={t('createGroup.nameDescription')}
                 />
                 <Controller
-                    name={`addresses.${actionIndex}`}
+                    name={`actions.${actionIndex}.inputs.groupName`}
                     control={control}
                     defaultValue=""
                     render={({
