@@ -93,7 +93,7 @@ const CommunityGroups: React.FC = () => {
                     </div>
                 }
                 buttonLabel={t('labels.newGroup')}
-                onClick={() => { }}
+                onClick={() => navigate('/new-group')}
             />
         );
 
@@ -120,7 +120,7 @@ const CommunityGroups: React.FC = () => {
                                     size="large"
                                     label={t('labels.newGroup')}
                                     className="w-full tablet:w-auto"
-                                    onClick={() => { }}
+                                    onClick={() => navigate('/new-group')}
                                 />
                             </ContentContainer>
                         </Header>
@@ -147,7 +147,7 @@ const CommunityGroups: React.FC = () => {
                             </div>
                         }
                         buttonLabel={t('labels.newGroup')}
-                        onClick={() => { }}
+                        onClick={() => navigate('/new-group')}
                     />
                 ) : (
                     <>
