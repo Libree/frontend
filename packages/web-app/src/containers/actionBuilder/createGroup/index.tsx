@@ -4,20 +4,17 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { AccordionMethod } from 'components/accordionMethod';
-import { useActionsContext } from 'context/actions';
 import { ActionIndex } from 'utils/types';
 import { FormItem } from '../addAddresses';
 import { useAlertContext } from 'context/alert';
 import ConfigureCreateGroupForm from 'containers/configureCreateGroup';
 
-type CreateGroupActionProps = ActionIndex & { allowRemove?: boolean };
+type CreateGroupActionProps = ActionIndex;
 
 const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
     actionIndex,
-    allowRemove = true,
 }) => {
     const { t } = useTranslation();
-    const { removeAction, duplicateAction } = useActionsContext();
     const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
@@ -30,38 +27,13 @@ const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
         alert(t('alert.chip.resetAction'));
     };
 
-    const removeAddMemberFields = (actionIndex: number) => {
-        removeAction(actionIndex);
-    };
-
     const methodActions = (() => {
         const result = [
-            {
-                component: (
-                    <ListItemAction title={t('labels.duplicateAction')} bgWhite />
-                ),
-                callback: () => {
-                    duplicateAction(actionIndex);
-                    alert(t('alert.chip.duplicateAction'));
-                },
-            },
             {
                 component: <ListItemAction title={t('labels.resetAction')} bgWhite />,
                 callback: resetAddMemberFields,
             },
         ];
-
-        if (allowRemove) {
-            result.push({
-                component: (
-                    <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
-                ),
-                callback: () => {
-                    removeAddMemberFields(actionIndex);
-                    alert(t('alert.chip.removedAction'));
-                },
-            });
-        }
 
         return result;
     })();

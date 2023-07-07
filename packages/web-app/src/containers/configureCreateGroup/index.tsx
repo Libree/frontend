@@ -66,7 +66,7 @@ const ConfigureCreateGroupForm: React.FC<ConfigureCreateGroupFormProps> = ({
                                 name={name}
                                 type="text"
                                 value={value}
-                                placeholder={t('createGroup.namePlaceholder')}
+                                placeholder={'...'}
                                 onBlur={onBlur}
                                 onChange={onChange}
                             />
