@@ -4,12 +4,15 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { AccordionMethod } from 'components/accordionMethod';
+import { useNetwork } from 'context/network';
+import { CHAIN_METADATA } from 'utils/constants';
 import { ActionAddMember } from 'utils/types';
 
 export const AddMemberCard: React.FC<{
     action: ActionAddMember;
 }> = ({ action }) => {
     const { t } = useTranslation();
+    const { network } = useNetwork();
     const { address } = action.inputs;
 
     return (
@@ -25,7 +28,12 @@ export const AddMemberCard: React.FC<{
                     label={address}
                     src={address}
                     key={address}
-                    onClick={() => { }}
+                    onClick={() => 
+                        window.open(
+                            `${CHAIN_METADATA[network].explorer}address/${address}`,
+                            '_blank'
+                        )
+                    }
                 />
             </Container>
         </AccordionMethod>
