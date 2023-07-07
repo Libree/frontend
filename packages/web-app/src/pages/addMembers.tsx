@@ -10,20 +10,15 @@ import { usePluginSettings } from 'hooks/usePluginSettings';
 import AddMemberStepper from 'containers/addMemberStepper';
 
 export type AddMemberAction = {
-    name: string;
-    address: string;
+    name: string; // This indicates the type of action;
 };
 
 type AddMembersFormData = {
     actions: AddMemberAction[];
-
-    // Proposal data
-    addresses: string[];
 };
 
 export const defaultValues = {
     actions: [],
-    addresses: [],
 };
 
 const AddMembers: React.FC = () => {
