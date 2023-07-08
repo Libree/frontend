@@ -15,10 +15,14 @@ export type CreateGroupAction = {
 
 type CreateGroupFormData = {
     actions: CreateGroupAction[];
+    groupName: string;
+    addresses: string[];
 };
 
 export const defaultValues = {
     actions: [],
+    groupName: '',
+    addresses: [],
 };
 
 const CreateGroup: React.FC = () => {

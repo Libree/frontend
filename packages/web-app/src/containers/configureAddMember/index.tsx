@@ -22,7 +22,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
     actionIndex,
 }) => {
     const { t } = useTranslation();
-    const { control, setValue } = useFormContext();
+    const { control, setValue, getValues } = useFormContext();
 
     const [name] =
         useWatch({
@@ -40,6 +40,16 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
             setValue(`actions.${actionIndex}.name`, 'add_member');
         }
     }, [actionIndex, name, setValue]);
+
+    /*************************************************
+     *                    Validators                 *
+     *************************************************/
+
+    const handleAddMember = (data: any) => {
+        const { actions } = getValues();
+        const actionIndexOffset = actions[0].name === 'create_group' ? -1 : 0;
+        setValue(`addresses.${actionIndex + actionIndexOffset}`, data);
+    };
 
     /*************************************************
      *                    Render                     *
@@ -68,7 +78,10 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                                 value={value}
                                 placeholder="0x..."
                                 onBlur={onBlur}
-                                onChange={onChange}
+                                onChange={(e) => {
+                                    onChange(e);
+                                    handleAddMember(e.target.value);
+                                }}
                             />
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />

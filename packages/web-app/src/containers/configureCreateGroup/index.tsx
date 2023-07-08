@@ -68,7 +68,10 @@ const ConfigureCreateGroupForm: React.FC<ConfigureCreateGroupFormProps> = ({
                                 value={value}
                                 placeholder={'...'}
                                 onBlur={onBlur}
-                                onChange={onChange}
+                                onChange={(e) => {
+                                    onChange(e);
+                                    setValue('groupName', e.target.value);
+                                }}
                             />
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />

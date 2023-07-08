@@ -24,6 +24,7 @@ const CreateGroupAction: React.FC<CreateGroupActionProps> = ({
         setValue(`actions.${actionIndex}.inputs`, {
             groupName: '',
         });
+        setValue('groupName', '');
         alert(t('alert.chip.resetAction'));
     };
 

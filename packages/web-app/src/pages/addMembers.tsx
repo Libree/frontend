@@ -19,6 +19,7 @@ type AddMembersFormData = {
 
 export const defaultValues = {
     actions: [],
+    addresses: [],
 };
 
 const AddMembers: React.FC = () => {
