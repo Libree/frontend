@@ -23,6 +23,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
 }) => {
     const { t } = useTranslation();
     const { control, setValue, getValues } = useFormContext();
+    const { actions } = getValues();
 
     const [name] =
         useWatch({
@@ -46,7 +47,6 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
      *************************************************/
 
     const handleAddMember = (data: any) => {
-        const { actions } = getValues();
         const actionIndexOffset = actions[0].name === 'create_group' ? -1 : 0;
         setValue(`addresses.${actionIndex + actionIndexOffset}`, data);
     };

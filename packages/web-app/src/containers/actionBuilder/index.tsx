@@ -118,7 +118,7 @@ const ActionBuilder: React.FC<ActionBuilderProps> = ({allowEmpty = true}) => {
   const {network} = useNetwork();
   const {selectedActionIndex: index, actions} = useActionsContext();
   const {data: tokens} = useDaoBalances(daoDetails?.address || '');
-  const {setValue, resetField, clearErrors, getValues} = useFormContext();
+  const {setValue, resetField, clearErrors} = useFormContext();
 
   /*************************************************
    *             Callbacks and Handlers            *
@@ -156,8 +156,6 @@ const ActionBuilder: React.FC<ActionBuilderProps> = ({allowEmpty = true}) => {
       setValue(`actions.${index}.tokenPrice`, price);
     });
   };
-
-  console.log('getValues: ', getValues());
 
   return (
     <>

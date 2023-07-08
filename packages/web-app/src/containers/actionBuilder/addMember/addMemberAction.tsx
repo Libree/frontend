@@ -1,6 +1,6 @@
 import { ListItemAction } from '@aragon/ui-components';
 import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { AccordionMethod } from 'components/accordionMethod';
