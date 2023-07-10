@@ -281,6 +281,14 @@ const CreateProposalProvider: React.FC<Props> = ({
           );
           break;
         }
+        case 'create_group': {
+          const groupName = getValues('groupName');
+          break;
+        }
+        case 'add_member' : {
+          const membersAddresses = getValues('addresses');
+          break;
+        }
       }
     }
 

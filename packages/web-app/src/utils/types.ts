@@ -212,6 +212,7 @@ export type ActionParameter = {
 export type ActionsTypes =
   | 'add_address'
   | 'remove_address'
+  | 'create_group'
   | 'add_member'
   | 'withdraw_assets'
   | 'credit_delegation'
@@ -243,6 +244,13 @@ export type ActionAddMember = {
     address: string;
   }
 };
+
+export type ActionCreateGroup = {
+  name: 'create_group';
+  inputs: {
+    groupName: string;
+  };
+}
 
 // TODO: merge these types
 export type ActionAddAddress = {
@@ -341,6 +349,7 @@ export type ActionSCC = {
 export type Action =
   | ActionWithdraw
   | ActionAddMember
+  | ActionCreateGroup
   | ActionCreditDelegation
   | ActionAddAddress
   | ActionRemoveAddress

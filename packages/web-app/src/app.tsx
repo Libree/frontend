@@ -54,6 +54,7 @@ const MintTokensProposalPage = lazy(() => import('pages/mintTokens'));
 const ManageMembersProposalPage = lazy(() => import('pages/manageMembers'));
 
 const Groups = lazy(() => import('pages/communityGroups'));
+const NewGroupPage = lazy(() => import('pages/createGroup'));
 const GroupDetails = lazy(() => import('pages/groupDetails'));
 const AddMembersProposalPage = lazy(() => import('pages/addMembers'));
 
@@ -133,6 +134,10 @@ function App() {
                 <Route
                   path="community/groups"
                   element={<Groups />}
+                />
+                <Route
+                  path="community/create-group"
+                  element={<NewGroupPage />}
                 />
                 <Route
                   path="community/groups/:id"

@@ -28,6 +28,7 @@ import AddMemberAction from './addMember/addMemberAction';
 import CreditDelegationAction from './creditDelegation/creditDelegationAction';
 import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
+import CreateGroupAction from './createGroup';
 
 /**
  * This Component is responsible for generating all actions that append to pipeline context (actions)
@@ -65,6 +66,8 @@ const Action: React.FC<ActionsComponentProps> = ({
       return <WithdrawAction {...{actionIndex, allowRemove}} />;
     case 'credit_delegation':
       return <CreditDelegationAction {...{actionIndex, allowRemove}} />;
+    case 'create_group':
+      return <CreateGroupAction {...{actionIndex}} />;
     case 'add_member':
       return <AddMemberAction {...{actionIndex, allowRemove}} />;
     case 'mint_tokens':

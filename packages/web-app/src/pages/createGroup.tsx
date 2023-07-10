@@ -7,22 +7,25 @@ import { CreateProposalProvider } from 'context/createProposal';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { PluginTypes } from 'hooks/usePluginClient';
 import { usePluginSettings } from 'hooks/usePluginSettings';
-import AddMemberStepper from 'containers/addMemberStepper';
+import CreateGroupStepper from 'containers/createGroupStepper';
 
-export type AddMemberAction = {
+export type CreateGroupAction = {
     name: string; // This indicates the type of action;
 };
 
-type AddMembersFormData = {
-    actions: AddMemberAction[];
+type CreateGroupFormData = {
+    actions: CreateGroupAction[];
+    groupName: string;
+    addresses: string[];
 };
 
 export const defaultValues = {
     actions: [],
+    groupName: '',
     addresses: [],
 };
 
-const AddMembers: React.FC = () => {
+const CreateGroup: React.FC = () => {
     const [showTxModal, setShowTxModal] = useState(false);
 
     const { data: daoDetails, isLoading: detailsLoading } = useDaoDetailsQuery();
@@ -31,7 +34,7 @@ const AddMembers: React.FC = () => {
         daoDetails?.plugins[0].id as PluginTypes
     );
 
-    const formMethods = useForm<AddMembersFormData>({
+    const formMethods = useForm<CreateGroupFormData>({
         defaultValues,
         mode: 'onChange',
     });
@@ -52,7 +55,7 @@ const AddMembers: React.FC = () => {
                         showTxModal={showTxModal}
                         setShowTxModal={setShowTxModal}
                     >
-                        <AddMemberStepper
+                        <CreateGroupStepper
                             daoDetails={daoDetails}
                             pluginSettings={pluginSettings}
                             enableTxModal={() => setShowTxModal(true)}
@@ -64,4 +67,4 @@ const AddMembers: React.FC = () => {
     );
 };
 
-export default withTransaction('AddMembers', 'component')(AddMembers);
+export default withTransaction('CreateGroup', 'component')(CreateGroup);

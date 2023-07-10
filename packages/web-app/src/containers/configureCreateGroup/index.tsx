@@ -14,14 +14,13 @@ import styled from 'styled-components';
 
 import { ActionIndex } from 'utils/types';
 
-type ConfigureAddMemberFormProps = ActionIndex;
+type ConfigureCreateGroupFormProps = ActionIndex;
 
-const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
+const ConfigureCreateGroupForm: React.FC<ConfigureCreateGroupFormProps> = ({
     actionIndex,
 }) => {
     const { t } = useTranslation();
-    const { control, setValue, getValues } = useFormContext();
-    const { actions } = getValues();
+    const { control, setValue } = useFormContext();
 
     const [name] =
         useWatch({
@@ -36,34 +35,25 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
 
     useEffect(() => {
         if (!name) {
-            setValue(`actions.${actionIndex}.name`, 'add_member');
+            setValue(`actions.${actionIndex}.name`, 'create_group');
         }
     }, [actionIndex, name, setValue]);
-
-    /*************************************************
-     *                    Validators                 *
-     *************************************************/
-
-    const handleAddMember = (data: any) => {
-        const actionIndexOffset = actions[0].name === 'create_group' ? -1 : 0;
-        setValue(`addresses.${actionIndex + actionIndexOffset}`, data);
-    };
 
     /*************************************************
      *                    Render                     *
      *************************************************/
     return (
         <>
-            {/* Recipient (to) */}
+            {/* Group name */}
             <FormItem>
                 <Label
-                    label={t('labels.recipient')}
-                    helpText={t('addMember.input1Subtitle')}
+                    label={t('createGroup.nameInput')}
+                    helpText={t('createGroup.nameDescription')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.address`}
+                    name={`actions.${actionIndex}.inputs.groupName`}
                     control={control}
-                    defaultValue={''}
+                    defaultValue=""
                     render={({
                         field: { name, onBlur, onChange, value },
                         fieldState: { error },
@@ -74,11 +64,11 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
                                 name={name}
                                 type="text"
                                 value={value}
-                                placeholder="0x..."
+                                placeholder={'...'}
                                 onBlur={onBlur}
                                 onChange={(e) => {
                                     onChange(e);
-                                    handleAddMember(e.target.value);
+                                    setValue('groupName', e.target.value);
                                 }}
                             />
                             {error?.message && (
@@ -93,7 +83,7 @@ const ConfigureAddMemberForm: React.FC<ConfigureAddMemberFormProps> = ({
     );
 };
 
-export default ConfigureAddMemberForm;
+export default ConfigureCreateGroupForm;
 
 /*************************************************
  *               Styled Components               *

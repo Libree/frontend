@@ -19,7 +19,8 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
 }) => {
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
-    const { setValue, clearErrors, resetField } = useFormContext();
+    const { setValue, clearErrors, resetField, getValues } = useFormContext();
+    const { actions } = getValues();
     const { alert } = useAlertContext();
 
     const resetAddMemberFields = () => {
@@ -28,6 +29,8 @@ const AddMemberAction: React.FC<AddMemberActionProps> = ({
         setValue(`actions.${actionIndex}.inputs`, {
             address: '',
         });
+        const actionIndexOffset = actions[0].name === 'create_group' ? -1 : 0;
+        setValue(`addresses.${actionIndex + actionIndexOffset}`, '');
         alert(t('alert.chip.resetAction'));
     };
 
