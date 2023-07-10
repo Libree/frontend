@@ -118,6 +118,7 @@ async function fetchTokenData(
     ? `/coins/${getNativeTokenId(fetchNetwork)}`
     : `/coins/${platformId}/contract/${fetchAddress}`;
 
+
   const {data, error} = await client.query({
     query: TOKEN_DATA_QUERY,
     variables: {url},

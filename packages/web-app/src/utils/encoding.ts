@@ -96,9 +96,10 @@ export const encodeCreditDelegationAction = (
     amount: number,
     interestRateMode: number,
     onBehalfOf: string,
-    beneficiary: string
+    beneficiary: string,
+    pluginAddress: string
 ): DaoAction => {
-    const networkName = getNetwork(network).name as SupportedNetworks;
+    // const networkName = getNetwork(network).name as SupportedNetworks;
     const iface = CreditDelegator__factory.createInterface()
 
     const hexData = iface.encodeFunctionData(
@@ -107,7 +108,7 @@ export const encodeCreditDelegationAction = (
     )
 
     return {
-        to: PLUGIN_ADDRESSES[networkName].creditDelegation,
+        to: pluginAddress,
         value: ethers.utils.parseEther('0').toBigInt(),
         data: hexToBytes(hexData)
     }
