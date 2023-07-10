@@ -6,14 +6,12 @@ import {
 import React, { useEffect } from 'react';
 import {
     Controller,
-    FormState,
     useFormContext,
     useWatch,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { WithdrawAction } from 'pages/newWithdraw';
 import { ActionIndex } from 'utils/types';
 
 type ConfigureCreateGroupFormProps = ActionIndex;
@@ -86,27 +84,6 @@ const ConfigureCreateGroupForm: React.FC<ConfigureCreateGroupFormProps> = ({
 };
 
 export default ConfigureCreateGroupForm;
-
-/**
- * Check if the screen is valid
- * @param dirtyFields List of fields that have been changed
- * @param errors List of fields that have errors
- * @param tokenAddress Token address
- * @returns Whether the screen is valid
- */
-export function isValid(
-    dirtyFields?: FormState<WithdrawAction>['dirtyFields'],
-    errors?: FormState<WithdrawAction>['errors'],
-    tokenAddress?: string
-) {
-    // check if fields are dirty
-    if (!dirtyFields?.to || !dirtyFields?.amount || !tokenAddress) return false;
-
-    // check if fields have errors
-    if (errors?.to || errors?.amount || errors?.tokenAddress) return false;
-
-    return true;
-}
 
 /*************************************************
  *               Styled Components               *
