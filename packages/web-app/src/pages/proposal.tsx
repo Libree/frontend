@@ -77,6 +77,7 @@ import {
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
 import {Action, ProposalId} from 'utils/types';
+import { decodeCreditDelegationAction } from 'utils/dencoding';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -230,6 +231,8 @@ const Proposal: React.FC = () => {
           client?.decoding.findInterface(action.data) ||
           pluginClient?.decoding.findInterface(action.data);
 
+        
+
         switch (functionParams?.functionName) {
           case 'transfer':
             return decodeWithdrawToAction(
@@ -273,6 +276,8 @@ const Proposal: React.FC = () => {
             );
           case 'setMetadata':
             return decodeMetadataToAction(action.data, client);
+          case 'credit_delefation':
+              return decodeCreditDelegationAction(action.data);  
           default:
             return decodeSCCToAction(action, network, t);
         }

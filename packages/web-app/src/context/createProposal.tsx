@@ -71,6 +71,7 @@ import {useGlobalModalContext} from './globalModals';
 import {useNetwork} from './network';
 import {usePrivacyContext} from './privacyContext';
 import { encodeCreditDelegationAction } from 'utils/encoding';
+import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 type Props = {
   showTxModal: boolean;
@@ -121,6 +122,9 @@ const CreateProposalProvider: React.FC<Props> = ({
   const cachedTokenBasedProposals = useReactiveVar(
     pendingTokenBasedProposalsVar
   );
+
+  const { creditDelegation: creditDelegationAddress } = useInstalledPlugins(daoDetails?.address)
+
 
   const shouldPoll = useMemo(
     () =>
@@ -276,7 +280,8 @@ const CreateProposalProvider: React.FC<Props> = ({
               action.inputs.amount,
               1,
               daoDetails?.address || "",
-              action.inputs.user
+              action.inputs.user,
+              creditDelegationAddress?.instanceAddress || ""
             ))
           );
           break;
