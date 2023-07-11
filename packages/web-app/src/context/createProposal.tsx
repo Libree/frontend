@@ -70,7 +70,7 @@ import {
 import {useGlobalModalContext} from './globalModals';
 import {useNetwork} from './network';
 import {usePrivacyContext} from './privacyContext';
-import { encodeCreditDelegationAction } from 'utils/encoding';
+import { encodeCreatrGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 type Props = {
@@ -123,7 +123,10 @@ const CreateProposalProvider: React.FC<Props> = ({
     pendingTokenBasedProposalsVar
   );
 
-  const { creditDelegation: creditDelegationAddress } = useInstalledPlugins(daoDetails?.address)
+  const { 
+    creditDelegation: creditDelegationAddress,
+    subgovernance: subgovernancePlugin
+   } = useInstalledPlugins(daoDetails?.address)
 
 
   const shouldPoll = useMemo(
@@ -275,7 +278,6 @@ const CreateProposalProvider: React.FC<Props> = ({
           actions.push(
             Promise.resolve(
               encodeCreditDelegationAction(
-              network,
               action.inputs.token,
               action.inputs.amount,
               1,
@@ -288,6 +290,15 @@ const CreateProposalProvider: React.FC<Props> = ({
         }
         case 'create_group': {
           const groupName = getValues('groupName');
+          const membersAddresses = getValues('addresses');
+          actions.push(
+            Promise.resolve(
+              encodeCreatrGroupAction(
+                groupName,
+                membersAddresses,
+                subgovernancePlugin?.instanceAddress || ""
+              )
+          ));
           break;
         }
         case 'add_member' : {
