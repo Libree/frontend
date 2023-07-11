@@ -12,7 +12,7 @@ import {
     UnsupportedNetworkError,
 } from "@aragon/sdk-common";
 import { CONTRACT_ADDRESSES, PLUGIN_ADDRESSES } from "./config";
-import { PluginInstallItem } from "./types";
+import { InterestRateType, PluginInstallItem } from "./types";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 
 export const getPluginInstallCreditDelegation = (
@@ -94,7 +94,7 @@ export const encodeCreditDelegationAction = (
     network: Networkish,
     token: string,
     amount: number,
-    interestRateMode: number,
+    interestRateMode: string,
     onBehalfOf: string,
     beneficiary: string,
     pluginAddress: string
@@ -104,7 +104,14 @@ export const encodeCreditDelegationAction = (
 
     const hexData = iface.encodeFunctionData(
         'borrowAndTransfer',
-        [token, amount, interestRateMode, 0, onBehalfOf, beneficiary]
+        [
+            token,
+            amount,
+            interestRateMode == InterestRateType.STABLE ? 1 : 2,
+            0,
+            onBehalfOf,
+            beneficiary
+        ]
     )
 
     return {

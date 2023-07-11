@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { WithdrawAction } from 'pages/newWithdraw';
-import { ActionIndex } from 'utils/types';
+import { ActionIndex, InterestRateType } from 'utils/types';
 
 type ConfigureCreditDelegationFormProps = ActionIndex;
 
@@ -162,8 +162,8 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                                 onChange={onChange}
                             >
                                 <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
-                                <option value="fixed">Fixed</option>
-                                <option value="variable">Variable</option>
+                                <option value={InterestRateType.STABLE}>{InterestRateType.STABLE}</option>
+                                <option value={InterestRateType.VARIABLE}>{InterestRateType.VARIABLE}</option>
                             </StyledSelect>
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />

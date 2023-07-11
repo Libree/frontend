@@ -539,3 +539,8 @@ export type MetadataAbiInput = {
   description: string;
   components?: MetadataAbiInput[];
 };
+
+export enum InterestRateType {
+  STABLE = "Stable",
+  VARIABLE = "Variable"
+}
