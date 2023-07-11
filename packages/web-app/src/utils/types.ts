@@ -517,7 +517,11 @@ export type PluginsDeployment = {
   subgovernance: string;
   uniswapV3: string;
   vault: string;
+};
 
+export type SupportedToken = {
+  name: string;
+  address: string;
 };
 
 export enum SupportedNetwork {
