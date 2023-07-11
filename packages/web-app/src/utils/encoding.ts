@@ -14,6 +14,7 @@ import {
 import { CONTRACT_ADDRESSES, PLUGIN_ADDRESSES } from "./config";
 import { InterestRateType, PluginInstallItem } from "./types";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
+import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 
 export const getPluginInstallCreditDelegation = (
     network: Networkish
@@ -91,7 +92,6 @@ export const getPluginInstallUniswapV3 = (
 
 
 export const encodeCreditDelegationAction = (
-    network: Networkish,
     token: string,
     amount: number,
     interestRateMode: string,
@@ -99,7 +99,6 @@ export const encodeCreditDelegationAction = (
     beneficiary: string,
     pluginAddress: string
 ): DaoAction => {
-    // const networkName = getNetwork(network).name as SupportedNetworks;
     const iface = CreditDelegator__factory.createInterface()
 
     const hexData = iface.encodeFunctionData(
@@ -112,6 +111,26 @@ export const encodeCreditDelegationAction = (
             onBehalfOf,
             beneficiary
         ]
+    )
+
+    return {
+        to: pluginAddress,
+        value: ethers.utils.parseEther('0').toBigInt(),
+        data: hexToBytes(hexData)
+    }
+}
+
+
+export const encodeCreateGroupAction = (
+    groupName: string,
+    addresses: string[],
+    pluginAddress: string
+): DaoAction => {
+    const iface = Subgovernance__factory.createInterface()
+
+    const hexData = iface.encodeFunctionData(
+        'createGroup',
+        [groupName, addresses]
     )
 
     return {
