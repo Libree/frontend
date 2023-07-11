@@ -114,7 +114,7 @@ export const encodeCreditDelegationAction = (
 }
 
 
-export const encodeCreatrGroupAction = (
+export const encodeCreateGroupAction = (
     groupName: string,
     addresses: string[],
     pluginAddress: string

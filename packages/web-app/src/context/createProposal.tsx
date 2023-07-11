@@ -70,7 +70,7 @@ import {
 import {useGlobalModalContext} from './globalModals';
 import {useNetwork} from './network';
 import {usePrivacyContext} from './privacyContext';
-import { encodeCreatrGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
+import { encodeCreateGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 type Props = {
