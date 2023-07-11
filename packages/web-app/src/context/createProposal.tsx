@@ -278,7 +278,7 @@ const CreateProposalProvider: React.FC<Props> = ({
               network,
               action.inputs.token,
               action.inputs.amount,
-              1,
+              action.inputs.interestRateType,
               daoDetails?.address || "",
               action.inputs.user,
               creditDelegationAddress?.instanceAddress || ""
