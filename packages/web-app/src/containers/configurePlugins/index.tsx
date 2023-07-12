@@ -32,84 +32,88 @@ const ConfigurePlugins: React.FC = () => {
    *************************************************/
   return (
     <>
-      {/* Group voting */}
-      <FormItem>
-        <Label
-          label={t('createDAO.step5.governance.title')}
-          helpText={t('createDAO.step5.governance.description')}
-        />
-        <Controller
-          name="subGobernancePlugin"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <ToggleCheckList
-              onChange={changeValue =>
-                handlePluginChanged(changeValue, "subGobernancePlugin", onChange)
-              }
-              value={value as boolean}
+      {
+        <>
+          {/* Group voting */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.governance.title')}
+              helpText={t('createDAO.step5.governance.description')}
             />
-          )}
-        />
-      </FormItem>
-      {/* Credit Delegation */}
-      <FormItem>
-        <Label
-          label={t('createDAO.step5.creditDelegation.title')}
-          helpText={t('createDAO.step5.creditDelegation.description')}
-        />
-        <Controller
-          name="creditDelegationPlugin"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <ToggleCheckList
-              onChange={changeValue =>
-                handlePluginChanged(changeValue, "creditDelegationPlugin", onChange)
-              }
-              value={value as boolean}
+            <Controller
+              name="subGobernancePlugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "subGobernancePlugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
             />
-          )}
-        />
-      </FormItem>
+          </FormItem>
+          {/* Credit Delegation */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.creditDelegation.title')}
+              helpText={t('createDAO.step5.creditDelegation.description')}
+            />
+            <Controller
+              name="creditDelegationPlugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "creditDelegationPlugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
+            />
+          </FormItem>
 
-      {/* Vault plugin */}
-      <FormItem>
-        <Label
-          label={t('createDAO.step5.vault.title')}
-          helpText={t('createDAO.step5.vault.description')}
-        />
-        <Controller
-          name="vaultPlugin"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <ToggleCheckList
-              onChange={changeValue =>
-                handlePluginChanged(changeValue, "vaultPlugin", onChange)
-              }
-              value={value as boolean}
+          {/* Vault plugin */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.vault.title')}
+              helpText={t('createDAO.step5.vault.description')}
             />
-          )}
-        />
-      </FormItem>
+            <Controller
+              name="vaultPlugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "vaultPlugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
+            />
+          </FormItem>
 
-      {/* Uniswap v3 plugin */}
-      <FormItem>
-        <Label
-          label={t('createDAO.step5.uniswap.title')}
-          helpText={t('createDAO.step5.uniswap.description')}
-        />
-        <Controller
-          name="uniswapV3Plugin"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <ToggleCheckList
-              onChange={changeValue =>
-                handlePluginChanged(changeValue, "uniswapV3Plugin", onChange)
-              }
-              value={value as boolean}
+          {/* Uniswap v3 plugin */}
+          <FormItem>
+            <Label
+              label={t('createDAO.step5.uniswap.title')}
+              helpText={t('createDAO.step5.uniswap.description')}
             />
-          )}
-        />
-      </FormItem>
+            <Controller
+              name="uniswapV3Plugin"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ToggleCheckList
+                  onChange={changeValue =>
+                    handlePluginChanged(changeValue, "uniswapV3Plugin", onChange)
+                  }
+                  value={value as boolean}
+                />
+              )}
+            />
+          </FormItem>
+        </>
+      }
     </>
   );
 };

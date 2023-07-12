@@ -71,7 +71,6 @@ const SelectChainDetails: React.FC = () => {
                                     }
                                 }}
                                 selected={CHAIN_METADATA[selectedNetwork].id === field.value.id}
-                                // tag={index === 0 ? labels[sortFilter].tag : undefined}
                                 {...CHAIN_METADATA[selectedNetwork]}
                             />
                         )}

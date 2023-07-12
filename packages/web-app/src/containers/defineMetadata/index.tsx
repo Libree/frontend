@@ -5,16 +5,17 @@ import {
   TextareaSimple,
   TextInput,
 } from '@aragon/ui-components';
-import React, { useCallback } from 'react';
-import { Controller, FieldError, useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import React, {useCallback} from 'react';
+import {Controller, FieldError, useFormContext} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import { URL_PATTERN } from 'utils/constants';
-import { isOnlyWhitespace } from 'utils/library';
-import { isDaoEnsNameValid } from 'utils/validators';
-import { useProviders } from 'context/providers';
-import { useNetwork } from 'context/network';
+import AddLinks from 'components/addLinks';
+import {URL_PATTERN} from 'utils/constants';
+import {isOnlyWhitespace} from 'utils/library';
+import {isDaoEnsNameValid} from 'utils/validators';
+import {useProviders} from 'context/providers';
+import {useNetwork} from 'context/network';
 
 const DAO_LOGO = {
   maxDimension: 2400,
@@ -33,22 +34,22 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
   bgWhite = false,
   isSettingPage,
 }) => {
-  const { t } = useTranslation();
-  const { isL2Network } = useNetwork();
-  const { control, setError, clearErrors, getValues } = useFormContext();
-  const { infura: provider } = useProviders();
+  const {t} = useTranslation();
+  const {isL2Network} = useNetwork();
+  const {control, setError, clearErrors, getValues} = useFormContext();
+  const {infura: provider} = useProviders();
 
   const handleImageError = useCallback(
-    (error: { code: string; message: string }) => {
+    (error: {code: string; message: string}) => {
       const imgError: FieldError = { type: 'manual' };
-      const { minDimension, maxDimension, maxFileSize } = DAO_LOGO;
+      const {minDimension, maxDimension, maxFileSize} = DAO_LOGO;
 
       switch (error.code) {
         case 'file-invalid-type':
           imgError.message = t('errors.invalidImageType');
           break;
         case 'file-too-large':
-          imgError.message = t('errors.imageTooLarge', { maxFileSize });
+          imgError.message = t('errors.imageTooLarge', {maxFileSize});
           break;
         case 'wrong-dimension':
           imgError.message = t('errors.imageDimensions', {
@@ -66,7 +67,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
     [setError, t]
   );
 
-  function ErrorHandler({ value, error }: { value: string; error?: FieldError }) {
+  function ErrorHandler({value, error}: {value: string; error?: FieldError}) {
     if (error?.message) {
       if (error.message === t('infos.checkingEns')) {
         return (
@@ -91,7 +92,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
   }
 
   return (
-    <Container>
+    <>
 
       {/* Name */}
       <FormItem>
@@ -108,22 +109,75 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
             required: t('errors.required.name'),
           }}
           render={({
-            field: { onBlur, onChange, value, name },
-            fieldState: { error },
+            field: {onBlur, onChange, value, name},
+            fieldState: {error},
           }) => (
-            <div className='flex flex-col'>
+            <>
               <TextInput
-                {...{ name, value, onBlur, onChange }}
+                {...{name, value, onBlur, onChange}}
                 placeholder={t('placeHolders.daoName')}
               />
               <InputCount>{`${value.length}/128`}</InputCount>
               {error?.message && (
                 <AlertInline label={error.message} mode="critical" />
               )}
-            </ div>
+            </>
           )}
         />
       </FormItem>
+
+      {/* ENS Ens Name */}	
+      {!isSettingPage && !isL2Network && (	
+        <FormItem>	
+          <Label	
+            label={t('labels.daoEnsName')}	
+            helpText={t('createDAO.step2.ensNameSubtitle')}	
+          />	
+
+          <Controller	
+            name="daoEnsName"	
+            control={control}	
+            defaultValue=""	
+            rules={{	
+              required: t('errors.required.ensName'),	
+              validate: value =>	
+                isDaoEnsNameValid(	
+                  value,	
+                  provider,	
+                  setError,	
+                  clearErrors,	
+                  getValues	
+                ),	
+            }}	
+            render={({	
+              field: {onBlur, onChange, value, name},	
+              fieldState: {error},	
+            }) => (	
+              <>	
+                <TextInput	
+                  {...{	
+                    name,	
+                    value,	
+                    onBlur,	
+                    onChange: event => {	
+                      event.target.value = event.target.value.toLowerCase();	
+                      onChange(event);	
+                    },	
+                  }}	
+                  placeholder={t('placeHolders.ensName')}	
+                  rightAdornment={	
+                    <div className="flex items-center px-2 h-full bg-ui-50 rounded-r-xl">	
+                      .dao.eth	
+                    </div>	
+                  }	
+                />	
+                <InputCount>{`${value.length}/128`}</InputCount>	
+                <ErrorHandler {...{value, error}} />	
+              </>	
+            )}	
+          />	
+        </FormItem>	
+      )}	
 
       {/* Logo */}
       <FormItem>
@@ -137,7 +191,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
         <Controller
           name="daoLogo"
           control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
+          render={({ field: {value, onChange}, fieldState: {error} }) => {
             let preview = '';
 
             try {
@@ -155,7 +209,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
               <>
                 <LogoContainer>
                   <InputImageSingle
-                    {...{ DAO_LOGO, preview }}
+                    {...{DAO_LOGO, preview}}
                     onError={handleImageError}
                     onChange={onChange}
                     onlySquare
@@ -171,7 +225,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
       </FormItem>
 
       {/* Summary */}
-      <SummaryFormItem>
+      <FormItem>
         <Label
           label={t('labels.description')}
           helpText={t('createDAO.step2.descriptionSubtitle')}
@@ -184,7 +238,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
               isOnlyWhitespace(value) ? t('errors.required.summary') : true,
           }}
           control={control}
-          render={({ field, fieldState: { error } }) => (
+          render={({ field, fieldState: {error} }) => (
             <>
               <TextareaSimple
                 {...field}
@@ -196,28 +250,29 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
             </>
           )}
         />
-      </SummaryFormItem>
+      </FormItem>
 
-    </Container>
+      {/* Links */}
+      <FormItem>	
+        <Label	
+          label={t('labels.links')}	
+          helpText={t('createDAO.step2.linksSubtitle')}	
+          isOptional	
+        />	
+        <AddLinks arrayName={arrayName} bgWhite={bgWhite} />	
+      </FormItem>
+    </>
   );
 };
 
 export default DefineMetadata;
-
-const Container = styled.div.attrs({
-  className: 'grid grid-cols-2 gap-4',
-})``;
 
 const InputCount = styled.div.attrs({
   className: 'ft-text-sm mt-1',
 })``;
 
 const FormItem = styled.div.attrs({
-  className: 'flex space-y-1.5',
-})``;
-
-const SummaryFormItem = styled.div.attrs({
-  className: 'col-span-2 space-y-1.5',
+  className: 'space-y-1.5',
 })``;
 
 const LogoContainer = styled.div.attrs({
