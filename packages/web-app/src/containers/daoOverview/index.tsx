@@ -17,7 +17,6 @@ type OverviewDAOHeaderProps = {
   onExitButtonClick?: () => void;
 };
 
-// TODO: find 'field.value.id' initialization
 export const OverviewDAOHeader: React.FC<OverviewDAOHeaderProps> = ({
   navLabel,
   returnPath,
