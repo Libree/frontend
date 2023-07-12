@@ -791,6 +791,29 @@
       "proposalCreation": "Token holders with ≥{{token}} {{symbol}}"
     }
   },
+  "createUnityDAO" : {
+    "step1": {
+      "description": "Select blockchain The chain you choose is where your tokens and assets are stored. If you already have a token, choose the chain your token is minted on. This cannot be changed later. For help selecting your chain, read our guide on choosing the best blockchain for your DAO."
+    },
+    "step2": {
+      "subGovernance": {
+        "title": "Sub-governance",
+        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+      },
+      "creditDelegation": {
+        "title": "Credit delegation",
+        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+      },
+      "vault": {
+        "title": "Vault",
+        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+      },
+      "uniswap": {
+        "title": "Uniswap v3",
+        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+      }
+    }
+  },
   "newProposal": {
     "title": "New proposal",
     "configureActions": {

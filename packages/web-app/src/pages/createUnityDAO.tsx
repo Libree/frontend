@@ -1,0 +1,166 @@
+import React, { useEffect } from 'react';
+import { withTransaction } from '@elastic/apm-rum-react';
+import { useTranslation } from 'react-i18next';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import { FullScreenStepper, Step } from 'components/fullScreenStepper';
+import { OverviewDAOHeader } from 'containers/daoOverview';
+import GoLive, { GoLiveHeader, GoLiveFooter } from 'containers/goLive';
+import { WalletField } from '../components/addWallets/row';
+import { Landing } from 'utils/paths';
+import { CreateDaoProvider } from 'context/createDao';
+import { CHAIN_METADATA, getSupportedNetworkByChainId } from 'utils/constants';
+import { useNetwork } from 'context/network';
+import { useWallet } from 'hooks/useWallet';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import CommunityTokenSetup from 'containers/communityToken';
+import CommunityVotingSetup from 'containers/communityVoting';
+import CommunityDetailsSetup from 'containers/communityDetails';
+
+export type WalletItem = {
+    id: string;
+    address: string;
+};
+
+export type CreateUnityDaoFormData = {
+    blockchain: {
+        id: number;
+        label: string;
+        network: string;
+    };
+    daoLogo: Blob;
+    daoName: string;
+    daoEnsName: string;
+    daoSummary: string;
+    tokenName: string;
+    tokenSymbol: string;
+    tokenTotalSupply: number;
+    isCustomToken: boolean;
+    links: { name: string; url: string }[];
+    wallets: WalletField[];
+    tokenAddress: string;
+    durationMinutes: string;
+    durationHours: string;
+    durationDays: string;
+    minimumApproval: string;
+    minimumParticipation: string;
+    eligibilityType: 'token' | 'anyone' | 'multisig';
+    eligibilityTokenAmount: number | string;
+    support: string;
+    membership: string;
+    earlyExecution: boolean;
+    voteReplacement: boolean;
+    multisigWallets: WalletItem[];
+    multisigMinimumApprovals: number;
+    creditDelegationPlugin: string;
+    subGobernancePlugin: string;
+    vaultPlugin: string;
+    uniswapV3Plugin: string;
+};
+
+const defaultValues = {
+    tokenName: '',
+    tokenAddress: '',
+    tokenSymbol: '',
+    tokenTotalSupply: 1,
+    links: [{ name: '', url: '' }],
+
+    // Uncomment when DAO Treasury minting is supported
+    // wallets: [{address: constants.AddressZero, amount: '0'}],
+    earlyExecution: true,
+    voteReplacement: false,
+    membership: 'token',
+    eligibilityType: 'token' as CreateUnityDaoFormData['eligibilityType'],
+    eligibilityTokenAmount: 1,
+    isCustomToken: true,
+    durationDays: '1',
+    durationHours: '0',
+    durationMinutes: '0',
+};
+
+const CreateUnityDAO: React.FC = () => {
+    const { t } = useTranslation();
+    const { chainId } = useWallet();
+    const { setNetwork } = useNetwork();
+    const formMethods = useForm<CreateUnityDaoFormData>({
+        mode: 'onChange',
+        defaultValues,
+    });
+    const {data: daoDetails} = useDaoDetailsQuery();
+
+    // Note: The wallet network determines the expected network when entering
+    // the flow so that the process is more convenient for already logged in
+    // users and so that the process doesn't start with a warning. Afterwards,
+    // the select blockchain form dictates the expected network
+    useEffect(() => {
+        // get the default expected network using the connected wallet, use ethereum
+        // mainnet in case user accesses the flow without wallet connection. Ideally,
+        // this should not happen
+        const defaultNetwork = getSupportedNetworkByChainId(chainId) || 'ethereum';
+
+        // update the network context
+        setNetwork(defaultNetwork);
+
+        // set the default value in the form
+        formMethods.setValue('blockchain', {
+            id: CHAIN_METADATA[defaultNetwork].id,
+            label: CHAIN_METADATA[defaultNetwork].name,
+            network: CHAIN_METADATA[defaultNetwork].testnet ? 'test' : 'main',
+        });
+
+        // intentionally disabling this next line so that changing the
+        // wallet network doesn't cause effect to run
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /*************************************************
+     *                    Render                     *
+     *************************************************/
+    return (
+        <FormProvider {...formMethods}>
+            <CreateDaoProvider>
+                <FullScreenStepper
+                    wizardProcessName={t('createDAO.title')}
+                    navLabel={t('createDAO.title')}
+                    returnPath={Landing}
+                    processType="DaoCreation"
+                >
+                    <Step
+                        fullWidth
+                        hideWizard
+                        customHeader={
+                            <OverviewDAOHeader
+                                navLabel={t('createDAO.title')}
+                                returnPath={Landing}
+                            />
+                        }
+                        customFooter={<></>}
+                    >
+                        <></>
+                    </Step>
+                    <Step
+                        wizardDescription={t('createUnityDAO.step1.description')}
+                    >
+                        <CommunityDetailsSetup />
+                    </Step>
+                    <Step>
+                        <CommunityTokenSetup />
+                    </Step>
+                    <Step>
+                        <CommunityVotingSetup daoDetails={daoDetails}/>
+                    </Step>
+                    <Step
+                        hideWizard
+                        fullWidth
+                        customHeader={<GoLiveHeader />}
+                        customFooter={<GoLiveFooter />}
+                    >
+                        <GoLive />
+                    </Step>
+                </FullScreenStepper>
+            </CreateDaoProvider>
+        </FormProvider>
+    );
+};
+
+export default withTransaction('CreateUnityDAO', 'component')(CreateUnityDAO);

@@ -295,6 +295,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
+          
           {/* Min Duration */}
           <FormItem>
             <Label
@@ -515,7 +516,7 @@ const ApprovalWrapper = styled.div.attrs({
 
 const DurationContainer = styled.div.attrs({
   className:
-    'flex flex-col tablet:flex-row space-y-1.5 tablet:space-y-0 tablet:space-x-1.5 p-3 bg-ui-0 rounded-xl',
+    'flex flex-col tablet:flex-row items-center space-y-1.5 tablet:space-y-0 tablet:space-x-1.5 p-3 bg-ui-0 rounded-xl',
 })``;
 
 const TimeLabelWrapper = styled.div.attrs({
@@ -527,7 +528,7 @@ const TimeLabel = styled.span.attrs({
 })``;
 
 const ApprovalContainer = styled.div.attrs({
-  className: 'flex items-center p-3 space-x-3 rounded-xl bg-ui-0',
+  className: 'flex flex-col tablet:flex-row tablet:items-center p-3 space-y-3 tablet:space-y-0 tablet:space-x-3 rounded-xl bg-ui-0',
 })``;
 
 const ParticipationContainer = styled.div.attrs({
