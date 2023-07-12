@@ -1,7 +1,6 @@
 import {
   ButtonText,
   WalletInputLegacy,
-  shortenAddress,
 } from '@aragon/ui-components';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +17,8 @@ import { useCreditDelegation } from 'hooks/useCreditDelegation';
 import { getTokenInfo } from 'utils/tokens';
 import { CHAIN_METADATA } from 'utils/constants';
 import { useSpecificProvider } from 'context/providers';
+import { SUPPORTED_TOKENS } from 'utils/config';
+import { SupportedNetwork } from 'utils/types';
 
 
 const DepositModal: React.FC = () => {
@@ -30,7 +31,7 @@ const DepositModal: React.FC = () => {
   const navigate = useNavigate();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
   const [input, setInput] = useState({
-    amount: '100',
+    amount: '',
     tokenAddress: '',
   });
 
@@ -40,6 +41,10 @@ const DepositModal: React.FC = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
@@ -93,11 +98,16 @@ const DepositModal: React.FC = () => {
             <InputTitleWrapper>
               <InputTitle>{t('modal.deposit.inputTokenAddress')}</InputTitle>
             </InputTitleWrapper>
-            <DepositInput
+            <StyledSelect
               name='tokenAddress'
-              value={shortenAddress(input.tokenAddress)}
-              onChange={handleInputChange}
-            />
+              value={input.tokenAddress}
+              onChange={handleSelectChange}
+            >
+              <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+              {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
+                <option key={token.address} value={token.address}>{token.name}</option>
+              ))}
+            </StyledSelect>
           </div>
           <div>
             <InputTitleWrapper>
@@ -107,6 +117,7 @@ const DepositModal: React.FC = () => {
               name='amount'
               value={input.amount}
               onChange={handleInputChange}
+              placeholder='100'
             />
           </div>
           <ActionWrapper>
@@ -165,6 +176,12 @@ const DividerWrapper = styled.div.attrs({
 
 const DepositInput = styled(WalletInputLegacy).attrs({
   className: 'text-right px-2',
+})``;
+
+const StyledSelect = styled.select.attrs({
+  className: `w-full flex items-center h-6 space-x-1.5 p-0.75 pl-2 text-ui-600 
+  rounded-xl border-2 border-ui-100 focus-within:ring-2 focus-within:ring-primary-500
+  hover:border-ui-300 active:border-primary-500 active:ring-0`,
 })``;
 
 export default DepositModal;
