@@ -66,7 +66,7 @@ const SelectPlugins: React.FC = () => {
                     )}
                 />
                 <Controller
-                    name="uniSwapPlugin"
+                    name="uniswapV3Plugin"
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <ListItemAction
@@ -74,7 +74,7 @@ const SelectPlugins: React.FC = () => {
                             mode={value ? 'selected' : 'default'}
                             title={t('createUnityDAO.step2.uniswap.title')}
                             subtitle={t('createUnityDAO.step2.uniswap.description')}
-                            onClick={() => handlePluginChanged(!value, 'uniSwapPlugin', onChange)}
+                            onClick={() => handlePluginChanged(!value, 'uniswapV3Plugin', onChange)}
                         />
                     )}
                 />
