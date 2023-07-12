@@ -1,9 +1,9 @@
 import {useReactiveVar} from '@apollo/client';
 import {
   ExecuteProposalStep,
-  IVoteProposalParams,
   MultisigClient,
   TokenVotingClient,
+  VoteProposalParams,
   VoteProposalStep,
   VoteValues,
 } from '@aragon/sdk-client';
@@ -89,7 +89,7 @@ const ProposalTransactionProvider: React.FC<Props> = ({children}) => {
   );
   const cachedMultisigExecution = useReactiveVar(pendingMultisigExecutionVar);
 
-  const [voteParams, setVoteParams] = useState<IVoteProposalParams>();
+  const [voteParams, setVoteParams] = useState<VoteProposalParams>();
   const [voteSubmitted, setVoteSubmitted] = useState(false);
   const [voteProcessState, setVoteProcessState] = useState<TransactionState>();
 

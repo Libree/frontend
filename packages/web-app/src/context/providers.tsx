@@ -8,8 +8,8 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 
 import {
   LIVE_CONTRACTS,
-  SupportedNetworks as sdkSupportedNetworks,
-} from '@aragon/sdk-client';
+  SupportedNetwork as sdkSupportedNetworks,
+} from '@aragon/sdk-client-common';
 import {useWallet} from 'hooks/useWallet';
 import {
   alchemyApiKeys,
@@ -86,9 +86,9 @@ function getInfuraProvider(network: SupportedNetworks) {
       chainId: CHAIN_METADATA[network].id,
       name: translateToNetworkishName(network),
       ensAddress:
-        LIVE_CONTRACTS[
-          translateToNetworkishName(network) as sdkSupportedNetworks
-        ].ensRegistry,
+      LIVE_CONTRACTS[
+        translateToNetworkishName(network) as sdkSupportedNetworks
+      ].ensRegistry,
     });
   } else {
     return new InfuraProvider(CHAIN_METADATA[network].id, infuraApiKey);

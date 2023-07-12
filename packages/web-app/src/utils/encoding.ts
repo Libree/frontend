@@ -3,9 +3,9 @@ import { getNetwork, Networkish } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import {
     SupportedNetworksArray,
-    SupportedNetworks,
+    SupportedNetwork,
     DaoAction
-} from "@aragon/sdk-client";
+  } from '@aragon/sdk-client-common';
 
 import {
     hexToBytes,
@@ -19,7 +19,7 @@ import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 export const getPluginInstallCreditDelegation = (
     network: Networkish
 ): PluginInstallItem => {
-    const networkName = getNetwork(network).name as SupportedNetworks;
+    const networkName = getNetwork(network).name as SupportedNetwork;
 
     if (!SupportedNetworksArray.includes(networkName)) {
         throw new UnsupportedNetworkError(networkName);
@@ -40,7 +40,7 @@ export const getPluginInstallCreditDelegation = (
 export const getPluginInstallSubgovernance = (
     network: Networkish
 ): PluginInstallItem => {
-    const networkName = getNetwork(network).name as SupportedNetworks;
+    const networkName = getNetwork(network).name as SupportedNetwork;
 
     if (!SupportedNetworksArray.includes(networkName)) {
         throw new UnsupportedNetworkError(networkName);
@@ -56,7 +56,7 @@ export const getPluginInstallSubgovernance = (
 export const getPluginInstallVault = (
     network: Networkish
 ): PluginInstallItem => {
-    const networkName = getNetwork(network).name as SupportedNetworks;
+    const networkName = getNetwork(network).name as SupportedNetwork;
 
     if (!SupportedNetworksArray.includes(networkName)) {
         throw new UnsupportedNetworkError(networkName);
@@ -72,7 +72,7 @@ export const getPluginInstallVault = (
 export const getPluginInstallUniswapV3 = (
     network: Networkish
 ): PluginInstallItem => {
-    const networkName = getNetwork(network).name as SupportedNetworks;
+    const networkName = getNetwork(network).name as SupportedNetwork;
 
     if (!SupportedNetworksArray.includes(networkName)) {
         throw new UnsupportedNetworkError(networkName);
