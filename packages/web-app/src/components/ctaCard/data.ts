@@ -1,4 +1,4 @@
-import {CreateDAO} from 'utils/paths';
+import {CreateDAO, CreateUnityDAO} from 'utils/paths';
 
 import salaryImg from '../../public/salary-icon.png';
 import otherImg from '../../public/other-icon.png';
@@ -17,7 +17,7 @@ const CTACards = [
   {
     actionAvailable: true,
     actionLabel: i18n.t('cta.unity.actionLabel'),
-    path: CreateDAO,
+    path: CreateUnityDAO,
     imgSrc: otherImg,
     subtitle: i18n.t('cta.unity.description'),
     title: i18n.t('cta.unity.title'),

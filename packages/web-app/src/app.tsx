@@ -23,6 +23,7 @@ import { useTransactionDetailContext } from 'context/transactionDetail';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { useWallet } from 'hooks/useWallet';
 import CreateDAO from 'pages/createDAO';
+import CreateUnityDAO from 'pages/createUnityDAO';
 import { FormProvider, useForm } from 'react-hook-form';
 import { identifyUser, trackPage } from 'services/analytics';
 import { NotFound } from 'utils/paths';
@@ -94,6 +95,7 @@ function App() {
           </Route>
           <Route element={<DaoWrapper />}>
             <Route path="/create" element={<CreateDAO />} />
+            <Route path="/createUnity" element={<CreateUnityDAO />} />
           </Route>
           <Route path="/daos/:network/:dao">
             <Route element={<DaoWrapper />}>

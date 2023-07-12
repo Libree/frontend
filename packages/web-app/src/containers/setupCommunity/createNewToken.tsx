@@ -5,7 +5,6 @@ import {useTranslation} from 'react-i18next';
 import {Controller, useFormContext} from 'react-hook-form';
 import AddWallets from 'components/addWallets';
 import {alphaNumericValidator} from 'utils/validators';
-import {SelectEligibility} from 'components/selectEligibility';
 import {htmlIn} from 'utils/htmlIn';
 
 const CreateNewToken: React.FC = () => {
@@ -13,7 +12,7 @@ const CreateNewToken: React.FC = () => {
   const {control} = useFormContext();
 
   return (
-    <>
+    <Container>
       <DescriptionContainer>
         <Title>{t('labels.mintToken')}</Title>
         <Subtitle
@@ -88,7 +87,7 @@ const CreateNewToken: React.FC = () => {
           )}
         />
       </FormItem>
-      <FormItem>
+      <WideFormItem>
         <DescriptionContainer>
           <Label
             label={t('labels.distributeTokens')}
@@ -100,28 +99,27 @@ const CreateNewToken: React.FC = () => {
           mode="neutral"
         />
         <AddWallets />
-      </FormItem>
-      <FormItem>
-        <DescriptionContainer>
-          <Label
-            label={t('labels.proposalCreation')}
-            helpText={t('createDAO.step3.proposalCreationHelpertext')}
-          />
-        </DescriptionContainer>
-        <SelectEligibility />
-      </FormItem>
-    </>
+      </WideFormItem>
+    </ Container>
   );
 };
 
 export default CreateNewToken;
 
+const Container = styled.div.attrs({
+  className: 'grid grid-cols-2 gap-4',
+})``;
+
 const FormItem = styled.div.attrs({
   className: 'space-y-1.5',
 })``;
 
+const WideFormItem = styled.div.attrs({
+  className: 'space-y-1.5 col-span-2',
+})``;
+
 const DescriptionContainer = styled.div.attrs({
-  className: 'space-y-0.5',
+  className: 'space-y-0.5 col-span-2',
 })``;
 
 const Title = styled.p.attrs({className: 'text-lg font-bold text-ui-800'})``;
