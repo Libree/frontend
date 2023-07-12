@@ -2,17 +2,19 @@
 import {ApolloClient} from '@apollo/client';
 import {
   Client,
-  DaoAction,
   DaoDetails,
   Erc20TokenDetails,
-  IMintTokenParams,
+  MintTokenParams,
   MultisigClient,
   MultisigVotingSettings,
   Context as SdkContext,
-  SupportedNetworks as SdkSupportedNetworks,
   TokenVotingClient,
   VotingMode,
 } from '@aragon/sdk-client';
+import {
+  DaoAction,
+  SupportedNetwork as SdkSupportedNetworks,
+} from '@aragon/sdk-client-common';
 import {bytesToHex, resolveIpfsCid} from '@aragon/sdk-common';
 import {NavigationDao} from 'context/apolloClient';
 import {BigNumber, BigNumberish, constants, ethers, providers} from 'ethers';
@@ -210,7 +212,7 @@ export async function decodeMintTokensToAction(
 
     const decoded = data.map(action => {
       // decode action
-      const {amount, address}: IMintTokenParams =
+      const {amount, address}: MintTokenParams =
         client.decoding.mintTokenAction(action);
 
       // update new tokens count
@@ -598,15 +600,15 @@ export function translateToNetworkishName(
     return 'unsupported';
   }
 
-  switch (appNetwork) {
-    case 'polygon':
-      return 'matic';
-    case 'mumbai':
-      return 'maticmum';
-    case 'ethereum':
-      return 'homestead';
-    case 'goerli':
-      return 'goerli';
+    switch (appNetwork) {
+      case 'polygon':
+        return SdkSupportedNetworks.POLYGON;
+      case 'mumbai':
+        return SdkSupportedNetworks.MUMBAI;
+      case 'ethereum':
+        return SdkSupportedNetworks.MAINNET;
+      case 'goerli':
+        return SdkSupportedNetworks.GOERLI;
   }
 
   return 'unsupported';

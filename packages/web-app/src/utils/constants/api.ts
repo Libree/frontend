@@ -13,7 +13,7 @@ export const SUBGRAPH_API_URL: SubgraphNetworkUrl = {
   polygon:
     'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-polygon/version/v1.1.1/api',
   mumbai:
-    'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.1.1/api',
+    'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.1/api',
   arbitrum: undefined,
   'arbitrum-test': undefined,
   unsupported: undefined
@@ -65,3 +65,5 @@ export const NATIVE_TOKEN_ID = {
   default: 'ethereum',
   polygon: 'matic-network',
 };
+
+export const COVALENT_API_KEY = import.meta.env.VITE_COVALENT_API_KEY as string;

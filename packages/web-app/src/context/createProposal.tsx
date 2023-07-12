@@ -1,17 +1,20 @@
 import {useReactiveVar} from '@apollo/client';
 import {
   CreateMajorityVotingProposalParams,
-  DaoAction,
   InstalledPluginListItem,
   MultisigClient,
   MultisigVotingSettings,
   ProposalCreationSteps,
-  ProposalMetadata,
-  TokenType,
   TokenVotingClient,
   VotingSettings,
   WithdrawParams,
 } from '@aragon/sdk-client';
+
+import {
+  DaoAction,
+  ProposalMetadata,
+  TokenType
+} from '@aragon/sdk-client-common';
 import {hexToBytes} from '@aragon/sdk-common';
 import {ethers} from 'ethers';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
@@ -293,7 +296,7 @@ const CreateProposalProvider: React.FC<Props> = ({
           const membersAddresses = getValues('addresses');
           actions.push(
             Promise.resolve(
-              encodeCreatrGroupAction(
+              encodeCreateGroupAction(
                 groupName,
                 membersAddresses,
                 subgovernancePlugin?.instanceAddress || ""

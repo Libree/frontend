@@ -2,9 +2,13 @@ import {
   Client,
   DaoListItem,
   DaoSortBy,
-  IDaoQueryParams,
-  SortDirection,
+  DaoQueryParams
 } from '@aragon/sdk-client';
+
+import {
+  SortDirection,
+} from '@aragon/sdk-client-common';
+
 import {InfiniteData, useInfiniteQuery} from '@tanstack/react-query';
 
 import {CHAIN_METADATA, SupportedChainID} from 'utils/constants';
@@ -31,7 +35,7 @@ const DEFAULT_QUERY_PARAMS = {
  * @param options query parameters for fetching the DAOs
  * @returns list of DAOs based on given params
  */
-async function fetchDaos(client: Client | undefined, options: IDaoQueryParams) {
+async function fetchDaos(client: Client | undefined, options: DaoQueryParams) {
   return client
     ? client.methods.getDaos(options)
     : Promise.reject(new Error('Client not defined'));
@@ -54,7 +58,7 @@ export const useDaosInfiniteQuery = (
     sortBy = DEFAULT_QUERY_PARAMS.sortBy,
     direction = DEFAULT_QUERY_PARAMS.direction,
     limit = DEFAULT_QUERY_PARAMS.limit,
-  }: Partial<Pick<IDaoQueryParams, 'direction' | 'limit' | 'sortBy'>> = {}
+  }: Partial<Pick<DaoQueryParams, 'direction' | 'limit' | 'sortBy'>> = {}
 ) => {
   const {client, network: clientNetwork} = useClient();
 

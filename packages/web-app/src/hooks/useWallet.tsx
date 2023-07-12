@@ -1,4 +1,4 @@
-import {LIVE_CONTRACTS, SupportedNetworks} from '@aragon/sdk-client';
+import {LIVE_CONTRACTS, SupportedNetwork} from '@aragon/sdk-client-common';
 import {JsonRpcProvider} from '@ethersproject/providers';
 import {SignerValue, useSigner} from 'context/signer';
 import {BigNumber} from 'ethers';
@@ -44,7 +44,7 @@ export const useWallet = (): IUseWallet => {
         name: translateToNetworkishName(network),
         ensAddress:
           LIVE_CONTRACTS[
-            translateToNetworkishName(network) as SupportedNetworks
+            translateToNetworkishName(network) as SupportedNetwork
           ].ensRegistry,
       });
     } else return signerProvider;
