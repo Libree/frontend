@@ -70,7 +70,7 @@ const SelectChainDetails: React.FC = () => {
                                         resetField('daoEnsName');
                                     }
                                 }}
-                                selected={CHAIN_METADATA[selectedNetwork].id === field.value.id}
+                                selected={CHAIN_METADATA[selectedNetwork].id === field?.value?.id}
                                 {...CHAIN_METADATA[selectedNetwork]}
                             />
                         )}

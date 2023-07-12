@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import { OverviewDAOHeader } from 'containers/daoOverview';
 import GoLive, { GoLiveHeader, GoLiveFooter } from 'containers/goLive';
 import { WalletField } from '../components/addWallets/row';
 import { Landing } from 'utils/paths';
@@ -126,27 +125,12 @@ const CreateUnityDAO: React.FC = () => {
                     processType="DaoCreation"
                 >
                     <Step
-                        fullWidth
-                        hideWizard
-                        customHeader={
-                            <OverviewDAOHeader
-                                navLabel={t('createDAO.title')}
-                                returnPath={Landing}
-                            />
-                        }
-                        customFooter={<></>}
-                    >
-                        <></>
-                    </Step>
-                    <Step
                         wizardDescription={t('createUnityDAO.step1.description')}
                     >
                         <CommunityDetailsSetup />
                     </Step>
                     <Step>
                         <CommunityTokenSetup />
-                    </Step>
-                    <Step>
                         <CommunityVotingSetup daoDetails={daoDetails}/>
                     </Step>
                     <Step

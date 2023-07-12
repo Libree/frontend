@@ -293,7 +293,7 @@ const CreateProposalProvider: React.FC<Props> = ({
           const membersAddresses = getValues('addresses');
           actions.push(
             Promise.resolve(
-              encodeCreatrGroupAction(
+              encodeCreateGroupAction(
                 groupName,
                 membersAddresses,
                 subgovernancePlugin?.instanceAddress || ""

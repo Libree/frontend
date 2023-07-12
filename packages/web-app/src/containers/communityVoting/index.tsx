@@ -294,7 +294,7 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
                     <AccordionItem
                         type="action-builder"
                         name="governance"
-                        methodName={t('labels.review.governance')}
+                        methodName={t('labels.advanced')}
                         dropdownItems={governanceAction}
                     >
                         <AccordionContent>
