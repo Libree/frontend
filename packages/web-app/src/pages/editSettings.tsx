@@ -10,7 +10,9 @@ import {PluginTypes} from 'hooks/usePluginClient';
 const EditSettings: React.FC = () => {
   const {data: daoDetails, isLoading: detailsAreLoading} = useDaoDetailsQuery();
 
-  const pluginType = daoDetails?.plugins[0].id as PluginTypes;
+  const pluginType = daoDetails?.plugins.find(
+    (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+)?.id as PluginTypes;
 
   if (detailsAreLoading) {
     return <Loading />;

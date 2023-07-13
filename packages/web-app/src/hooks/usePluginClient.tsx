@@ -59,7 +59,7 @@ export const usePluginClient = <T extends PluginTypes = PluginTypes>(
           setPluginClient(new TokenVotingClient(context));
           break;
         default:
-          throw new Error('The requested plugin type is invalid');
+          break;
       }
     }
   }, [client, context, pluginType]);

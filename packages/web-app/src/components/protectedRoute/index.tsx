@@ -1,45 +1,49 @@
-import {MultisigVotingSettings, VotingSettings} from '@aragon/sdk-client';
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {Outlet} from 'react-router-dom';
+import { MultisigVotingSettings, VotingSettings } from '@aragon/sdk-client';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Outlet } from 'react-router-dom';
 
-import {Loading} from 'components/temporary';
-import {GatingMenu} from 'containers/gatingMenu';
-import {useGlobalModalContext} from 'context/globalModals';
-import {useNetwork} from 'context/network';
-import {useSpecificProvider} from 'context/providers';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useDaoMembers} from 'hooks/useDaoMembers';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {usePluginSettings} from 'hooks/usePluginSettings';
-import {useWallet} from 'hooks/useWallet';
-import {CHAIN_METADATA} from 'utils/constants';
-import {formatUnits, toDisplayEns} from 'utils/library';
-import {fetchBalance} from 'utils/tokens';
+import { Loading } from 'components/temporary';
+import { GatingMenu } from 'containers/gatingMenu';
+import { useGlobalModalContext } from 'context/globalModals';
+import { useNetwork } from 'context/network';
+import { useSpecificProvider } from 'context/providers';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useDaoMembers } from 'hooks/useDaoMembers';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { usePluginSettings } from 'hooks/usePluginSettings';
+import { useWallet } from 'hooks/useWallet';
+import { CHAIN_METADATA } from 'utils/constants';
+import { formatUnits, toDisplayEns } from 'utils/library';
+import { fetchBalance } from 'utils/tokens';
 
 const ProtectedRoute: React.FC = () => {
-  const {open, close, isGatingOpen} = useGlobalModalContext();
-  const {address, status, isOnWrongNetwork} = useWallet();
-  const {data: daoDetails, isLoading: detailsAreLoading} = useDaoDetailsQuery();
+  const { open, close, isGatingOpen } = useGlobalModalContext();
+  const { address, status, isOnWrongNetwork } = useWallet();
+  const { data: daoDetails, isLoading: detailsAreLoading } = useDaoDetailsQuery();
 
   const [pluginType, pluginAddress] = useMemo(
     () => [
-      daoDetails?.plugins[0].id as PluginTypes,
-      daoDetails?.plugins[0].instanceAddress as string,
+      daoDetails?.plugins.find(
+        plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes,
+      daoDetails?.plugins.find(
+        plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      )?.instanceAddress as string,
     ],
     [daoDetails?.plugins]
   );
 
-  const {data: daoSettings, isLoading: settingsAreLoading} = usePluginSettings(
+  const { data: daoSettings, isLoading: settingsAreLoading } = usePluginSettings(
     pluginAddress,
     pluginType
   );
 
   const {
-    data: {daoToken, filteredMembers},
+    data: { daoToken, filteredMembers },
     isLoading: membersAreLoading,
   } = useDaoMembers(pluginAddress, pluginType, address as string);
 
-  const {network} = useNetwork();
+  const { network } = useNetwork();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
 
   /*************************************************

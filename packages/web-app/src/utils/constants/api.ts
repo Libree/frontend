@@ -13,14 +13,14 @@ export const SUBGRAPH_API_URL: SubgraphNetworkUrl = {
   polygon:
     'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-polygon/version/v1.1.1/api',
   mumbai:
-    'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.1/api',
+    'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.2/api',
   arbitrum: undefined,
   'arbitrum-test': undefined,
   unsupported: undefined
 };
 
 export const SUBGRAPH_API_URL_PLUGIN: any = {
-  mumbai: "https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.0/api"
+  mumbai: "https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.2.2/api"
 };
 
 export const BASE_URL = 'https://api.coingecko.com/api/v3';

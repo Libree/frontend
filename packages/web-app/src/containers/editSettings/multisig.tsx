@@ -1,61 +1,69 @@
-import {DaoDetails, MultisigVotingSettings} from '@aragon/sdk-client';
+import { DaoDetails, MultisigVotingSettings } from '@aragon/sdk-client';
 import {
   AlertInline,
   ButtonText,
   IconGovernance,
   ListItemAction,
 } from '@aragon/ui-components';
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   useFieldArray,
   useFormContext,
   useFormState,
   useWatch,
 } from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {AccordionItem, AccordionMultiple} from 'components/accordionMethod';
-import {Loading} from 'components/temporary';
-import {PageWrapper} from 'components/wrappers';
+import { AccordionItem, AccordionMultiple } from 'components/accordionMethod';
+import { Loading } from 'components/temporary';
+import { PageWrapper } from 'components/wrappers';
 import ConfigureCommunity from 'containers/configureCommunity';
 import DefineMetadata from 'containers/defineMetadata';
-import {useNetwork} from 'context/network';
-import {MultisigMember, useDaoMembers} from 'hooks/useDaoMembers';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {usePluginSettings} from 'hooks/usePluginSettings';
+import { useNetwork } from 'context/network';
+import { MultisigMember, useDaoMembers } from 'hooks/useDaoMembers';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { usePluginSettings } from 'hooks/usePluginSettings';
 import useScreen from 'hooks/useScreen';
-import {Layout} from 'pages/settings';
-import {ProposeNewSettings} from 'utils/paths';
-import {toDisplayEns} from 'utils/library';
+import { Layout } from 'pages/settings';
+import { ProposeNewSettings } from 'utils/paths';
+import { toDisplayEns } from 'utils/library';
 
 type EditMsSettingsProps = {
   daoDetails: DaoDetails;
 };
 
-export const EditMsSettings: React.FC<EditMsSettingsProps> = ({daoDetails}) => {
-  const {t} = useTranslation();
+export const EditMsSettings: React.FC<EditMsSettingsProps> = ({ daoDetails }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const {network} = useNetwork(); // TODO get network from dao details
-  const {isMobile} = useScreen();
+  const { network } = useNetwork(); // TODO get network from dao details
+  const { isMobile } = useScreen();
 
-  const {setValue, control} = useFormContext();
-  const {fields, replace} = useFieldArray({
+  const { setValue, control } = useFormContext();
+  const { fields, replace } = useFieldArray({
     name: 'daoLinks',
     control,
   });
-  const {errors, isValid} = useFormState({control});
+  const { errors, isValid } = useFormState({ control });
 
-  const {data, isLoading: settingsAreLoading} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data, isLoading: settingsAreLoading } = usePluginSettings(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes as PluginTypes
   );
   const settings = data as MultisigVotingSettings;
 
-  const {data: members, isLoading: membersAreLoading} = useDaoMembers(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data: members, isLoading: membersAreLoading } = useDaoMembers(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes as PluginTypes
   );
 
   const [
@@ -78,7 +86,7 @@ export const EditMsSettings: React.FC<EditMsSettingsProps> = ({daoDetails}) => {
   const controlledLinks = fields.map((field, index) => {
     return {
       ...field,
-      ...(resourceLinks && {...resourceLinks[index]}),
+      ...(resourceLinks && { ...resourceLinks[index] }),
     };
   });
 
@@ -173,7 +181,9 @@ export const EditMsSettings: React.FC<EditMsSettingsProps> = ({daoDetails}) => {
     setValue('multisigWallets', multisigWallets);
     setValue(
       'membership',
-      daoDetails?.plugins[0].id === 'token-voting.plugin.dao.eth'
+      daoDetails?.plugins.find(
+        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      )?.id as PluginTypes === 'token-voting.plugin.dao.eth'
         ? 'token'
         : 'multisig'
     );
@@ -237,10 +247,10 @@ export const EditMsSettings: React.FC<EditMsSettingsProps> = ({daoDetails}) => {
       secondaryBtnProps={
         isMobile
           ? {
-              disabled: settingsUnchanged,
-              label: t('settings.resetChanges'),
-              onClick: () => handleResetChanges(),
-            }
+            disabled: settingsUnchanged,
+            label: t('settings.resetChanges'),
+            onClick: () => handleResetChanges(),
+          }
           : undefined
       }
       customBody={

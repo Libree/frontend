@@ -26,8 +26,12 @@ const NewCreditDelegation: React.FC = () => {
 
     const { data: daoDetails, isLoading: detailsLoading } = useDaoDetailsQuery();
     const { data: pluginSettings, isLoading: settingsLoading } = usePluginSettings(
-        daoDetails?.plugins[0].instanceAddress as string,
-        daoDetails?.plugins[0].id as PluginTypes
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.instanceAddress as string,
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes
     );
 
     const formMethods = useForm<CreditDelegationFormData>({

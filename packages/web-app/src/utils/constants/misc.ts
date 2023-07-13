@@ -10,6 +10,7 @@ import {BigNumber} from 'ethers';
 
 import {i18n} from '../../../i18n.config';
 import {Dashboard, Community, Finance, Governance, Settings} from '../paths';
+import { CreditDelegator__factory } from 'typechain-types/CreditDelegator__factory';
 
 /** Time period options for token price change */
 export const enum TimeFilter {
@@ -149,3 +150,7 @@ export const PENDING_EXECUTION_KEY = 'pendingExecution';
 export const PENDING_MULTISIG_EXECUTION_KEY = 'pendingMultisigExecution';
 export const VERIFIED_CONTRACTS_KEY = 'verifiedContracts';
 export const PRODUCTION_ENABLED = import.meta.env.VITE_PRODUCTION_ENABLED as string;
+
+export const AVAILABLE_FUNCTION_SIGNATURES: string[] = [
+  CreditDelegator__factory.createInterface().getFunction("borrowAndTransfer").format("minimal")
+];

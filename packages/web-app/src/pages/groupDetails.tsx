@@ -32,8 +32,12 @@ const GroupDetails: React.FC = () => {
         data: { members, filteredMembers },
         isLoading: membersLoading,
     } = useDaoMembers(
-        daoDetails?.plugins[0].instanceAddress as string,
-        daoDetails?.plugins[0].id as PluginTypes,
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.instanceAddress as string,
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes,
         debouncedTerm
     );
 
@@ -53,7 +57,9 @@ const GroupDetails: React.FC = () => {
     ]
 
     const walletBased =
-        (daoDetails?.plugins[0].id as PluginTypes) === 'multisig.plugin.dao.eth';
+        (daoDetails?.plugins.find(
+            (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes) === 'multisig.plugin.dao.eth';
 
     /*************************************************
      *                    Handlers                   *
