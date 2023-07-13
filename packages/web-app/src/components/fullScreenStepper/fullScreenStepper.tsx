@@ -14,12 +14,13 @@ import React, {
   useState,
 } from 'react';
 import {useTranslation} from 'react-i18next';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ExitProcessMenu, {ProcessType} from 'containers/exitProcessMenu';
 import {useStepper} from 'hooks/useStepper';
 import {StepProps} from './step';
+import { WizardUnityDAO } from 'components/unityDao/wizardBox';
 
 export type FullScreenStepperProps = {
   navLabel: string;
@@ -52,6 +53,7 @@ export const FullScreenStepper: React.FC<FullScreenStepperProps> = ({
 }) => {
   const {t} = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showExitProcessMenu, setShowExitProcessMenu] = useState(false);
   const {currentStep, prev, next, setStep} = useStepper(children.length);
@@ -130,7 +132,27 @@ export const FullScreenStepper: React.FC<FullScreenStepperProps> = ({
     <FullScreenStepperContext.Provider value={value}>
       <Layout>
         <div className="-mx-2 tablet:mx-0 tablet:mt-3">
-          {!hideWizard && (
+          {!hideWizard && location.pathname === '/createUnity' && (
+            <WizardUnityDAO
+              includeStepper={includeStepper}
+              processName={wizardProcessName}
+              title={wizardTitle || ''}
+              description={wizardDescription || ''}
+              totalSteps={totalSteps}
+              currentStep={currentFormStep}
+              renderHtml
+              nav={
+                <Breadcrumb
+                  crumbs={{
+                    label: navLabel,
+                    path: returnPath,
+                  }}
+                  onClick={handleExitButtonClicked}
+                />
+              }
+            />
+          )}
+          {!hideWizard && location.pathname !== '/createUnity' && (
             <Wizard
               includeStepper={includeStepper}
               processName={wizardProcessName}
