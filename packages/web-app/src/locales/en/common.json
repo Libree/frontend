@@ -234,7 +234,8 @@
     },
     "currentHolders": "Current holders",
     "newGroup": "New group",
-    "seeAllGroups": "See all groups"
+    "seeAllGroups": "See all groups",
+    "advanced": "Advanced"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
