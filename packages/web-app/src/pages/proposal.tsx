@@ -246,8 +246,6 @@ const Proposal: React.FC = () => {
         const functionName = functionParams?.functionName
           ? functionParams.functionName : functionParamsCustom?.functionName
 
-          console.log({functionName})
-
         switch (functionName) {
           case 'transfer':
             return decodeWithdrawToAction(
@@ -292,7 +290,6 @@ const Proposal: React.FC = () => {
           case 'setMetadata':
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
-            decodeCreditDelegationAction(action.data).then(console.log)
             return decodeCreditDelegationAction(action.data);
           default:
             return decodeSCCToAction(action, network, t);
