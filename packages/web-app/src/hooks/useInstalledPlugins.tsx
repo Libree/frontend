@@ -21,6 +21,7 @@ export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstall
 
   const setPlugins = async (daoAddress: string) => {
     const installedPlugins = await fetchDaoPlugins(daoAddress, network)
+    console.log({installedPlugins})
     const creditDelegationPlugin = installedPlugins?.find(
       //TODO: add support to all networks
       plugin => plugin.id === PLUGIN_IDS['maticmum'].creditDelegation

@@ -46,8 +46,12 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
     );
 
     const { data, isLoading: settingsAreLoading } = usePluginSettings(
-        daoDetails?.plugins[0].instanceAddress as string,
-        daoDetails?.plugins[0].id as PluginTypes
+        daoDetails?.plugins.find(
+            (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.instanceAddress as string,
+        daoDetails?.plugins.find(
+            (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes
     );
     const daoSettings = data as VotingSettings;
 
@@ -232,7 +236,9 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
         // TODO: Alerts share will be added later
         setValue(
             'membership',
-            daoDetails?.plugins[0].id === 'token-voting.plugin.dao.eth'
+            daoDetails?.plugins.find(
+                (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+            )?.id as PluginTypes === 'token-voting.plugin.dao.eth'
                 ? 'token'
                 : 'wallet'
         );

@@ -1,4 +1,4 @@
-import {useApolloClient} from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import {
   MultisigClient,
   MultisigProposal,
@@ -7,7 +7,7 @@ import {
   VoteValues,
   VotingMode,
 } from '@aragon/sdk-client';
-import {ProposalStatus, DaoAction} from '@aragon/sdk-client-common';
+import { ProposalStatus, DaoAction } from '@aragon/sdk-client-common';
 
 import {
   Breadcrumb,
@@ -18,40 +18,40 @@ import {
   Link,
   WidgetStatus,
 } from '@aragon/ui-components';
-import {withTransaction} from '@elastic/apm-rum-react';
+import { withTransaction } from '@elastic/apm-rum-react';
 import TipTapLink from '@tiptap/extension-link';
-import {useEditor} from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate, useParams} from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import sanitizeHtml from 'sanitize-html';
 import styled from 'styled-components';
 
-import {ExecutionWidget} from 'components/executionWidget';
+import { ExecutionWidget } from 'components/executionWidget';
 import ResourceList from 'components/resourceList';
-import {Loading} from 'components/temporary';
-import {StyledEditorContent} from 'containers/reviewProposal';
-import {TerminalTabs, VotingTerminal} from 'containers/votingTerminal';
-import {useGlobalModalContext} from 'context/globalModals';
-import {useNetwork} from 'context/network';
-import {useProposalTransactionContext} from 'context/proposalTransaction';
-import {useSpecificProvider} from 'context/providers';
-import {useCache} from 'hooks/useCache';
-import {useClient} from 'hooks/useClient';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {MultisigMember, useDaoMembers} from 'hooks/useDaoMembers';
-import {useDaoProposal} from 'hooks/useDaoProposal';
-import {useMappedBreadcrumbs} from 'hooks/useMappedBreadcrumbs';
-import {PluginTypes, usePluginClient} from 'hooks/usePluginClient';
+import { Loading } from 'components/temporary';
+import { StyledEditorContent } from 'containers/reviewProposal';
+import { TerminalTabs, VotingTerminal } from 'containers/votingTerminal';
+import { useGlobalModalContext } from 'context/globalModals';
+import { useNetwork } from 'context/network';
+import { useProposalTransactionContext } from 'context/proposalTransaction';
+import { useSpecificProvider } from 'context/providers';
+import { useCache } from 'hooks/useCache';
+import { useClient } from 'hooks/useClient';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { MultisigMember, useDaoMembers } from 'hooks/useDaoMembers';
+import { useDaoProposal } from 'hooks/useDaoProposal';
+import { useMappedBreadcrumbs } from 'hooks/useMappedBreadcrumbs';
+import { PluginTypes, usePluginClient } from 'hooks/usePluginClient';
 import {
   isTokenVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
 import useScreen from 'hooks/useScreen';
-import {useWallet} from 'hooks/useWallet';
-import {useWalletCanVote} from 'hooks/useWalletCanVote';
-import {CHAIN_METADATA} from 'utils/constants';
+import { useWallet } from 'hooks/useWallet';
+import { useWalletCanVote } from 'hooks/useWalletCanVote';
+import { CHAIN_METADATA } from 'utils/constants';
 import {
   decodeAddMembersToAction,
   decodeMetadataToAction,
@@ -64,7 +64,7 @@ import {
   shortenAddress,
   toDisplayEns,
 } from 'utils/library';
-import {NotFound} from 'utils/paths';
+import { NotFound } from 'utils/paths';
 import {
   getLiveProposalTerminalProps,
   getProposalExecutionStatus,
@@ -76,8 +76,8 @@ import {
   isMultisigProposal,
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
-import {Action, ProposalId} from 'utils/types';
-import { decodeCreditDelegationAction } from 'utils/dencoding';
+import { Action, ProposalId } from 'utils/types';
+import { decodeCreditDelegationAction, findInterfaceCustomPlugins } from 'utils/dencoding';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -87,46 +87,56 @@ const PROPOSAL_STATUS_INTERVAL = 1000 * 60;
 const NumberFormatter = new Intl.NumberFormat('en-US');
 
 const Proposal: React.FC = () => {
-  const {t} = useTranslation();
-  const {open} = useGlobalModalContext();
-  const {isDesktop} = useScreen();
-  const {breadcrumbs, tag} = useMappedBreadcrumbs();
+  const { t } = useTranslation();
+  const { open } = useGlobalModalContext();
+  const { isDesktop } = useScreen();
+  const { breadcrumbs, tag } = useMappedBreadcrumbs();
   const navigate = useNavigate();
 
-  const {dao, id: urlId} = useParams();
+  const { dao, id: urlId } = useParams();
   const proposalId = useMemo(
     () => (urlId ? new ProposalId(urlId) : undefined),
     [urlId]
   );
 
-  const {data: daoDetails, isLoading: detailsAreLoading} = useDaoDetailsQuery();
+  const { data: daoDetails, isLoading: detailsAreLoading } = useDaoDetailsQuery();
 
-  const {data: daoSettings} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data: daoSettings } = usePluginSettings(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes
   );
 
   const {
-    data: {members},
+    data: { members },
   } = useDaoMembers(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes
   );
 
   const multisigDAO =
-    (daoDetails?.plugins[0].id as PluginTypes) === 'multisig.plugin.dao.eth';
+    (daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes) === 'multisig.plugin.dao.eth';
 
   const allowVoteReplacement =
     isTokenVotingSettings(daoSettings) &&
     daoSettings.votingMode === VotingMode.VOTE_REPLACEMENT;
 
-  const {client} = useClient();
-  const {set, get} = useCache();
+  const { client } = useClient();
+  const { set, get } = useCache();
   const apolloClient = useApolloClient();
 
-  const {network} = useNetwork();
+  const { network } = useNetwork();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
-  const {address, isConnected, isOnWrongNetwork} = useWallet();
+  const { address, isConnected, isOnWrongNetwork } = useWallet();
 
   const [voteStatus, setVoteStatus] = useState('');
   const [intervalInMills, setIntervalInMills] = useState(0);
@@ -156,7 +166,7 @@ const Proposal: React.FC = () => {
     intervalInMills
   );
 
-  const {data: canVote} = useWalletCanVote(
+  const { data: canVote } = useWalletCanVote(
     address,
     proposalId!,
     pluginAddress,
@@ -169,7 +179,7 @@ const Proposal: React.FC = () => {
   // ref used to hold "memories" of previous "state"
   // across renders in order to automate the following states:
   // loggedOut -> login modal => switch network modal -> vote options selection;
-  const statusRef = useRef({wasNotLoggedIn: false, wasOnWrongNetwork: false});
+  const statusRef = useRef({ wasNotLoggedIn: false, wasOnWrongNetwork: false });
 
   // voting
   const [terminalTab, setTerminalTab] = useState<TerminalTabs>('info');
@@ -219,7 +229,7 @@ const Proposal: React.FC = () => {
     const mintTokenActions: {
       actions: Uint8Array[];
       index: number;
-    } = {actions: [], index: 0};
+    } = { actions: [], index: 0 };
 
     const proposalErc20Token = isErc20VotingProposal(proposal)
       ? proposal.token
@@ -231,9 +241,14 @@ const Proposal: React.FC = () => {
           client?.decoding.findInterface(action.data) ||
           pluginClient?.decoding.findInterface(action.data);
 
-        
+        const functionParamsCustom = findInterfaceCustomPlugins(action.data)
 
-        switch (functionParams?.functionName) {
+        const functionName = functionParams?.functionName
+          ? functionParams.functionName : functionParamsCustom?.functionName
+
+          console.log({functionName})
+
+        switch (functionName) {
           case 'transfer':
             return decodeWithdrawToAction(
               action.data,
@@ -276,8 +291,9 @@ const Proposal: React.FC = () => {
             );
           case 'setMetadata':
             return decodeMetadataToAction(action.data, client);
-          case 'credit_delefation':
-              return decodeCreditDelegationAction(action.data);  
+          case 'borrowAndTransfer':
+            decodeCreditDelegationAction(action.data).then(console.log)
+            return decodeCreditDelegationAction(action.data);
           default:
             return decodeSCCToAction(action, network, t);
         }
@@ -403,13 +419,13 @@ const Proposal: React.FC = () => {
     () =>
       isTokenVotingSettings(daoSettings)
         ? isEarlyExecutable(
-            mappedProps?.missingParticipation,
-            proposal,
-            mappedProps?.results,
-            daoSettings.votingMode
-          )
+          mappedProps?.missingParticipation,
+          proposal,
+          mappedProps?.results,
+          daoSettings.votingMode
+        )
         : (proposal as MultisigProposal)?.approvals?.length >=
-          daoSettings?.minApprovals,
+        daoSettings?.minApprovals,
     [
       daoSettings,
       mappedProps?.missingParticipation,
@@ -456,16 +472,16 @@ const Proposal: React.FC = () => {
   }, [proposal, voted, canVote, t]);
 
   // vote button state and handler
-  const {voteNowDisabled, onClick} = useMemo(() => {
+  const { voteNowDisabled, onClick } = useMemo(() => {
     // disable voting on non-active proposals
-    if (proposal?.status !== 'Active') return {voteNowDisabled: true};
+    if (proposal?.status !== 'Active') return { voteNowDisabled: true };
 
     // disable approval on multisig when wallet has voted
-    if (multisigDAO && (voted || voteSubmitted)) return {voteNowDisabled: true};
+    if (multisigDAO && (voted || voteSubmitted)) return { voteNowDisabled: true };
 
     // disable voting on mv with no vote replacement when wallet has voted
     if (!allowVoteReplacement && (voted || voteSubmitted))
-      return {voteNowDisabled: true};
+      return { voteNowDisabled: true };
 
     // not logged in
     if (!address) {
@@ -501,7 +517,7 @@ const Proposal: React.FC = () => {
           }
         },
       };
-    } else return {voteNowDisabled: true};
+    } else return { voteNowDisabled: true };
   }, [
     address,
     allowVoteReplacement,
@@ -542,8 +558,8 @@ const Proposal: React.FC = () => {
       // people add types to these things!!
       return isErc20VotingProposal(proposal)
         ? t('votingTerminal.status.ineligibleTokenBased', {
-            token: proposal.token.name,
-          })
+          token: proposal.token.name,
+        })
         : t('votingTerminal.status.ineligibleWhitelist');
     }
   }, [address, canVote, isOnWrongNetwork, proposal, t, voted]);
@@ -574,7 +590,7 @@ const Proposal: React.FC = () => {
    *                     Render                    *
    *************************************************/
   if (proposalError) {
-    navigate(NotFound, {replace: true, state: {invalidProposal: proposalId}});
+    navigate(NotFound, { replace: true, state: { invalidProposal: proposalId } });
   }
 
   if (paramsAreLoading || proposalIsLoading || detailsAreLoading || !proposal) {
@@ -612,7 +628,7 @@ const Proposal: React.FC = () => {
               external
               label={
                 proposal?.creatorAddress.toLowerCase() ===
-                address?.toLowerCase()
+                  address?.toLowerCase()
                   ? t('labels.you')
                   : shortenAddress(proposal?.creatorAddress || '')
               }
@@ -728,9 +744,8 @@ type ContentContainerProps = {
 };
 
 const ContentContainer = styled.div.attrs(
-  ({expandedProposal}: ContentContainerProps) => ({
-    className: `${
-      expandedProposal ? 'tablet:mt-5' : 'tablet:mt-8'
-    } mt-3 tablet:flex tablet:space-x-3 space-y-3 tablet:space-y-0`,
+  ({ expandedProposal }: ContentContainerProps) => ({
+    className: `${expandedProposal ? 'tablet:mt-5' : 'tablet:mt-8'
+      } mt-3 tablet:flex tablet:space-x-3 space-y-3 tablet:space-y-0`,
   })
-)<ContentContainerProps>``;
+) <ContentContainerProps>``;

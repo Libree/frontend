@@ -1,66 +1,70 @@
-import {DaoDetails, VotingMode, VotingSettings} from '@aragon/sdk-client';
+import { DaoDetails, VotingMode, VotingSettings } from '@aragon/sdk-client';
 import {
   AlertInline,
   ButtonText,
   IconGovernance,
   ListItemAction,
 } from '@aragon/ui-components';
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   useFieldArray,
   useFormContext,
   useFormState,
   useWatch,
 } from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {AccordionItem, AccordionMultiple} from 'components/accordionMethod';
-import {SelectEligibility} from 'components/selectEligibility';
-import {Loading} from 'components/temporary';
-import {PageWrapper} from 'components/wrappers';
+import { AccordionItem, AccordionMultiple } from 'components/accordionMethod';
+import { SelectEligibility } from 'components/selectEligibility';
+import { Loading } from 'components/temporary';
+import { PageWrapper } from 'components/wrappers';
 import ConfigureCommunity from 'containers/configureCommunity';
 import DefineMetadata from 'containers/defineMetadata';
-import {useNetwork} from 'context/network';
-import {useDaoToken} from 'hooks/useDaoToken';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {usePluginSettings} from 'hooks/usePluginSettings';
+import { useNetwork } from 'context/network';
+import { useDaoToken } from 'hooks/useDaoToken';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { usePluginSettings } from 'hooks/usePluginSettings';
 import useScreen from 'hooks/useScreen';
-import {useTokenSupply} from 'hooks/useTokenSupply';
-import {Layout} from 'pages/settings';
-import {getDHMFromSeconds} from 'utils/date';
-import {decodeVotingMode, formatUnits, toDisplayEns} from 'utils/library';
-import {ProposeNewSettings} from 'utils/paths';
+import { useTokenSupply } from 'hooks/useTokenSupply';
+import { Layout } from 'pages/settings';
+import { getDHMFromSeconds } from 'utils/date';
+import { decodeVotingMode, formatUnits, toDisplayEns } from 'utils/library';
+import { ProposeNewSettings } from 'utils/paths';
 
 type EditMvSettingsProps = {
   daoDetails: DaoDetails;
 };
 
-export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
-  const {t} = useTranslation();
+export const EditMvSettings: React.FC<EditMvSettingsProps> = ({ daoDetails }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const {network} = useNetwork(); // TODO get network from daoDetails
-  const {isMobile} = useScreen();
+  const { network } = useNetwork(); // TODO get network from daoDetails
+  const { isMobile } = useScreen();
 
-  const {setValue, control} = useFormContext();
-  const {fields, replace} = useFieldArray({
+  const { setValue, control } = useFormContext();
+  const { fields, replace } = useFieldArray({
     name: 'daoLinks',
     control,
   });
-  const {errors, isValid} = useFormState({control});
+  const { errors, isValid } = useFormState({ control });
 
-  const {data: daoToken, isLoading: tokensAreLoading} = useDaoToken(
+  const { data: daoToken, isLoading: tokensAreLoading } = useDaoToken(
     daoDetails?.plugins?.[0]?.instanceAddress || ''
   );
 
-  const {data: tokenSupply, isLoading: tokenSupplyIsLoading} = useTokenSupply(
+  const { data: tokenSupply, isLoading: tokenSupplyIsLoading } = useTokenSupply(
     daoToken?.address || ''
   );
 
-  const {data, isLoading: settingsAreLoading} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data, isLoading: settingsAreLoading } = usePluginSettings(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes as PluginTypes
   );
   const daoSettings = data as VotingSettings;
 
@@ -74,7 +78,7 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
   );
   const formattedEligibilityType = formattedProposerAmount ? 'token' : 'anyone';
 
-  const {days, hours, minutes} = getDHMFromSeconds(daoSettings.minDuration);
+  const { days, hours, minutes } = getDHMFromSeconds(daoSettings.minDuration);
 
   const [
     daoName,
@@ -112,7 +116,7 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
   const controlledLinks = fields.map((field, index) => {
     return {
       ...field,
-      ...(resourceLinks && {...resourceLinks[index]}),
+      ...(resourceLinks && { ...resourceLinks[index] }),
     };
   });
 
@@ -176,9 +180,9 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
   // TODO: We need to force forms to only use one type, Number or string
   const isGovernanceChanged =
     Number(minimumParticipation) !==
-      Math.round(daoSettings.minParticipation * 100) ||
+    Math.round(daoSettings.minParticipation * 100) ||
     Number(minimumApproval) !==
-      Math.round(daoSettings.supportThreshold * 100) ||
+    Math.round(daoSettings.supportThreshold * 100) ||
     Number(durationDays) !== days ||
     Number(durationHours) !== hours ||
     Number(durationMinutes) !== minutes ||
@@ -245,7 +249,9 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     // TODO: Alerts share will be added later
     setValue(
       'membership',
-      daoDetails?.plugins[0].id === 'token-voting.plugin.dao.eth'
+      daoDetails?.plugins.find(
+        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      )?.id as PluginTypes === 'token-voting.plugin.dao.eth'
         ? 'token'
         : 'wallet'
     );
@@ -334,10 +340,10 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
       secondaryBtnProps={
         isMobile
           ? {
-              disabled: settingsUnchanged,
-              label: t('settings.resetChanges'),
-              onClick: () => handleResetChanges(),
-            }
+            disabled: settingsUnchanged,
+            label: t('settings.resetChanges'),
+            onClick: () => handleResetChanges(),
+          }
           : undefined
       }
       customBody={

@@ -1,29 +1,29 @@
-import {Erc20TokenDetails, InstalledPluginListItem} from '@aragon/sdk-client';
-import {Link, VoterType} from '@aragon/ui-components';
+import { Erc20TokenDetails, InstalledPluginListItem } from '@aragon/sdk-client';
+import { Link, VoterType } from '@aragon/ui-components';
 import TipTapLink from '@tiptap/extension-link';
-import {EditorContent, useEditor} from '@tiptap/react';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import {format, formatDistanceToNow, Locale} from 'date-fns';
-import React, {useEffect, useMemo} from 'react';
-import {useFormContext} from 'react-hook-form';
-import {TFunction, useTranslation} from 'react-i18next';
+import { format, formatDistanceToNow, Locale } from 'date-fns';
+import React, { useEffect, useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { TFunction, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import * as Locales from 'date-fns/locale';
 
-import {ExecutionWidget} from 'components/executionWidget';
-import {useFormStep} from 'components/fullScreenStepper';
+import { ExecutionWidget } from 'components/executionWidget';
+import { useFormStep } from 'components/fullScreenStepper';
 import ResourceList from 'components/resourceList';
-import {Loading} from 'components/temporary';
-import {VotingTerminal} from 'containers/votingTerminal';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {MultisigMember, useDaoMembers} from 'hooks/useDaoMembers';
-import {PluginTypes} from 'hooks/usePluginClient';
+import { Loading } from 'components/temporary';
+import { VotingTerminal } from 'containers/votingTerminal';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { MultisigMember, useDaoMembers } from 'hooks/useDaoMembers';
+import { PluginTypes } from 'hooks/usePluginClient';
 import {
   isMultisigVotingSettings,
   isTokenVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
-import {useTokenSupply} from 'hooks/useTokenSupply';
+import { useTokenSupply } from 'hooks/useTokenSupply';
 import {
   KNOWN_FORMATS,
   getCanonicalDate,
@@ -32,8 +32,8 @@ import {
   getFormattedUtcOffset,
   minutesToMills,
 } from 'utils/date';
-import {getErc20VotingParticipation, getNonEmptyActions} from 'utils/proposals';
-import {ProposalResource, SupportedVotingSettings} from 'utils/types';
+import { getErc20VotingParticipation, getNonEmptyActions } from 'utils/proposals';
+import { ProposalResource, SupportedVotingSettings } from 'utils/types';
 
 type ReviewProposalProps = {
   defineProposalStepNumber: number;
@@ -44,25 +44,26 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
   defineProposalStepNumber,
   addActionsStepNumber,
 }) => {
-  const {t, i18n} = useTranslation();
-  const {setStep} = useFormStep();
+  const { t, i18n } = useTranslation();
+  const { setStep } = useFormStep();
 
-  const {data: daoDetails} = useDaoDetailsQuery();
-  const {id: pluginType, instanceAddress: pluginAddress} =
-    daoDetails?.plugins[0] || ({} as InstalledPluginListItem);
+  const { data: daoDetails } = useDaoDetailsQuery();
+  const { id: pluginType, instanceAddress: pluginAddress } =
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")) || ({} as InstalledPluginListItem);
 
-  const {data: daoSettings} = usePluginSettings(
+  const { data: daoSettings } = usePluginSettings(
     pluginAddress,
     pluginType as PluginTypes
   );
 
   const {
-    data: {members, daoToken},
+    data: { members, daoToken },
   } = useDaoMembers(pluginAddress, pluginType as PluginTypes);
 
-  const {data: totalSupply} = useTokenSupply(daoToken?.address as string);
+  const { data: totalSupply } = useTokenSupply(daoToken?.address as string);
 
-  const {getValues, setValue} = useFormContext();
+  const { getValues, setValue } = useFormContext();
   const values = getValues();
 
   const editor = useEditor({
@@ -77,7 +78,7 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
   });
 
   const startDate = useMemo(() => {
-    const {startSwitch, startDate, startTime, startUtc} = values;
+    const { startSwitch, startDate, startTime, startUtc } = values;
 
     if (startSwitch === 'now') {
       const startMinutesDelay = isMultisigVotingSettings(daoSettings) ? 0 : 10;
@@ -94,7 +95,7 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
   }, [daoSettings, values]);
 
   const formattedStartDate = useMemo(() => {
-    const {startSwitch} = values;
+    const { startSwitch } = values;
     if (startSwitch === 'now' || isMultisigVotingSettings(daoSettings)) {
       return t('labels.now');
     }
@@ -284,7 +285,7 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
 
 export default ReviewProposal;
 
-const Header = styled.p.attrs({className: 'font-bold text-ui-800 text-3xl'})``;
+const Header = styled.p.attrs({ className: 'font-bold text-ui-800 text-3xl' })``;
 
 const BadgeContainer = styled.div.attrs({
   className: 'tablet:flex items-baseline mt-3 tablet:space-x-3',
@@ -356,14 +357,14 @@ function getReviewProposalTerminalProps(
       approvals: [],
       voters:
         daoMembers?.map(
-          m => ({wallet: m.address, option: 'none'} as VoterType)
+          m => ({ wallet: m.address, option: 'none' } as VoterType)
         ) || [],
     };
   }
 
   if (isTokenVotingSettings(daoSettings) && daoToken && totalSupply) {
     // calculate participation
-    const {currentPart, currentPercentage, minPart, missingPart, totalWeight} =
+    const { currentPart, currentPercentage, minPart, missingPart, totalWeight } =
       getErc20VotingParticipation(
         daoSettings.minParticipation,
         BigInt(0),

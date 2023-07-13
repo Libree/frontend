@@ -53,8 +53,12 @@ const ManageMembers: React.FC = () => {
   const {data: daoDetails, isLoading} = useDaoDetailsQuery();
   // plugin data
   const {data: pluginSettings} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+    daoDetails?.plugins.find(
+      (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+  )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+  )?.id as PluginTypes
   );
   const {data: daoMembers} = useDaoMembers(
     daoDetails?.plugins?.[0]?.instanceAddress || '',
