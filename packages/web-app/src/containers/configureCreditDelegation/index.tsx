@@ -14,7 +14,8 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { WithdrawAction } from 'pages/newWithdraw';
-import { ActionIndex, InterestRateType } from 'utils/types';
+import { ActionIndex, InterestRateType, SupportedNetwork } from 'utils/types';
+import { SUPPORTED_TOKENS } from 'utils/config';
 
 type ConfigureCreditDelegationFormProps = ActionIndex;
 
@@ -87,19 +88,20 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                     name={`actions.${actionIndex}.inputs.token`}
                     control={control}
                     render={({
-                        field: { name, onBlur, onChange, value },
+                        field: { name, onChange, value },
                         fieldState: { error },
                     }) => (
                         <>
-                            <StyledInput
-                                mode={error ? 'critical' : 'default'}
+                            <StyledSelect
                                 name={name}
-                                type='text'
                                 value={value}
-                                placeholder='0x…'
-                                onBlur={onBlur}
                                 onChange={onChange}
-                            />
+                            >
+                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
+                                    <option key={token.address} value={token.address}>{token.name}</option>
+                                ))}
+                            </StyledSelect>
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}
