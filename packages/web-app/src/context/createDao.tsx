@@ -231,18 +231,18 @@ const CreateDaoProvider: React.FC = ({ children }) => {
 
   // Get dao setting configuration for creation process
   const getDaoSettings = useCallback(async (): Promise<CreateDaoParams> => {
-    const { 
-      membership, 
-      daoName, 
-      daoEnsName, 
-      daoSummary, 
-      daoLogo, 
-      links, 
-      subGobernancePlugin, 
+    const {
+      membership,
+      daoName,
+      daoEnsName,
+      daoSummary,
+      daoLogo,
+      links,
+      subGobernancePlugin,
       creditDelegationPlugin,
       vaultPlugin,
       uniswapV3Plugin
-     } =
+    } =
       getValues();
 
     let networkSelected;
@@ -283,7 +283,12 @@ const CreateDaoProvider: React.FC = ({ children }) => {
     }
 
     if (subGobernancePlugin) {
-      const subGobernancePluginData = getPluginInstallSubgovernance(networkSelected)
+      const [votingSettings] = getVoteSettings();
+
+      const subGobernancePluginData = getPluginInstallSubgovernance(
+        networkSelected,
+        votingSettings
+      )
       plugins.push(subGobernancePluginData);
     }
 
