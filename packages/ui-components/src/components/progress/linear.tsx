@@ -17,7 +17,7 @@ const Progress = styled.progress.attrs({
   }
   ::-webkit-progress-value {
     border-radius: 12px 0 0 12px;
-    background: linear-gradient(90deg, #0031ad 0%, #003bf5 100.32%);
+    background: #0AB6C0;
   }
 
   &[value^='1']::-webkit-progress-value {

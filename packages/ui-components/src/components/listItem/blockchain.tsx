@@ -27,7 +27,7 @@ export const ListItemBlockchain: React.FC<ListItemBlockchainProps> = ({
         }}
       />
       <Content>
-        <Domain selected={selected}>{props.name}</Domain>
+        <Domain>{props.name}</Domain>
         <Name>{props.domain}</Name>
       </Content>
       {props.tag && <Tag label={props.tag} colorScheme="info" />}
@@ -50,9 +50,9 @@ const Container = styled.div.attrs(({selected}: SelectedProps) => {
   return {className};
 })<SelectedProps>``;
 
-const Domain = styled.p.attrs(({selected}: SelectedProps) => ({
-  className: `${selected ? 'text-primary-500' : 'text-ui-600'} font-bold`,
-}))<SelectedProps>``;
+const Domain = styled.p.attrs(({
+  className: `text-ui-600 font-bold`,
+}))``;
 
 const Name = styled.p.attrs({className: 'ft-text-sm text-ui-500'})``;
 
