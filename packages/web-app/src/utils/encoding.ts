@@ -24,6 +24,7 @@ export const getPluginInstallCreditDelegation = (
     if (!SupportedNetworksArray.includes(networkName)) {
         throw new UnsupportedNetworkError(networkName);
     }
+
     const hexBytes = ethers.utils.defaultAbiCoder.encode(
         ["address aavePoolAddress"],
         [

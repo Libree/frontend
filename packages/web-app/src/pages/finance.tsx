@@ -47,6 +47,7 @@ const Finance: React.FC = () => {
   const {handleTransferClicked} = useTransactionDetailContext();
   const {tokens, totalAssetChange, totalAssetValue, transfers} = useDaoVault();
 
+
   sortTokens(tokens, 'treasurySharePercentage', true);
 
   /*************************************************
