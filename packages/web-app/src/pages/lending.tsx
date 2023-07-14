@@ -22,6 +22,7 @@ import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { htmlIn } from 'utils/htmlIn';
 import LendingTokenList from 'components/lendingTokenList';
+import { useAaveData } from 'hooks/useAaveDatay';
 
 const Lending: React.FC = () => {
     const { t } = useTranslation();
@@ -29,13 +30,14 @@ const Lending: React.FC = () => {
     const { open } = useGlobalModalContext();
     const { isMobile, isDesktop } = useScreen();
 
+    const {healthFactor, totalAvailableBorrow, totalCollateral, totalDebt} = useAaveData(daoDetails?.address)
+
     // load dao details
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
 
     const netWorth = 10000;
     const netAPY = 10;
-    const healthFactor = 2.1;
 
     const collateralList: any[] = [
         {

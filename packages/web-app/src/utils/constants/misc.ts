@@ -108,6 +108,7 @@ export const MAX_TOKEN_AMOUNT = BigNumber.from(
 );
 
 export const MAX_TOKEN_DECIMALS = 18;
+export const MUMBAI_DECIMALS = 8;
 
 // TokenVoting duration boundaries
 export const MAX_DURATION_DAYS = 365;
