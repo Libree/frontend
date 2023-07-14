@@ -2,6 +2,7 @@ import {
   ButtonText,
   HeaderDao,
   IconCheckmark,
+  IconPerson,
   IconSpinner,
   IlluObject,
   IllustrationHuman,
@@ -254,6 +255,16 @@ const Dashboard: React.FC = () => {
         ? t('explore.explorer.walletBased')
         : t('explore.explorer.tokenBased');
 
+    const activeGroups = [
+      {title: 'Credit Delegation', value: 12000, percentage: 12.4},
+      {title: 'Operations', value: 12000, percentage: 6.4},
+    ];
+
+    const activeInvestments = [
+      {imgUrl: '', name: 'PWN', value: 7000, percentage: 10.4 },
+      {imgUrl: '', name: 'AAVE', value: 12000, percentage: 3.1 },
+    ];
+
     return (
       <>
         <HeaderWrapper>
@@ -295,6 +306,55 @@ const Dashboard: React.FC = () => {
           />
         </HeaderWrapper>
 
+        {/* TODO: migrate this to a component */}
+        <div
+          className={`bg-white w-full -mx-2 tablet:col-span-full
+            tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10
+            tablet:mt-3 rounded-lg shadow-100 p-2 tablet:p-3 desktop:p-6
+            border border-ui-100`}
+        >
+          <div className='grid grid-cols-12 gap-4'>
+            <div className='desktop:col-span-4'>
+              {/* doughnot chart */}
+            </div>
+            <div className='desktop:col-span-8'>
+              {/* active groups slider */}
+              <div>
+                <Title>Active Groups</Title>
+                <div className='flex space-x-3'>
+                  {activeGroups.map((group, index) => (
+                    <div key={index} className='flex space-x-2 bg-primary-100 rounded-lg p-0.5 tablet:p-2 w-30 h-15'>
+                      <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
+                      <div className='flex flex-col items-center space-y-1 tablet:space-y-2 desktop:space-y-3'>
+                        <CardTitle>{group.title}</CardTitle>
+                        <div className='flex items-center justify-center space-x-2'>
+                          <CardTag>${group.value}</CardTag>
+                          <CardTag>{group.percentage}%</CardTag>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* active investments list */}
+              <div>
+                <Title>Active Investments</Title>
+                <div className='flex flex-col space-y-2'>
+                  {activeInvestments.map((item, index) => (
+                    <div key={index} className='flex items-center bg-primary-100 rounded-full py-1 px-4 space-x-3'>
+                      <img src={item.imgUrl} alt={item.name} className='w-2 h-2 tablet:w-3 tablet:h-3 rounded-full' />
+                      <CardTitle>{item.name}</CardTitle>
+                      <CardTag>${item.value}</CardTag>
+                      <CardTag>{item.percentage}%</CardTag>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {isDesktop ? (
           <DashboardContent
             daoAddressOrEns={liveAddressOrEns}
@@ -325,6 +385,18 @@ const Dashboard: React.FC = () => {
 const HeaderWrapper = styled.div.attrs({
   className:
     'w-screen -mx-2 tablet:col-span-full tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10 tablet:mt-3',
+})``;
+
+const Title = styled.p.attrs({
+  className: 'text-ui-800 font-bold text-lg mt-3 mb-1',
+})``;
+
+const CardTitle = styled.p.attrs({
+  className: 'text-ui-700 font-bold text-base',
+})``;
+
+const CardTag = styled.p.attrs({
+  className: 'text-ui-500 font-bold text-sm px-1 py-0.5 rounded-lg bg-ui-100',
 })``;
 
 /* DESKTOP DASHBOARD ======================================================== */
