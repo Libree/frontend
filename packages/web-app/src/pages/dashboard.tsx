@@ -7,40 +7,41 @@ import {
   IlluObject,
   IllustrationHuman,
 } from '@aragon/ui-components';
-import {withTransaction} from '@elastic/apm-rum-react';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate, useParams} from 'react-router-dom';
+import { withTransaction } from '@elastic/apm-rum-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {Loading} from 'components/temporary';
-import {MembershipSnapshot} from 'containers/membershipSnapshot';
+import { Loading } from 'components/temporary';
+import { MembershipSnapshot } from 'containers/membershipSnapshot';
 import ProposalSnapshot from 'containers/proposalSnapshot';
 import TreasurySnapshot from 'containers/treasurySnapshot';
-import {useAlertContext} from 'context/alert';
-import {NavigationDao} from 'context/apolloClient';
-import {useNetwork} from 'context/network';
-import {useDaoQuery} from 'hooks/useDaoDetails';
-import {useDaoVault} from 'hooks/useDaoVault';
+import { ActiveContent } from 'containers/activeContent';
+import { useAlertContext } from 'context/alert';
+import { NavigationDao } from 'context/apolloClient';
+import { useNetwork } from 'context/network';
+import { useDaoQuery } from 'hooks/useDaoDetails';
+import { useDaoVault } from 'hooks/useDaoVault';
 import {
   useAddFavoriteDaoMutation,
   useFavoritedDaosQuery,
   useRemoveFavoriteDaoMutation,
 } from 'hooks/useFavoritedDaos';
-import {usePendingDao, useRemovePendingDaoMutation} from 'hooks/usePendingDao';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {useProposals} from 'hooks/useProposals';
+import { usePendingDao, useRemovePendingDaoMutation } from 'hooks/usePendingDao';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { useProposals } from 'hooks/useProposals';
 import useScreen from 'hooks/useScreen';
-import {CHAIN_METADATA} from 'utils/constants';
-import {formatDate} from 'utils/date';
-import {toDisplayEns} from 'utils/library';
-import {Dashboard as DashboardPath, NotFound} from 'utils/paths';
-import {Container} from './governance';
+import { CHAIN_METADATA } from 'utils/constants';
+import { formatDate } from 'utils/date';
+import { toDisplayEns } from 'utils/library';
+import { Dashboard as DashboardPath, NotFound } from 'utils/paths';
+import { Container } from './governance';
 import {
   EmptyStateContainer,
   EmptyStateHeading,
 } from 'containers/pageEmptyState';
-import {useGlobalModalContext} from 'context/globalModals';
+import { useGlobalModalContext } from 'context/globalModals';
 
 enum DaoCreationState {
   ASSEMBLING_DAO,
@@ -49,14 +50,14 @@ enum DaoCreationState {
 }
 
 const Dashboard: React.FC = () => {
-  const {t} = useTranslation();
-  const {alert} = useAlertContext();
-  const {isDesktop, isMobile} = useScreen();
+  const { t } = useTranslation();
+  const { alert } = useAlertContext();
+  const { isDesktop, isMobile } = useScreen();
 
   const navigate = useNavigate();
-  const {network} = useNetwork();
-  const {dao: urlAddressOrEns} = useParams();
-  const {open} = useGlobalModalContext();
+  const { network } = useNetwork();
+  const { dao: urlAddressOrEns } = useParams();
+  const { open } = useGlobalModalContext();
 
   const [pollInterval, setPollInterval] = useState(0);
   const [daoCreationState, setDaoCreationState] = useState<DaoCreationState>(
@@ -72,7 +73,7 @@ const Dashboard: React.FC = () => {
     alert(t('alert.chip.unfavorite'))
   );
 
-  const {data: favoritedDaos, isLoading: favoritedDaosLoading} =
+  const { data: favoritedDaos, isLoading: favoritedDaosLoading } =
     useFavoritedDaosQuery();
 
   // live DAO
@@ -84,7 +85,7 @@ const Dashboard: React.FC = () => {
   const liveAddressOrEns = toDisplayEns(liveDao?.ensDomain) || liveDao?.address;
 
   // pending DAO
-  const {data: pendingDao, isLoading: pendingDaoLoading} =
+  const { data: pendingDao, isLoading: pendingDaoLoading } =
     usePendingDao(urlAddressOrEns);
 
   const removePendingDaoMutation = useRemovePendingDaoMutation(() => {
@@ -173,9 +174,9 @@ const Dashboard: React.FC = () => {
     async (dao: NavigationDao) => {
       try {
         if (isFavoritedDao) {
-          await removeFavoriteDaoMutation.mutateAsync({dao});
+          await removeFavoriteDaoMutation.mutateAsync({ dao });
         } else {
-          await addFavoriteDaoMutation.mutateAsync({dao});
+          await addFavoriteDaoMutation.mutateAsync({ dao });
         }
       } catch (error) {
         const action = isFavoritedDao
@@ -219,15 +220,15 @@ const Dashboard: React.FC = () => {
             sunglass="big_rounded"
             hair="short"
             {...(isMobile
-              ? {height: 165, width: 295}
-              : {height: 225, width: 400})}
+              ? { height: 165, width: 295 }
+              : { height: 225, width: 400 })}
           />
           <div className="absolute transform -translate-x-2/3">
             <IlluObject
               object="build"
               {...(isMobile
-                ? {height: 120, width: 120}
-                : {height: 160, width: 160})}
+                ? { height: 120, width: 120 }
+                : { height: 160, width: 160 })}
             />
           </div>
 
@@ -254,16 +255,6 @@ const Dashboard: React.FC = () => {
       (liveDao?.plugins[0]?.id as PluginTypes) === 'multisig.plugin.dao.eth'
         ? t('explore.explorer.walletBased')
         : t('explore.explorer.tokenBased');
-
-    const activeGroups = [
-      {title: 'Credit Delegation', value: 12000, percentage: 12.4},
-      {title: 'Operations', value: 12000, percentage: 6.4},
-    ];
-
-    const activeInvestments = [
-      {imgUrl: '', name: 'PWN', value: 7000, percentage: 10.4 },
-      {imgUrl: '', name: 'AAVE', value: 12000, percentage: 3.1 },
-    ];
 
     return (
       <>
@@ -306,55 +297,6 @@ const Dashboard: React.FC = () => {
           />
         </HeaderWrapper>
 
-        {/* TODO: migrate this to a component */}
-        <div
-          className={`bg-white w-full -mx-2 tablet:col-span-full
-            tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10
-            tablet:mt-3 rounded-lg shadow-100 p-2 tablet:p-3 desktop:p-6
-            border border-ui-100`}
-        >
-          <div className='grid grid-cols-12 gap-4'>
-            <div className='desktop:col-span-4'>
-              {/* doughnot chart */}
-            </div>
-            <div className='desktop:col-span-8'>
-              {/* active groups slider */}
-              <div>
-                <Title>Active Groups</Title>
-                <div className='flex space-x-3'>
-                  {activeGroups.map((group, index) => (
-                    <div key={index} className='flex space-x-2 bg-primary-100 rounded-lg p-0.5 tablet:p-2 w-30 h-15'>
-                      <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
-                      <div className='flex flex-col items-center space-y-1 tablet:space-y-2 desktop:space-y-3'>
-                        <CardTitle>{group.title}</CardTitle>
-                        <div className='flex items-center justify-center space-x-2'>
-                          <CardTag>${group.value}</CardTag>
-                          <CardTag>{group.percentage}%</CardTag>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* active investments list */}
-              <div>
-                <Title>Active Investments</Title>
-                <div className='flex flex-col space-y-2'>
-                  {activeInvestments.map((item, index) => (
-                    <div key={index} className='flex items-center bg-primary-100 rounded-full py-1 px-4 space-x-3'>
-                      <img src={item.imgUrl} alt={item.name} className='w-2 h-2 tablet:w-3 tablet:h-3 rounded-full' />
-                      <CardTitle>{item.name}</CardTitle>
-                      <CardTag>${item.value}</CardTag>
-                      <CardTag>{item.percentage}%</CardTag>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {isDesktop ? (
           <DashboardContent
             daoAddressOrEns={liveAddressOrEns}
@@ -375,7 +317,7 @@ const Dashboard: React.FC = () => {
     // navigate to notFound
     navigate(NotFound, {
       replace: true,
-      state: {incorrectDao: urlAddressOrEns},
+      state: { incorrectDao: urlAddressOrEns },
     });
   }
 
@@ -385,18 +327,6 @@ const Dashboard: React.FC = () => {
 const HeaderWrapper = styled.div.attrs({
   className:
     'w-screen -mx-2 tablet:col-span-full tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10 tablet:mt-3',
-})``;
-
-const Title = styled.p.attrs({
-  className: 'text-ui-800 font-bold text-lg mt-3 mb-1',
-})``;
-
-const CardTitle = styled.p.attrs({
-  className: 'text-ui-700 font-bold text-base',
-})``;
-
-const CardTag = styled.p.attrs({
-  className: 'text-ui-500 font-bold text-sm px-1 py-0.5 rounded-lg bg-ui-100',
 })``;
 
 /* DESKTOP DASHBOARD ======================================================== */
@@ -412,8 +342,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const {transfers, totalAssetValue} = useDaoVault();
-  const {data: proposals} = useProposals(daoAddressOrEns, pluginType);
+  const { transfers, totalAssetValue } = useDaoVault();
+  const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
 
   const proposalCount = proposals.length;
   const transactionCount = transfers.length;
@@ -468,26 +398,29 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
 
   return (
     <>
-      <LeftWideContent>
-        <ProposalSnapshot
-          daoAddressOrEns={daoAddressOrEns}
-          pluginAddress={pluginAddress}
-          pluginType={pluginType}
-          proposals={proposals}
-        />
-      </LeftWideContent>
-      <RightNarrowContent>
-        <TreasurySnapshot
-          daoAddressOrEns={daoAddressOrEns}
-          transfers={transfers}
-          totalAssetValue={totalAssetValue}
-        />
-        <MembershipSnapshot
-          daoAddressOrEns={daoAddressOrEns}
-          pluginType={pluginType}
-          pluginAddress={pluginAddress}
-        />
-      </RightNarrowContent>
+      <ActiveContent />
+      <React.Fragment>
+        <LeftWideContent>
+          <ProposalSnapshot
+            daoAddressOrEns={daoAddressOrEns}
+            pluginAddress={pluginAddress}
+            pluginType={pluginType}
+            proposals={proposals}
+          />
+        </LeftWideContent>
+        <RightNarrowContent>
+          <TreasurySnapshot
+            daoAddressOrEns={daoAddressOrEns}
+            transfers={transfers}
+            totalAssetValue={totalAssetValue}
+          />
+          <MembershipSnapshot
+            daoAddressOrEns={daoAddressOrEns}
+            pluginType={pluginType}
+            pluginAddress={pluginAddress}
+          />
+        </RightNarrowContent>
+      </React.Fragment>
     </>
   );
 };
@@ -519,8 +452,8 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const {transfers, totalAssetValue} = useDaoVault();
-  const {data: proposals} = useProposals(daoAddressOrEns, pluginType);
+  const { transfers, totalAssetValue } = useDaoVault();
+  const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
 
   return (
     <MobileLayout>
