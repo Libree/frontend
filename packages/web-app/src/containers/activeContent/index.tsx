@@ -37,17 +37,12 @@ export const ActiveContent = () => {
     };
 
     return (
-        <div
-            className={`bg-white w-full -mx-2 tablet:col-span-full
-            tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10
-            tablet:mt-3 rounded-lg shadow-100 p-2 tablet:p-3 desktop:p-6
-            border border-ui-100`}
-        >
+        <ActiveContainer>
             <div className='grid grid-cols-12 gap-4'>
-                <div className='desktop:col-span-3 desktop:col-start-2'>
+                <ChartContainer>
                     <Doughnut data={doughnutData} className='p-2' />
-                </div>
-                <div className='desktop:col-span-5 desktop:col-start-6'>
+                </ChartContainer>
+                <div className='col-span-12 tablet:col-span-7 tablet:col-start-6'>
                     {/* active groups slider */}
                     <div>
                         <Title>Active Groups</Title>
@@ -57,25 +52,48 @@ export const ActiveContent = () => {
                     {/* active investments list */}
                     <div>
                         <Title>Active Investments</Title>
-                        <div className='flex flex-col space-y-2 h-15 overflow-auto pr-4'>
+                        <ActiveInvestContainer>
                             {activeInvestments.map((item, index) => (
-                                <div key={index} className='flex items-center bg-ui-50 border shadow-sm rounded-full py-1 px-4 space-x-3'>
-                                    <img src={item.imgUrl} alt={item.name} className='w-2 h-2 tablet:w-4 tablet:h-4 rounded-full' />
+                                <CardContainer key={index}>
+                                    <CardImg src={item.imgUrl} alt={item.name} />
                                     <CardTitle>{item.name}</CardTitle>
                                     <CardTag>${item.value}</CardTag>
                                     <CardTag>{item.percentage}%</CardTag>
-                                </div>
+                                </CardContainer>
                             ))}
-                        </div>
+                        </ActiveInvestContainer>
                     </div>
                 </div>
             </div>
-        </div>
+        </ActiveContainer>
     )
 };
 
+const ActiveContainer = styled.div.attrs({
+    className: `bg-white w-full mx-0 tablet:col-span-full
+        tablet:w-full tablet:mx-0 desktop:col-start-2 desktop:col-span-10
+        tablet:mt-3 rounded-lg shadow-100 p-2 tablet:p-3 desktop:p-6
+        border border-ui-100`,
+})``;
+
+const ChartContainer = styled.div.attrs({
+    className: 'col-span-12 tablet:col-span-4 tablet:col-start-1',
+})``;
+
+const ActiveInvestContainer = styled.div.attrs({
+    className: 'flex flex-col space-y-2 h-15 overflow-auto pr-1',
+})``;
+
 const Title = styled.p.attrs({
     className: 'text-ui-800 font-bold text-lg mt-3 mb-1',
+})``;
+
+const CardContainer = styled.div.attrs({
+    className: 'flex items-center bg-ui-50 border shadow-sm rounded-full py-1 px-4 space-x-3',
+})``;
+
+const CardImg = styled.img.attrs({
+    className: 'w-3 h-3 tablet:w-4 tablet:h-4 rounded-full',
 })``;
 
 const CardTitle = styled.p.attrs({

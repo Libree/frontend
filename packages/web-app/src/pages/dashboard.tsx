@@ -457,6 +457,7 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
 
   return (
     <MobileLayout>
+      <ActiveContent />
       <ProposalSnapshot
         daoAddressOrEns={daoAddressOrEns}
         pluginAddress={pluginAddress}
