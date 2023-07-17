@@ -262,7 +262,8 @@
     },
     "lending": {
       "netWorth": "Net worth",
-      "netAPY": "Net APY",
+      "totalCollateral": "Total collateral",
+      "totalDebt": "Total debt",
       "healthFactor": "Health factor",
       "yourCollateral": "Your collateral",
       "yourBorrows": "Your borrows"

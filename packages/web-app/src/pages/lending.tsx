@@ -30,14 +30,13 @@ const Lending: React.FC = () => {
     const { open } = useGlobalModalContext();
     const { isMobile, isDesktop } = useScreen();
 
-    const {healthFactor, totalAvailableBorrow, totalCollateral, totalDebt} = useAaveData(daoDetails?.address)
+    const { healthFactor, totalAvailableBorrow, totalCollateral, totalDebt } = useAaveData(daoDetails?.address)
 
     // load dao details
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
 
     const netWorth = 10000;
-    const netAPY = 10;
 
     const collateralList: any[] = [
         {
@@ -133,19 +132,41 @@ const Lending: React.FC = () => {
                                     </SubtitleContainer>
                                 </TextContainer>
 
+                                {totalDebt as number > 0 && (
+                                    <TextContainer>
+                                        <Title style={{ color: '#00D16C' }}>{healthFactor}</Title>
+
+                                        <SubtitleContainer>
+                                            <Description>{t('finance.lending.healthFactor')}</Description>
+                                        </SubtitleContainer>
+                                    </TextContainer>
+                                )}
+
+                            </ContentContainer>
+                            <ContentContainer>
                                 <TextContainer>
-                                    <Title>{netAPY}%</Title>
+                                    <Title>
+                                        {new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        }).format(totalCollateral as number)}
+                                    </Title>
 
                                     <SubtitleContainer>
-                                        <Description>{t('finance.lending.netAPY')}</Description>
+                                        <Description>{t('finance.lending.totalCollateral')}</Description>
                                     </SubtitleContainer>
                                 </TextContainer>
 
                                 <TextContainer>
-                                    <Title style={{ color: '#00D16C' }}>{healthFactor}</Title>
+                                    <Title>
+                                        {new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        }).format(totalDebt as number)}
+                                    </Title>
 
                                     <SubtitleContainer>
-                                        <Description>{t('finance.lending.healthFactor')}</Description>
+                                        <Description>{t('finance.lending.totalDebt')}</Description>
                                     </SubtitleContainer>
                                 </TextContainer>
                             </ContentContainer>
