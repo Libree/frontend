@@ -86,7 +86,12 @@ const ActiveGroupsList = () => {
                             <ActiveGroupCardData>
                                 <CardTitle>{group.title}</CardTitle>
                                 <div className='flex items-center justify-center space-x-2'>
-                                    <CardTag>${group.value}</CardTag>
+                                    <CardTag>
+                                        {new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        }).format(group.value)}
+                                    </CardTag>
                                     <CardTag>{group.percentage}%</CardTag>
                                 </div>
                                 <div className='w-full flex justify-end'>
@@ -134,7 +139,12 @@ const ActiveInvestmentsList = () => {
                             <CardTitle>{item.name}</CardTitle>
                         </TitleContainer>
                         <TagsContainer>
-                            <CardTag>${item.value}</CardTag>
+                            <CardTag>
+                                {new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                }).format(item.value)}
+                            </CardTag>
                             <CardTag>{item.percentage}%</CardTag>
                         </TagsContainer>
                     </CardContainer>
