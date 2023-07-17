@@ -3,7 +3,6 @@ import { IconArrowRight, IconPerson } from '@aragon/ui-components';
 import styled from 'styled-components';
 
 import AaveLogo from '../../public/aave-logo.png';
-import PwnLogo from '../../public/pwn-logo.png';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -120,7 +119,6 @@ const ActiveGroupCardData = styled.div.attrs({
 
 const ActiveInvestmentsList = () => {
     const activeInvestments = [
-        { imgUrl: PwnLogo, name: 'PWN', value: 7000, percentage: 10.4 },
         { imgUrl: AaveLogo, name: 'AAVE', value: 12000, percentage: 3.1 },
     ];
     return (
