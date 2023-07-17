@@ -351,6 +351,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   if (!proposalCount) {
     return (
       <>
+        <ActiveContent />
         {!transactionCount ? (
           <EqualDivide>
             <ProposalSnapshot
