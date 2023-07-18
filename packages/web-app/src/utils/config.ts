@@ -26,7 +26,7 @@ export const CONTRACT_ADDRESSES: { [K in SupportedNetwork]: ContractsDeployment 
 
 export const PLUGIN_ADDRESSES: { [K in SupportedNetwork]: PluginsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
-        creditDelegation: "0x2a5310cfaa677cdca7491371211cded7254321bc",
+        creditDelegation: "0x8caa57707fc918d889c2c4fcad22429cfa88a655",
         subgovernance: "0x78f346799eb5f956952a32afd6b18db15fd6e123",
         uniswapV3: "0xe443595fbd674639bb18af9eb85ea687ad51851b",
         vault: "0x523c1ceefbb81d62a95c7709cbbc14e964a77d82"
@@ -54,7 +54,7 @@ export const PLUGIN_ADDRESSES: { [K in SupportedNetwork]: PluginsDeployment } = 
 
 export const PLUGIN_IDS: { [K in SupportedNetwork]: PluginsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
-        creditDelegation: "my-cool-plugin-6003",
+        creditDelegation: "my-cool-plugin-6014",
         subgovernance: "my-cool-plugin-6002",
         uniswapV3: "my-cool-plugin-6004",
         vault: "my-cool-plugin-6005"
