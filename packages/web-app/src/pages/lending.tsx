@@ -132,7 +132,7 @@ const Lending: React.FC = () => {
                                     </SubtitleContainer>
                                 </TextContainer>
 
-                                {totalDebt as number > 0 && (
+                                {healthFactor as number > 0 && (
                                     <TextContainer>
                                         <Title style={{ color: '#00D16C' }}>{healthFactor}</Title>
 
