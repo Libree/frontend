@@ -133,7 +133,7 @@ const ConfigureCommunity: React.FC = () => {
   );
 
   const percentageInputValidator = (value: string | number) => {
-    return value <= 100 && value >= 0 ? true : t('errors.percentage');
+    return value as number <= 100 && value as number >= 0 ? true : t('errors.percentage');
   };
 
   /*************************************************
@@ -158,7 +158,7 @@ const ConfigureCommunity: React.FC = () => {
             <Controller
               name="minimumApproval"
               control={control}
-              defaultValue="50"
+              defaultValue={50}
               rules={{
                 validate: value => percentageInputValidator(value),
               }}
@@ -232,7 +232,7 @@ const ConfigureCommunity: React.FC = () => {
             <Controller
               name="minimumParticipation"
               control={control}
-              defaultValue="15"
+              defaultValue={15}
               rules={{
                 validate: value => percentageInputValidator(value),
               }}
@@ -418,6 +418,7 @@ const ConfigureCommunity: React.FC = () => {
               />
             )}
           </FormItem>
+
           {/* Early execution */}
           <FormItem>
             <Label
@@ -437,6 +438,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
+          
           {/* Vote replacement */}
           <FormItem>
             <Label

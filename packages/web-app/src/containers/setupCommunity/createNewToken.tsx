@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {Controller, useFormContext} from 'react-hook-form';
 import AddWallets from 'components/addWallets';
-import {alphaNumericValidator} from 'utils/validators';
 import {htmlIn} from 'utils/htmlIn';
 
 const CreateNewToken: React.FC = () => {
@@ -21,6 +20,7 @@ const CreateNewToken: React.FC = () => {
           }}
         ></Subtitle>
       </DescriptionContainer>
+
       <FormItem>
         <Label
           label={t('labels.tokenName')}
@@ -33,8 +33,6 @@ const CreateNewToken: React.FC = () => {
           defaultValue=""
           rules={{
             required: t('errors.required.tokenName') as string,
-            validate: value =>
-              alphaNumericValidator(value, t('errors.fields.tokenName')),
           }}
           render={({
             field: {onBlur, onChange, value, name},
@@ -54,6 +52,7 @@ const CreateNewToken: React.FC = () => {
           )}
         />
       </FormItem>
+
       <FormItem>
         <Label
           label={t('labels.tokenSymbol')}
@@ -66,8 +65,6 @@ const CreateNewToken: React.FC = () => {
           defaultValue=""
           rules={{
             required: t('errors.required.tokenSymbol') as string,
-            validate: value =>
-              alphaNumericValidator(value, t('errors.fields.tokenSymbol')),
           }}
           render={({
             field: {onBlur, onChange, value, name},
@@ -87,6 +84,7 @@ const CreateNewToken: React.FC = () => {
           )}
         />
       </FormItem>
+
       <WideFormItem>
         <DescriptionContainer>
           <Label

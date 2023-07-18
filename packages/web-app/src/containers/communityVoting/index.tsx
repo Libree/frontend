@@ -1,7 +1,4 @@
 import { VotingMode, VotingSettings } from '@aragon/sdk-client';
-import {
-    ListItemAction,
-} from '@aragon/ui-components';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {
     useFieldArray,
@@ -276,19 +273,6 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
         setValue('membership', 'token');
     }, [setValue]);
 
-    const governanceAction = [
-        {
-            component: (
-                <ListItemAction
-                    title={t('settings.resetChanges')}
-                    bgWhite
-                    mode={isGovernanceChanged ? 'default' : 'disabled'}
-                />
-            ),
-            callback: setCurrentGovernance,
-        },
-    ];
-
     if (settingsAreLoading || tokensAreLoading || tokenSupplyIsLoading) {
         return <Loading />;
     }
@@ -301,7 +285,6 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
                         type="action-builder"
                         name="governance"
                         methodName={t('labels.advanced')}
-                        dropdownItems={governanceAction}
                     >
                         <AccordionContent>
                             <ConfigureCommunity />
