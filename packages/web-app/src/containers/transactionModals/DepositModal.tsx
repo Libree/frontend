@@ -20,14 +20,13 @@ import { useSpecificProvider } from 'context/providers';
 import { SUPPORTED_TOKENS } from 'utils/config';
 import { SupportedNetwork } from 'utils/types';
 
-
 const DepositModal: React.FC = () => {
   const { t } = useTranslation();
   const { isDepositOpen, close } = useGlobalModalContext();
   const { data: daoDetails } = useDaoDetailsQuery();
   const { network } = useNetwork();
   const { alert } = useAlertContext();
-  const { deposit } = useCreditDelegation(daoDetails?.address);
+  const { deposit, tokenAllowance, approve } = useCreditDelegation(daoDetails?.address);
   const navigate = useNavigate();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
   const [input, setInput] = useState({
@@ -55,6 +54,11 @@ const DepositModal: React.FC = () => {
       CHAIN_METADATA[network].nativeCurrency
     )
     const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
+    const allowance = await tokenAllowance(input.tokenAddress)
+    if(allowance < amount) {
+      //TODO - Change modal label to approve
+      approve(input.tokenAddress, amount)
+    }
     deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
