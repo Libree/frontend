@@ -1,5 +1,8 @@
 import {
+  AlertInline,
   ButtonText,
+  IconReload,
+  Spinner,
   WalletInputLegacy,
 } from '@aragon/ui-components';
 import React, { useCallback, useState } from 'react';
@@ -15,10 +18,17 @@ import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { toDisplayEns } from 'utils/library';
 import { useCreditDelegation } from 'hooks/useCreditDelegation';
 import { getTokenInfo } from 'utils/tokens';
-import { CHAIN_METADATA } from 'utils/constants';
+import { CHAIN_METADATA, TransactionState } from 'utils/constants';
 import { useSpecificProvider } from 'context/providers';
 import { SUPPORTED_TOKENS } from 'utils/config';
 import { SupportedNetwork } from 'utils/types';
+
+const icons = {
+  [TransactionState.WAITING]: undefined,
+  [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
+  [TransactionState.SUCCESS]: undefined,
+  [TransactionState.ERROR]: <IconReload />,
+};
 
 const DepositModal: React.FC = () => {
   const { t } = useTranslation();
@@ -33,6 +43,15 @@ const DepositModal: React.FC = () => {
     amount: '',
     tokenAddress: '',
   });
+
+  const label = {
+    [TransactionState.WAITING]: t('labels.deposit'),
+    [TransactionState.LOADING]: t('TransactionModal.waiting'),
+    [TransactionState.SUCCESS]: t('TransactionModal.goToFinance'),
+    [TransactionState.ERROR]: t('TransactionModal.tryAgain'),
+  };
+
+  const state: any = TransactionState.WAITING;
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -55,9 +74,9 @@ const DepositModal: React.FC = () => {
     )
     const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
     const allowance = await tokenAllowance(input.tokenAddress)
-    if(allowance < amount) {
+    if (allowance < amount) {
       //TODO - Change modal label to approve
-      approve(input.tokenAddress, amount)
+      approve(input.tokenAddress, amount);
     }
     deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
@@ -125,20 +144,39 @@ const DepositModal: React.FC = () => {
             />
           </div>
           <ActionWrapper>
-            <ButtonText
-              mode="primary"
-              size="large"
-              label={t('labels.deposit')}
-              onClick={handleCtaClicked}
-              className='w-full'
-            />
-            <ButtonText
-              mode="secondary"
-              size="large"
-              label={t('modal.deposit.cancelLabel')}
-              onClick={() => close('deposit')}
-              className='w-full'
-            />
+            <ButtonsContainer>
+              <ButtonText
+                mode="primary"
+                size="large"
+                label={label[state]}
+                iconLeft={icons[state]}
+                onClick={handleCtaClicked}
+                className='w-full'
+              />
+              <ButtonText
+                mode="secondary"
+                size="large"
+                label={t('modal.deposit.cancelLabel')}
+                onClick={() => close('deposit')}
+                className='w-full'
+              />
+            </ButtonsContainer>
+            {state === TransactionState.SUCCESS && (
+              <AlertInlineContainer>
+                <AlertInline
+                  label={t('TransactionModal.successLabel')}
+                  mode="success"
+                />
+              </AlertInlineContainer>
+            )}
+            {state === TransactionState.ERROR && (
+              <AlertInlineContainer>
+                <AlertInline
+                  label={t('TransactionModal.errorLabel')}
+                  mode="critical"
+                />
+              </AlertInlineContainer>
+            )}
           </ActionWrapper>
         </BodyWrapper>
       </Container>
@@ -170,8 +208,16 @@ const BodyWrapper = styled.div.attrs({
   className: 'space-y-3',
 })``;
 
-const ActionWrapper = styled.div.attrs({
+const AlertInlineContainer = styled.div.attrs({
+  className: 'mx-auto mt-2 w-max',
+})``;
+
+const ButtonsContainer = styled.div.attrs({
   className: 'flex space-x-1.5 justify-center',
+})``;
+
+const ActionWrapper = styled.div.attrs({
+  className: '',
 })``;
 
 const DividerWrapper = styled.div.attrs({
