@@ -86,30 +86,16 @@ const Title = styled.p.attrs({
  *************************************************/
 
 const ActiveGroupsList = ({ groupsData }: { groupsData: any[]}) => {
-    console.log('groupsData: ', groupsData);
-    const activeGroups = [
-        { title: 'Credit Delegation', value: 12000, percentage: 12.4 },
-        { title: 'Operations', value: 12000, percentage: 6.4 },
-    ];
     return (
         <>
             <Title>Active Groups</Title>
             <ActiveGroupsContainer>
-                {activeGroups.map((group, index) => (
-                    <ActiveGroupCardContainer key={index}>
+                {groupsData.map((group) => (
+                    <ActiveGroupCardContainer key={group.id}>
                         <div className='flex space-x-1'>
                             <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
                             <ActiveGroupCardData>
-                                <CardTitle>{group.title}</CardTitle>
-                                <div className='flex items-center justify-center space-x-2'>
-                                    <CardTag>
-                                        {new Intl.NumberFormat('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }).format(group.value)}
-                                    </CardTag>
-                                    <CardTag>{group.percentage}%</CardTag>
-                                </div>
+                                <CardTitle>{group.name}</CardTitle>
                                 <div className='w-full flex justify-end'>
                                     <IconArrowRight />
                                 </div>
