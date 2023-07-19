@@ -78,16 +78,30 @@ const DepositModal: React.FC = () => {
       )
       const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
       const allowance = await tokenAllowance(input.tokenAddress)
-      if (allowance < amount) {
+      if (true || allowance < amount) {
         setDepositProcessState(TransactionState.WAITING)
         approve(input.tokenAddress, amount);
+        setDepositProcessState(TransactionState.LOADING)
       }
+      setDepositProcessState(undefined)
       deposit(input.tokenAddress, amount.toString());
       setDepositProcessState(TransactionState.SUCCESS);
     } catch {
       setDepositProcessState(TransactionState.ERROR);
     }
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
+
+  const handleOnClick = () => {
+    if (!depositProcessState || depositProcessState === TransactionState.WAITING) {
+      handleCtaClicked();
+      return;
+    }
+    if (depositProcessState === TransactionState.SUCCESS) {
+      close('deposit');
+      window.location.reload();
+      return;
+    }
+  }
 
   const Divider: React.FC = () => {
     return (
@@ -158,7 +172,7 @@ const DepositModal: React.FC = () => {
                 size="large"
                 label={depositProcessState ? label[depositProcessState] : t('labels.deposit')}
                 iconLeft={depositProcessState && icons[depositProcessState]}
-                onClick={handleCtaClicked}
+                onClick={handleOnClick}
                 className='w-full'
               />
               {(!depositProcessState || depositProcessState === TransactionState.WAITING) && (
