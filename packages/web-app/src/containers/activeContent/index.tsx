@@ -6,19 +6,29 @@ import AaveLogo from '../../public/aave-logo.png';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useDaoVault } from 'hooks/useDaoVault';
+import { useAaveData } from 'hooks/useAaveData';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const ActiveContent = () => {
+
+    const { totalAssetValue } = useDaoVault()
+    const { netWorth: aaveNetWorth } = useAaveData()
+
     const doughnutData = {
         labels: [
-            'Treasury',
+            'Treasury', 'Aave'
         ],
         datasets: [{
-            label: 'Treasury',
-            data: [100],
+            label: 'Asset allocation',
+            data:
+                [totalAssetValue - aaveNetWorth,
+                    aaveNetWorth
+                ],
             backgroundColor: [
                 '#22d3ee',
+                '#22d4ae'
             ],
             hoverOffset: 4
         }]
@@ -34,8 +44,9 @@ export const ActiveContent = () => {
 
                 <ActiveDataContainer>
                     <ActiveGroupsList />
-
-                    <ActiveInvestmentsList />
+                    <ActiveInvestmentsList
+                        aaveNetWorth={aaveNetWorth}
+                        totalAssetValue={totalAssetValue} />
                 </ActiveDataContainer>
 
             </ActiveWrapper>
@@ -122,9 +133,23 @@ const ActiveGroupCardData = styled.div.attrs({
  *            Active Investments List            *
  *************************************************/
 
-const ActiveInvestmentsList = () => {
+const ActiveInvestmentsList = (
+    { aaveNetWorth, totalAssetValue }:
+        { aaveNetWorth: number, totalAssetValue: number }
+) => {
+
+    const aaveData = aaveNetWorth > 0 ?
+        [{
+            imgUrl: AaveLogo,
+            name: 'AAVE',
+            value: aaveNetWorth,
+            percentage: ((aaveNetWorth / totalAssetValue) * 100).toFixed(2)
+        }]
+        :
+        []
+
     const activeInvestments = [
-        { imgUrl: AaveLogo, name: 'AAVE', value: 12000, percentage: 3.1 },
+        ...aaveData
     ];
     return (
         <>
