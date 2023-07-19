@@ -26,6 +26,7 @@ export const enum TransactionState {
   LOADING = 'LOADING',
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
+  APPROVING = 'APPROVING',
 }
 
 export const enum ManualABIFlowState {

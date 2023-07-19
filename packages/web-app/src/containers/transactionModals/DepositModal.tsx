@@ -1,8 +1,11 @@
 import {
+  AlertInline,
   ButtonText,
+  IconReload,
+  Spinner,
   WalletInputLegacy,
 } from '@aragon/ui-components';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,10 +18,18 @@ import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { toDisplayEns } from 'utils/library';
 import { useCreditDelegation } from 'hooks/useCreditDelegation';
 import { getTokenInfo } from 'utils/tokens';
-import { CHAIN_METADATA } from 'utils/constants';
+import { CHAIN_METADATA, TransactionState } from 'utils/constants';
 import { useSpecificProvider } from 'context/providers';
 import { SUPPORTED_TOKENS } from 'utils/config';
 import { SupportedNetwork } from 'utils/types';
+
+const icons = {
+  [TransactionState.APPROVING]: undefined,
+  [TransactionState.WAITING]: undefined,
+  [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
+  [TransactionState.SUCCESS]: undefined,
+  [TransactionState.ERROR]: <IconReload />,
+};
 
 const DepositModal: React.FC = () => {
   const { t } = useTranslation();
@@ -33,6 +44,18 @@ const DepositModal: React.FC = () => {
     amount: '',
     tokenAddress: '',
   });
+  const [depositProcessState, setDepositProcessState] =
+    useState<TransactionState>(TransactionState.WAITING);
+
+  const label = {
+    [TransactionState.APPROVING]: t('TransactionModal.publishDaoButtonLabel'),
+    [TransactionState.WAITING]: t('labels.deposit'),
+    [TransactionState.LOADING]: t('TransactionModal.waiting'),
+    [TransactionState.SUCCESS]: t('TransactionModal.goToFinance'),
+    [TransactionState.ERROR]: t('TransactionModal.tryAgain'),
+  };
+
+  useEffect(() => setDepositProcessState(TransactionState.WAITING), [isDepositOpen]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -48,19 +71,38 @@ const DepositModal: React.FC = () => {
   };
 
   const handleCtaClicked = useCallback(async () => {
-    const tokenInfo = await getTokenInfo(
-      input.tokenAddress,
-      provider,
-      CHAIN_METADATA[network].nativeCurrency
-    )
-    const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
-    const allowance = await tokenAllowance(input.tokenAddress)
-    if(allowance < amount) {
-      //TODO - Change modal label to approve
-      approve(input.tokenAddress, amount)
+    try {
+      setDepositProcessState(TransactionState.LOADING);
+      const tokenInfo = await getTokenInfo(
+        input.tokenAddress,
+        provider,
+        CHAIN_METADATA[network].nativeCurrency
+      )
+      const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
+      const allowance = await tokenAllowance(input.tokenAddress);
+      if (allowance < amount) {
+        setDepositProcessState(TransactionState.APPROVING);
+        approve(input.tokenAddress, amount); // in promise
+        setDepositProcessState(TransactionState.LOADING);
+      }
+      deposit(input.tokenAddress, amount.toString());
+      setDepositProcessState(TransactionState.SUCCESS);
+    } catch {
+      setDepositProcessState(TransactionState.ERROR);
     }
-    deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
+
+  const handleOnClick = () => {
+    if (!depositProcessState || depositProcessState === TransactionState.WAITING) {
+      handleCtaClicked();
+      return;
+    }
+    if (depositProcessState === TransactionState.SUCCESS) {
+      close('deposit');
+      window.location.reload();
+      return;
+    }
+  }
 
   const Divider: React.FC = () => {
     return (
@@ -125,20 +167,41 @@ const DepositModal: React.FC = () => {
             />
           </div>
           <ActionWrapper>
-            <ButtonText
-              mode="primary"
-              size="large"
-              label={t('labels.deposit')}
-              onClick={handleCtaClicked}
-              className='w-full'
-            />
-            <ButtonText
-              mode="secondary"
-              size="large"
-              label={t('modal.deposit.cancelLabel')}
-              onClick={() => close('deposit')}
-              className='w-full'
-            />
+            <ButtonsContainer>
+              <ButtonText
+                mode="primary"
+                size="large"
+                label={label[depositProcessState]}
+                iconLeft={icons[depositProcessState]}
+                onClick={handleOnClick}
+                className='w-full'
+              />
+              {(!depositProcessState || depositProcessState === TransactionState.WAITING) && (
+                <ButtonText
+                  mode="secondary"
+                  size="large"
+                  label={t('modal.deposit.cancelLabel')}
+                  onClick={() => close('deposit')}
+                  className='w-full'
+                />
+              )}
+            </ButtonsContainer>
+            {depositProcessState === TransactionState.SUCCESS && (
+              <AlertInlineContainer>
+                <AlertInline
+                  label={t('TransactionModal.successLabel')}
+                  mode="success"
+                />
+              </AlertInlineContainer>
+            )}
+            {depositProcessState === TransactionState.ERROR && (
+              <AlertInlineContainer>
+                <AlertInline
+                  label={t('TransactionModal.errorLabel')}
+                  mode="critical"
+                />
+              </AlertInlineContainer>
+            )}
           </ActionWrapper>
         </BodyWrapper>
       </Container>
@@ -170,8 +233,16 @@ const BodyWrapper = styled.div.attrs({
   className: 'space-y-3',
 })``;
 
-const ActionWrapper = styled.div.attrs({
+const AlertInlineContainer = styled.div.attrs({
+  className: 'mx-auto mt-2 w-max',
+})``;
+
+const ButtonsContainer = styled.div.attrs({
   className: 'flex space-x-1.5 justify-center',
+})``;
+
+const ActionWrapper = styled.div.attrs({
+  className: '',
 })``;
 
 const DividerWrapper = styled.div.attrs({

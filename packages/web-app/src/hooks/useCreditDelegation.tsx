@@ -45,7 +45,7 @@ export function useCreditDelegation(daoAddress?: string): any {
       {
         const contract = new ethers.Contract(asset, erc20TokenABI, signer);
         try {
-          return contract.approve(creditDelegation?.instanceAddress, amount)
+          return await contract.approve(creditDelegation?.instanceAddress, amount)
         } catch (err) {
           return 0;
         }
