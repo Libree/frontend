@@ -22,7 +22,8 @@ import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { htmlIn } from 'utils/htmlIn';
 import LendingTokenList from 'components/lendingTokenList';
-import { useAaveData } from 'hooks/useAaveDatay';
+import { useAaveData } from 'hooks/useAaveData';
+import { formatUnits } from 'utils/library';
 
 const Lending: React.FC = () => {
     const { t } = useTranslation();
@@ -30,43 +31,32 @@ const Lending: React.FC = () => {
     const { open } = useGlobalModalContext();
     const { isMobile, isDesktop } = useScreen();
 
-    const { healthFactor, totalAvailableBorrow, totalCollateral, totalDebt } = useAaveData(daoDetails?.address)
+    const { healthFactor, netWorth, totalCollateral, totalDebt, reserves } = useAaveData(daoDetails?.address)
 
-    // load dao details
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
 
-    const netWorth = 10000;
-
-    const collateralList: any[] = [
-        {
-            id: '1',
-            symbol: 'WETH',
-            apyPercentage: 2.65,
-            balance: 1.2,
-            balanceUsd: 2222,
+    const collateralList = reserves.filter(
+        token => !token.metadata.name.includes('Debt')).map(token =>
+        ({
+            id: token.metadata.id,
+            symbol: token.metadata.name,
+            apyPercentage: token.currentLiquidityRate.toFixed(2),
+            balance: Number(formatUnits(token.balance, token.metadata.decimals)).toFixed(2),
+            balanceUsd: Number(token.marketData?.balanceValue).toFixed(2),
             changeType: 'Positive',
-        },
-        {
-            id: '2',
-            symbol: 'WBTC',
-            apyPercentage: 1.65,
-            balance: 0.2,
-            balanceUsd: 8888,
-            changeType: 'Positive',
-        },
-    ]
+        }));
 
-    const borrowList = [
-        {
-            id: '1',
-            symbol: 'USDC',
-            apyPercentage: 1.65,
-            balance: 1000,
-            balanceUsd: 1000,
+    const borrowList = reserves.filter(
+        token => token.metadata.name.includes('Debt')).map(token =>
+        ({
+            id: token.metadata.id,
+            symbol: token.metadata.name,
+            apyPercentage: token.currentVariableBorrowRate.toFixed(2),
+            balance: Number(formatUnits(token.balance, token.metadata.decimals)).toFixed(2),
+            balanceUsd: Number(token.marketData?.balanceValue).toFixed(2),
             changeType: 'Negative',
-        }
-    ]
+        }));
 
     /*************************************************
      *                    Render                     *
