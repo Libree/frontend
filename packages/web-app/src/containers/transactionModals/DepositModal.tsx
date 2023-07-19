@@ -24,6 +24,7 @@ import { SUPPORTED_TOKENS } from 'utils/config';
 import { SupportedNetwork } from 'utils/types';
 
 const icons = {
+  [TransactionState.APPROVING]: undefined,
   [TransactionState.WAITING]: undefined,
   [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
   [TransactionState.SUCCESS]: undefined,
@@ -44,16 +45,17 @@ const DepositModal: React.FC = () => {
     tokenAddress: '',
   });
   const [depositProcessState, setDepositProcessState] =
-    useState<TransactionState>();
+    useState<TransactionState>(TransactionState.WAITING);
 
   const label = {
-    [TransactionState.WAITING]: t('TransactionModal.publishDaoButtonLabel'),
+    [TransactionState.APPROVING]: t('TransactionModal.publishDaoButtonLabel'),
+    [TransactionState.WAITING]: t('labels.deposit'),
     [TransactionState.LOADING]: t('TransactionModal.waiting'),
     [TransactionState.SUCCESS]: t('TransactionModal.goToFinance'),
     [TransactionState.ERROR]: t('TransactionModal.tryAgain'),
   };
 
-  useEffect(() => setDepositProcessState(undefined), [isDepositOpen]);
+  useEffect(() => setDepositProcessState(TransactionState.WAITING), [isDepositOpen]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -76,14 +78,13 @@ const DepositModal: React.FC = () => {
         provider,
         CHAIN_METADATA[network].nativeCurrency
       )
-      const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
-      const allowance = await tokenAllowance(input.tokenAddress)
-      if (true || allowance < amount) {
-        setDepositProcessState(TransactionState.WAITING)
-        approve(input.tokenAddress, amount);
-        setDepositProcessState(TransactionState.LOADING)
+      const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
+      const allowance = await tokenAllowance(input.tokenAddress);
+      if (allowance < amount) {
+        setDepositProcessState(TransactionState.APPROVING);
+        approve(input.tokenAddress, amount); // in promise
+        setDepositProcessState(TransactionState.LOADING);
       }
-      setDepositProcessState(undefined)
       deposit(input.tokenAddress, amount.toString());
       setDepositProcessState(TransactionState.SUCCESS);
     } catch {
@@ -170,8 +171,8 @@ const DepositModal: React.FC = () => {
               <ButtonText
                 mode="primary"
                 size="large"
-                label={depositProcessState ? label[depositProcessState] : t('labels.deposit')}
-                iconLeft={depositProcessState && icons[depositProcessState]}
+                label={label[depositProcessState]}
+                iconLeft={icons[depositProcessState]}
                 onClick={handleOnClick}
                 className='w-full'
               />
