@@ -7,6 +7,7 @@ import { MUMBAI_DECIMALS } from 'utils/constants';
 import { useDaoVault } from './useDaoVault';
 import { aTokenABI } from 'abis/erc20TokenABI';
 import { VaultToken } from 'utils/types';
+import { useDaoDetailsQuery } from './useDaoDetails';
 
 interface IuseAaveData {
   totalCollateral: Number | null,
@@ -25,9 +26,10 @@ export type IReserves = VaultToken & {
   currentVariableBorrowRate: number
 };
 
-export function useAaveData(daoAddress?: string): IuseAaveData {
+export function useAaveData(): IuseAaveData {
   const { signer } = useWallet();
   const { tokens } = useDaoVault()
+  const { data: daoDetails } = useDaoDetailsQuery()
   const [totalCollateral, setTotalCollateral] = useState<Number | null>(null)
   const [netWorth, setNetWorth] = useState<number>(0)
   const [totalDebt, setTotalDebt] = useState<Number | null>(null)
@@ -39,11 +41,11 @@ export function useAaveData(daoAddress?: string): IuseAaveData {
 
 
   useEffect(() => {
-    if (signer && daoAddress && tokens) {
-      getData(daoAddress, signer)
+    if (signer && daoDetails && tokens) {
+      getData(daoDetails.address, signer)
     }
 
-  }, [signer, daoAddress, tokens])
+  }, [signer, daoDetails, tokens])
 
   const getData = async (daoAddress: string, signer: any) => {
     const pool = IPool__factory.connect(CONTRACT_ADDRESSES['maticmum'].aavePool, signer);

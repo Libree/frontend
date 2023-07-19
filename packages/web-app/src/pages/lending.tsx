@@ -31,7 +31,7 @@ const Lending: React.FC = () => {
     const { open } = useGlobalModalContext();
     const { isMobile, isDesktop } = useScreen();
 
-    const { healthFactor, netWorth, totalCollateral, totalDebt, reserves } = useAaveData(daoDetails?.address)
+    const { healthFactor, netWorth, totalCollateral, totalDebt, reserves } = useAaveData()
 
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
