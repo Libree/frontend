@@ -8,13 +8,15 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
+import { useSubgovernance } from 'hooks/useSubgovernance';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const ActiveContent = () => {
 
-    const { totalAssetValue } = useDaoVault()
-    const { netWorth: aaveNetWorth } = useAaveData()
+    const { totalAssetValue } = useDaoVault();
+    const { netWorth: aaveNetWorth } = useAaveData();
+    const { groupData } = useSubgovernance();
 
     const doughnutData = {
         labels: [
@@ -43,7 +45,9 @@ export const ActiveContent = () => {
                 </ChartContainer>
 
                 <ActiveDataContainer>
-                    <ActiveGroupsList />
+                    <ActiveGroupsList
+                        groupsData={groupData}
+                    />
                     <ActiveInvestmentsList
                         aaveNetWorth={aaveNetWorth}
                         totalAssetValue={totalAssetValue} />
@@ -81,30 +85,17 @@ const Title = styled.p.attrs({
  *              Active Groups List               *
  *************************************************/
 
-const ActiveGroupsList = () => {
-    const activeGroups = [
-        { title: 'Credit Delegation', value: 12000, percentage: 12.4 },
-        { title: 'Operations', value: 12000, percentage: 6.4 },
-    ];
+const ActiveGroupsList = ({ groupsData }: { groupsData: any[]}) => {
     return (
         <>
             <Title>Active Groups</Title>
             <ActiveGroupsContainer>
-                {activeGroups.map((group, index) => (
-                    <ActiveGroupCardContainer key={index}>
+                {groupsData.map((group) => (
+                    <ActiveGroupCardContainer key={group.id}>
                         <div className='flex space-x-1'>
                             <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
                             <ActiveGroupCardData>
-                                <CardTitle>{group.title}</CardTitle>
-                                <div className='flex items-center justify-center space-x-2'>
-                                    <CardTag>
-                                        {new Intl.NumberFormat('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }).format(group.value)}
-                                    </CardTag>
-                                    <CardTag>{group.percentage}%</CardTag>
-                                </div>
+                                <CardTitle>{group.name}</CardTitle>
                                 <div className='w-full flex justify-end'>
                                     <IconArrowRight />
                                 </div>
