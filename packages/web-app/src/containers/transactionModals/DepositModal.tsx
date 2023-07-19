@@ -5,7 +5,7 @@ import {
   Spinner,
   WalletInputLegacy,
 } from '@aragon/ui-components';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -43,15 +43,17 @@ const DepositModal: React.FC = () => {
     amount: '',
     tokenAddress: '',
   });
+  const [depositProcessState, setDepositProcessState] =
+    useState<TransactionState>();
 
   const label = {
-    [TransactionState.WAITING]: t('labels.deposit'),
+    [TransactionState.WAITING]: t('TransactionModal.publishDaoButtonLabel'),
     [TransactionState.LOADING]: t('TransactionModal.waiting'),
     [TransactionState.SUCCESS]: t('TransactionModal.goToFinance'),
     [TransactionState.ERROR]: t('TransactionModal.tryAgain'),
   };
 
-  const state: any = TransactionState.WAITING;
+  useEffect(() => setDepositProcessState(undefined), [isDepositOpen]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -67,18 +69,24 @@ const DepositModal: React.FC = () => {
   };
 
   const handleCtaClicked = useCallback(async () => {
-    const tokenInfo = await getTokenInfo(
-      input.tokenAddress,
-      provider,
-      CHAIN_METADATA[network].nativeCurrency
-    )
-    const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
-    const allowance = await tokenAllowance(input.tokenAddress)
-    if (allowance < amount) {
-      //TODO - Change modal label to approve
-      approve(input.tokenAddress, amount);
+    try {
+      setDepositProcessState(TransactionState.LOADING);
+      const tokenInfo = await getTokenInfo(
+        input.tokenAddress,
+        provider,
+        CHAIN_METADATA[network].nativeCurrency
+      )
+      const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals)
+      const allowance = await tokenAllowance(input.tokenAddress)
+      if (allowance < amount) {
+        setDepositProcessState(TransactionState.WAITING)
+        approve(input.tokenAddress, amount);
+      }
+      deposit(input.tokenAddress, amount.toString());
+      setDepositProcessState(TransactionState.SUCCESS);
+    } catch {
+      setDepositProcessState(TransactionState.ERROR);
     }
-    deposit(input.tokenAddress, amount.toString());
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
   const Divider: React.FC = () => {
@@ -148,20 +156,22 @@ const DepositModal: React.FC = () => {
               <ButtonText
                 mode="primary"
                 size="large"
-                label={label[state]}
-                iconLeft={icons[state]}
+                label={depositProcessState ? label[depositProcessState] : t('labels.deposit')}
+                iconLeft={depositProcessState && icons[depositProcessState]}
                 onClick={handleCtaClicked}
                 className='w-full'
               />
-              <ButtonText
-                mode="secondary"
-                size="large"
-                label={t('modal.deposit.cancelLabel')}
-                onClick={() => close('deposit')}
-                className='w-full'
-              />
+              {(!depositProcessState || depositProcessState === TransactionState.WAITING) && (
+                <ButtonText
+                  mode="secondary"
+                  size="large"
+                  label={t('modal.deposit.cancelLabel')}
+                  onClick={() => close('deposit')}
+                  className='w-full'
+                />
+              )}
             </ButtonsContainer>
-            {state === TransactionState.SUCCESS && (
+            {depositProcessState === TransactionState.SUCCESS && (
               <AlertInlineContainer>
                 <AlertInline
                   label={t('TransactionModal.successLabel')}
@@ -169,7 +179,7 @@ const DepositModal: React.FC = () => {
                 />
               </AlertInlineContainer>
             )}
-            {state === TransactionState.ERROR && (
+            {depositProcessState === TransactionState.ERROR && (
               <AlertInlineContainer>
                 <AlertInline
                   label={t('TransactionModal.errorLabel')}
