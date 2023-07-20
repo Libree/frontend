@@ -55,15 +55,27 @@ export const GoLiveHeader: React.FC = () => {
   );
 };
 
-const GoLive: React.FC = () => {
+type GoLiveProps = {
+  blockchainEditStep: number;
+  daoMetadataEditStep: number;
+  communityEditStep: number;
+  governanceEditStep: number;
+};
+
+const GoLive: React.FC<GoLiveProps> = ({
+  blockchainEditStep,
+  daoMetadataEditStep,
+  communityEditStep,
+  governanceEditStep,
+}) => {
   const {t} = useTranslation();
 
   return (
     <Container>
-      <Blockchain />
-      <DaoMetadata />
-      <Community />
-      <Governance />
+      <Blockchain editionStep={blockchainEditStep} />
+      <DaoMetadata editionStep={daoMetadataEditStep} />
+      <Community editionStep={communityEditStep} />
+      <Governance editionStep={governanceEditStep} />
       <AlertCard title={t('createDAO.review.daoUpdates')} />
     </Container>
   );

@@ -5,7 +5,9 @@ import {useTranslation} from 'react-i18next';
 import {Dd, DescriptionListContainer, Dl, Dt} from 'components/descriptionList';
 import {useFormStep} from 'components/fullScreenStepper';
 
-const Governance: React.FC = () => {
+type GovernanceProps = { editionStep: number };
+
+const Governance: React.FC<GovernanceProps> = ({ editionStep }) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {t} = useTranslation();
@@ -36,7 +38,7 @@ const Governance: React.FC = () => {
       render={({field: {onChange, value}}) => (
         <DescriptionListContainer
           title={t('labels.review.votingParameters')}
-          onEditClick={() => setStep(5)}
+          onEditClick={() => setStep(editionStep)}
           checkBoxErrorMessage={t('createDAO.review.acceptContent')}
           checkedState={
             value ? 'active' : reviewCheckError ? 'error' : 'default'

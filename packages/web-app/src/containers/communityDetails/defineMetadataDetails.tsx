@@ -12,9 +12,6 @@ import styled from 'styled-components';
 
 import { URL_PATTERN } from 'utils/constants';
 import { isOnlyWhitespace } from 'utils/library';
-import { isDaoEnsNameValid } from 'utils/validators';
-import { useProviders } from 'context/providers';
-import { useNetwork } from 'context/network';
 
 const DAO_LOGO = {
     maxDimension: 2400,
@@ -28,15 +25,9 @@ export type DefineMetadataProps = {
     bgWhite?: boolean;
 };
 
-const DefineMetadataDetails: React.FC<DefineMetadataProps> = ({
-    arrayName = 'links',
-    bgWhite = false,
-    isSettingPage,
-}) => {
+const DefineMetadataDetails: React.FC<DefineMetadataProps> = () => {
     const { t } = useTranslation();
-    const { isL2Network } = useNetwork();
-    const { control, setError, clearErrors, getValues } = useFormContext();
-    const { infura: provider } = useProviders();
+    const { control, setError } = useFormContext();
 
     const handleImageError = useCallback(
         (error: { code: string; message: string }) => {
@@ -65,30 +56,6 @@ const DefineMetadataDetails: React.FC<DefineMetadataProps> = ({
         },
         [setError, t]
     );
-
-    function ErrorHandler({ value, error }: { value: string; error?: FieldError }) {
-        if (error?.message) {
-            if (error.message === t('infos.checkingEns')) {
-                return (
-                    <AlertInline
-                        label={t('infos.checkingEns') as string}
-                        mode="neutral"
-                    />
-                );
-            } else {
-                return <AlertInline label={error.message as string} mode="critical" />;
-            }
-        } else {
-            if (value) {
-                return (
-                    <AlertInline
-                        label={t('infos.ensAvailable') as string}
-                        mode="success"
-                    />
-                );
-            } else return null;
-        }
-    }
 
     return (
         <Container>

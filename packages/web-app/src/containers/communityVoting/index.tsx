@@ -1,7 +1,4 @@
 import { VotingMode, VotingSettings } from '@aragon/sdk-client';
-import {
-    ListItemAction,
-} from '@aragon/ui-components';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {
     useFieldArray,
@@ -31,7 +28,7 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
     const { t } = useTranslation();
 
     const { setValue, control } = useFormContext();
-    const { fields, replace } = useFieldArray({
+    const { fields } = useFieldArray({
         name: 'daoLinks',
         control,
     });
@@ -180,60 +177,7 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
         eligibilityTokenAmount !== formattedProposerAmount ||
         eligibilityType !== formattedEligibilityType;
 
-    const setCurrentMetadata = useCallback(() => {
-        setValue('daoName', daoDetails?.metadata.name);
-        setValue('daoSummary', daoDetails?.metadata.description);
-        setValue('daoLogo', daoDetails?.metadata.avatar);
-
-        /**
-         * FIXME - this is the dumbest workaround: because there is an internal
-         * field array in 'AddLinks', conflicts arise when removing rows via remove
-         * and update. While the append, remove and replace technically happens whe
-         * we reset the form, a row is not added to the AddLinks component leaving
-         * the component in a state where one or more rows are hidden until the Add
-         * Link button is clicked. The workaround is to forcefully set empty fields
-         * for each link coming from daoDetails and then replacing them with the
-         * proper values
-         */
-        if (daoDetails?.metadata.links) {
-            setValue('daoLinks', [...daoDetails.metadata.links.map(() => ({}))]);
-            replace([...daoDetails.metadata.links]);
-        }
-    }, [
-        daoDetails?.metadata.avatar,
-        daoDetails?.metadata.description,
-        daoDetails?.metadata.links,
-        daoDetails?.metadata.name,
-        setValue,
-        replace,
-    ]);
-
-    const setCurrentCommunity = useCallback(() => {
-        setValue('eligibilityTokenAmount', formattedProposerAmount);
-        setValue('minimumTokenAmount', formattedProposerAmount);
-        setValue('eligibilityType', formattedEligibilityType);
-    }, [formattedEligibilityType, formattedProposerAmount, setValue]);
-
     const setCurrentGovernance = useCallback(() => {
-        setValue('tokenTotalSupply', tokenSupply?.formatted);
-        setValue('minimumApproval', Math.round(daoSettings.supportThreshold * 100));
-        setValue(
-            'minimumParticipation',
-            Math.round(daoSettings.minParticipation * 100)
-        );
-
-        const votingMode = decodeVotingMode(
-            daoSettings?.votingMode || VotingMode.STANDARD
-        );
-
-        setValue('earlyExecution', votingMode.earlyExecution);
-        setValue('voteReplacement', votingMode.voteReplacement);
-
-        setValue('durationDays', days?.toString());
-        setValue('durationHours', hours?.toString());
-        setValue('durationMinutes', minutes?.toString());
-
-        // TODO: Alerts share will be added later
         setValue(
             'membership',
             daoDetails?.plugins.find(
@@ -244,13 +188,6 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
         );
     }, [
         daoDetails?.plugins,
-        daoSettings.supportThreshold,
-        daoSettings.votingMode,
-        daoSettings.minParticipation,
-        days,
-        hours,
-        minutes,
-        tokenSupply?.formatted,
         setValue,
     ]);
 
@@ -267,27 +204,12 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
     }, [settingsUnchanged, setValue]);
 
     useEffect(() => {
-        setCurrentMetadata();
-        setCurrentCommunity();
         setCurrentGovernance();
-    }, [setCurrentGovernance, setCurrentCommunity, setCurrentMetadata]);
+    }, [setCurrentGovernance]);
 
     useEffect(() => {
         setValue('membership', 'token');
     }, [setValue]);
-
-    const governanceAction = [
-        {
-            component: (
-                <ListItemAction
-                    title={t('settings.resetChanges')}
-                    bgWhite
-                    mode={isGovernanceChanged ? 'default' : 'disabled'}
-                />
-            ),
-            callback: setCurrentGovernance,
-        },
-    ];
 
     if (settingsAreLoading || tokensAreLoading || tokenSupplyIsLoading) {
         return <Loading />;
@@ -301,7 +223,6 @@ const CommunityVotingSetup: React.FC<CommunityVotingSetupProps> = ({ daoDetails 
                         type="action-builder"
                         name="governance"
                         methodName={t('labels.advanced')}
-                        dropdownItems={governanceAction}
                     >
                         <AccordionContent>
                             <ConfigureCommunity />

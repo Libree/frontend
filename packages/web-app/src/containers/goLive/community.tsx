@@ -8,7 +8,9 @@ import {useFormStep} from 'components/fullScreenStepper';
 import CommunityAddressesModal from 'containers/communityAddressesModal';
 import {useGlobalModalContext} from 'context/globalModals';
 
-const Community: React.FC = () => {
+type CommunityProps = { editionStep: number };
+
+const Community: React.FC<CommunityProps> = ({ editionStep }) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {open} = useGlobalModalContext();
@@ -37,7 +39,7 @@ const Community: React.FC = () => {
       render={({field: {onChange, value}}) => (
         <DescriptionListContainer
           title={t('labels.review.voters')}
-          onEditClick={() => setStep(4)}
+          onEditClick={() => setStep(editionStep)}
           checkBoxErrorMessage={t('createDAO.review.acceptContent')}
           checkedState={
             value ? 'active' : reviewCheckError ? 'error' : 'default'

@@ -6,7 +6,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-
 const SelectPlugins: React.FC = () => {
     const { t } = useTranslation();
     const { control, setValue } = useFormContext();
@@ -18,7 +17,7 @@ const SelectPlugins: React.FC = () => {
             }
             onChange(value);
         }
-        , [setValue]);
+    , [setValue]);
 
     return (
         <>

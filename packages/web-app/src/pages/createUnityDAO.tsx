@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { withTransaction } from '@elastic/apm-rum-react';
 import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormState, useWatch } from 'react-hook-form';
 
 import { FullScreenStepper, Step } from 'components/fullScreenStepper';
 import GoLive, { GoLiveHeader, GoLiveFooter } from 'containers/goLive';
@@ -85,7 +85,22 @@ const CreateUnityDAO: React.FC = () => {
         mode: 'onChange',
         defaultValues,
     });
-    const {data: daoDetails} = useDaoDetailsQuery();
+    const { data: daoDetails } = useDaoDetailsQuery();
+    const { errors } = useFormState({ control: formMethods.control });
+    const [
+        daoName,
+        daoSummary,
+        tokenName,
+        tokenSymbol,
+    ] = useWatch({
+        control: formMethods.control,
+        name: [
+            'daoName',
+            'daoSummary',
+            'tokenName',
+            'tokenSymbol'
+        ],
+    });
 
     // Note: The wallet network determines the expected network when entering
     // the flow so that the process is more convenient for already logged in
@@ -113,6 +128,35 @@ const CreateUnityDAO: React.FC = () => {
     }, []);
 
     /*************************************************
+     *             Step Validation States            *
+     *************************************************/
+    const daoDetailsIsValid = useMemo(() => {
+        if (!daoName || !daoSummary) return false;
+
+        return errors.daoName ||
+            errors.daoSummary
+            ? false
+            : true;
+    }, [
+        daoName,
+        daoSummary,
+        errors.daoName,
+        errors.daoSummary,
+    ]);
+
+    const daoConfigIsValid = useMemo(() => {
+        if (!tokenName || !tokenSymbol) return false;
+
+        return errors.tokenName ||
+            errors.tokenSymbol
+            ? false
+            : true;
+    }, [
+        tokenName,
+        tokenSymbol,
+    ]);
+
+    /*************************************************
      *                    Render                     *
      *************************************************/
     return (
@@ -126,12 +170,15 @@ const CreateUnityDAO: React.FC = () => {
                 >
                     <Step
                         wizardDescription={t('createUnityDAO.step1.description')}
+                        isNextButtonDisabled={!daoDetailsIsValid}
                     >
                         <CommunityDetailsSetup />
                     </Step>
-                    <Step>
+                    <Step
+                        isNextButtonDisabled={!daoConfigIsValid}
+                    >
                         <CommunityTokenSetup />
-                        <CommunityVotingSetup daoDetails={daoDetails}/>
+                        <CommunityVotingSetup daoDetails={daoDetails} />
                     </Step>
                     <Step
                         hideWizard
@@ -139,7 +186,12 @@ const CreateUnityDAO: React.FC = () => {
                         customHeader={<GoLiveHeader />}
                         customFooter={<GoLiveFooter />}
                     >
-                        <GoLive />
+                        <GoLive
+                            blockchainEditStep={1}
+                            daoMetadataEditStep={1}
+                            communityEditStep={2}
+                            governanceEditStep={2}
+                        />
                     </Step>
                 </FullScreenStepper>
             </CreateDaoProvider>
