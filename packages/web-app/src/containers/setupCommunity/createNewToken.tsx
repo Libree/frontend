@@ -1,5 +1,5 @@
 import {AlertInline, Label, TextInput} from '@aragon/ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {Controller, useFormContext} from 'react-hook-form';
@@ -8,7 +8,11 @@ import {htmlIn} from 'utils/htmlIn';
 
 const CreateNewToken: React.FC = () => {
   const {t} = useTranslation();
-  const {control} = useFormContext();
+  const {control, getValues, formState} = useFormContext();
+
+  useEffect(() => {
+    console.log('values at step2: ', getValues());
+  }, [formState])
 
   return (
     <Container>

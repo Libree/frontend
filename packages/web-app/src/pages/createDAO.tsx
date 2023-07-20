@@ -350,7 +350,12 @@ const CreateDAO: React.FC = () => {
             customHeader={<GoLiveHeader />}
             customFooter={<GoLiveFooter />}
           >
-            <GoLive />
+            <GoLive
+              blockchainEditStep={2}
+              daoMetadataEditStep={3}
+              communityEditStep={4}
+              governanceEditStep={5}
+            />
           </Step>
         </FullScreenStepper>
       </CreateDaoProvider>

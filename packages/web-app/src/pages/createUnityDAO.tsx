@@ -188,7 +188,12 @@ const CreateUnityDAO: React.FC = () => {
                         customHeader={<GoLiveHeader />}
                         customFooter={<GoLiveFooter />}
                     >
-                        <GoLive />
+                        <GoLive
+                            blockchainEditStep={1}
+                            daoMetadataEditStep={1}
+                            communityEditStep={2}
+                            governanceEditStep={2}
+                        />
                     </Step>
                 </FullScreenStepper>
             </CreateDaoProvider>

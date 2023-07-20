@@ -5,7 +5,7 @@ import {
     TextareaSimple,
     TextInput,
 } from '@aragon/ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Controller, FieldError, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -27,7 +27,11 @@ export type DefineMetadataProps = {
 
 const DefineMetadataDetails: React.FC<DefineMetadataProps> = () => {
     const { t } = useTranslation();
-    const { control, setError } = useFormContext();
+    const { control, setError, getValues, formState } = useFormContext();
+
+    useEffect(() => {
+        console.log('values at step1: ', getValues());
+    }, [formState])
 
     const handleImageError = useCallback(
         (error: { code: string; message: string }) => {
@@ -80,7 +84,11 @@ const DefineMetadataDetails: React.FC<DefineMetadataProps> = () => {
                     }) => (
                         <div className='flex flex-col'>
                             <TextInput
-                                {...{ name, value, onBlur, onChange }}
+                                // {...{ name, value, onBlur, onChange }}
+                                name={name}
+                                value={value}
+                                onBlur={onBlur}
+                                onChange={onChange}
                                 placeholder={t('placeHolders.daoName')}
                             />
                             <InputCount>{`${value.length}/128`}</InputCount>

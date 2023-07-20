@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {useFormContext} from 'react-hook-form';
@@ -55,27 +55,43 @@ export const GoLiveHeader: React.FC = () => {
   );
 };
 
-const GoLive: React.FC = () => {
+type GoLiveProps = {
+  blockchainEditStep: number;
+  daoMetadataEditStep: number;
+  communityEditStep: number;
+  governanceEditStep: number;
+};
+
+const GoLive: React.FC<GoLiveProps> = ({
+  blockchainEditStep,
+  daoMetadataEditStep,
+  communityEditStep,
+  governanceEditStep,
+}) => {
   const {t} = useTranslation();
 
   return (
     <Container>
-      <Blockchain />
-      <DaoMetadata />
-      <Community />
-      <Governance />
+      <Blockchain editionStep={blockchainEditStep} />
+      <DaoMetadata editionStep={daoMetadataEditStep} />
+      <Community editionStep={communityEditStep} />
+      <Governance editionStep={governanceEditStep} />
       <AlertCard title={t('createDAO.review.daoUpdates')} />
     </Container>
   );
 };
 
 export const GoLiveFooter: React.FC = () => {
-  const {watch, setValue, getValues} = useFormContext();
+  const {watch, setValue, getValues, formState} = useFormContext();
   const {reviewCheck} = watch();
   const {t} = useTranslation();
   const {handlePublishDao} = useCreateDaoContext();
   const {open} = useGlobalModalContext();
   const {isConnected, provider, isOnWrongNetwork} = useWallet();
+
+  useEffect(() => {
+    console.log('values at review: ', getValues());
+  }, [formState])
 
   const IsButtonDisabled = () =>
     !Object.values(reviewCheck).every(v => v === true);
