@@ -31,7 +31,6 @@ export type CreateUnityDaoFormData = {
     daoName: string;
     daoEnsName: string;
     daoSummary: string;
-
     tokenName: string;
     tokenSymbol: string;
     tokenTotalSupply: number;
@@ -39,12 +38,11 @@ export type CreateUnityDaoFormData = {
     links: { name: string; url: string }[];
     wallets: WalletField[];
     tokenAddress: string;
-
-    minimumParticipation: string;
     durationMinutes: string;
     durationHours: string;
     durationDays: string;
     minimumApproval: string;
+    minimumParticipation: string;
     eligibilityType: 'token' | 'anyone' | 'multisig';
     eligibilityTokenAmount: number | string;
     support: string;

@@ -307,7 +307,6 @@ const CreateDaoProvider: React.FC = ({ children }) => {
       description: daoSummary,
       links: links.filter(r => r.name && r.url),
     };
-    console.log('metadata', metadata);
 
     if (daoLogo) {
       try {

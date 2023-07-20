@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {useFormContext} from 'react-hook-form';
@@ -82,16 +82,12 @@ const GoLive: React.FC<GoLiveProps> = ({
 };
 
 export const GoLiveFooter: React.FC = () => {
-  const {watch, setValue, getValues, formState} = useFormContext();
+  const {watch, setValue, getValues} = useFormContext();
   const {reviewCheck} = watch();
   const {t} = useTranslation();
   const {handlePublishDao} = useCreateDaoContext();
   const {open} = useGlobalModalContext();
   const {isConnected, provider, isOnWrongNetwork} = useWallet();
-
-  useEffect(() => {
-    console.log('values at review: ', getValues());
-  }, [formState])
 
   const IsButtonDisabled = () =>
     !Object.values(reviewCheck).every(v => v === true);
