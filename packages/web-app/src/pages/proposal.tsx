@@ -77,7 +77,7 @@ import {
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
 import { Action, ProposalId } from 'utils/types';
-import { decodeCreditDelegationAction, findInterfaceCustomPlugins } from 'utils/dencoding';
+import { decodeCreateGroupAction, decodeCreditDelegationAction, findInterfaceCustomPlugins } from 'utils/dencoding';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -235,7 +235,7 @@ const Proposal: React.FC = () => {
       ? proposal.token
       : undefined;
 
-    const actionPromises: Promise<Action | undefined>[] = proposal.actions.map(
+    const actionPromises: Promise<Action | undefined| Action[]>[] = proposal.actions.flatMap(
       (action: DaoAction, index) => {
         const functionParams =
           client?.decoding.findInterface(action.data) ||
@@ -291,6 +291,8 @@ const Proposal: React.FC = () => {
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
             return decodeCreditDelegationAction(action.data);
+          case 'createGroup':
+            return decodeCreateGroupAction(action.data)
           default:
             return decodeSCCToAction(action, network, t);
         }
@@ -317,7 +319,7 @@ const Proposal: React.FC = () => {
     }
 
     Promise.all(actionPromises).then(value => {
-      setDecodedActions(value);
+      setDecodedActions(value.flat());
     });
   }, [apolloClient, client, network, pluginClient, proposal, provider, t]);
 
