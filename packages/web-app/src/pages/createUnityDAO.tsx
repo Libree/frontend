@@ -75,6 +75,8 @@ const defaultValues = {
     durationDays: '1',
     durationHours: '0',
     durationMinutes: '0',
+    minimumApproval: '50',
+    minimumParticipation: '1',
 };
 
 const CreateUnityDAO: React.FC = () => {
