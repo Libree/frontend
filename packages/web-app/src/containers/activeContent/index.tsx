@@ -9,6 +9,9 @@ import { Doughnut } from 'react-chartjs-2';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
 import { useSubgovernance } from 'hooks/useSubgovernance';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { Lending } from 'utils/paths';
+import { useNetwork } from 'context/network';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -128,8 +131,10 @@ const ActiveInvestmentsList = (
     { aaveNetWorth, totalAssetValue }:
         { aaveNetWorth: number, totalAssetValue: number }
 ) => {
-
-    const aaveData = aaveNetWorth > 0 ?
+    const { dao } = useParams();
+    const { network } = useNetwork();
+    const navigate = useNavigate();
+    const aaveData = true ?
         [{
             imgUrl: AaveLogo,
             name: 'AAVE',
@@ -142,12 +147,17 @@ const ActiveInvestmentsList = (
     const activeInvestments = [
         ...aaveData
     ];
+
+    const navigateToLendingPage = () => {
+        navigate(generatePath(Lending, {network: network, dao: dao}))
+    };
+
     return (
         <>
             <Title>Active Investments</Title>
             <ActiveInvestContainer>
                 {activeInvestments.map((item, index) => (
-                    <CardContainer key={index}>
+                    <CardContainer key={index} onClick={navigateToLendingPage}>
                         <ImgContainer>
                             <StyledImg src={item.imgUrl} alt={item.name} />
                         </ImgContainer>
@@ -175,7 +185,8 @@ const ActiveInvestContainer = styled.div.attrs({
 })``;
 
 const CardContainer = styled.div.attrs({
-    className: 'bg-ui-50 grid grid-cols-12 items-center border shadow-sm rounded-full py-1 px-1 tablet:px-4',
+    className: `bg-ui-50 grid grid-cols-12 items-center border shadow-sm rounded-full py-1 px-1 tablet:px-4
+        cursor-pointer hover:border-ui-200`,
 })``;
 
 const StyledImg = styled.img.attrs({

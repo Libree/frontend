@@ -8,6 +8,7 @@ export const NotFound = '/not-found';
 
 export const Dashboard = '/daos/:network/:dao/dashboard';
 export const Finance = '/daos/:network/:dao/finance';
+export const Lending = '/daos/:network/:dao/finance/lending';
 export const Governance = '/daos/:network/:dao/governance';
 export const Community = '/daos/:network/:dao/community';
 export const Settings = '/daos/:network/:dao/settings';
