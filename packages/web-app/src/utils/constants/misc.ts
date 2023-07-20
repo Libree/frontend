@@ -11,6 +11,7 @@ import {BigNumber} from 'ethers';
 import {i18n} from '../../../i18n.config';
 import {Dashboard, Community, Finance, Governance, Settings} from '../paths';
 import { CreditDelegator__factory } from 'typechain-types/CreditDelegator__factory';
+import { Subgovernance__factory } from 'typechain-types/Subgovernance__factory';
 
 /** Time period options for token price change */
 export const enum TimeFilter {
@@ -154,5 +155,6 @@ export const VERIFIED_CONTRACTS_KEY = 'verifiedContracts';
 export const PRODUCTION_ENABLED = import.meta.env.VITE_PRODUCTION_ENABLED as string;
 
 export const AVAILABLE_FUNCTION_SIGNATURES: string[] = [
-  CreditDelegator__factory.createInterface().getFunction("borrowAndTransfer").format("minimal")
+  CreditDelegator__factory.createInterface().getFunction("borrowAndTransfer").format("minimal"),
+  Subgovernance__factory.createInterface().getFunction("createGroup").format("minimal")
 ];

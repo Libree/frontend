@@ -20,7 +20,6 @@ type ActionsFilterProps = {
 
 export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
   const {data: dao} = useDaoDetailsQuery();
-
   // all actions have names
   switch (action.name) {
     case 'withdraw_assets':
