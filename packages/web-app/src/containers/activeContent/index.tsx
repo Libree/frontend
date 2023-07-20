@@ -1,4 +1,5 @@
 import React from 'react';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { IconArrowRight, IconPerson } from '@aragon/ui-components';
 import styled from 'styled-components';
 
@@ -9,9 +10,8 @@ import { Doughnut } from 'react-chartjs-2';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
 import { useSubgovernance } from 'hooks/useSubgovernance';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { Lending } from 'utils/paths';
 import { useNetwork } from 'context/network';
+import { Lending } from 'utils/paths';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -134,7 +134,7 @@ const ActiveInvestmentsList = (
     const { dao } = useParams();
     const { network } = useNetwork();
     const navigate = useNavigate();
-    const aaveData = true ?
+    const aaveData = aaveNetWorth > 0 ?
         [{
             imgUrl: AaveLogo,
             name: 'AAVE',
