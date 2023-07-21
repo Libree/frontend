@@ -16,12 +16,10 @@ type NetworkType = 'main' | 'test';
 const SelectChainDetails: React.FC = () => {
     const { t } = useTranslation();
     const { isMobile } = useScreen();
-    const { setNetwork, network } = useNetwork();
+    const { setNetwork } = useNetwork();
     const { control, resetField } = useFormContext();
 
-    const [networkType, setNetworkType] = useState<NetworkType>(
-        CHAIN_METADATA[network].testnet ? 'test' : 'main'
-    );
+    const [networkType, setNetworkType] = useState<NetworkType>('test');
 
     return (
         <>

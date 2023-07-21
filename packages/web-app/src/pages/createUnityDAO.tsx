@@ -90,6 +90,7 @@ const CreateUnityDAO: React.FC = () => {
     const { data: daoDetails } = useDaoDetailsQuery();
     const { errors } = useFormState({ control: formMethods.control });
     const [
+        blockchain,
         daoName,
         daoSummary,
         tokenName,
@@ -97,6 +98,7 @@ const CreateUnityDAO: React.FC = () => {
     ] = useWatch({
         control: formMethods.control,
         name: [
+            'blockchain',
             'daoName',
             'daoSummary',
             'tokenName',
@@ -112,7 +114,7 @@ const CreateUnityDAO: React.FC = () => {
         // get the default expected network using the connected wallet, use ethereum
         // mainnet in case user accesses the flow without wallet connection. Ideally,
         // this should not happen
-        const defaultNetwork = getSupportedNetworkByChainId(chainId) || 'ethereum';
+        const defaultNetwork = 'mumbai';
 
         // update the network context
         setNetwork(defaultNetwork);
@@ -133,13 +135,14 @@ const CreateUnityDAO: React.FC = () => {
      *             Step Validation States            *
      *************************************************/
     const daoDetailsIsValid = useMemo(() => {
-        if (!daoName || !daoSummary) return false;
+        if (!blockchain || !daoName || !daoSummary) return false;
 
         return errors.daoName ||
             errors.daoSummary
             ? false
             : true;
     }, [
+        blockchain,
         daoName,
         daoSummary,
         errors.daoName,
