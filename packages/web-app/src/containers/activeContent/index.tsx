@@ -88,22 +88,20 @@ const Title = styled.p.attrs({
  *              Active Groups List               *
  *************************************************/
 
-const ActiveGroupsList = ({ groupsData }: { groupsData: any[]}) => {
+const ActiveGroupsList = ({ groupsData }: { groupsData: any[] }) => {
     return (
         <>
             <Title>Active Groups</Title>
             <ActiveGroupsContainer>
                 {groupsData.map((group) => (
                     <ActiveGroupCardContainer key={group.id}>
-                        <div className='flex space-x-1'>
-                            <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
-                            <ActiveGroupCardData>
-                                <CardTitle>{group.name}</CardTitle>
-                                <div className='w-full flex justify-end'>
-                                    <IconArrowRight />
-                                </div>
-                            </ActiveGroupCardData>
-                        </div>
+                        <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
+                        <ActiveGroupCardData>
+                            <CardTitle>{group.name}</CardTitle>
+                            <div className='w-full flex justify-end'>
+                                <IconArrowRight />
+                            </div>
+                        </ActiveGroupCardData>
                     </ActiveGroupCardContainer>
                 ))}
             </ActiveGroupsContainer>
@@ -112,15 +110,15 @@ const ActiveGroupsList = ({ groupsData }: { groupsData: any[]}) => {
 };
 
 const ActiveGroupsContainer = styled.div.attrs({
-    className: 'flex space-x-2 tablet:space-x-3 overflow-x-auto h-20 w-full'
+    className: 'flex space-x-2 tablet:space-x-3 overflow-x-auto h-16 desktop:h-20 w-full'
 })``;
 
 const ActiveGroupCardContainer = styled.div.attrs({
-    className: 'flex flex-col bg-ui-50 border shadow-sm rounded-lg p-2 w-[20rem] min-w-[20rem] h-16 space-y-1',
+    className: 'flex bg-ui-50 border shadow-sm rounded-lg p-2 w-20 desktop:w-25 h-14 desktop:h-16 space-x-1',
 })``;
 
 const ActiveGroupCardData = styled.div.attrs({
-    className: 'flex flex-col items-left space-y-1 tablet:space-y-2',
+    className: 'flex flex-col items-left w-full h-full justify-between space-y-1 tablet:space-y-2',
 })``;
 
 /*************************************************
@@ -149,7 +147,7 @@ const ActiveInvestmentsList = (
     ];
 
     const navigateToLendingPage = () => {
-        navigate(generatePath(Lending, {network: network, dao: dao}));
+        navigate(generatePath(Lending, { network: network, dao: dao }));
     };
 
     return (
@@ -194,11 +192,11 @@ const StyledImg = styled.img.attrs({
 })``;
 
 const ImgContainer = styled.div.attrs({
-    className: 'col-span-2 desktop:col-span-2 flex flex-col items-center',
+    className: 'col-span-1 tablet:col-span-2 flex flex-col items-center',
 })``;
 
 const CardTitle = styled.p.attrs({
-    className: 'text-ui-700 font-bold text-base',
+    className: 'text-ui-700 font-bold text-base truncate',
 })``;
 
 const TitleContainer = styled.div.attrs({
@@ -210,5 +208,5 @@ const CardTag = styled.p.attrs({
 })``;
 
 const TagsContainer = styled.div.attrs({
-    className: 'col-span-7 desktop:col-span-8 flex items-center tablet:pl-1 space-x-1 tablet:space-x-3',
+    className: 'col-span-8 tablet:col-span-7 desktop:col-span-8 flex items-center tablet:pl-1 space-x-1 tablet:space-x-3',
 })``;
