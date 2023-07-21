@@ -348,6 +348,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   const proposalCount = proposals.length;
   const transactionCount = transfers.length;
 
+
   if (!proposalCount) {
     return (
       <>

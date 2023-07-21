@@ -41,12 +41,12 @@ const ConfigurePlugins: React.FC = () => {
               helpText={t('createDAO.step5.governance.description')}
             />
             <Controller
-              name="subGobernancePlugin"
+              name="subGovernancePlugin"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <ToggleCheckList
                   onChange={changeValue =>
-                    handlePluginChanged(changeValue, "subGobernancePlugin", onChange)
+                    handlePluginChanged(changeValue, "subGovernancePlugin", onChange)
                   }
                   value={value as boolean}
                 />
