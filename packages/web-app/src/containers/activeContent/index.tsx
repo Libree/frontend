@@ -44,7 +44,13 @@ export const ActiveContent = () => {
             <ActiveWrapper>
 
                 <ChartContainer>
-                    <Doughnut data={doughnutData} className='p-2' />
+                    {totalAssetValue ? (
+                        <Doughnut data={doughnutData} className='p-2' />
+                    ) : (
+                        <NoChartDataContainer>
+                            <NoChartData>Treasury amount: 0</NoChartData>
+                        </NoChartDataContainer>
+                    )}
                 </ChartContainer>
 
                 <ActiveDataContainer>
@@ -83,6 +89,15 @@ const ActiveDataContainer = styled.div.attrs({
 const Title = styled.p.attrs({
     className: 'text-ui-800 font-bold text-lg mt-3 mb-1',
 })``;
+
+const NoChartData = styled.p.attrs({
+    className: 'text-ui-500 font-bold',
+})``;
+
+const NoChartDataContainer = styled.div.attrs({
+    className: 'flex items-center justify-start tablet:justify-center pt-4',
+})``;
+
 
 /*************************************************
  *              Active Groups List               *
