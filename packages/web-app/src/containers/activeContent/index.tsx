@@ -44,7 +44,13 @@ export const ActiveContent = () => {
             <ActiveWrapper>
 
                 <ChartContainer>
-                    <Doughnut data={doughnutData} className='p-2' />
+                    {totalAssetValue ? (
+                        <Doughnut data={doughnutData} className='p-2' />
+                    ) : (
+                        <NoChartDataContainer>
+                            <NoChartData>Treasury amount: 0</NoChartData>
+                        </NoChartDataContainer>
+                    )}
                 </ChartContainer>
 
                 <ActiveDataContainer>
@@ -84,16 +90,37 @@ const Title = styled.p.attrs({
     className: 'text-ui-800 font-bold text-lg mt-3 mb-1',
 })``;
 
+const NoChartData = styled.p.attrs({
+    className: 'text-ui-500 font-bold',
+})``;
+
+const NoChartDataContainer = styled.div.attrs({
+    className: 'flex items-center justify-start tablet:justify-center pt-4',
+})``;
+
+
 /*************************************************
  *              Active Groups List               *
  *************************************************/
 
-const ActiveGroupsList = ({ groupsData }: { groupsData: any[] }) => {
+const ActiveGroupsList = ({ groupsData }: { groupsData: any[] | undefined }) => {
+
+    if (!groupsData) {
+        return (
+            <>
+                <Title>Active Groups</Title>
+                <ActiveGroupsContainer>
+                    <NoData>Loading...</NoData>
+                </ActiveGroupsContainer>
+            </>
+        )
+    }
+
     return (
         <>
             <Title>Active Groups</Title>
             <ActiveGroupsContainer>
-                {groupsData.map((group) => (
+                {groupsData.length ? (groupsData.map((group) => (
                     <ActiveGroupCardContainer key={group.id}>
                         <IconPerson className='w-2 h-2 tablet:w-3 tablet:h-3 text-ui-400' />
                         <ActiveGroupCardData>
@@ -103,7 +130,9 @@ const ActiveGroupsList = ({ groupsData }: { groupsData: any[] }) => {
                             </div>
                         </ActiveGroupCardData>
                     </ActiveGroupCardContainer>
-                ))}
+                ))) : (
+                    <NoData>No active groups yet</NoData>
+                )}
             </ActiveGroupsContainer>
         </>
     )
@@ -127,11 +156,23 @@ const ActiveGroupCardData = styled.div.attrs({
 
 const ActiveInvestmentsList = (
     { aaveNetWorth, totalAssetValue }:
-        { aaveNetWorth: number, totalAssetValue: number }
+        { aaveNetWorth: number | undefined, totalAssetValue: number | undefined }
 ) => {
     const { dao } = useParams();
     const { network } = useNetwork();
     const navigate = useNavigate();
+
+    if (!aaveNetWorth || !totalAssetValue) {
+        return (
+            <>
+                <Title>Active Investments</Title>
+                <ActiveInvestContainer>
+                    <NoData>Loading...</NoData>
+                </ActiveInvestContainer>
+            </>
+        )
+    }
+
     const aaveData = aaveNetWorth > 0 ?
         [{
             imgUrl: AaveLogo,
@@ -154,7 +195,7 @@ const ActiveInvestmentsList = (
         <>
             <Title>Active Investments</Title>
             <ActiveInvestContainer>
-                {activeInvestments.map((item, index) => (
+                {activeInvestments.length ? (activeInvestments.map((item, index) => (
                     <CardContainer key={index} onClick={navigateToLendingPage}>
                         <ImgContainer>
                             <StyledImg src={item.imgUrl} alt={item.name} />
@@ -172,7 +213,9 @@ const ActiveInvestmentsList = (
                             <CardTag>{item.percentage}%</CardTag>
                         </TagsContainer>
                     </CardContainer>
-                ))}
+                ))) : (
+                    <NoData>No active investments yet</NoData>
+                )}
             </ActiveInvestContainer>
         </>
     )
@@ -209,4 +252,8 @@ const CardTag = styled.p.attrs({
 
 const TagsContainer = styled.div.attrs({
     className: 'col-span-8 tablet:col-span-7 desktop:col-span-8 flex items-center tablet:pl-1 space-x-1 tablet:space-x-3',
+})``;
+
+const NoData = styled.p.attrs({
+    className: 'text-ui-500 font-bold text-sm',
 })``;
