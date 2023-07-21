@@ -238,7 +238,7 @@ const CreateDaoProvider: React.FC = ({ children }) => {
       daoSummary,
       daoLogo,
       links,
-      subGobernancePlugin,
+      subGovernancePlugin,
       creditDelegationPlugin,
       vaultPlugin,
       uniswapV3Plugin
@@ -282,14 +282,14 @@ const CreateDaoProvider: React.FC = ({ children }) => {
       plugins.push(creditDelegationPluginData);
     }
 
-    if (subGobernancePlugin) {
+    if (subGovernancePlugin) {
       const [votingSettings] = getVoteSettings();
 
-      const subGobernancePluginData = getPluginInstallSubgovernance(
+      const subGovernancePluginData = getPluginInstallSubgovernance(
         networkSelected,
         votingSettings
       )
-      plugins.push(subGobernancePluginData);
+      plugins.push(subGovernancePluginData);
     }
 
     if (vaultPlugin) {

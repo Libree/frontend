@@ -52,7 +52,7 @@ export type CreateUnityDaoFormData = {
     multisigWallets: WalletItem[];
     multisigMinimumApprovals: number;
     creditDelegationPlugin: string;
-    subGobernancePlugin: string;
+    subGovernancePlugin: string;
     vaultPlugin: string;
     uniswapV3Plugin: string;
 };

@@ -56,7 +56,7 @@ export type CreateDaoFormData = {
   multisigWallets: WalletItem[];
   multisigMinimumApprovals: number;
   creditDelegationPlugin: string;
-  subGobernancePlugin: string;
+  subGovernancePlugin: string;
   vaultPlugin: string;
   uniswapV3Plugin: string;
 };
@@ -337,7 +337,7 @@ const CreateDAO: React.FC = () => {
             wizardDescription={htmlIn(t)('createDAO.step5.description')}
             onNextButtonClicked={next =>
               handleNextButtonTracking(next, '5_configure_plugins', {
-                sub_governance: formMethods.getValues('subGobernancePlugin'),
+                sub_governance: formMethods.getValues('subGovernancePlugin'),
                 credit_delegation: formMethods.getValues('creditDelegationPlugin')
               })
             }

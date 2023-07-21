@@ -131,7 +131,7 @@ const CreateProposalProvider: React.FC<Props> = ({
 
   const {
     creditDelegation: creditDelegationAddress,
-    subgovernance: subgovernancePlugin
+    subgovernance: subgovernancePlugin,
   } = useInstalledPlugins(daoDetails?.address)
 
 
