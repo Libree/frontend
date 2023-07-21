@@ -16,10 +16,10 @@ import { Lending } from 'utils/paths';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const ActiveContent = () => {
-
+    const { dao } = useParams();
     const { totalAssetValue } = useDaoVault();
     const { netWorth: aaveNetWorth } = useAaveData();
-    const { groupData } = useSubgovernance();
+    const { groupData } = useSubgovernance(dao);
 
     const doughnutData = {
         labels: [
@@ -149,7 +149,7 @@ const ActiveInvestmentsList = (
     ];
 
     const navigateToLendingPage = () => {
-        navigate(generatePath(Lending, {network: network, dao: dao}))
+        navigate(generatePath(Lending, {network: network, dao: dao}));
     };
 
     return (
