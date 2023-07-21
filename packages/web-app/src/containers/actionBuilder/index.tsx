@@ -26,6 +26,7 @@ import UpdateMinimumApproval from './updateMinimumApproval';
 import WithdrawAction from './withdraw/withdrawAction';
 import AddMemberAction from './addMember/addMemberAction';
 import CreditDelegationAction from './creditDelegation/creditDelegationAction';
+import SwapTokensAction from './swapTokens/swapTokensAction';
 import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
 import CreateGroupAction from './createGroup';
@@ -70,6 +71,8 @@ const Action: React.FC<ActionsComponentProps> = ({
       return <WithdrawAction {...{ actionIndex, allowRemove }} />;
     case 'credit_delegation':
       return <CreditDelegationAction {...{ actionIndex, allowRemove }} />;
+    case 'swap_tokens':
+      return <SwapTokensAction {...{ actionIndex }} />;
     case 'create_group':
       return <CreateGroupAction {...{ actionIndex }} />;
     case 'add_member':

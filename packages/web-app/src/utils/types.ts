@@ -216,6 +216,7 @@ export type ActionsTypes =
   | 'add_member'
   | 'withdraw_assets'
   | 'credit_delegation'
+  | 'swap_tokens'
   | 'mint_tokens'
   | 'external_contract_modal'
   | 'external_contract_action'
@@ -311,6 +312,15 @@ export type ActionCreditDelegation = {
   }
 };
 
+export type ActionSwapTokens = {
+  name: 'swap_tokens';
+  inputs: {
+    tokenInput: string;
+    amount: number;
+    tokenOutput: string;
+  };
+};
+
 export type ActionUpdateMultisigPluginSettings = {
   name: 'modify_multisig_voting_settings';
   inputs: MultisigVotingSettings;
@@ -351,6 +361,7 @@ export type Action =
   | ActionAddMember
   | ActionCreateGroup
   | ActionCreditDelegation
+  | ActionSwapTokens
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken
