@@ -504,7 +504,9 @@
     "item2Title": "Withdraw assets",
     "item2Subtitle": "Create a proposal to withdraw assets to a wallet.",
     "creditDelegation": "Credit delegation",
-    "creditSubtitle": "Create a proposal to delegate credit to other wallet"
+    "creditSubtitle": "Create a proposal to delegate credit to other wallet",
+    "swapTokens": "Swap tokens",
+    "swapSubtitle": "Swap tokens using Uniswap v3"
   },
   "TokenModal": {
     "noTokens": "No tokens available",
@@ -934,6 +936,18 @@
       "heading": "Review proposal",
       "description": "Check to make sure everything is correct before putting it to vote. You can't edit a proposal once it's published."
     }
+  },
+  "swapTokens": {
+    "title": "Swap tokens",
+    "subtitle": "Swap tokens using Uniswap v3",
+    "description": "Effortlessly exchange the tokens held in your DAO treasury for other tokens available on Uniswap.",
+    "ctaAddAnother": "Add another swap",
+    "tokenInput": "Token Input",
+    "tokenInputDescription": "Select the token to swap from",
+    "tokenOutput": "Token Output",
+    "tokenOutputDescription": "Select the token to swap to",
+    "amount": "Amount",
+    "amountDescription": "Amount of tokens to swap"
   },
   "createGroup": {
     "processName": "New Group",

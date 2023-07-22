@@ -13,6 +13,7 @@ import {AddMemberCard} from './actions/addMemberCard';
 import {SCCExecutionCard} from './actions/sccExecutionWidget';
 import { CreditDelegationCard } from './actions/creditDelegationCard';
 import { CreateGroupCard } from './actions/createGroupCard';
+import { SwapTokensCard } from './actions/swapTokensCard';
 
 type ActionsFilterProps = {
   action: Action;
@@ -32,6 +33,8 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       return <AddMemberCard action={action} />;
     case 'credit_delegation':
       return <CreditDelegationCard action={action} />;
+    case 'swap_tokens':
+      return <SwapTokensCard action={action} />;
     case 'add_address':
       return <AddAddressCard action={action} />;
     case 'remove_address':
