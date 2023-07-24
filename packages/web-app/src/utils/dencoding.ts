@@ -1,14 +1,17 @@
 //TODO: Move to our own sdk
-import { bytesToHex } from "@aragon/sdk-common";
+import { bytesToHex, hexToBytes } from "@aragon/sdk-common";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 import { Action, ActionAddMember, ActionCreditDelegation, InterestRateType } from "./types"
 import {
-  getFunctionFragment,
+  getFunctionFragment
 } from "@aragon/sdk-client-common";
 import { AVAILABLE_FUNCTION_SIGNATURES } from "./constants";
+import {
+  DaoAction
+} from '@aragon/sdk-client-common';
 
-export const decodeCreditDelegationAction = async (data: Uint8Array): Promise<ActionCreditDelegation | undefined> => {
+export const decodeCreditDelegationAction = async (data: Uint8Array, isGrouped: boolean): Promise<ActionCreditDelegation | undefined> => {
 
   const iface = CreditDelegator__factory.createInterface()
   const hexBytes = bytesToHex(data)
@@ -16,7 +19,7 @@ export const decodeCreditDelegationAction = async (data: Uint8Array): Promise<Ac
   const expectedfunction = iface.getFunction("borrowAndTransfer");
   const result = iface.decodeFunctionData(
     expectedfunction,
-    hexBytes,
+    isGrouped ? data : hexBytes,
   );
 
   return {
@@ -27,6 +30,27 @@ export const decodeCreditDelegationAction = async (data: Uint8Array): Promise<Ac
       token: result[0],
       user: result[5]
     }
+  }
+}
+
+
+export const decodeGroupedActions = (data: Uint8Array): DaoAction[] | undefined => {
+
+  try {
+
+    const iface = CreditDelegator__factory.createInterface()
+    const hexBytes = bytesToHex(data)
+
+    const expectedfunction = iface.getFunction("registerActions");
+    const result = iface.decodeFunctionData(
+      expectedfunction,
+      hexBytes,
+    );
+
+    return result['_actions']
+
+  } catch (error) {
+
   }
 }
 
@@ -67,9 +91,12 @@ export const decodeCreateGroupAction = async (data: Uint8Array): Promise<Action[
   ]
 }
 
-export const findInterfaceCustomPlugins = (data: Uint8Array) => {
+export const findInterfaceCustomPlugins = (data: Uint8Array, isGrouped: boolean = false) => {
+
+  const decodeData = isGrouped ? hexToBytes(data.toString()) : data
+
   try {
-    const func = getFunctionFragment(data, AVAILABLE_FUNCTION_SIGNATURES);
+    const func = getFunctionFragment(decodeData, AVAILABLE_FUNCTION_SIGNATURES);
     return {
       id: func.format("minimal"),
       functionName: func.name,

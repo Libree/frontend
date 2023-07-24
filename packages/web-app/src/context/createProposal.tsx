@@ -73,8 +73,9 @@ import {
 import { useGlobalModalContext } from './globalModals';
 import { useNetwork } from './network';
 import { usePrivacyContext } from './privacyContext';
-import { encodeCreateGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
+import { encodeActionsGroup, encodeCreateGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
+import { decodeCreateGroupAction, decodeCreditDelegationAction, decodeGroupedActions } from 'utils/dencoding';
 
 type Props = {
   showTxModal: boolean;
@@ -134,7 +135,6 @@ const CreateProposalProvider: React.FC<Props> = ({
     subgovernance: subgovernancePlugin,
   } = useInstalledPlugins(daoDetails?.address)
 
-
   const shouldPoll = useMemo(
     () =>
       creationProcessState === TransactionState.WAITING &&
@@ -151,6 +151,8 @@ const CreateProposalProvider: React.FC<Props> = ({
   const encodeActions = useCallback(async () => {
     const actionsFromForm = getValues('actions');
     const actions: Array<Promise<DaoAction>> = [];
+
+    let propagateActions: boolean = false;
 
     // return an empty array for undefined clients
     if (!pluginClient || !client) return Promise.resolve([] as DaoAction[]);
@@ -292,6 +294,7 @@ const CreateProposalProvider: React.FC<Props> = ({
                 creditDelegationAddress?.instanceAddress || ""
               ))
           );
+          propagateActions = true
           break;
         }
         case 'create_group': {
@@ -314,7 +317,18 @@ const CreateProposalProvider: React.FC<Props> = ({
       }
     }
 
-    return Promise.all(actions);
+    const actionsEncoded = await Promise.all(actions);
+
+    if(!propagateActions) return actionsEncoded
+
+    const actionsGrouped = encodeActionsGroup(
+      daoDetails?.address || "",
+      actionsEncoded,
+      creditDelegationAddress?.instanceAddress || ""
+    )
+
+    return actionsGrouped 
+
   }, [
     getValues,
     pluginClient,

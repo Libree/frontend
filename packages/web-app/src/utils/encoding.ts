@@ -100,7 +100,6 @@ export const getPluginInstallUniswapV3 = (
     };
 }
 
-
 export const encodeCreditDelegationAction = (
     token: string,
     amount: number,
@@ -148,6 +147,26 @@ export const encodeCreateGroupAction = (
         value: ethers.utils.parseEther('0').toBigInt(),
         data: hexToBytes(hexData)
     }
+}
+
+
+export const encodeActionsGroup = (
+    daoAddress: string,
+    actions: DaoAction[],
+    pluginAddress: string
+): DaoAction[] => {
+    const iface = CreditDelegator__factory.createInterface()
+
+    const hexData = iface.encodeFunctionData(
+        'registerActions',
+        [daoAddress, actions, 0]
+    )
+
+    return [{
+        to: pluginAddress,
+        value: ethers.utils.parseEther('0').toBigInt(),
+        data: hexToBytes(hexData)
+    }]
 }
 
 export function votingSettingsToContract(
