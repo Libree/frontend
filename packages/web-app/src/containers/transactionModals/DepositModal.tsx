@@ -95,7 +95,6 @@ const DepositModal: React.FC = () => {
           await approve(input.tokenAddress, amount);
           setDepositProcessState(TransactionState.APPROVING);
         } catch (err) {
-          console.log('err at approve: ', err);
           setDepositProcessState(TransactionState.ERROR);
           return;
         }
@@ -104,7 +103,6 @@ const DepositModal: React.FC = () => {
         await deposit(input.tokenAddress, amount.toString());
         setDepositProcessState(TransactionState.SUCCESS);
       } catch (err) {
-        console.log('err at deposit: ', err);
         setDepositProcessState(TransactionState.ERROR);
         return;
       }
