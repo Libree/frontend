@@ -26,7 +26,7 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
 }) => {
     const { t } = useTranslation();
     const { network } = useNetwork();
-    const { actions } = useActionsContext();
+    const { actions, addAction } = useActionsContext();
 
     const { control } = useFormContext();
 
@@ -63,6 +63,12 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                         label=""
                         initialActions={['swap_tokens']}
                         whitelistedActions={['swap_tokens']}
+                        addExtraActionLabel={t(
+                            'swapTokens.ctaAddAnother'
+                        )}
+                        onAddExtraActionClick={() => {
+                            addAction({ name: 'swap_tokens' });
+                        }}
                         hideAlert
                         allowEmpty={false}
                     />

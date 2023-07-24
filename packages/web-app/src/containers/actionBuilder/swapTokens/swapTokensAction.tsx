@@ -7,18 +7,21 @@ import { AccordionMethod } from 'components/accordionMethod';
 import { ActionIndex } from 'utils/types';
 import { FormItem } from '../addAddresses';
 import { useAlertContext } from 'context/alert';
+import { useActionsContext } from 'context/actions';
 import ConfigureSwapTokensForm from 'containers/configureSwapTokens';
 
-type SwapTokensActionProps = ActionIndex;
+type SwapTokensActionProps = ActionIndex & { allowRemove?: boolean };
 
 const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
     actionIndex,
+    allowRemove = true,
 }) => {
     const { t } = useTranslation();
+    const { removeAction, duplicateAction } = useActionsContext();
     const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
-    const resetCreditDelegationFields = () => {
+    const resetSwapTokensFields = () => {
         clearErrors(`actions.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
         setValue(`actions.${actionIndex}.inputs`, {
@@ -29,13 +32,38 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
         alert(t('alert.chip.resetAction'));
     };
 
+    const removeSwapTokensFields = (actionIndex: number) => {
+        removeAction(actionIndex);
+    };
+
     const methodActions = (() => {
         const result = [
             {
+                component: (
+                    <ListItemAction title={t('labels.duplicateAction')} bgWhite />
+                ),
+                callback: () => {
+                    duplicateAction(actionIndex);
+                    alert(t('alert.chip.duplicateAction'))
+                },
+            },
+            {
                 component: <ListItemAction title={t('labels.resetAction')} bgWhite />,
-                callback: resetCreditDelegationFields,
+                callback: resetSwapTokensFields,
             },
         ];
+
+        if (allowRemove) {
+            result.push({
+                component: (
+                    <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
+                ),
+                callback: () => {
+                    removeSwapTokensFields(actionIndex);
+                    alert(t('alert.chip.removedAction'));
+                },
+            });
+        }
 
         return result;
     })();
