@@ -46,6 +46,7 @@ const DepositModal: React.FC = () => {
   });
   const [depositProcessState, setDepositProcessState] =
     useState<TransactionState>(TransactionState.WAITING);
+  const isBtnDisabled = !input.amount || !input.tokenAddress;
 
   const label = {
     [TransactionState.APPROVING]: t('TransactionModal.publishDaoButtonLabel'),
@@ -55,7 +56,16 @@ const DepositModal: React.FC = () => {
     [TransactionState.ERROR]: t('TransactionModal.tryAgain'),
   };
 
-  useEffect(() => setDepositProcessState(TransactionState.WAITING), [isDepositOpen]);
+  useEffect(() => {
+    setDepositProcessState(TransactionState.WAITING);
+
+    return () => {
+      setInput({
+        amount: '',
+        tokenAddress: '',
+      });
+    }
+  }, [isDepositOpen]);
 
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
@@ -81,28 +91,36 @@ const DepositModal: React.FC = () => {
       const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
       const allowance = await tokenAllowance(input.tokenAddress);
       if (allowance < amount) {
-        setDepositProcessState(TransactionState.APPROVING);
-        approve(input.tokenAddress, amount); // in promise
-        setDepositProcessState(TransactionState.LOADING);
+        try {
+          await approve(input.tokenAddress, amount);
+          setDepositProcessState(TransactionState.APPROVING);
+        } catch (err) {
+          console.log('err at approve: ', err);
+          setDepositProcessState(TransactionState.ERROR);
+          return;
+        }
       }
-      deposit(input.tokenAddress, amount.toString());
-      setDepositProcessState(TransactionState.SUCCESS);
+      try {
+        await deposit(input.tokenAddress, amount.toString());
+        setDepositProcessState(TransactionState.SUCCESS);
+      } catch (err) {
+        console.log('err at deposit: ', err);
+        setDepositProcessState(TransactionState.ERROR);
+        return;
+      }
     } catch {
       setDepositProcessState(TransactionState.ERROR);
     }
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
 
   const handleOnClick = () => {
-    if (!depositProcessState || depositProcessState === TransactionState.WAITING) {
-      handleCtaClicked();
-      return;
-    }
     if (depositProcessState === TransactionState.SUCCESS) {
       close('deposit');
       window.location.reload();
       return;
     }
-  }
+    handleCtaClicked();
+  };
 
   const Divider: React.FC = () => {
     return (
@@ -175,6 +193,7 @@ const DepositModal: React.FC = () => {
                 iconLeft={icons[depositProcessState]}
                 onClick={handleOnClick}
                 className='w-full'
+                disabled={isBtnDisabled}
               />
               {(!depositProcessState || depositProcessState === TransactionState.WAITING) && (
                 <ButtonText
