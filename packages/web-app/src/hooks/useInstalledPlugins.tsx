@@ -18,30 +18,18 @@ export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstall
   const [uniswapV3, setUniswapV3] = useState<InstalledPluginListItem | null>(null);
   const [vault, setVault] = useState<InstalledPluginListItem | null>(null);
 
+  const getPlugin = (plugins: InstalledPluginListItem[] | undefined, id: string) => {
+    return plugins?.find(plugin => plugin.id === id) 
+  }
+
 
   const setPlugins = async (daoAddress: string) => {
     const installedPlugins = await fetchDaoPlugins(daoAddress, network)
-    const creditDelegationPlugin = installedPlugins?.find(
-      //TODO: add support to all networks
-      plugin => plugin.id === PLUGIN_IDS['maticmum'].creditDelegation
-    )
-    setCreditDelegation(creditDelegationPlugin ? creditDelegationPlugin : null)
 
-    const subgovernancePlugin = installedPlugins?.find(
-      plugin => plugin.id === PLUGIN_IDS['maticmum'].subgovernance
-    )
-    setSubgovernace(subgovernancePlugin ? subgovernancePlugin : null)
-
-    const uniswapv3Plugin = installedPlugins?.find(
-      plugin => plugin.id === PLUGIN_IDS['maticmum'].uniswapV3
-    )
-    setUniswapV3(uniswapv3Plugin ? uniswapv3Plugin : null)
-
-    const vaultPlugin = installedPlugins?.find(
-      plugin => plugin.id === PLUGIN_IDS['maticmum'].vault
-    )
-    setVault(vaultPlugin ? vaultPlugin : null)
-
+    setCreditDelegation(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].creditDelegation) || null)
+    setSubgovernace(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].subgovernance) || null)
+    setUniswapV3(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].uniswapV3) || null)
+    setVault(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].vault) || null)
   }
 
   useEffect(() => {

@@ -77,7 +77,7 @@ import {
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
 import { Action, ProposalId } from 'utils/types';
-import { decodeCreateGroupAction, decodeCreditDelegationAction, findInterfaceCustomPlugins } from 'utils/dencoding';
+import { decodeCreateGroupAction, decodeCreditDelegationAction, decodeGroupedActions, findInterfaceCustomPlugins } from 'utils/dencoding';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -235,13 +235,17 @@ const Proposal: React.FC = () => {
       ? proposal.token
       : undefined;
 
-    const actionPromises: Promise<Action | undefined| Action[]>[] = proposal.actions.flatMap(
+    const groupedActions = decodeGroupedActions(proposal.actions[0].data)
+
+    const actionsToDecode = groupedActions ? groupedActions : proposal.actions
+
+    const actionPromises: Promise<Action | undefined | Action[]>[] = actionsToDecode.flatMap(
       (action: DaoAction, index) => {
         const functionParams =
           client?.decoding.findInterface(action.data) ||
           pluginClient?.decoding.findInterface(action.data);
 
-        const functionParamsCustom = findInterfaceCustomPlugins(action.data)
+        const functionParamsCustom = findInterfaceCustomPlugins(action.data, groupedActions ? true : false)
 
         const functionName = functionParams?.functionName
           ? functionParams.functionName : functionParamsCustom?.functionName
@@ -290,7 +294,7 @@ const Proposal: React.FC = () => {
           case 'setMetadata':
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
-            return decodeCreditDelegationAction(action.data);
+            return decodeCreditDelegationAction(action.data, groupedActions ? true : false);
           case 'createGroup':
             return decodeCreateGroupAction(action.data)
           default:

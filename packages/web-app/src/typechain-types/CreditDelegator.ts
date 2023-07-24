@@ -28,22 +28,42 @@ import type {
   PromiseOrValue,
 } from "./common";
 
+export declare namespace IDAO {
+  export type ActionStruct = {
+    to: PromiseOrValue<string>;
+    value: PromiseOrValue<BigNumberish>;
+    data: PromiseOrValue<BytesLike>;
+  };
+
+  export type ActionStructOutput = [string, BigNumber, string] & {
+    to: string;
+    value: BigNumber;
+    data: string;
+  };
+}
+
 export interface CreditDelegatorInterface extends utils.Interface {
   functions: {
     "APPROVE_DELEGATION_PERMISSION_ID()": FunctionFragment;
     "BORROW_AAVE_PERMISSION_ID()": FunctionFragment;
     "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID()": FunctionFragment;
+    "REGISTER_ACTIONS_PERMISSION_ID()": FunctionFragment;
     "UPGRADE_PLUGIN_PERMISSION_ID()": FunctionFragment;
     "WITHDRAWN_AAVE_PERMISSION_ID()": FunctionFragment;
+    "_currentPending()": FunctionFragment;
+    "_lastExecuted()": FunctionFragment;
+    "actions(uint256)": FunctionFragment;
     "approveDelegation(address,address,uint256)": FunctionFragment;
     "borrow(address,uint256,uint256,uint16,address)": FunctionFragment;
     "borrowAndTransfer(address,uint256,uint256,uint16,address,address)": FunctionFragment;
     "dao()": FunctionFragment;
+    "executeActions(uint256)": FunctionFragment;
     "implementation()": FunctionFragment;
     "initialize(address,address)": FunctionFragment;
     "pluginType()": FunctionFragment;
     "poolAddress()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
+    "registerActions(address,(address,uint256,bytes)[],uint256)": FunctionFragment;
     "supply(address,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
@@ -56,17 +76,23 @@ export interface CreditDelegatorInterface extends utils.Interface {
       | "APPROVE_DELEGATION_PERMISSION_ID"
       | "BORROW_AAVE_PERMISSION_ID"
       | "BORROW_AND_TRANSFER_AAVE_PERMISSION_ID"
+      | "REGISTER_ACTIONS_PERMISSION_ID"
       | "UPGRADE_PLUGIN_PERMISSION_ID"
       | "WITHDRAWN_AAVE_PERMISSION_ID"
+      | "_currentPending"
+      | "_lastExecuted"
+      | "actions"
       | "approveDelegation"
       | "borrow"
       | "borrowAndTransfer"
       | "dao"
+      | "executeActions"
       | "implementation"
       | "initialize"
       | "pluginType"
       | "poolAddress"
       | "proxiableUUID"
+      | "registerActions"
       | "supply"
       | "supportsInterface"
       | "upgradeTo"
@@ -87,12 +113,28 @@ export interface CreditDelegatorInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "REGISTER_ACTIONS_PERMISSION_ID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "UPGRADE_PLUGIN_PERMISSION_ID",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "WITHDRAWN_AAVE_PERMISSION_ID",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "_currentPending",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "_lastExecuted",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "actions",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "approveDelegation",
@@ -125,6 +167,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "dao", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "executeActions",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "implementation",
     values?: undefined
   ): string;
@@ -143,6 +189,14 @@ export interface CreditDelegatorInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "registerActions",
+    values: [
+      PromiseOrValue<string>,
+      IDAO.ActionStruct[],
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "supply",
@@ -182,6 +236,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "REGISTER_ACTIONS_PERMISSION_ID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "UPGRADE_PLUGIN_PERMISSION_ID",
     data: BytesLike
   ): Result;
@@ -189,6 +247,15 @@ export interface CreditDelegatorInterface extends utils.Interface {
     functionFragment: "WITHDRAWN_AAVE_PERMISSION_ID",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "_currentPending",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_lastExecuted",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "actions", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "approveDelegation",
     data: BytesLike
@@ -199,6 +266,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "dao", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "executeActions",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "implementation",
     data: BytesLike
@@ -211,6 +282,10 @@ export interface CreditDelegatorInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "registerActions",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "supply", data: BytesLike): Result;
@@ -310,9 +385,30 @@ export interface CreditDelegator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    REGISTER_ACTIONS_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<[string]>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<[string]>;
+
+    _currentPending(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _value: BigNumber }>;
+
+    _lastExecuted(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    actions(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, boolean] & {
+        dao: string;
+        allowFailureMap: BigNumber;
+        executed: boolean;
+      }
+    >;
 
     approveDelegation(
       _asset: PromiseOrValue<string>,
@@ -342,6 +438,11 @@ export interface CreditDelegator extends BaseContract {
 
     dao(overrides?: CallOverrides): Promise<[string]>;
 
+    executeActions(
+      _actionsId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     implementation(overrides?: CallOverrides): Promise<[string]>;
 
     initialize(
@@ -355,6 +456,13 @@ export interface CreditDelegator extends BaseContract {
     poolAddress(overrides?: CallOverrides): Promise<[string]>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
+
+    registerActions(
+      _dao: PromiseOrValue<string>,
+      _actions: IDAO.ActionStruct[],
+      _allowFailureMap: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     supply(
       _asset: PromiseOrValue<string>,
@@ -394,9 +502,26 @@ export interface CreditDelegator extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  REGISTER_ACTIONS_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
+
   UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
   WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
+
+  _currentPending(overrides?: CallOverrides): Promise<BigNumber>;
+
+  _lastExecuted(overrides?: CallOverrides): Promise<BigNumber>;
+
+  actions(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, boolean] & {
+      dao: string;
+      allowFailureMap: BigNumber;
+      executed: boolean;
+    }
+  >;
 
   approveDelegation(
     _asset: PromiseOrValue<string>,
@@ -426,6 +551,11 @@ export interface CreditDelegator extends BaseContract {
 
   dao(overrides?: CallOverrides): Promise<string>;
 
+  executeActions(
+    _actionsId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   implementation(overrides?: CallOverrides): Promise<string>;
 
   initialize(
@@ -439,6 +569,13 @@ export interface CreditDelegator extends BaseContract {
   poolAddress(overrides?: CallOverrides): Promise<string>;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+  registerActions(
+    _dao: PromiseOrValue<string>,
+    _actions: IDAO.ActionStruct[],
+    _allowFailureMap: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   supply(
     _asset: PromiseOrValue<string>,
@@ -480,9 +617,26 @@ export interface CreditDelegator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    REGISTER_ACTIONS_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<string>;
+
+    _currentPending(overrides?: CallOverrides): Promise<BigNumber>;
+
+    _lastExecuted(overrides?: CallOverrides): Promise<BigNumber>;
+
+    actions(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, boolean] & {
+        dao: string;
+        allowFailureMap: BigNumber;
+        executed: boolean;
+      }
+    >;
 
     approveDelegation(
       _asset: PromiseOrValue<string>,
@@ -512,6 +666,11 @@ export interface CreditDelegator extends BaseContract {
 
     dao(overrides?: CallOverrides): Promise<string>;
 
+    executeActions(
+      _actionsId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     implementation(overrides?: CallOverrides): Promise<string>;
 
     initialize(
@@ -525,6 +684,13 @@ export interface CreditDelegator extends BaseContract {
     poolAddress(overrides?: CallOverrides): Promise<string>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
+
+    registerActions(
+      _dao: PromiseOrValue<string>,
+      _actions: IDAO.ActionStruct[],
+      _allowFailureMap: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     supply(
       _asset: PromiseOrValue<string>,
@@ -595,9 +761,22 @@ export interface CreditDelegator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    REGISTER_ACTIONS_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(overrides?: CallOverrides): Promise<BigNumber>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    _currentPending(overrides?: CallOverrides): Promise<BigNumber>;
+
+    _lastExecuted(overrides?: CallOverrides): Promise<BigNumber>;
+
+    actions(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     approveDelegation(
       _asset: PromiseOrValue<string>,
@@ -627,6 +806,11 @@ export interface CreditDelegator extends BaseContract {
 
     dao(overrides?: CallOverrides): Promise<BigNumber>;
 
+    executeActions(
+      _actionsId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     implementation(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
@@ -640,6 +824,13 @@ export interface CreditDelegator extends BaseContract {
     poolAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    registerActions(
+      _dao: PromiseOrValue<string>,
+      _actions: IDAO.ActionStruct[],
+      _allowFailureMap: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     supply(
       _asset: PromiseOrValue<string>,
@@ -684,11 +875,24 @@ export interface CreditDelegator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    REGISTER_ACTIONS_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     UPGRADE_PLUGIN_PERMISSION_ID(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     WITHDRAWN_AAVE_PERMISSION_ID(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    _currentPending(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    _lastExecuted(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    actions(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -720,6 +924,11 @@ export interface CreditDelegator extends BaseContract {
 
     dao(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    executeActions(
+      _actionsId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
@@ -733,6 +942,13 @@ export interface CreditDelegator extends BaseContract {
     poolAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    registerActions(
+      _dao: PromiseOrValue<string>,
+      _actions: IDAO.ActionStruct[],
+      _allowFailureMap: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     supply(
       _asset: PromiseOrValue<string>,
