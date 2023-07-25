@@ -36,7 +36,7 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
 
     useEffect(() => {
         if (!name) {
-            setValue(`actions.${actionIndex}.name`, 'swap_tokens');
+            setValue(`actions.${actionIndex}.name`, 'provide_liquidity');
         }
     }, [actionIndex, name, setValue]);
 
@@ -46,14 +46,14 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
     return (
         <>
 
-            {/* Token input */}
+            {/* Token 0 */}
             <FormItem>
                 <Label
-                    label={t('swapTokens.tokenInput')}
-                    helpText={t('swapTokens.tokenInputDescription')}
+                    label={t('provideLiquidity.token0')}
+                    helpText={t('provideLiquidity.token0Description')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.tokenInput`}
+                    name={`actions.${actionIndex}.inputs.token0`}
                     control={control}
                     render={({
                         field: { name, onChange, value },
@@ -65,7 +65,7 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                                 value={value}
                                 onChange={onChange}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -78,14 +78,14 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                 />
             </FormItem>
 
-            {/* Amount */}
+            {/* Amount token0 */}
             <FormItem>
                 <Label
-                    label={t('swapTokens.amount')}
-                    helpText={t('swapTokens.amountDescription')}
+                    label={t('provideLiquidity.depositAmount')}
+                    helpText={t('provideLiquidity.depositAmountDescription')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.amount`}
+                    name={`actions.${actionIndex}.inputs.token0Amount`}
                     control={control}
                     defaultValue=""
                     render={({
@@ -114,14 +114,14 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                 />
             </FormItem>
 
-            {/* Token output */}
+            {/* Token 1 */}
             <FormItem>
                 <Label
-                    label={t('swapTokens.tokenOutput')}
-                    helpText={t('swapTokens.tokenOutputDescription')}
+                    label={t('provideLiquidity.token1')}
+                    helpText={t('provideLiquidity.token1Description')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.tokenOutput`}
+                    name={`actions.${actionIndex}.inputs.token1`}
                     control={control}
                     render={({
                         field: { name, onChange, value },
@@ -133,7 +133,7 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                                 value={value}
                                 onChange={onChange}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -141,6 +141,147 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Amount token1 */}
+            <FormItem>
+                <Label
+                    label={t('provideLiquidity.depositAmount')}
+                    helpText={t('provideLiquidity.depositAmountDescription')}
+                />
+                <Controller
+                    name={`actions.${actionIndex}.inputs.token1Amount`}
+                    control={control}
+                    defaultValue=""
+                    render={({
+                        field: { name, onBlur, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
+                                name={name}
+                                type="number"
+                                value={value}
+                                placeholder="0"
+                                onBlur={onBlur}
+                                onChange={onChange}
+                            />
+                            <div className="flex justify-between items-start">
+                                <div className="space-y-1">
+                                    {error?.message && (
+                                        <AlertInline label={error.message} mode="critical" />
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Fee tier select */}
+            <FormItem>
+                <Label
+                    label={t('provideLiquidity.feeTier')}
+                    helpText={t('provideLiquidity.feeTierDescription')}
+                />
+                <Controller
+                    name={`actions.${actionIndex}.inputs.feeTier`}
+                    control={control}
+                    render={({
+                        field: { name, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledSelect
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                            >
+                                <option value="" disabled selected>{t('provideLiquidity.feeTierPlaceholder')}</option>
+                                <option value={0.01}>{"0.01%"}</option>
+                                <option value={0.05}>{"0.05%"}</option>
+                                <option value={0.3}>{"0.3%"}</option>
+                                <option value={1}>{"1%"}</option>
+                            </StyledSelect>
+                            {error?.message && (
+                                <AlertInline label={error.message} mode="critical" />
+                            )}
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Min price */}
+            <FormItem>
+                <Label
+                    label={t('provideLiquidity.minPrice')}
+                    helpText={t('provideLiquidity.minPriceDescription')}
+                />
+                <Controller
+                    name={`actions.${actionIndex}.inputs.minPrice`}
+                    control={control}
+                    defaultValue=""
+                    render={({
+                        field: { name, onBlur, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
+                                name={name}
+                                type="number"
+                                value={value}
+                                placeholder="0"
+                                onBlur={onBlur}
+                                onChange={onChange}
+                            />
+                            <div className="flex justify-between items-start">
+                                <div className="space-y-1">
+                                    {error?.message && (
+                                        <AlertInline label={error.message} mode="critical" />
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
+                />
+            </FormItem>
+
+            {/* Max price */}
+            <FormItem>
+                <Label
+                    label={t('provideLiquidity.maxPrice')}
+                    helpText={t('provideLiquidity.maxPriceDescription')}
+                />
+                <Controller
+                    name={`actions.${actionIndex}.inputs.maxPrice`}
+                    control={control}
+                    defaultValue=""
+                    render={({
+                        field: { name, onBlur, onChange, value },
+                        fieldState: { error },
+                    }) => (
+                        <>
+                            <StyledInput
+                                mode={error ? 'critical' : 'default'}
+                                name={name}
+                                type="number"
+                                value={value}
+                                placeholder="0"
+                                onBlur={onBlur}
+                                onChange={onChange}
+                            />
+                            <div className="flex justify-between items-start">
+                                <div className="space-y-1">
+                                    {error?.message && (
+                                        <AlertInline label={error.message} mode="critical" />
+                                    )}
+                                </div>
+                            </div>
                         </>
                     )}
                 />

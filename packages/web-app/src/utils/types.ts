@@ -322,6 +322,19 @@ export type ActionSwapTokens = {
   };
 };
 
+export type ActionProvideLiquidity = {
+  name: 'provide_liquidity';
+  inputs: {
+    token0: string;
+    token0Amount: number;
+    token1: string;
+    token1Amount: number;
+    feeTier: string;
+    maxPrice: string;
+    minPrice: string;
+  }
+}
+
 export type ActionUpdateMultisigPluginSettings = {
   name: 'modify_multisig_voting_settings';
   inputs: MultisigVotingSettings;
@@ -363,6 +376,7 @@ export type Action =
   | ActionCreateGroup
   | ActionCreditDelegation
   | ActionSwapTokens
+  | ActionProvideLiquidity
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken

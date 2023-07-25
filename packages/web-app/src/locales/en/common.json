@@ -896,7 +896,7 @@
     "input1Subtitle": "The wallet that will be included in the group",
     "interestRateType": "Interest rate type",
     "interestRateTypeDescription": "Select the interest rate type for the credit line",
-    "interestRateTypePlaceholder": "Select an option",
+    "selectAnOption": "Select an option",
     "ctaAddAnother": "Add another credit",
     "setupVoting": {
       "title": "Initiate the vote",
@@ -957,11 +957,18 @@
     "description": "Provide tokens to a Uniswap v3 liquidity pool",
     "ctaAddAnother": "Add another liquidity",
     "token0": "Token 0",
+    "token0Description": "Select the first token to provide",
     "depositAmount": "Deposit amount",
+    "depositAmountDescription": "Amount of tokens to deposit",
     "token1": "Token 1",
+    "token1Description": "Select the second token to provide",
     "feeTier": "Fee tier",
+    "feeTierDescription": "Select the fee tier of your preference",
     "minPrice": "Min price",
-    "maxPrice": "Max price"
+    "minPriceDescription": "Define the minimum price for the token pair",
+    "maxPrice": "Max price",
+    "maxPriceDescription": "Define the maximum price for the token pair",
+    "feeTierPlaceholder": "Select a fee tier"
   },
   "createGroup": {
     "processName": "New Group",
