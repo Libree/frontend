@@ -24,7 +24,7 @@ import { SUPPORTED_TOKENS } from 'utils/config';
 import { SupportedNetwork } from 'utils/types';
 
 const icons = {
-  [TransactionState.APPROVING]: undefined,
+  [TransactionState.APPROVE]: undefined,
   [TransactionState.WAITING]: undefined,
   [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
   [TransactionState.SUCCESS]: undefined,
@@ -45,11 +45,11 @@ const DepositModal: React.FC = () => {
     tokenAddress: '',
   });
   const [depositProcessState, setDepositProcessState] =
-    useState<TransactionState>(TransactionState.WAITING);
+    useState<TransactionState>(TransactionState.APPROVE);
   const isBtnDisabled = !input.amount || !input.tokenAddress;
 
   const label = {
-    [TransactionState.APPROVING]: t('TransactionModal.publishDaoButtonLabel'),
+    [TransactionState.APPROVE]: t('TransactionModal.approveTransaction'),
     [TransactionState.WAITING]: t('labels.deposit'),
     [TransactionState.LOADING]: t('TransactionModal.waiting'),
     [TransactionState.SUCCESS]: t('TransactionModal.goToFinance'),
@@ -81,32 +81,28 @@ const DepositModal: React.FC = () => {
   };
 
   const handleCtaClicked = useCallback(async () => {
-    try {
+    const tokenInfo = await getTokenInfo(
+      input.tokenAddress,
+      provider,
+      CHAIN_METADATA[network].nativeCurrency
+    )
+    const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
+    const allowance = await tokenAllowance(input.tokenAddress);
+    if (allowance < amount) {
       setDepositProcessState(TransactionState.LOADING);
-      const tokenInfo = await getTokenInfo(
-        input.tokenAddress,
-        provider,
-        CHAIN_METADATA[network].nativeCurrency
-      )
-      const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
-      const allowance = await tokenAllowance(input.tokenAddress);
-      if (allowance < amount) {
-        try {
-          await approve(input.tokenAddress, amount);
-          setDepositProcessState(TransactionState.APPROVING);
-        } catch (err) {
-          setDepositProcessState(TransactionState.ERROR);
-          return;
-        }
-      }
       try {
-        await deposit(input.tokenAddress, amount.toString());
-        setDepositProcessState(TransactionState.SUCCESS);
+        await approve(input.tokenAddress, amount);
+        setDepositProcessState(TransactionState.WAITING);
       } catch (err) {
         setDepositProcessState(TransactionState.ERROR);
-        return;
       }
-    } catch {
+      return;
+    }
+    try {
+      setDepositProcessState(TransactionState.LOADING);
+      await deposit(input.tokenAddress, amount.toString());
+      setDepositProcessState(TransactionState.SUCCESS);
+    } catch (err) {
       setDepositProcessState(TransactionState.ERROR);
     }
   }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
