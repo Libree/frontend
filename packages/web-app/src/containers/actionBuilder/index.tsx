@@ -72,7 +72,7 @@ const Action: React.FC<ActionsComponentProps> = ({
     case 'credit_delegation':
       return <CreditDelegationAction {...{ actionIndex, allowRemove }} />;
     case 'swap_tokens':
-      return <SwapTokensAction {...{ actionIndex }} />;
+      return <SwapTokensAction {...{ actionIndex, allowRemove }} />;
     case 'create_group':
       return <CreateGroupAction {...{ actionIndex }} />;
     case 'add_member':
