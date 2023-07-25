@@ -25,9 +25,13 @@ const ProvideLiquidityAction: React.FC<ProvideLiquidityActionProps> = ({
         clearErrors(`actions.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
         setValue(`actions.${actionIndex}.inputs`, {
-            tokenInput: '',
-            amount: 0,
-            tokenOutput: '',
+            token0: '',
+            token0Amount: 0,
+            token1: '',
+            token1Amount: 0,
+            feeTier: '',
+            minPrice: '',
+            maxPrice: '',
         });
         alert(t('alert.chip.resetAction'));
     };

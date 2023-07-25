@@ -63,7 +63,7 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
 
   const { data: totalSupply } = useTokenSupply(daoToken?.address as string);
 
-  const { getValues, setValue, formState } = useFormContext();
+  const { getValues, setValue } = useFormContext();
   const values = getValues();
 
   const editor = useEditor({
