@@ -217,6 +217,7 @@ export type ActionsTypes =
   | 'withdraw_assets'
   | 'credit_delegation'
   | 'swap_tokens'
+  | 'provide_liquidity'
   | 'mint_tokens'
   | 'external_contract_modal'
   | 'external_contract_action'
