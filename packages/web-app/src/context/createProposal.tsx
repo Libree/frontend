@@ -145,7 +145,6 @@ const CreateProposalProvider: React.FC<Props> = ({
   const disableActionButton =
     !proposalCreationData && creationProcessState !== TransactionState.SUCCESS;
 
-    console.log("proposalCreationData: ", proposalCreationData);
   /*************************************************
    *             Callbacks and Handlers            *
    *************************************************/
@@ -723,11 +722,9 @@ const CreateProposalProvider: React.FC<Props> = ({
   useEffect(() => {
     // set proposal creation data
     async function setProposalData() {
-      if (showTxModal && creationProcessState === TransactionState.WAITING) {
-        const data = await getProposalCreationParams(); // undefined
-        console.log("proposalCreationParams: ", data);
-        setProposalCreationData(data);
-      } else if (!showTxModal) setProposalCreationData(undefined);
+      if (showTxModal && creationProcessState === TransactionState.WAITING)
+        setProposalCreationData(await getProposalCreationParams());
+      else if (!showTxModal) setProposalCreationData(undefined);
     }
 
     setProposalData();
