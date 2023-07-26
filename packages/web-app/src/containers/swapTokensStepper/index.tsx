@@ -3,7 +3,7 @@ import { useFormContext, useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import ReviewProposal from 'containers/reviewProposal';
+import ReviewWithoutLinks from 'containers/review';
 import { useNetwork } from 'context/network';
 import { generatePath } from 'react-router-dom';
 import { toDisplayEns } from 'utils/library';
@@ -82,7 +82,7 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                     }}
                     fullWidth
                 >
-                    <ReviewProposal />
+                    <ReviewWithoutLinks />
                 </Step>
             </FullScreenStepper>
         </>
