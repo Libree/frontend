@@ -65,8 +65,9 @@ const ConfigureSwapTokensForm: React.FC<ConfigureSwapTokensFormProps> = ({
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                <option value="" disabled>{t('creditDelegation.interestRateTypePlaceholder')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -133,8 +134,9 @@ const ConfigureSwapTokensForm: React.FC<ConfigureSwapTokensFormProps> = ({
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+                                <option value="" disabled>{t('creditDelegation.interestRateTypePlaceholder')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].filter(token => token.address !== tokenInput).map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
