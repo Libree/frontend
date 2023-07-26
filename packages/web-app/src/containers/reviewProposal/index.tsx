@@ -36,7 +36,7 @@ import { getErc20VotingParticipation, getNonEmptyActions } from 'utils/proposals
 import { ProposalResource, SupportedVotingSettings } from 'utils/types';
 
 type ReviewProposalProps = {
-  defineProposalStepNumber?: number;
+  defineProposalStepNumber: number;
   addActionsStepNumber?: number;
 };
 
@@ -271,14 +271,12 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
         </ProposalContainer>
 
         <AdditionalInfoContainer>
-          {defineProposalStepNumber && (
-            <ResourceList
-              links={values.links.filter(
-                (l: ProposalResource) => l.name && l.url
-              )}
-              emptyStateButtonClick={() => setStep(defineProposalStepNumber)}
-            />
-          )}
+          <ResourceList
+            links={values.links.filter(
+              (l: ProposalResource) => l.name && l.url
+            )}
+            emptyStateButtonClick={() => setStep(defineProposalStepNumber)}
+          />
         </AdditionalInfoContainer>
       </ContentContainer>
     </>
