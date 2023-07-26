@@ -377,7 +377,7 @@ const CreateProposalProvider: React.FC<Props> = ({
         title,
         summary,
         description,
-        resources: resources.filter((r: ProposalResource) => r.name && r.url),
+        resources: resources ? resources.filter((r: ProposalResource) => r.name && r.url): [],
       };
 
       const ipfsUri = await pluginClient?.methods.pinMetadata(metadata);
