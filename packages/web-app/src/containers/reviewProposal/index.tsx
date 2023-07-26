@@ -36,7 +36,7 @@ import { getErc20VotingParticipation, getNonEmptyActions } from 'utils/proposals
 import { ProposalResource, SupportedVotingSettings } from 'utils/types';
 
 type ReviewProposalProps = {
-  defineProposalStepNumber: number;
+  defineProposalStepNumber?: number;
   addActionsStepNumber?: number;
 };
 
@@ -271,12 +271,14 @@ const ReviewProposal: React.FC<ReviewProposalProps> = ({
         </ProposalContainer>
 
         <AdditionalInfoContainer>
-          <ResourceList
-            links={values.links.filter(
-              (l: ProposalResource) => l.name && l.url
-            )}
-            emptyStateButtonClick={() => setStep(defineProposalStepNumber)}
-          />
+          {defineProposalStepNumber && (
+            <ResourceList
+              links={values.links.filter(
+                (l: ProposalResource) => l.name && l.url
+              )}
+              emptyStateButtonClick={() => setStep(defineProposalStepNumber)}
+            />
+          )}
         </AdditionalInfoContainer>
       </ContentContainer>
     </>
@@ -308,7 +310,7 @@ const AdditionalInfoContainer = styled.div.attrs({
 })``;
 
 const ContentContainer = styled.div.attrs({
-  className: 'mt-3 tablet:flex tablet:space-x-3 space-y-3 tablet:space-y-0',
+  className: 'mt-3 tablet:flex tablet:flex-col tablet:items-center tablet:space-x-3 space-y-3 tablet:space-y-0',
 })``;
 
 export const StyledEditorContent = styled(EditorContent)`
