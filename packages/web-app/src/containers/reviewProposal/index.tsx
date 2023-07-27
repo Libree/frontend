@@ -308,7 +308,7 @@ const AdditionalInfoContainer = styled.div.attrs({
 })``;
 
 const ContentContainer = styled.div.attrs({
-  className: 'mt-3 tablet:flex tablet:flex-col tablet:items-center tablet:space-x-3 space-y-3 tablet:space-y-0',
+  className: 'mt-3 tablet:flex tablet:flex-col tablet:items-center tablet:space-x-3 space-y-3',
 })``;
 
 export const StyledEditorContent = styled(EditorContent)`
