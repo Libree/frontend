@@ -80,6 +80,7 @@ export type ChainData = {
   etherscanApi: string;
   etherscanApiKey?: string;
   alchemyApi: string;
+  alchemyApiNFT?: string;
   supportsEns: boolean;
   lookupURL?: string;
   covalentApi?: string
@@ -209,6 +210,7 @@ export const CHAIN_METADATA: ChainList = {
     etherscanApi: 'https://api-testnet.polygonscan.com/api',
     etherscanApiKey: polygonscanApiKey,
     alchemyApi: 'https://polygon-mumbai.g.alchemy.com/v2',
+    alchemyApiNFT: 'https://polygon-mumbai.g.alchemy.com/nft/v2',
     supportsEns: false,
     covalentApi: 'https://api.covalenthq.com/v1/matic-mumbai',
   },
