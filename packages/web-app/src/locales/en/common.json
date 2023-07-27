@@ -1186,6 +1186,11 @@
       "daoReady": "Your DAO is ready",
       "openDao": "Open your DAO",
       "buildingDAO": "Building your DAO"
+    },
+    "nftOverview": {
+      "title": "Your NFTs",
+      "noNFTs": "No NFTs yet",
+      "noNFTsDescription": "You can add NFTs in the NFT section of your DAO."
     }
   },
   "app": {

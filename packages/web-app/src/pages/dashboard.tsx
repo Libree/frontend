@@ -42,6 +42,7 @@ import {
   EmptyStateHeading,
 } from 'containers/pageEmptyState';
 import { useGlobalModalContext } from 'context/globalModals';
+import NFTOverview from 'containers/nftOverview';
 
 enum DaoCreationState {
   ASSEMBLING_DAO,
@@ -355,11 +356,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         <ActiveContent />
         {!transactionCount ? (
           <EqualDivide>
-            <ProposalSnapshot
+            <NFTOverview
               daoAddressOrEns={daoAddressOrEns}
-              pluginAddress={pluginAddress}
-              pluginType={pluginType}
-              proposals={proposals}
             />
             <TreasurySnapshot
               daoAddressOrEns={daoAddressOrEns}
@@ -370,11 +368,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         ) : (
           <>
             <LeftWideContent>
-              <ProposalSnapshot
+              <NFTOverview
                 daoAddressOrEns={daoAddressOrEns}
-                pluginAddress={pluginAddress}
-                pluginType={pluginType}
-                proposals={proposals}
               />
             </LeftWideContent>
             <RightNarrowContent>
@@ -403,11 +398,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
       <ActiveContent />
       <React.Fragment>
         <LeftWideContent>
-          <ProposalSnapshot
+          <NFTOverview
             daoAddressOrEns={daoAddressOrEns}
-            pluginAddress={pluginAddress}
-            pluginType={pluginType}
-            proposals={proposals}
           />
         </LeftWideContent>
         <RightNarrowContent>
@@ -460,11 +452,8 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
   return (
     <MobileLayout>
       <ActiveContent />
-      <ProposalSnapshot
+      <NFTOverview
         daoAddressOrEns={daoAddressOrEns}
-        pluginAddress={pluginAddress}
-        pluginType={pluginType}
-        proposals={proposals}
       />
       <TreasurySnapshot
         daoAddressOrEns={daoAddressOrEns}
