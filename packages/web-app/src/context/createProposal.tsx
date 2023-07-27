@@ -291,7 +291,9 @@ const CreateProposalProvider: React.FC<Props> = ({
                 action.inputs.interestRateType,
                 daoDetails?.address || "",
                 action.inputs.user,
-                creditDelegationAddress?.instanceAddress || ""
+                creditDelegationAddress?.instanceAddress || "",
+                provider,
+                network
               ))
           );
           propagateActions = true

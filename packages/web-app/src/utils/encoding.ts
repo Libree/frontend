@@ -20,6 +20,8 @@ import { ERC20__factory } from "typechain-types/ERC20__factory";
 import { Uniswapv3__factory } from "typechain-types/Uniswapv3__factory";
 import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 import { VotingMode, VotingSettings } from "@aragon/sdk-client";
+import { getTokenInfo } from "./tokens";
+import { CHAIN_METADATA, SupportedNetworks } from "./constants";
 
 export const getPluginInstallCreditDelegation = (
     network: Networkish
@@ -102,21 +104,33 @@ export const getPluginInstallUniswapV3 = (
     };
 }
 
-export const encodeCreditDelegationAction = (
+export const encodeCreditDelegationAction = async (
     token: string,
     amount: number,
     interestRateMode: string,
     onBehalfOf: string,
     beneficiary: string,
-    pluginAddress: string
-): DaoAction => {
+    pluginAddress: string,
+    provider: ethers.providers.Web3Provider | null,
+    network: SupportedNetworks
+): Promise<DaoAction> => {
     const iface = CreditDelegator__factory.createInterface()
+
+    let tokenInfo;
+
+    if (provider) {
+        tokenInfo = await getTokenInfo(
+            token,
+            provider,
+            CHAIN_METADATA[network].nativeCurrency
+        )
+    }
 
     const hexData = iface.encodeFunctionData(
         'borrowAndTransfer',
         [
             token,
-            amount,
+            String(amount * Math.pow(10, tokenInfo?.decimals || 18)),
             interestRateMode == InterestRateType.STABLE ? 1 : 2,
             0,
             onBehalfOf,
