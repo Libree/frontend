@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { AccordionMethod } from 'components/accordionMethod';
-import { ActionProvideLiquidity, SupportedNetwork } from 'utils/types';
-import { SUPPORTED_TOKENS } from 'utils/config';
+import { ActionProvideLiquidity } from 'utils/types';
+import { getTokenSymbol } from 'utils/library';
 
 export const ProvideLiquidityCard: React.FC<{
     action: ActionProvideLiquidity;
@@ -20,12 +20,6 @@ export const ProvideLiquidityCard: React.FC<{
         minPrice,
         maxPrice,
     } = action.inputs;
-
-    const getTokenSymbol = (tokenAddress: string) => {
-        const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-        const tokenInfo = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
-        return tokenInfo ? tokenInfo.name : '';
-    };
 
     return (
         <AccordionMethod

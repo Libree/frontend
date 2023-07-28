@@ -4,20 +4,14 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { AccordionMethod } from 'components/accordionMethod';
-import { ActionSwapTokens, SupportedNetwork } from 'utils/types';
-import { SUPPORTED_TOKENS } from 'utils/config';
+import { ActionSwapTokens } from 'utils/types';
+import { getTokenSymbol } from 'utils/library';
 
 export const SwapTokensCard: React.FC<{
     action: ActionSwapTokens;
 }> = ({ action }) => {
     const { t } = useTranslation();
     const { amount, tokenInput, tokenOutput } = action.inputs;
-
-    const getTokenSymbol = (tokenAddress: string) => {
-        const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-        const tokenInfo = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
-        return tokenInfo ? tokenInfo.name : '';
-    };
 
     return (
         <AccordionMethod

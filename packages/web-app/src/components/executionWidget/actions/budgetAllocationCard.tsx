@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { AccordionMethod } from 'components/accordionMethod';
-import { ActionBudgetAllocation, SupportedNetwork } from 'utils/types';
-import { SUPPORTED_TOKENS } from 'utils/config';
+import { ActionBudgetAllocation } from 'utils/types';
+import { getTokenSymbol } from 'utils/library';
 
 export const BudgetAllocationCard: React.FC<{
     action: ActionBudgetAllocation;
@@ -17,12 +17,6 @@ export const BudgetAllocationCard: React.FC<{
         amount,
         group
     } = action.inputs;
-
-    const getTokenSymbol = (tokenAddress: string) => {
-        const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-        const tokenInfo = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
-        return tokenInfo ? tokenInfo.name : '';
-    };
 
     return (
         <AccordionMethod

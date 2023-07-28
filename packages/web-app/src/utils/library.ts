@@ -40,11 +40,14 @@ import {
   ActionUpdatePluginSettings,
   ActionWithdraw,
   Input,
+  SupportedNetwork,
+  SupportedToken,
 } from 'utils/types';
 import {i18n} from '../../i18n.config';
 import {addABI, decodeMethod} from './abiDecoder';
 import {getTokenInfo} from './tokens';
 import {isAddress} from 'ethers/lib/utils';
+import { SUPPORTED_TOKENS } from './config';
 
 export function formatUnits(amount: BigNumberish, decimals: number) {
   if (amount.toString().includes('.') || !decimals) {
@@ -772,3 +775,9 @@ export function shortenAddress(address: string | null) {
     );
   else return address;
 }
+
+export function getTokenSymbol(tokenAddress: string) {
+  const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
+  const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
+  return token ? token.name : '';
+};
