@@ -3,7 +3,13 @@ import { useFormContext, useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import ReviewWithoutLinks from 'containers/review';
+import DefineProposal, {
+    isValid as defineProposalIsValid,
+} from 'containers/defineProposal';
+import SetupVotingForm, {
+    isValid as setupVotingIsValid,
+} from 'containers/setupVotingForm';
+import ReviewProposal from 'containers/reviewProposal';
 import { useNetwork } from 'context/network';
 import { generatePath } from 'react-router-dom';
 import { toDisplayEns } from 'utils/library';
@@ -23,6 +29,7 @@ interface SwapTokensStepperProps {
 const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
     enableTxModal,
     daoDetails,
+    pluginSettings,
 }) => {
     const { t } = useTranslation();
     const { network } = useNetwork();
@@ -30,7 +37,7 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
 
     const { control } = useFormContext();
 
-    const { errors } = useFormState({ control: control });
+    const { errors, dirtyFields } = useFormState({ control: control });
 
     const [formActions] = useWatch({
         name: ['actions'],
@@ -74,6 +81,20 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                     />
                 </Step>
                 <Step
+                    wizardTitle={t('creditDelegation.setupVoting.title')}
+                    wizardDescription={t('creditDelegation.setupVoting.description')}
+                    isNextButtonDisabled={!setupVotingIsValid(errors)}
+                >
+                    <SetupVotingForm pluginSettings={pluginSettings} />
+                </Step>
+                <Step
+                    wizardTitle={t('creditDelegation.defineProposal.heading')}
+                    wizardDescription={t('creditDelegation.defineProposal.description')}
+                    isNextButtonDisabled={!defineProposalIsValid(dirtyFields, errors)}
+                >
+                    <DefineProposal />
+                </Step>
+                <Step
                     wizardTitle={t('creditDelegation.reviewProposal.heading')}
                     wizardDescription={t('creditDelegation.reviewProposal.description')}
                     nextButtonLabel={t('labels.submitProposal')}
@@ -82,7 +103,9 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                     }}
                     fullWidth
                 >
-                    <ReviewWithoutLinks />
+                    <ReviewProposal
+                        defineProposalStepNumber={3}
+                    />
                 </Step>
             </FullScreenStepper>
         </>
