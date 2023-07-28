@@ -15,6 +15,7 @@ import { CreditDelegationCard } from './actions/creditDelegationCard';
 import { CreateGroupCard } from './actions/createGroupCard';
 import { SwapTokensCard } from './actions/swapTokensCard';
 import { ProvideLiquidityCard } from './actions/provideLiquidityCard';
+import { BudgetAllocationCard } from './actions/budgetAllocationCard';
 
 type ActionsFilterProps = {
   action: Action;
@@ -39,7 +40,7 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
     case 'provide_liquidity':
       return <ProvideLiquidityCard action={action} />;
     case 'budget_allocation':
-      return <></>;
+      return <BudgetAllocationCard action={action} />;
     case 'add_address':
       return <AddAddressCard action={action} />;
     case 'remove_address':
