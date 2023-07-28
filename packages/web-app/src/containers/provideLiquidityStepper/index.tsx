@@ -13,6 +13,12 @@ import ConfigureActions from 'containers/configureActions';
 import { actionsAreValid } from 'utils/validators';
 import { useActionsContext } from 'context/actions';
 import { DaoDetails } from '@aragon/sdk-client';
+import SetupVotingForm, {
+    isValid as setupVotingIsValid,
+} from 'containers/setupVotingForm';
+import DefineProposal, {
+    isValid as defineProposalIsValid,
+} from 'containers/defineProposal';
 
 interface ProvideLiquidityStepperProps {
     enableTxModal: () => void;
@@ -23,6 +29,7 @@ interface ProvideLiquidityStepperProps {
 const ProvideLiquidityStepper: React.FC<ProvideLiquidityStepperProps> = ({
     enableTxModal,
     daoDetails,
+    pluginSettings,
 }) => {
     const { t } = useTranslation();
     const { network } = useNetwork();
@@ -30,7 +37,7 @@ const ProvideLiquidityStepper: React.FC<ProvideLiquidityStepperProps> = ({
 
     const { control } = useFormContext();
 
-    const { errors } = useFormState({ control: control });
+    const { errors, dirtyFields } = useFormState({ control: control });
 
     const [formActions] = useWatch({
         name: ['actions'],
@@ -72,6 +79,21 @@ const ProvideLiquidityStepper: React.FC<ProvideLiquidityStepperProps> = ({
                         hideAlert
                         allowEmpty={false}
                     />
+                </Step>
+
+                <Step
+                    wizardTitle={t('creditDelegation.setupVoting.title')}
+                    wizardDescription={t('creditDelegation.setupVoting.description')}
+                    isNextButtonDisabled={!setupVotingIsValid(errors)}
+                >
+                    <SetupVotingForm pluginSettings={pluginSettings} />
+                </Step>
+                <Step
+                    wizardTitle={t('creditDelegation.defineProposal.heading')}
+                    wizardDescription={t('creditDelegation.defineProposal.description')}
+                    isNextButtonDisabled={!defineProposalIsValid(dirtyFields, errors)}
+                >
+                    <DefineProposal />
                 </Step>
                 <Step
                     wizardTitle={t('creditDelegation.reviewProposal.heading')}
