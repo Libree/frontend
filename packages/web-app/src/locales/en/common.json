@@ -508,7 +508,9 @@
     "swapTokens": "Swap tokens",
     "swapSubtitle": "Swap tokens using Uniswap v3",
     "provideLiquidity": "Provide liquidity",
-    "provideSubtitle": "Provide liquidity to Uniswap v3"
+    "provideSubtitle": "Provide liquidity to Uniswap v3",
+    "budgetAllocation": "Create budget allocation plan",
+    "budgetSubtitle": "Assing fixed budgets to specific groups and protocols"
   },
   "TokenModal": {
     "noTokens": "No tokens available",
