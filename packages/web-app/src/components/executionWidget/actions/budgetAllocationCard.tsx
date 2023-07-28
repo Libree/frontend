@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { AccordionMethod } from 'components/accordionMethod';
 import { ActionBudgetAllocation } from 'utils/types';
 import { getTokenSymbol } from 'utils/library';
+import { groups } from 'pages/communityGroups';
 
 export const BudgetAllocationCard: React.FC<{
     action: ActionBudgetAllocation;
@@ -17,6 +18,11 @@ export const BudgetAllocationCard: React.FC<{
         amount,
         group
     } = action.inputs;
+
+    const getGroupName = (groupId: string) => {
+        const group = groups.find((group) => group.id === groupId);
+        return group?.name || '';
+    };
 
     return (
         <AccordionMethod
@@ -42,7 +48,7 @@ export const BudgetAllocationCard: React.FC<{
                 <CardText
                     type='title'
                     title='Group manager'
-                    content={group}
+                    content={getGroupName(group)}
                     bgWhite
                 />
             </Container>

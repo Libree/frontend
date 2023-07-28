@@ -13,6 +13,10 @@ export const SwapTokensCard: React.FC<{
     const { t } = useTranslation();
     const { amount, tokenInput, tokenOutput } = action.inputs;
 
+    const getEquivalentAmount = (amount: number, tokenInput: string, tokenOutput: string) => {
+        return amount;
+    };
+
     return (
         <AccordionMethod
             type="execution-widget"
@@ -23,11 +27,12 @@ export const SwapTokensCard: React.FC<{
         >
             <Container>
                 <CardSwap
-                    toSymbol={getTokenSymbol(tokenOutput)}
                     fromSymbol={getTokenSymbol(tokenInput)}
-                    amount={amount}
-                    toLabel='To'
+                    fromAmount={amount}
                     fromLabel='From'
+                    toSymbol={getTokenSymbol(tokenOutput)}
+                    toAmount={getEquivalentAmount(amount, tokenInput, tokenOutput)}
+                    toLabel='To'
                     bgWhite
                 />
             </Container>

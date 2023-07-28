@@ -4,28 +4,30 @@ import styled from 'styled-components';
 import { IconChevronRight } from '../icons';
 
 export type CardSwapProps = {
-    toSymbol: string;
     fromSymbol: string;
-    amount: number;
-    toLabel: string;
+    fromAmount: number;
     fromLabel: string;
+    toSymbol: string;
+    toAmount: number;
+    toLabel: string;
     bgWhite?: boolean;
 };
 
 /** Swap header showing the sender and recipient */
 export const CardSwap: React.FC<CardSwapProps> = ({
-    toSymbol,
     fromSymbol,
-    amount,
-    toLabel,
+    fromAmount,
     fromLabel,
+    toSymbol,
+    toAmount,
+    toLabel,
     bgWhite = false,
 }) => {
     return (
         <CardContainer data-testid="cardTransfer">
-            <Card label={fromLabel} copy={`${amount} ${fromSymbol}`} bgWhite={bgWhite} />
+            <Card label={fromLabel} copy={`${fromAmount} ${fromSymbol}`} bgWhite={bgWhite} />
             <IconChevronRight className="text-ui-600" />
-            <Card label={toLabel} copy={toSymbol} bgWhite={bgWhite} />
+            <Card label={toLabel} copy={`${toAmount} ${toSymbol}`} bgWhite={bgWhite} />
         </CardContainer>
     );
 };
@@ -64,7 +66,7 @@ const Label = styled.p.attrs({
 type ValueProps = { isAddress?: boolean };
 const Value = styled.p.attrs(({ isAddress }: ValueProps) => {
     const className = isAddress
-        ? 'font-bold text-ui-800' // este debería renderizar
+        ? 'font-bold text-ui-800'
         : 'overflow-hidden font-bold text-ui-800 overflow-ellipsis whitespace-nowrap';
 
     return { className };
