@@ -31,6 +31,7 @@ import SCC from 'containers/smartContractComposer';
 import SCCAction from './scc';
 import CreateGroupAction from './createGroup';
 import ProvideLiquidityAction from './provideLiquidity/provideLiquidityAction';
+import BudgetAllocationAction from './budgetAllocation';
 
 /**
  * This Component is responsible for generating all actions that append to pipeline context (actions)
@@ -76,6 +77,8 @@ const Action: React.FC<ActionsComponentProps> = ({
       return <SwapTokensAction {...{ actionIndex, allowRemove }} />;
     case 'provide_liquidity':
       return <ProvideLiquidityAction {...{ actionIndex, allowRemove }} />;
+    case 'budget_allocation':
+      return <BudgetAllocationAction {...{ actionIndex, allowRemove }} />;
     case 'create_group':
       return <CreateGroupAction {...{ actionIndex }} />;
     case 'add_member':

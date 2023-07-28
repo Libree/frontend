@@ -31,6 +31,33 @@ const colors: Record<Sign, string> = {
     '0': 'text-ui-600',
 };
 
+export const groups = [
+    {
+        id: '01',
+        name: 'NFT Group',
+        description: 'Collector group finding best NFT projects to invest in',
+        imgUrl: '',
+        memberCount: 5,
+        value: 1200,
+    },
+    {
+        id: '02',
+        name: 'Trading Group',
+        description: 'Conservative trading group in Uniswap',
+        imgUrl: '',
+        memberCount: 15,
+        value: 4200,
+    },
+    {
+        id: '03',
+        name: 'Research',
+        description: 'Doing research to find best DeFi projects',
+        imgUrl: '',
+        memberCount: 2,
+        value: 2200,
+    },
+];
+
 const CommunityGroups: React.FC = () => {
     const { t } = useTranslation();
     const { isLoading } = useDaoDetailsQuery();
@@ -41,33 +68,6 @@ const CommunityGroups: React.FC = () => {
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
     const { network } = useNetwork();
     const { dao } = useParams();
-
-    const groups = [
-        {
-            id: '01',
-            name: 'NFT Group',
-            description: 'Collector group finding best NFT projects to invest in',
-            imgUrl: '',
-            memberCount: 5,
-            value: 1200,
-        },
-        {
-            id: '02',
-            name: 'Trading Group',
-            description: 'Conservative trading group in Uniswap',
-            imgUrl: '',
-            memberCount: 15,
-            value: 4200,
-        },
-        {
-            id: '03',
-            name: 'Research',
-            description: 'Doing research to find best DeFi projects',
-            imgUrl: '',
-            memberCount: 2,
-            value: 2200,
-        },
-    ];
 
     /*************************************************
      *                    Render                     *

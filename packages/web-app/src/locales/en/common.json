@@ -508,7 +508,9 @@
     "swapTokens": "Swap tokens",
     "swapSubtitle": "Swap tokens using Uniswap v3",
     "provideLiquidity": "Provide liquidity",
-    "provideSubtitle": "Provide liquidity to Uniswap v3"
+    "provideSubtitle": "Provide liquidity to Uniswap v3",
+    "budgetAllocation": "Create budget allocation plan",
+    "budgetSubtitle": "Assing fixed budgets to specific groups and protocols"
   },
   "TokenModal": {
     "noTokens": "No tokens available",
@@ -969,6 +971,19 @@
     "maxPrice": "Max price",
     "maxPriceDescription": "Define the maximum price for the token pair",
     "feeTierPlaceholder": "Select a fee tier"
+  },
+  "budgetAllocation": {
+    "title": "Budget Allocation",
+    "subtitle": "Create a budget allocation plan",
+    "description": "Assing fixed budgets to specific groups and protocols",
+    "protocolInput":"Protocol",
+    "protocolDescription": "This is the destination protocol where you want to allocate this budget",
+    "tokenInput": "Token",
+    "tokenDescription": "Select the token to allocate",
+    "amountInput": "Token amount",
+    "amountDescription": "Amount you want to allocate to the protocol",
+    "groupInput": "Group",
+    "groupDescription": "This is the group that will be in charge of managing this budget"
   },
   "createGroup": {
     "processName": "New Group",

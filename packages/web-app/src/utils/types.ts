@@ -218,6 +218,7 @@ export type ActionsTypes =
   | 'credit_delegation'
   | 'swap_tokens'
   | 'provide_liquidity'
+  | 'budget_allocation'
   | 'mint_tokens'
   | 'external_contract_modal'
   | 'external_contract_action'
@@ -335,6 +336,16 @@ export type ActionProvideLiquidity = {
   }
 }
 
+export type ActionBudgetAllocation = {
+  name: 'budget_allocation';
+  inputs: {
+    protocol: string;
+    token: string;
+    amount: number;
+    group: string;
+  }
+};
+
 export type ActionUpdateMultisigPluginSettings = {
   name: 'modify_multisig_voting_settings';
   inputs: MultisigVotingSettings;
@@ -377,6 +388,7 @@ export type Action =
   | ActionCreditDelegation
   | ActionSwapTokens
   | ActionProvideLiquidity
+  | ActionBudgetAllocation
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken
