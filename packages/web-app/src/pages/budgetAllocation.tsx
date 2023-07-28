@@ -7,7 +7,7 @@ import { CreateProposalProvider } from 'context/createProposal';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { PluginTypes } from 'hooks/usePluginClient';
 import { usePluginSettings } from 'hooks/usePluginSettings';
-import SwapTokensStepper from 'containers/swapTokensStepper';
+import BudgetAllocationStepper from 'containers/budgetAllocationStepper'
 
 export type BudgetAllocationAction = {
     name: string; // This indicates the type of action;
@@ -55,7 +55,7 @@ const BudgetAllocation: React.FC = () => {
                         showTxModal={showTxModal}
                         setShowTxModal={setShowTxModal}
                     >
-                        <SwapTokensStepper
+                        <BudgetAllocationStepper
                             daoDetails={daoDetails}
                             pluginSettings={pluginSettings}
                             enableTxModal={() => setShowTxModal(true)}

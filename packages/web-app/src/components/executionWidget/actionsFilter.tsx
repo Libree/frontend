@@ -38,6 +38,8 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       return <SwapTokensCard action={action} />;
     case 'provide_liquidity':
       return <ProvideLiquidityCard action={action} />;
+    case 'budget_allocation':
+      return <></>;
     case 'add_address':
       return <AddAddressCard action={action} />;
     case 'remove_address':

@@ -972,6 +972,19 @@
     "maxPriceDescription": "Define the maximum price for the token pair",
     "feeTierPlaceholder": "Select a fee tier"
   },
+  "budgetAllocation": {
+    "title": "Budget Allocation",
+    "subtitle": "Create a budget allocation plan",
+    "description": "Assing fixed budgets to specific groups and protocols",
+    "protocolInput":"Protocol",
+    "protocolDescription": "This is the destination protocol where you want to allocate this budget",
+    "tokenInput": "Token",
+    "tokenDescription": "Select the token to allocate",
+    "amountInput": "Token amount",
+    "amountDescription": "Amount you want to allocate to the protocol",
+    "groupInput": "Group",
+    "groupDescription": "This is the group that will be in charge of managing this budget"
+  },
   "createGroup": {
     "processName": "New Group",
     "title": "Create a new group",

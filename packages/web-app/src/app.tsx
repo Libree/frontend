@@ -127,7 +127,7 @@ function App() {
                 />
                 <Route
                   path="finance/budget-allocation"
-                  element={<ProvideLiquidityPage />}
+                  element={<BudgetAllocationPage />}
                 />
                 <Route
                   path="governance/new-proposal"
