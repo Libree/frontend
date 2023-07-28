@@ -1,7 +1,6 @@
 import {ApolloProvider} from '@apollo/client';
 import {loadConnectKit} from '@ledgerhq/connect-kit-loader';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -79,7 +78,6 @@ ReactDOM.render(
                                 client={client['goerli'] || goerliClient} //TODO remove fallback when all clients are defined
                               >
                                 <App />
-                                <ReactQueryDevtools initialIsOpen={false} />
                               </ApolloProvider>
                             </GlobalModalsProvider>
                           </WalletMenuProvider>
