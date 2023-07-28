@@ -4,7 +4,7 @@ import {
     IconGovernance,
     ListItemHeader,
 } from '@aragon/ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generatePath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ import { useNetwork } from 'context/network';
 import { Governance } from 'utils/paths';
 import { ProposalListItem } from 'utils/types';
 import useScreen from 'hooks/useScreen';
+import { useDaoNFTs } from 'hooks/useDaoNFTs';
 
 type Props = {
     daoAddressOrEns: string;
@@ -27,59 +28,9 @@ const NFTOverview: React.FC<Props> = ({
     const navigate = useNavigate();
     const { network } = useNetwork();
     const { isMobile } = useScreen();
+    const {data: nfts} = useDaoNFTs(daoAddressOrEns)
 
-    let nfts: any[] = [
-        {
-            id: 1,
-            title: 'NFT 1',
-            description: 'NFT 1 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 2,
-            title: 'NFT 2',
-            description: 'NFT 2 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 3,
-            title: 'NFT 3',
-            description: 'NFT 3 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 4,
-            title: 'NFT 4',
-            description: 'NFT 4 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 5,
-            title: 'NFT 5',
-            description: 'NFT 5 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 6,
-            title: 'NFT 6',
-            description: 'NFT 6 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 7,
-            title: 'NFT 7',
-            description: 'NFT 7 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        },
-        {
-            id: 8,
-            title: 'NFT 8',
-            description: 'NFT 8 description',
-            imgUrl: 'https://picsum.photos/200/300',
-        }
-    ];
-
-    if (nfts.length === 0) {
+    if (nfts?.length === 0 || !nfts) {
         return (
             <StateEmpty
                 type="Object"
@@ -101,13 +52,13 @@ const NFTOverview: React.FC<Props> = ({
             />
 
             <CardsDisplay>
-                {nfts.slice(0, isMobile ? 4 : 6).map(nft => (
+                {nfts?.slice(0, isMobile ? 4 : 6).map(nft => (
                     <Card>
                         <CardContent>
-                            <StyledImg src={nft.imgUrl} />
+                            <StyledImg src={nft.metadata.image} />
                             <TextContent>
-                                <Title>{nft.title}</Title>
-                                {!isMobile && <Description>{nft.description}</Description>}
+                                <Title>{nft.contractMetadata.name}</Title>
+                                {!isMobile && <Description>{nft.contractMetadata.description}</Description>}
                             </TextContent>
                         </CardContent>
                     </Card>
