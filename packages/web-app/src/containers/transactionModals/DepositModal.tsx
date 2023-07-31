@@ -68,7 +68,7 @@ const DepositModal: React.FC = () => {
   }, [isDepositOpen]);
 
   const waitForTx = async (tx: any) => {
-    const receipt = await provider.waitForTransaction(tx.hash);
+    const receipt = await provider.waitForTransaction(tx.hash, 2);
     return receipt;
   };
 
