@@ -67,6 +67,11 @@ const DepositModal: React.FC = () => {
     }
   }, [isDepositOpen]);
 
+  const waitForTx = async (tx: any) => {
+    const receipt = await provider.waitForTransaction(tx.hash);
+    return receipt;
+  };
+
   const copyToClipboard = (value: string | undefined) => {
     navigator.clipboard.writeText(value || '');
     alert(t('alert.chip.inputCopied'));
@@ -91,8 +96,10 @@ const DepositModal: React.FC = () => {
     if (allowance < amount) {
       setDepositProcessState(TransactionState.LOADING);
       try {
-        await approve(input.tokenAddress, amount);
-        setDepositProcessState(TransactionState.WAITING);
+        const txStatus = await waitForTx(await approve(input.tokenAddress, amount));
+        txStatus.status === 1
+          ? setDepositProcessState(TransactionState.WAITING)
+          : setDepositProcessState(TransactionState.ERROR);
       } catch (err) {
         setDepositProcessState(TransactionState.ERROR);
       }
@@ -100,8 +107,10 @@ const DepositModal: React.FC = () => {
     }
     try {
       setDepositProcessState(TransactionState.LOADING);
-      await deposit(input.tokenAddress, amount.toString());
-      setDepositProcessState(TransactionState.SUCCESS);
+      const txStatus = await waitForTx(await deposit(input.tokenAddress, amount.toString()));
+      txStatus.status === 1
+        ? setDepositProcessState(TransactionState.SUCCESS)
+        : setDepositProcessState(TransactionState.ERROR);
     } catch (err) {
       setDepositProcessState(TransactionState.ERROR);
     }
