@@ -1373,6 +1373,7 @@
   "marketplace": {
     "title": "Marketplace",
     "openOpportunities": "Open opportunities",
-    "getFundedAction": "Get Funded"
+    "getFundedAction": "Get Funded",
+    "noOpportunities": "No opportunities yet"
   }
 }

@@ -17,7 +17,7 @@ import useScreen from 'hooks/useScreen';
 import { sortTokens } from 'utils/tokens';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { IconAdd, TransferListItem } from '@aragon/ui-components';
+import { IconAdd, OpportunityListItem } from '@aragon/ui-components';
 
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();
@@ -25,11 +25,11 @@ const Marketplace: React.FC = () => {
 
     const { tokens } = useDaoVault();
 
-    const opportunities: any = [
+    let opportunities: any = [
         {
             id: '1',
             title: 'Libree funding request',
-            subtitle: 'Loan: 30 Days', // transferDate
+            subtitle: 'Loan: 30 Days',
             tokenAmount: '10000',
             tokenSymbol: 'USDC',
             usdValue: 'Collateral: 25.50000 $LIBREE',
@@ -103,15 +103,14 @@ const OpportunityList: React.FC<OpportunityListProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    if (opportunities.length === 0)
-        return <p data-testid="transferList">{t('allTransfer.noTransfers')}</p>;
+    if (!opportunities.length)
+        return <p>{t('marketplace.noOpportunities')}</p>;
 
     return (
         <div className="space-y-2" data-testid="transferList">
-            {opportunities.map(({ subtitle, ...rest }, index) => (
-                <TransferListItem
+            {opportunities.map(({ ...rest }, index) => (
+                <OpportunityListItem
                     key={`${rest.id}-${index}`}
-                    transferDate={subtitle}
                     {...rest}
                 />
             ))}
