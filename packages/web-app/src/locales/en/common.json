@@ -235,7 +235,8 @@
     "currentHolders": "Current holders",
     "newGroup": "New group",
     "seeAllGroups": "See all groups",
-    "advanced": "Advanced"
+    "advanced": "Advanced",
+    "seeAllOpportunities": "See all opportunities"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -1368,5 +1369,10 @@
         "description": "Create a new group to organize your community."
       }
     }
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "openOpportunities": "Open opportunities",
+    "getFundedAction": "Get Funded"
   }
 }

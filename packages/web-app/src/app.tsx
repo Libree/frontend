@@ -41,6 +41,7 @@ const CommunityPage = lazy(() => import('pages/community'));
 const SettingsPage = lazy(() => import('pages/settings'));
 const EditSettingsPage = lazy(() => import('pages/editSettings'));
 const ProposeSettingsPage = lazy(() => import('pages/proposeSettings'));
+const MarketplacePage = lazy(() => import('pages/marketplace'));
 
 const TokensPage = lazy(() => import('pages/tokens'));
 const TransfersPage = lazy(() => import('pages/transfers'));
@@ -171,6 +172,7 @@ function App() {
                 element={<ProposalDetailsWrapper />}
               />
               <Route path="community" element={<CommunityPage />} />
+              <Route path="marketplace" element={<MarketplacePage />} />
               <Route path="settings" element={<SettingsPage />} />
               {/* Redirects the user to the dashboard page by default if no dao-specific page is specified. */}
               <Route index element={<Navigate to={'dashboard'} replace />} />
