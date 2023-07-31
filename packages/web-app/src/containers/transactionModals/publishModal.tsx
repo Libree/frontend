@@ -31,7 +31,7 @@ type PublishModalProps = {
 };
 
 const icons = {
-  [TransactionState.APPROVING]: undefined,
+  [TransactionState.APPROVE]: undefined,
   [TransactionState.WAITING]: undefined,
   [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
   [TransactionState.SUCCESS]: undefined,
@@ -58,9 +58,9 @@ const PublishModal: React.FC<PublishModalProps> = ({
   const {network} = useNetwork();
 
   const label = {
-    [TransactionState.APPROVING]: '',
+    [TransactionState.APPROVE]: '',
     [TransactionState.WAITING]:
-      buttonLabel || t('TransactionModal.publishDaoButtonLabel'),
+      buttonLabel || t('TransactionModal.approveTransaction'),
     [TransactionState.LOADING]: t('TransactionModal.waiting'),
     [TransactionState.SUCCESS]:
       buttonLabelSuccess || t('TransactionModal.goToProposal'),

@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 import { erc20TokenABI } from 'abis/erc20TokenABI';
 
 export function useCreditDelegation(daoAddress?: string): any {
-  const { creditDelegation } = useInstalledPlugins(daoAddress)
+  const { creditDelegation } = useInstalledPlugins(daoAddress);
   const { signer } = useWallet();
 
   const [delegationPlugin, setDelegationPlugin] = useState<CreditDelegator | null>(null)
@@ -19,7 +19,7 @@ export function useCreditDelegation(daoAddress?: string): any {
       setDelegationPlugin(factory.attach(creditDelegation.instanceAddress));
     }
 
-  }, [signer, creditDelegation])
+  }, [signer, creditDelegation]);
 
   const deposit = (asset: string, amount: string) => {
     return delegationPlugin?.supply(asset, amount)
@@ -45,9 +45,9 @@ export function useCreditDelegation(daoAddress?: string): any {
       {
         const contract = new ethers.Contract(asset, erc20TokenABI, signer);
         try {
-          return await contract.approve(creditDelegation?.instanceAddress, amount)
+          return contract.approve(creditDelegation?.instanceAddress, amount)
         } catch (err) {
-          return 0;
+          return err;
         }
       }
     }

@@ -455,7 +455,7 @@ const CreateDaoProvider: React.FC = ({ children }) => {
     <CreateDaoContext.Provider value={{ handlePublishDao }}>
       {children}
       <PublishModal
-        subtitle={t('TransactionModal.publishDaoSubtitle')}
+        subtitle={t('TransactionModal.feesAdvice')}
         buttonLabelSuccess={t('TransactionModal.launchDaoDashboard')}
         state={creationProcessState || TransactionState.WAITING}
         isOpen={showModal}
