@@ -4,30 +4,28 @@ import styled from 'styled-components';
 import { IconChevronRight } from '../icons';
 
 export type CardSwapProps = {
-    fromSymbol: string;
-    fromAmount: number;
-    fromLabel: string;
     toSymbol: string;
-    toAmount: number;
+    fromSymbol: string;
+    amount: number;
     toLabel: string;
+    fromLabel: string;
     bgWhite?: boolean;
 };
 
 /** Swap header showing the sender and recipient */
 export const CardSwap: React.FC<CardSwapProps> = ({
-    fromSymbol,
-    fromAmount,
-    fromLabel,
     toSymbol,
-    toAmount,
+    fromSymbol,
+    amount,
     toLabel,
+    fromLabel,
     bgWhite = false,
 }) => {
     return (
         <CardContainer data-testid="cardTransfer">
-            <Card label={fromLabel} copy={`${fromAmount} ${fromSymbol}`} bgWhite={bgWhite} />
+            <Card label={fromLabel} copy={`${amount} ${fromSymbol}`} bgWhite={bgWhite} />
             <IconChevronRight className="text-ui-600" />
-            <Card label={toLabel} copy={`${toAmount} ${toSymbol}`} bgWhite={bgWhite} />
+            <Card label={toLabel} copy={toSymbol} bgWhite={bgWhite} />
         </CardContainer>
     );
 };
