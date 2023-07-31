@@ -8,19 +8,23 @@ import {
 export const CONTRACT_ADDRESSES: { [K in SupportedNetwork]: ContractsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
         aavePool: "0x0b913a76beff3887d35073b8e5530755d60f78c7",
-        uniswapRouterAddress: "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+        uniswapRouterAddress: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
+        nonfungiblePositionManagerAddress: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
     },
     [SupportedNetwork.GOERLI]: {
         aavePool: "",
-        uniswapRouterAddress: ""
+        uniswapRouterAddress: "",
+        nonfungiblePositionManagerAddress: ""
     },
     [SupportedNetwork.HOMESTEAD]: {
         aavePool: "",
-        uniswapRouterAddress: ""
+        uniswapRouterAddress: "",
+        nonfungiblePositionManagerAddress: ""
     },
     [SupportedNetwork.MATIC]: {
         aavePool: "",
-        uniswapRouterAddress: ""
+        uniswapRouterAddress: "",
+        nonfungiblePositionManagerAddress: ""
     }
 };
 
@@ -28,7 +32,7 @@ export const PLUGIN_ADDRESSES: { [K in SupportedNetwork]: PluginsDeployment } = 
     [SupportedNetwork.MUMBAI]: {
         creditDelegation: "0xb27f9fe20a05e2ea6aa7b48cf8e83040f816c774",
         subgovernance: "0x78f346799eb5f956952a32afd6b18db15fd6e123",
-        uniswapV3: "0xe443595fbd674639bb18af9eb85ea687ad51851b",
+        uniswapV3: "0x76cc69c986db52658947808617fe949e06059ad5",
         vault: "0x523c1ceefbb81d62a95c7709cbbc14e964a77d82"
     },
     [SupportedNetwork.GOERLI]: {
@@ -56,7 +60,7 @@ export const PLUGIN_IDS: { [K in SupportedNetwork]: PluginsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
         creditDelegation: "my-cool-plugin-6016",
         subgovernance: "my-cool-plugin-6002",
-        uniswapV3: "my-cool-plugin-6004",
+        uniswapV3: "my-cool-plugin-6017",
         vault: "my-cool-plugin-6005"
     },
     [SupportedNetwork.GOERLI]: {

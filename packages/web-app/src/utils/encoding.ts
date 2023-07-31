@@ -92,9 +92,10 @@ export const getPluginInstallUniswapV3 = (
         throw new UnsupportedNetworkError(networkName);
     }
     const hexBytes = ethers.utils.defaultAbiCoder.encode(
-        ["address uniswapRouterAddress"],
+        ["address uniswapRouterAddress", "address nonfungiblePositionManagerAddress"],
         [
-            CONTRACT_ADDRESSES[networkName].uniswapRouterAddress
+            CONTRACT_ADDRESSES[networkName].uniswapRouterAddress,
+            CONTRACT_ADDRESSES[networkName].nonfungiblePositionManagerAddress
         ],
     );
 
@@ -219,7 +220,7 @@ export const encodeApproveAction = (
     }
 }
 
-export const encodeSwapAction = (
+export const encodeSwapAction = async (
     tokenIn: string,
     tokenOut: string,
     fee: string,
@@ -227,8 +228,22 @@ export const encodeSwapAction = (
     amountIn: string,
     amountOutMinimum: string,
     sqrtPriceLimitX96: string,
-    pluginAddress: string
-): DaoAction[] => {
+    pluginAddress: string,
+    provider: ethers.providers.Web3Provider | null,
+    network: SupportedNetworks
+): Promise<DaoAction[]> => {
+
+    let tokenInfo;
+
+    if (provider) {
+        tokenInfo = await getTokenInfo(
+            tokenIn,
+            provider,
+            CHAIN_METADATA[network].nativeCurrency
+        )
+    }
+
+    const amountToSwap = Number(amountIn) * Math.pow(10, tokenInfo?.decimals || 18)
     const iface = Uniswapv3__factory.createInterface()
 
     const hexData = iface.encodeFunctionData(
@@ -238,14 +253,14 @@ export const encodeSwapAction = (
             tokenOut,
             fee,
             recipient,
-            amountIn,
+            amountToSwap,
             amountOutMinimum,
             sqrtPriceLimitX96
         ]
     )
 
     return [
-        { ...encodeApproveAction(tokenIn, pluginAddress, amountIn) },
+        { ...encodeApproveAction(tokenIn, pluginAddress, amountToSwap.toString()) },
         {
             to: pluginAddress,
             value: ethers.utils.parseEther('0').toBigInt(),

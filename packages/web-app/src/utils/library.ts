@@ -417,6 +417,8 @@ export async function decodeSCCToAction(
           });
         }
 
+        if(actionSCC.functionName === 'approve') return
+
         return actionSCC;
       }
     }

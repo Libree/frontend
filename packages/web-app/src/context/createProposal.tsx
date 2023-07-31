@@ -73,9 +73,8 @@ import {
 import { useGlobalModalContext } from './globalModals';
 import { useNetwork } from './network';
 import { usePrivacyContext } from './privacyContext';
-import { encodeActionsGroup, encodeCreateGroupAction, encodeCreditDelegationAction } from 'utils/encoding';
+import { encodeActionsGroup, encodeCreateGroupAction, encodeCreditDelegationAction, encodeSwapAction } from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
-import { decodeCreateGroupAction, decodeCreditDelegationAction, decodeGroupedActions } from 'utils/dencoding';
 
 type Props = {
   showTxModal: boolean;
@@ -133,6 +132,7 @@ const CreateProposalProvider: React.FC<Props> = ({
   const {
     creditDelegation: creditDelegationAddress,
     subgovernance: subgovernancePlugin,
+    uniswapV3: uniswapV3Plugin
   } = useInstalledPlugins(daoDetails?.address)
 
   const shouldPoll = useMemo(
@@ -150,7 +150,7 @@ const CreateProposalProvider: React.FC<Props> = ({
    *************************************************/
   const encodeActions = useCallback(async () => {
     const actionsFromForm = getValues('actions');
-    const actions: Array<Promise<DaoAction>> = [];
+    const actions: Array<Promise<DaoAction> | Promise<DaoAction[]>> = [];
 
     let propagateActions: boolean = false;
 
@@ -316,12 +316,30 @@ const CreateProposalProvider: React.FC<Props> = ({
           const membersAddresses = getValues('addresses');
           break;
         }
+        case 'swap_tokens': {
+          //TODO - Remove hardcoded values
+          actions.push(
+            Promise.resolve(
+              encodeSwapAction(
+                action.inputs.tokenInput,
+                action.inputs.tokenOutput,
+                '3000',
+                daoDetails?.address || '',
+                action.inputs.amount.toString(),
+                '0',
+                '0',
+                uniswapV3Plugin?.instanceAddress || '',
+                provider,
+                network
+              )))
+          break;
+        }
       }
     }
 
-    const actionsEncoded = await Promise.all(actions);
+    const actionsEncoded = (await Promise.all(actions)).flat();
 
-    if(!propagateActions) return actionsEncoded
+    if (!propagateActions) return actionsEncoded
 
     const actionsGrouped = encodeActionsGroup(
       daoDetails?.address || "",
@@ -329,7 +347,7 @@ const CreateProposalProvider: React.FC<Props> = ({
       creditDelegationAddress?.instanceAddress || ""
     )
 
-    return actionsGrouped 
+    return actionsGrouped
 
   }, [
     getValues,

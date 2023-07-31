@@ -548,6 +548,7 @@ export class ProposalId {
 export type ContractsDeployment = {
   aavePool: string;
   uniswapRouterAddress: string;
+  nonfungiblePositionManagerAddress: string;
 };
 
 export type PluginsDeployment = {
