@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { AccordionMethod } from 'components/accordionMethod';
 import { useNetwork } from 'context/network';
 import { CHAIN_METADATA } from 'utils/constants';
-import { ActionCreditDelegation, SupportedNetwork } from 'utils/types';
+import { ActionCreditDelegation } from 'utils/types';
 import { capitalizeFirstLetter } from 'utils';
 import { shortenAddress } from '@aragon/ui-components';
-import { SUPPORTED_TOKENS } from 'utils/config';
+import { getTokenSymbol } from 'utils/library';
 
 export const CreditDelegationCard: React.FC<{
     action: ActionCreditDelegation;
@@ -17,12 +17,6 @@ export const CreditDelegationCard: React.FC<{
     const { t } = useTranslation();
     const { network } = useNetwork();
     const { user, amount, token, interestRateType } = action.inputs;
-
-    const getTokenSymbol = (tokenAddress: string) => {
-        const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-        const tokenInfo = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
-        return tokenInfo ? tokenInfo.name : '';
-    };
 
     return (
         <AccordionMethod

@@ -33,7 +33,7 @@ import {
 import { getErc20VotingParticipation, getNonEmptyActions } from 'utils/proposals';
 import { SupportedVotingSettings } from 'utils/types';
 
-const ReviewSwap: React.FC = () => {
+const ReviewWithoutLinks: React.FC = () => {
     const { t, i18n } = useTranslation();
 
     const { data: daoDetails } = useDaoDetailsQuery();
@@ -54,7 +54,6 @@ const ReviewSwap: React.FC = () => {
 
     const { getValues, setValue } = useFormContext();
     const values = getValues();
-    console.log('values in review: ', values)
 
     const editor = useEditor({
         editable: false,
@@ -262,7 +261,7 @@ const ReviewSwap: React.FC = () => {
     );
 };
 
-export default ReviewSwap;
+export default ReviewWithoutLinks;
 
 const Header = styled.p.attrs({ className: 'font-bold text-ui-800 text-3xl' })``;
 
@@ -287,7 +286,7 @@ const AdditionalInfoContainer = styled.div.attrs({
 })``;
 
 const ContentContainer = styled.div.attrs({
-    className: 'mt-3 tablet:flex tablet:space-x-3 space-y-3 tablet:space-y-0',
+    className: 'mt-3 tablet:flex tablet:flex-col tablet:items-center tablet:space-x-3 space-y-3 tablet:space-y-0',
 })``;
 
 export const StyledEditorContent = styled(EditorContent)`

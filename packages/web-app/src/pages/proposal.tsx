@@ -294,7 +294,7 @@ const Proposal: React.FC = () => {
           case 'setMetadata':
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
-            return decodeCreditDelegationAction(action.data, groupedActions ? true : false);
+            return decodeCreditDelegationAction(action.data, groupedActions ? true : false, provider, network);
           case 'createGroup':
             return decodeCreateGroupAction(action.data)
           default:

@@ -64,9 +64,9 @@ export const ExecutionWidget: React.FC<ExecutionWidgetProps> = ({
       ) : (
         <>
           <Content>
-            {actions.map(action => {
+            {actions.map((action, index) => {
               if (action)
-                return <ActionsFilter action={action} key={action.name} />;
+                return <ActionsFilter action={action} key={action.name + index} />;
             })}
           </Content>
           <WidgetFooter

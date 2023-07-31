@@ -8,11 +8,11 @@ import { ActionIndex } from 'utils/types';
 import { FormItem } from '../addAddresses';
 import { useAlertContext } from 'context/alert';
 import { useActionsContext } from 'context/actions';
-import ConfigureSwapTokensForm from 'containers/configureSwapTokens';
+import ConfigureProvideLiquidityForm from 'containers/configureProvideLiquidity';
 
-type SwapTokensActionProps = ActionIndex & { allowRemove?: boolean };
+type ProvideLiquidityActionProps = ActionIndex & { allowRemove?: boolean };
 
-const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
+const ProvideLiquidityAction: React.FC<ProvideLiquidityActionProps> = ({
     actionIndex,
     allowRemove = true,
 }) => {
@@ -21,18 +21,22 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
     const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
-    const resetSwapTokensFields = () => {
+    const resetProvideLiquidityFields = () => {
         clearErrors(`actions.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
         setValue(`actions.${actionIndex}.inputs`, {
-            tokenInput: '',
-            amount: 0,
-            tokenOutput: '',
+            token0: '',
+            token0Amount: 0,
+            token1: '',
+            token1Amount: 0,
+            feeTier: '',
+            minPrice: '',
+            maxPrice: '',
         });
         alert(t('alert.chip.resetAction'));
     };
 
-    const removeSwapTokensFields = (actionIndex: number) => {
+    const removeProvideLiquidityFields = (actionIndex: number) => {
         removeAction(actionIndex);
     };
 
@@ -49,7 +53,7 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
             },
             {
                 component: <ListItemAction title={t('labels.resetAction')} bgWhite />,
-                callback: resetSwapTokensFields,
+                callback: resetProvideLiquidityFields,
             },
         ];
 
@@ -59,7 +63,7 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
                     <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
                 ),
                 callback: () => {
-                    removeSwapTokensFields(actionIndex);
+                    removeProvideLiquidityFields(actionIndex);
                     alert(t('alert.chip.removedAction'));
                 },
             });
@@ -72,15 +76,15 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
         <AccordionMethod
             verified
             type="action-builder"
-            methodName={t('swapTokens.title')}
+            methodName={t('provideLiquidity.title')}
             dropdownItems={methodActions}
-            methodDescription={t('swapTokens.subtitle')}
+            methodDescription={t('provideLiquidity.subtitle')}
         >
             <FormItem className="py-3 space-y-3 rounded-b-xl">
-                <ConfigureSwapTokensForm actionIndex={actionIndex} />
+                <ConfigureProvideLiquidityForm actionIndex={actionIndex} />
             </FormItem>
         </AccordionMethod>
     );
 };
 
-export default SwapTokensAction;
+export default ProvideLiquidityAction;

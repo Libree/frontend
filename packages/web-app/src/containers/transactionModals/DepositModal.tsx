@@ -161,7 +161,7 @@ const DepositModal: React.FC = () => {
               value={input.tokenAddress}
               onChange={handleSelectChange}
             >
-              <option value="" disabled selected>{t('creditDelegation.interestRateTypePlaceholder')}</option>
+              <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
               {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                 <option key={token.address} value={token.address}>{token.name}</option>
               ))}

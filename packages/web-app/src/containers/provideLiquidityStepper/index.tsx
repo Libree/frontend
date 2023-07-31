@@ -3,13 +3,7 @@ import { useFormContext, useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import DefineProposal, {
-    isValid as defineProposalIsValid,
-} from 'containers/defineProposal';
-import SetupVotingForm, {
-    isValid as setupVotingIsValid,
-} from 'containers/setupVotingForm';
-import ReviewProposal from 'containers/reviewProposal';
+import ReviewWithoutLinks from 'containers/review';
 import { useNetwork } from 'context/network';
 import { generatePath } from 'react-router-dom';
 import { toDisplayEns } from 'utils/library';
@@ -19,14 +13,20 @@ import ConfigureActions from 'containers/configureActions';
 import { actionsAreValid } from 'utils/validators';
 import { useActionsContext } from 'context/actions';
 import { DaoDetails } from '@aragon/sdk-client';
+import SetupVotingForm, {
+    isValid as setupVotingIsValid,
+} from 'containers/setupVotingForm';
+import DefineProposal, {
+    isValid as defineProposalIsValid,
+} from 'containers/defineProposal';
 
-interface SwapTokensStepperProps {
+interface ProvideLiquidityStepperProps {
     enableTxModal: () => void;
     daoDetails: DaoDetails;
     pluginSettings: SupportedVotingSettings;
 }
 
-const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
+const ProvideLiquidityStepper: React.FC<ProvideLiquidityStepperProps> = ({
     enableTxModal,
     daoDetails,
     pluginSettings,
@@ -51,8 +51,8 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
     return (
         <>
             <FullScreenStepper
-                wizardProcessName={t('swapTokens.title')}
-                navLabel={t('swapTokens.subtitle')}
+                wizardProcessName={t('provideLiquidity.title')}
+                navLabel={t('provideLiquidity.subtitle')}
                 processType="ProposalCreation"
                 returnPath={generatePath(Finance, {
                     network,
@@ -60,26 +60,27 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                 })}
             >
                 <Step
-                    wizardTitle={t('swapTokens.subtitle')}
-                    wizardDescription={t('swapTokens.description')}
+                    wizardTitle={t('provideLiquidity.subtitle')}
+                    wizardDescription={t('provideLiquidity.description')}
                     isNextButtonDisabled={
                         !actions.length || !actionsAreValid(formActions, actions, errors)
                     }
                 >
                     <ConfigureActions
                         label=""
-                        initialActions={['swap_tokens']}
-                        whitelistedActions={['swap_tokens']}
+                        initialActions={['provide_liquidity']}
+                        whitelistedActions={['provide_liquidity']}
                         addExtraActionLabel={t(
-                            'swapTokens.ctaAddAnother'
+                            'provideLiquidity.ctaAddAnother'
                         )}
                         onAddExtraActionClick={() => {
-                            addAction({ name: 'swap_tokens' });
+                            addAction({ name: 'provide_liquidity' });
                         }}
                         hideAlert
                         allowEmpty={false}
                     />
                 </Step>
+
                 <Step
                     wizardTitle={t('creditDelegation.setupVoting.title')}
                     wizardDescription={t('creditDelegation.setupVoting.description')}
@@ -103,13 +104,11 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                     }}
                     fullWidth
                 >
-                    <ReviewProposal
-                        defineProposalStepNumber={3}
-                    />
+                    <ReviewWithoutLinks />
                 </Step>
             </FullScreenStepper>
         </>
     );
 };
 
-export default SwapTokensStepper;
+export default ProvideLiquidityStepper;

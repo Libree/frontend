@@ -6,20 +6,19 @@ import {
 import React, { useEffect } from 'react';
 import {
     Controller,
-    FormState,
     useFormContext,
     useWatch,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import { WithdrawAction } from 'pages/newWithdraw';
-import { ActionIndex, InterestRateType, SupportedNetwork } from 'utils/types';
+import { ActionIndex, SupportedNetwork } from 'utils/types';
 import { SUPPORTED_TOKENS } from 'utils/config';
+import { groups } from 'pages/communityGroups';
 
-type ConfigureCreditDelegationFormProps = ActionIndex;
+type ConfigureBudgetAllocationFormProps = ActionIndex;
 
-const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps> = ({
+const ConfigureBudgetAllocationForm: React.FC<ConfigureBudgetAllocationFormProps> = ({
     actionIndex,
 }) => {
     const { t } = useTranslation();
@@ -32,13 +31,15 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
             ],
         });
 
+    const protocols = ['Uniswap', 'Aave', 'PWN'];
+
     /*************************************************
      *                    Hooks                      *
      *************************************************/
 
     useEffect(() => {
         if (!name) {
-            setValue(`actions.${actionIndex}.name`, 'credit_delegation');
+            setValue(`actions.${actionIndex}.name`, 'budget_allocation');
         }
     }, [actionIndex, name, setValue]);
 
@@ -47,29 +48,32 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
      *************************************************/
     return (
         <>
-            {/* User address */}
+
+            {/* Protocol */}
             <FormItem>
                 <Label
-                    label={t('creditDelegation.userInput')}
-                    helpText={t('creditDelegation.input1Subtitle')}
+                    label={t('budgetAllocation.protocolInput')}
+                    helpText={t('budgetAllocation.protocolDescription')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.user`}
+                    name={`actions.${actionIndex}.inputs.protocol`}
                     control={control}
                     render={({
-                        field: { name, onBlur, onChange, value },
+                        field: { name, onChange, value },
                         fieldState: { error },
                     }) => (
                         <>
-                            <StyledInput
-                                mode={error ? 'critical' : 'default'}
+                            <StyledSelect
                                 name={name}
-                                type='text'
                                 value={value}
-                                placeholder='0x…'
-                                onBlur={onBlur}
                                 onChange={onChange}
-                            />
+                                defaultValue={""}
+                            >
+                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                {protocols.map((ptocol) => (
+                                    <option key={ptocol} value={ptocol}>{ptocol}</option>
+                                ))}
+                            </StyledSelect>
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}
@@ -78,11 +82,11 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 />
             </FormItem>
 
-            {/* Token address */}
+            {/* Token */}
             <FormItem>
                 <Label
-                    label={t('creditDelegation.tokenInput')}
-                    helpText={t('creditDelegation.input1Subtitle')}
+                    label={t('budgetAllocation.tokenInput')}
+                    helpText={t('budgetAllocation.tokenDescription')}
                 />
                 <Controller
                     name={`actions.${actionIndex}.inputs.token`}
@@ -96,8 +100,9 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -110,11 +115,11 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 />
             </FormItem>
 
-            {/* Amount */}
+            {/* Token Amount */}
             <FormItem>
                 <Label
-                    label={t('creditDelegation.amountInput')}
-                    helpText={t('creditDelegation.input1Subtitle')}
+                    label={t('budgetAllocation.amountInput')}
+                    helpText={t('budgetAllocation.amountDescription')}
                 />
                 <Controller
                     name={`actions.${actionIndex}.inputs.amount`}
@@ -146,26 +151,30 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                 />
             </FormItem>
 
-            {/* Select Interest rate type */}
+            {/* Group */}
             <FormItem>
                 <Label
-                    label={t('creditDelegation.interestRateType')}
-                    helpText={t('creditDelegation.interestRateTypeDescription')}
+                    label={t('budgetAllocation.groupInput')}
+                    helpText={t('budgetAllocation.groupDescription')}
                 />
                 <Controller
-                    name={`actions.${actionIndex}.inputs.interestRateType`}
+                    name={`actions.${actionIndex}.inputs.group`}
                     control={control}
-                    defaultValue=""
-                    render={({ field: { name, value, onChange }, fieldState: { error } }) => (
+                    render={({
+                        field: { name, onChange, value },
+                        fieldState: { error },
+                    }) => (
                         <>
                             <StyledSelect
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
-                                <option value={InterestRateType.STABLE}>{InterestRateType.STABLE}</option>
-                                <option value={InterestRateType.VARIABLE}>{InterestRateType.VARIABLE}</option>
+                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                {groups.map((group) => (
+                                    <option key={group.id} value={group.id}>{group.name}</option>
+                                ))}
                             </StyledSelect>
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
@@ -179,28 +188,7 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
     );
 };
 
-export default ConfigureCreditDelegationForm;
-
-/**
- * Check if the screen is valid
- * @param dirtyFields List of fields that have been changed
- * @param errors List of fields that have errors
- * @param tokenAddress Token address
- * @returns Whether the screen is valid
- */
-export function isValid(
-    dirtyFields?: FormState<WithdrawAction>['dirtyFields'],
-    errors?: FormState<WithdrawAction>['errors'],
-    tokenAddress?: string
-) {
-    // check if fields are dirty
-    if (!dirtyFields?.to || !dirtyFields?.amount || !tokenAddress) return false;
-
-    // check if fields have errors
-    if (errors?.to || errors?.amount || errors?.tokenAddress) return false;
-
-    return true;
-}
+export default ConfigureBudgetAllocationForm;
 
 /*************************************************
  *               Styled Components               *

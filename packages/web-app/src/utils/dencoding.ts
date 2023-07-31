@@ -6,12 +6,19 @@ import { Action, ActionAddMember, ActionCreditDelegation, InterestRateType } fro
 import {
   getFunctionFragment
 } from "@aragon/sdk-client-common";
-import { AVAILABLE_FUNCTION_SIGNATURES } from "./constants";
+import { AVAILABLE_FUNCTION_SIGNATURES, CHAIN_METADATA, SupportedNetworks } from "./constants";
 import {
   DaoAction
 } from '@aragon/sdk-client-common';
+import { ethers } from "ethers";
+import { getTokenInfo } from "./tokens";
 
-export const decodeCreditDelegationAction = async (data: Uint8Array, isGrouped: boolean): Promise<ActionCreditDelegation | undefined> => {
+export const decodeCreditDelegationAction = async (
+  data: Uint8Array,
+  isGrouped: boolean,
+  provider: any,
+  network: SupportedNetworks
+): Promise<ActionCreditDelegation | undefined> => {
 
   const iface = CreditDelegator__factory.createInterface()
   const hexBytes = bytesToHex(data)
@@ -22,10 +29,20 @@ export const decodeCreditDelegationAction = async (data: Uint8Array, isGrouped: 
     isGrouped ? data : hexBytes,
   );
 
+  let tokenInfo;
+
+  if (provider) {
+    tokenInfo = await getTokenInfo(
+      result[0],
+      provider,
+      CHAIN_METADATA[network].nativeCurrency
+    )
+  }
+
   return {
     name: "credit_delegation",
     inputs: {
-      amount: Number(result[1]),
+      amount: Number(result[1]) / Math.pow(10, tokenInfo?.decimals || 18),
       interestRateType: Number([result[2]]) == 2 ? InterestRateType.VARIABLE : InterestRateType.STABLE,
       token: result[0],
       user: result[5]

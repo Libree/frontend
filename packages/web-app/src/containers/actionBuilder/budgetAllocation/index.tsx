@@ -8,11 +8,11 @@ import { ActionIndex } from 'utils/types';
 import { FormItem } from '../addAddresses';
 import { useAlertContext } from 'context/alert';
 import { useActionsContext } from 'context/actions';
-import ConfigureSwapTokensForm from 'containers/configureSwapTokens';
+import ConfigureBudgetAllocationForm from 'containers/configureBudgetAllocation';
 
-type SwapTokensActionProps = ActionIndex & { allowRemove?: boolean };
+type BudgetAllocationActionProps = ActionIndex & { allowRemove?: boolean };
 
-const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
+const BudgetAllocationAction: React.FC<BudgetAllocationActionProps> = ({
     actionIndex,
     allowRemove = true,
 }) => {
@@ -21,18 +21,19 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
     const { setValue, clearErrors, resetField } = useFormContext();
     const { alert } = useAlertContext();
 
-    const resetSwapTokensFields = () => {
+    const resetBudgetAllocationFields = () => {
         clearErrors(`actions.${actionIndex}`);
         resetField(`actions.${actionIndex}`);
         setValue(`actions.${actionIndex}.inputs`, {
-            tokenInput: '',
+            protocol: '',
+            token: '',
             amount: 0,
-            tokenOutput: '',
+            group: '',
         });
         alert(t('alert.chip.resetAction'));
     };
 
-    const removeSwapTokensFields = (actionIndex: number) => {
+    const removeBudgetAllocationFields = (actionIndex: number) => {
         removeAction(actionIndex);
     };
 
@@ -49,7 +50,7 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
             },
             {
                 component: <ListItemAction title={t('labels.resetAction')} bgWhite />,
-                callback: resetSwapTokensFields,
+                callback: resetBudgetAllocationFields,
             },
         ];
 
@@ -59,7 +60,7 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
                     <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
                 ),
                 callback: () => {
-                    removeSwapTokensFields(actionIndex);
+                    removeBudgetAllocationFields(actionIndex);
                     alert(t('alert.chip.removedAction'));
                 },
             });
@@ -72,15 +73,15 @@ const SwapTokensAction: React.FC<SwapTokensActionProps> = ({
         <AccordionMethod
             verified
             type="action-builder"
-            methodName={t('swapTokens.title')}
+            methodName={t('budgetAllocation.title')}
             dropdownItems={methodActions}
-            methodDescription={t('swapTokens.subtitle')}
+            methodDescription={t('budgetAllocation.subtitle')}
         >
             <FormItem className="py-3 space-y-3 rounded-b-xl">
-                <ConfigureSwapTokensForm actionIndex={actionIndex} />
+                <ConfigureBudgetAllocationForm actionIndex={actionIndex} />
             </FormItem>
         </AccordionMethod>
     );
 };
 
-export default SwapTokensAction;
+export default BudgetAllocationAction;

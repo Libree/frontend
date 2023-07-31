@@ -20,13 +20,13 @@ import { actionsAreValid } from 'utils/validators';
 import { useActionsContext } from 'context/actions';
 import { DaoDetails } from '@aragon/sdk-client';
 
-interface SwapTokensStepperProps {
+interface BudgetAllocationStepperProps {
     enableTxModal: () => void;
     daoDetails: DaoDetails;
     pluginSettings: SupportedVotingSettings;
 }
 
-const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
+const BudgetAllocationStepper: React.FC<BudgetAllocationStepperProps> = ({
     enableTxModal,
     daoDetails,
     pluginSettings,
@@ -51,8 +51,8 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
     return (
         <>
             <FullScreenStepper
-                wizardProcessName={t('swapTokens.title')}
-                navLabel={t('swapTokens.subtitle')}
+                wizardProcessName={t('budgetAllocation.title')}
+                navLabel={t('budgetAllocation.subtitle')}
                 processType="ProposalCreation"
                 returnPath={generatePath(Finance, {
                     network,
@@ -60,21 +60,21 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
                 })}
             >
                 <Step
-                    wizardTitle={t('swapTokens.subtitle')}
-                    wizardDescription={t('swapTokens.description')}
+                    wizardTitle={t('budgetAllocation.subtitle')}
+                    wizardDescription={t('budgetAllocation.description')}
                     isNextButtonDisabled={
                         !actions.length || !actionsAreValid(formActions, actions, errors)
                     }
                 >
                     <ConfigureActions
                         label=""
-                        initialActions={['swap_tokens']}
-                        whitelistedActions={['swap_tokens']}
+                        initialActions={['budget_allocation']}
+                        whitelistedActions={['budget_allocation']}
                         addExtraActionLabel={t(
                             'swapTokens.ctaAddAnother'
                         )}
                         onAddExtraActionClick={() => {
-                            addAction({ name: 'swap_tokens' });
+                            addAction({ name: 'budget_allocation' });
                         }}
                         hideAlert
                         allowEmpty={false}
@@ -112,4 +112,4 @@ const SwapTokensStepper: React.FC<SwapTokensStepperProps> = ({
     );
 };
 
-export default SwapTokensStepper;
+export default BudgetAllocationStepper
