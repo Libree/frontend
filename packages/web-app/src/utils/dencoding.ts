@@ -52,9 +52,7 @@ export const decodeCreditDelegationAction = async (
 
 
 export const decodeGroupedActions = (data: Uint8Array): DaoAction[] | undefined => {
-
   try {
-
     const iface = CreditDelegator__factory.createInterface()
     const hexBytes = bytesToHex(data)
 
@@ -73,7 +71,6 @@ export const decodeGroupedActions = (data: Uint8Array): DaoAction[] | undefined 
 
 
 export const decodeCreateGroupAction = async (data: Uint8Array): Promise<Action[] | undefined> => {
-
   const iface = Subgovernance__factory.createInterface()
   const hexBytes = bytesToHex(data)
 
@@ -109,7 +106,6 @@ export const decodeCreateGroupAction = async (data: Uint8Array): Promise<Action[
 }
 
 export const findInterfaceCustomPlugins = (data: Uint8Array, isGrouped: boolean = false) => {
-
   const decodeData = isGrouped ? hexToBytes(data.toString()) : data
 
   try {
