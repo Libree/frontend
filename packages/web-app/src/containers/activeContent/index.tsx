@@ -1,6 +1,6 @@
 import React from 'react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { IconArrowRight, IconPerson } from '@aragon/ui-components';
+import { ButtonText, IconArrowRight, IconPerson } from '@aragon/ui-components';
 import styled from 'styled-components';
 
 import AaveLogo from '../../public/aave-logo.png';
@@ -11,7 +11,7 @@ import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
 import { useSubgovernance } from 'hooks/useSubgovernance';
 import { useNetwork } from 'context/network';
-import { Lending } from 'utils/paths';
+import { CreateGroupProposal, Lending } from 'utils/paths';
 import { useTranslation } from 'react-i18next';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -19,6 +19,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export const ActiveContent = () => {
     const { t } = useTranslation();
     const { dao } = useParams();
+    const { network } = useNetwork();
+    const navigate = useNavigate();
     const { totalAssetValue } = useDaoVault();
     const { netWorth: aaveNetWorth } = useAaveData();
     const { groupData } = useSubgovernance(dao);
@@ -75,6 +77,18 @@ export const ActiveContent = () => {
                 </ChartContainer>
 
                 <ActiveDataContainer>
+                    <ButtonsContainer>
+                        <ButtonText
+                            mode="primary"
+                            label={t('labels.newGroup')}
+                            onClick={() => navigate(generatePath(CreateGroupProposal, {network, dao: dao}))}
+                        />
+                        <ButtonText
+                            mode="primary"
+                            label={t('labels.newTransfer')}
+                            onClick={() => { }}
+                        />
+                    </ButtonsContainer>
                     <ActiveGroupsList
                         groupsData={groupData}
                     />
@@ -129,6 +143,10 @@ const NoChartData = styled.p.attrs({
 
 const NoChartDataContainer = styled.div.attrs({
     className: 'flex items-center justify-start tablet:justify-center pt-4',
+})``;
+
+const ButtonsContainer = styled.div.attrs({
+    className: 'flex justify-end space-x-2 tablet:space-x-3 tablet:pr-1',
 })``;
 
 
