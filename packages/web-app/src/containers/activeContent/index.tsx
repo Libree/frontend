@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import AaveLogo from '../../public/aave-logo.png';
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
@@ -45,7 +45,7 @@ export const ActiveContent = () => {
         }],
     };
 
-    const doughnutOptions: ChartOptions = {
+    const doughnutOptions: any = {
         plugins: {
             legend: {
                 position: "bottom",
