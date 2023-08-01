@@ -268,6 +268,66 @@ export const encodeSwapAction = async (
         }]
 }
 
+export const encodeProvideLiquidityAction = async (
+    token0: string,
+    token1: string,
+    fee: string,
+    minPrice: string,
+    maxPrice: string,
+    token0Amount: number,
+    token1Amount: number,
+    pluginAddress: string,
+    provider: ethers.providers.Web3Provider | null,
+    network: SupportedNetworks
+): Promise<DaoAction[]> => {
+
+    let token0Info;
+    let token1Info;
+
+    if (provider) {
+        token0Info = await getTokenInfo(
+            token0,
+            provider,
+            CHAIN_METADATA[network].nativeCurrency
+        )
+        token1Info = await getTokenInfo(
+            token0,
+            provider,
+            CHAIN_METADATA[network].nativeCurrency
+        )
+    }
+
+    const amount0 = token0Amount * Math.pow(10, token0Info?.decimals || 18)
+    const amount1 = token1Amount * Math.pow(10, token1Info?.decimals || 18)
+    const iface = Uniswapv3__factory.createInterface()
+
+    const formatedFeed = Number(fee) * Math.pow(10, 4)
+
+    const hexData = iface.encodeFunctionData(
+        'provideLiquidity',
+        [
+            token0,
+            token1,
+            formatedFeed,
+            minPrice,
+            maxPrice,
+            amount0,
+            amount1,
+            0,
+            0
+        ]
+    )
+
+    return [
+        { ...encodeApproveAction(token0, pluginAddress, amount0.toString()) },
+        { ...encodeApproveAction(token1, pluginAddress, amount1.toString()) },
+        {
+            to: pluginAddress,
+            value: ethers.utils.parseEther('0').toBigInt(),
+            data: hexToBytes(hexData)
+        }]
+}
+
 export function votingModeToContracts(votingMode: VotingMode): number {
     switch (votingMode) {
         case VotingMode.STANDARD:
