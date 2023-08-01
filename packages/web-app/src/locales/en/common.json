@@ -235,7 +235,8 @@
     "currentHolders": "Current holders",
     "newGroup": "New group",
     "seeAllGroups": "See all groups",
-    "advanced": "Advanced"
+    "advanced": "Advanced",
+    "seeAllOpportunities": "See all opportunities"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -1367,6 +1368,21 @@
         "title": "Create a new group",
         "description": "Create a new group to organize your community."
       }
+    }
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "openOpportunities": "Open opportunities",
+    "getFundedAction": "Get Funded",
+    "noOpportunities": "No opportunities yet",
+    "fundOpportunity": {
+      "headerTitle": "Fund a opportunity",
+      "headerDescription": "Send assets to the opportunity",
+      "collateralInput": "Collateralized borrowing",
+      "collateralDescription": "Borrow against your NFT or tokens",
+      "raiseFundingInput": "Raise funding",
+      "raiseFundingDescription": "Raise capital by selling your DAO governance tokens",
+      "confirmLabel": "Confirm"
     }
   }
 }
