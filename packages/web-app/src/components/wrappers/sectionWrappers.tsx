@@ -87,7 +87,7 @@ export const TransferSectionWrapper = ({
 };
 
 /**
- * Section wrapper for transfer overview. Consists of a header with a title, as
+ * Section wrapper for fund opportunities overview. Consists of a header with a title, as
  * well as a footer with a button that takes the user to the token overview. and
  * a list of transfers (the children).
  *
