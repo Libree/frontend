@@ -17,7 +17,8 @@ interface IuseAaveData {
   currentLiquidationThreshold: Number | null,
   ltv: Number | null,
   netWorth: number,
-  reserves: IReserves[]
+  reserves: IReserves[],
+  isLoading: boolean
 }
 
 export type IReserves = VaultToken & {
@@ -38,7 +39,7 @@ export function useAaveData(): IuseAaveData {
   const [ltv, setLtv] = useState<Number | null>(null)
   const [healthFactor, setHealthFactor] = useState<Number | null>(null)
   const [reserves, setReserves] = useState<IReserves[]>([])
-
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     if (signer && daoDetails && tokens) {
@@ -94,6 +95,8 @@ export function useAaveData(): IuseAaveData {
     }
 
     setReserves(reserveData)
+
+    setIsLoading(false)
   }
 
   const formatDecimals = (amount: ethers.BigNumber): Number => {
@@ -112,6 +115,7 @@ export function useAaveData(): IuseAaveData {
     healthFactor,
     currentLiquidationThreshold,
     ltv,
-    reserves
+    reserves,
+    isLoading,
   };
 }

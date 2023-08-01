@@ -1,7 +1,5 @@
 import {
-    IllustrationHuman,
     Breadcrumb,
-    IlluObject,
 } from '@aragon/ui-components';
 import { withTransaction } from '@elastic/apm-rum-react';
 import React from 'react';
@@ -14,24 +12,17 @@ import {
     TokenSectionWrapper,
     TransferSectionWrapper,
 } from 'components/wrappers';
-import { useGlobalModalContext } from 'context/globalModals';
 import { useMappedBreadcrumbs } from 'hooks/useMappedBreadcrumbs';
 import useScreen from 'hooks/useScreen';
-import PageEmptyState from 'containers/pageEmptyState';
 import { Loading } from 'components/temporary';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { htmlIn } from 'utils/htmlIn';
 import LendingTokenList from 'components/lendingTokenList';
 import { useAaveData } from 'hooks/useAaveData';
 import { formatUnits } from 'utils/library';
 
 const Lending: React.FC = () => {
     const { t } = useTranslation();
-    const { data: daoDetails, isLoading } = useDaoDetailsQuery();
-    const { open } = useGlobalModalContext();
-    const { isMobile, isDesktop } = useScreen();
-
-    const { healthFactor, netWorth, totalCollateral, totalDebt, reserves } = useAaveData()
+    const { isDesktop } = useScreen();
+    const { isLoading: isAaveLoading, healthFactor, netWorth, totalCollateral, totalDebt, reserves } = useAaveData()
 
     const navigate = useNavigate();
     const { breadcrumbs, icon, tag } = useMappedBreadcrumbs();
@@ -61,36 +52,9 @@ const Lending: React.FC = () => {
     /*************************************************
      *                    Render                     *
      *************************************************/
-    if (isLoading) {
+    if (isAaveLoading) {
         return <Loading />;
     }
-
-    if (collateralList.length === 0 && isDesktop)
-        return (
-            <PageEmptyState
-                title={t('finance.emptyState.title')}
-                subtitle={htmlIn(t)('finance.emptyState.description')}
-                Illustration={
-                    <div className="flex">
-                        <IllustrationHuman
-                            {...{
-                                body: 'chart',
-                                expression: 'excited',
-                                hair: 'bun',
-                            }}
-                            {...(isMobile
-                                ? { height: 165, width: 295 }
-                                : { height: 225, width: 400 })}
-                        />
-                        <IlluObject object={'wallet'} className="-ml-36" />
-                    </div>
-                }
-                buttonLabel={t('finance.emptyState.buttonLabel')}
-                onClick={() => {
-                    open('deposit');
-                }}
-            />
-        );
 
     return (
         <>
@@ -164,30 +128,8 @@ const Lending: React.FC = () => {
                     </HeaderContainer>
                 }
             >
-                {collateralList.length === 0 ? (
-                    <PageEmptyState
-                        title={t('finance.emptyState.title')}
-                        subtitle={htmlIn(t)('finance.emptyState.description')}
-                        Illustration={
-                            <div className="flex">
-                                <IllustrationHuman
-                                    {...{
-                                        body: 'chart',
-                                        expression: 'excited',
-                                        hair: 'bun',
-                                    }}
-                                    {...(isMobile
-                                        ? { height: 165, width: 295 }
-                                        : { height: 225, width: 400 })}
-                                />
-                                <IlluObject object={'wallet'} className="-ml-32" />
-                            </div>
-                        }
-                        buttonLabel={t('finance.emptyState.buttonLabel')}
-                        onClick={() => {
-                            open('deposit');
-                        }}
-                    />
+                {collateralList.length === 0 && isAaveLoading ? (
+                    <Loading />
                 ) : (
                     <>
                         <div className={'h-4'} />
