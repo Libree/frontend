@@ -1381,7 +1381,8 @@
       "collateralInput": "Collateralized borrowing",
       "collateralDescription": "Borrow against your NFT or tokens",
       "raiseFundingInput": "Raise funding",
-      "raiseFundingDescription": "Raise capital by selling your DAO governance tokens"
+      "raiseFundingDescription": "Raise capital by selling your DAO governance tokens",
+      "confirmLabel": "Confirm"
     }
   }
 }

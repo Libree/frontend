@@ -1,19 +1,14 @@
 import { withTransaction } from '@elastic/apm-rum-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import TransferList from 'components/transferList';
 import {
     OpportunitiesSectionWrapper,
     PageWrapper,
 } from 'components/wrappers';
 import { useGlobalModalContext } from 'context/globalModals';
-import { useTransactionDetailContext } from 'context/transactionDetail';
 import { useDaoVault } from 'hooks/useDaoVault';
-import { useMappedBreadcrumbs } from 'hooks/useMappedBreadcrumbs';
-import useScreen from 'hooks/useScreen';
 import { sortTokens } from 'utils/tokens';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
@@ -22,6 +17,7 @@ import { IconAdd, OpportunityListItem } from '@aragon/ui-components';
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();
     const { data: daoDetails, isLoading } = useDaoDetailsQuery();
+    const { open } = useGlobalModalContext();
 
     const { tokens } = useDaoVault();
 
@@ -60,11 +56,7 @@ const Marketplace: React.FC = () => {
                 primaryBtnProps={{
                     label: t('marketplace.getFundedAction'),
                     iconLeft: <IconAdd />,
-                    onClick: () => {
-                        // TODO: open a modal with two options:
-                        // 1. Collateralize borrowing. Borrow against your NFT or tokens
-                        // 2. Raise funding. Raise capital by selling your DAO governance tokens
-                    },
+                    onClick: () => open('fundOpportunity'),
                 }}
             >
                 {opportunities.length !== 0 && (

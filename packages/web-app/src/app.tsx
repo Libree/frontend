@@ -30,6 +30,7 @@ import { NotFound } from 'utils/paths';
 import '../i18n.config';
 import DepositModal from 'containers/transactionModals/DepositModal';
 import PoapClaimModal from 'containers/poapClaiming/PoapClaimModal';
+import FundOpportunityModal from 'containers/marketplace/fundOpportunityModal';
 
 const ExplorePage = lazy(() => import('pages/explore'));
 const NotFoundPage = lazy(() => import('pages/notFound'));
@@ -185,6 +186,7 @@ function App() {
       <DaoSelectMenu />
       <WalletMenu />
       <PoapClaimModal />
+      <FundOpportunityModal />
       <NetworkErrorMenu />
     </>
   );
