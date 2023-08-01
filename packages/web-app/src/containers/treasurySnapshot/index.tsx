@@ -22,13 +22,11 @@ import {htmlIn} from 'utils/htmlIn';
 type Props = {
   daoAddressOrEns: string;
   transfers: Transfer[];
-  totalAssetValue: number;
 };
 
 const TreasurySnapshot: React.FC<Props> = ({
   daoAddressOrEns,
   transfers,
-  totalAssetValue,
 }) => {
   const {t} = useTranslation();
   const {open} = useGlobalModalContext();

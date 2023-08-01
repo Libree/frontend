@@ -342,7 +342,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const { transfers, totalAssetValue } = useDaoVault();
+  const { transfers } = useDaoVault();
   const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
 
   const proposalCount = proposals.length;
@@ -361,7 +361,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
             <TreasurySnapshot
               daoAddressOrEns={daoAddressOrEns}
               transfers={transfers}
-              totalAssetValue={totalAssetValue}
             />
           </EqualDivide>
         ) : (
@@ -375,7 +374,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
               <TreasurySnapshot
                 daoAddressOrEns={daoAddressOrEns}
                 transfers={transfers}
-                totalAssetValue={totalAssetValue}
               />
             </RightNarrowContent>
           </>
@@ -405,7 +403,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
           <TreasurySnapshot
             daoAddressOrEns={daoAddressOrEns}
             transfers={transfers}
-            totalAssetValue={totalAssetValue}
           />
           <MembershipSnapshot
             daoAddressOrEns={daoAddressOrEns}
@@ -457,7 +454,6 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
       <TreasurySnapshot
         daoAddressOrEns={daoAddressOrEns}
         transfers={transfers}
-        totalAssetValue={totalAssetValue}
       />
       <MembershipSnapshot
         daoAddressOrEns={daoAddressOrEns}
