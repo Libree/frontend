@@ -15,7 +15,6 @@ import styled from 'styled-components';
 
 import { Loading } from 'components/temporary';
 import { MembershipSnapshot } from 'containers/membershipSnapshot';
-import ProposalSnapshot from 'containers/proposalSnapshot';
 import TreasurySnapshot from 'containers/treasurySnapshot';
 import { ActiveContent } from 'containers/activeContent';
 import { useAlertContext } from 'context/alert';
@@ -343,7 +342,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const { transfers, totalAssetValue } = useDaoVault();
+  const { transfers } = useDaoVault();
   const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
 
   const proposalCount = proposals.length;
@@ -362,7 +361,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
             <TreasurySnapshot
               daoAddressOrEns={daoAddressOrEns}
               transfers={transfers}
-              totalAssetValue={totalAssetValue}
             />
           </EqualDivide>
         ) : (
@@ -376,7 +374,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
               <TreasurySnapshot
                 daoAddressOrEns={daoAddressOrEns}
                 transfers={transfers}
-                totalAssetValue={totalAssetValue}
               />
             </RightNarrowContent>
           </>
@@ -406,7 +403,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
           <TreasurySnapshot
             daoAddressOrEns={daoAddressOrEns}
             transfers={transfers}
-            totalAssetValue={totalAssetValue}
           />
           <MembershipSnapshot
             daoAddressOrEns={daoAddressOrEns}
@@ -458,7 +454,6 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
       <TreasurySnapshot
         daoAddressOrEns={daoAddressOrEns}
         transfers={transfers}
-        totalAssetValue={totalAssetValue}
       />
       <MembershipSnapshot
         daoAddressOrEns={daoAddressOrEns}

@@ -1,22 +1,28 @@
 import React from 'react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { IconArrowRight, IconPerson } from '@aragon/ui-components';
+import { ButtonText, IconArrowRight, IconPerson } from '@aragon/ui-components';
 import styled from 'styled-components';
 
 import AaveLogo from '../../public/aave-logo.png';
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { useAaveData } from 'hooks/useAaveData';
 import { useSubgovernance } from 'hooks/useSubgovernance';
 import { useNetwork } from 'context/network';
-import { Lending } from 'utils/paths';
+import { CreateGroupProposal, Lending } from 'utils/paths';
+import { useTranslation } from 'react-i18next';
+import { useGlobalModalContext } from 'context/globalModals';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const ActiveContent = () => {
+    const { t } = useTranslation();
     const { dao } = useParams();
+    const { network } = useNetwork();
+    const navigate = useNavigate();
+    const { open } = useGlobalModalContext();
     const { totalAssetValue } = useDaoVault();
     const { netWorth: aaveNetWorth } = useAaveData();
     const { groupData } = useSubgovernance(dao);
@@ -36,7 +42,15 @@ export const ActiveContent = () => {
                 '#22d4ae'
             ],
             hoverOffset: 4
-        }]
+        }],
+    };
+
+    const doughnutOptions: ChartOptions = {
+        plugins: {
+            legend: {
+                position: "bottom",
+            }
+        }
     };
 
     return (
@@ -45,7 +59,18 @@ export const ActiveContent = () => {
 
                 <ChartContainer>
                     {totalAssetValue ? (
-                        <Doughnut data={doughnutData} className='p-2' />
+                        <>
+                            <TreasuryWrapper>
+                                <TreasuryValue>
+                                    {new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                    }).format(totalAssetValue)}
+                                </TreasuryValue>
+                                <TreasuryLabel>{t('labels.treasuryValue')}</TreasuryLabel>
+                            </TreasuryWrapper>
+                            <Doughnut data={doughnutData} options={doughnutOptions} className='p-2' />
+                        </>
                     ) : (
                         <NoChartDataContainer>
                             <NoChartData>Treasury amount: 0</NoChartData>
@@ -54,6 +79,18 @@ export const ActiveContent = () => {
                 </ChartContainer>
 
                 <ActiveDataContainer>
+                    <ButtonsContainer>
+                        <ButtonText
+                            mode="primary"
+                            label={t('labels.newGroup')}
+                            onClick={() => navigate(generatePath(CreateGroupProposal, {network, dao: dao}))}
+                        />
+                        <ButtonText
+                            mode="primary"
+                            label={t('labels.newTransfer')}
+                            onClick={() => open()}
+                        />
+                    </ButtonsContainer>
                     <ActiveGroupsList
                         groupsData={groupData}
                     />
@@ -82,6 +119,18 @@ const ChartContainer = styled.div.attrs({
     className: 'col-span-12 tablet:col-span-4 tablet:col-start-1',
 })``;
 
+const TreasuryWrapper = styled.div.attrs({
+    className: 'flex flex-col items-center justify-center',
+})``;
+
+const TreasuryValue = styled.p.attrs({
+    className: 'text-ui-800 font-bold text-xl tablet:text-2xl',
+})``;
+
+const TreasuryLabel = styled.p.attrs({
+    className: 'text-ui-500 font-bold text-sm',
+})``;
+
 const ActiveDataContainer = styled.div.attrs({
     className: 'col-span-12 tablet:col-span-7 tablet:col-start-6',
 })``;
@@ -96,6 +145,10 @@ const NoChartData = styled.p.attrs({
 
 const NoChartDataContainer = styled.div.attrs({
     className: 'flex items-center justify-start tablet:justify-center pt-4',
+})``;
+
+const ButtonsContainer = styled.div.attrs({
+    className: 'flex justify-end space-x-2 tablet:space-x-3 tablet:pr-1',
 })``;
 
 
