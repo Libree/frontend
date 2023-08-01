@@ -13,6 +13,7 @@ import { useSubgovernance } from 'hooks/useSubgovernance';
 import { useNetwork } from 'context/network';
 import { CreateGroupProposal, Lending } from 'utils/paths';
 import { useTranslation } from 'react-i18next';
+import { useGlobalModalContext } from 'context/globalModals';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,6 +22,7 @@ export const ActiveContent = () => {
     const { dao } = useParams();
     const { network } = useNetwork();
     const navigate = useNavigate();
+    const { open } = useGlobalModalContext();
     const { totalAssetValue } = useDaoVault();
     const { netWorth: aaveNetWorth } = useAaveData();
     const { groupData } = useSubgovernance(dao);
@@ -86,7 +88,7 @@ export const ActiveContent = () => {
                         <ButtonText
                             mode="primary"
                             label={t('labels.newTransfer')}
-                            onClick={() => { }}
+                            onClick={() => open()}
                         />
                     </ButtonsContainer>
                     <ActiveGroupsList
