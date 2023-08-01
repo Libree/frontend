@@ -73,7 +73,13 @@ import {
 import { useGlobalModalContext } from './globalModals';
 import { useNetwork } from './network';
 import { usePrivacyContext } from './privacyContext';
-import { encodeActionsGroup, encodeCreateGroupAction, encodeCreditDelegationAction, encodeSwapAction } from 'utils/encoding';
+import {
+  encodeActionsGroup,
+  encodeCreateGroupAction,
+  encodeCreditDelegationAction,
+  encodeSwapAction,
+  encodeProvideLiquidityAction
+} from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 type Props = {
@@ -328,6 +334,23 @@ const CreateProposalProvider: React.FC<Props> = ({
                 action.inputs.amount.toString(),
                 '0',
                 '0',
+                uniswapV3Plugin?.instanceAddress || '',
+                provider,
+                network
+              )))
+          break;
+        }
+        case 'provide_liquidity': {
+          actions.push(
+            Promise.resolve(
+              encodeProvideLiquidityAction(
+                action.inputs.token0,
+                action.inputs.token1,
+                action.inputs.feeTier,
+                action.inputs.minPrice,
+                action.inputs.maxPrice,
+                action.inputs.token0Amount,
+                action.inputs.token1Amount,
                 uniswapV3Plugin?.instanceAddress || '',
                 provider,
                 network
