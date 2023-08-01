@@ -1,4 +1,3 @@
-'use client';
 import {
     Breadcrumb,
 } from '@aragon/ui-components';
