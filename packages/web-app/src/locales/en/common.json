@@ -1374,6 +1374,14 @@
     "title": "Marketplace",
     "openOpportunities": "Open opportunities",
     "getFundedAction": "Get Funded",
-    "noOpportunities": "No opportunities yet"
+    "noOpportunities": "No opportunities yet",
+    "fundOpportunity": {
+      "headerTitle": "Fund a opportunity",
+      "headerDescription": "Send assets to the opportunity",
+      "collateralInput": "Collateralized borrowing",
+      "collateralDescription": "Borrow against your NFT or tokens",
+      "raiseFundingInput": "Raise funding",
+      "raiseFundingDescription": "Raise capital by selling your DAO governance tokens"
+    }
   }
 }
