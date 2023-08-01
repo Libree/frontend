@@ -15,7 +15,6 @@ import styled from 'styled-components';
 
 import { Loading } from 'components/temporary';
 import { MembershipSnapshot } from 'containers/membershipSnapshot';
-import ProposalSnapshot from 'containers/proposalSnapshot';
 import TreasurySnapshot from 'containers/treasurySnapshot';
 import { ActiveContent } from 'containers/activeContent';
 import { useAlertContext } from 'context/alert';

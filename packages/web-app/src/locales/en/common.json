@@ -236,7 +236,8 @@
     "newGroup": "New group",
     "seeAllGroups": "See all groups",
     "advanced": "Advanced",
-    "seeAllOpportunities": "See all opportunities"
+    "seeAllOpportunities": "See all opportunities",
+    "latestActivity": "Latest activity"
   },
   "placeHolders": {
     "selectToken": "Select a token …",

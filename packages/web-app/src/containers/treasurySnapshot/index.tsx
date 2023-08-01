@@ -60,14 +60,9 @@ const TreasurySnapshot: React.FC<Props> = ({
     <Container>
       <ListItemHeader
         icon={<IconFinance />}
-        value={new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(totalAssetValue)}
-        label={t('labels.treasuryValue')}
-        buttonText={t('allTransfer.newTransfer')}
-        orientation="vertical"
-        onClick={() => open()}
+        value={t('labels.latestActivity')}
+        label={""}
+        orientation="horizontal"
       />
       {transfers.slice(0, 3).map(({tokenAmount, ...rest}) => (
         <TransferListItem
