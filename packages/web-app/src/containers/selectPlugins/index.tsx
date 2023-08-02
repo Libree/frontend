@@ -22,7 +22,7 @@ const SelectPlugins: React.FC = () => {
     return (
         <>
             <Header>
-                <Title>Choose plugins</Title>
+                <Title>{'createUnityDAO.step2.pluginsTitle'}</Title>
             </Header>
             <PluginsContainer>
                 <Controller
