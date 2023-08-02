@@ -34,7 +34,7 @@ const Governance: React.FC<GovernanceProps> = ({ editionStep }) => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={() => (
+      render={({field: {value}}) => (
         <DescriptionListContainer
           title={t('labels.review.votingParameters')}
           onEditClick={() => setStep(editionStep)}
