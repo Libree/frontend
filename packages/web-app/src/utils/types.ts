@@ -561,6 +561,7 @@ export type PluginsDeployment = {
 export type SupportedToken = {
   name: string;
   address: string;
+  decimals: number;
 };
 
 export enum SupportedNetwork {
