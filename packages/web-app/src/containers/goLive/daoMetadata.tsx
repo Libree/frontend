@@ -14,7 +14,7 @@ const DaoMetadata: React.FC<DaoMetadataProps> = ({ editionStep }) => {
   const {setStep} = useFormStep();
   const {isL2Network} = useNetwork();
   const {t} = useTranslation();
-  const {daoLogo, daoName, daoEnsName, daoSummary, links, reviewCheckError} =
+  const {daoLogo, daoName, daoEnsName, daoSummary, links} =
     getValues();
 
   return (
@@ -25,16 +25,11 @@ const DaoMetadata: React.FC<DaoMetadataProps> = ({ editionStep }) => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({field: {onChange, value}}) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.daoMetadata')}
           onEditClick={() => setStep(editionStep)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
           tagLabel={t('labels.changeableVote')}
-          onChecked={() => onChange(!value)}
         >
           <Dl>
             <Dt>{t('labels.logo')}</Dt>

@@ -14,7 +14,7 @@ const Blockchain: React.FC<BlockchainProps> = ({ editionStep }) => {
   const { control, getValues } = useFormContext();
   const { setStep } = useFormStep();
   const { network } = useNetwork();
-  const { blockchain, reviewCheckError } = getValues();
+  const { blockchain } = getValues();
   const { t } = useTranslation();
 
   const networkInfo = CHAIN_METADATA[network];
@@ -30,16 +30,11 @@ const Blockchain: React.FC<BlockchainProps> = ({ editionStep }) => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({ field: { onChange, value } }) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.blockchain')}
           onEditClick={() => setStep(editionStep)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
           tagLabel={t('labels.notChangeable')}
-          onChecked={() => onChange(!value)}
         >
           <Dl>
             <Dt>{t('labels.review.network')}</Dt>

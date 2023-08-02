@@ -19,7 +19,6 @@ const Governance: React.FC<GovernanceProps> = ({ editionStep }) => {
     durationMinutes,
     durationHours,
     durationDays,
-    reviewCheckError,
     earlyExecution,
     voteReplacement,
     membership,
@@ -35,16 +34,11 @@ const Governance: React.FC<GovernanceProps> = ({ editionStep }) => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({field: {onChange, value}}) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.votingParameters')}
           onEditClick={() => setStep(editionStep)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
           tagLabel={t('labels.changeableVote')}
-          onChecked={() => onChange(!value)}
         >
           {membership === 'multisig' && (
             <Dl>
