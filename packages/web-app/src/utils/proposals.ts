@@ -732,7 +732,7 @@ export function addVoteToProposal(
         .add((vote as Erc20ProposalVote).weight)
         .toBigInt(),
     },
-    usedVotingWeight: BigNumber.from(proposal.usedVotingWeight)
+    usedVotingWeight: BigNumber.from(proposal.usedVotingWeight || 0)
       .add((vote as Erc20ProposalVote).weight)
       .toBigInt(),
   } as TokenVotingProposal;
