@@ -23,8 +23,8 @@ export const SwapTokensCard: React.FC<{
         >
             <Container>
                 <CardSwap
-                    toSymbol={getTokenSymbol(tokenOutput)}
-                    fromSymbol={getTokenSymbol(tokenInput)}
+                    toSymbol={tokenOutput.includes('0x') ? getTokenSymbol(tokenOutput) : tokenOutput}
+                    fromSymbol={tokenInput.includes('0x') ? getTokenSymbol(tokenInput) : tokenInput}
                     amount={amount}
                     toLabel='To'
                     fromLabel='From'

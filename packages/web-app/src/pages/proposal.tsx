@@ -77,7 +77,13 @@ import {
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
 import { Action, ProposalId } from 'utils/types';
-import { decodeCreateGroupAction, decodeCreditDelegationAction, decodeGroupedActions, findInterfaceCustomPlugins } from 'utils/dencoding';
+import { 
+  decodeCreateGroupAction, 
+  decodeCreditDelegationAction, 
+  decodeGroupedActions, 
+  decodeSwapAction, 
+  findInterfaceCustomPlugins 
+} from 'utils/dencoding';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -295,6 +301,8 @@ const Proposal: React.FC = () => {
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
             return decodeCreditDelegationAction(action.data, groupedActions ? true : false, provider, network);
+            case 'swap':
+              return decodeSwapAction(action.data);
           case 'createGroup':
             return decodeCreateGroupAction(action.data)
           default:

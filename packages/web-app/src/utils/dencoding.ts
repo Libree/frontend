@@ -2,7 +2,8 @@
 import { bytesToHex, hexToBytes } from "@aragon/sdk-common";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
-import { Action, ActionAddMember, ActionCreditDelegation, InterestRateType } from "./types"
+import { Uniswapv3__factory } from "typechain-types/Uniswapv3__factory";
+import { Action, ActionAddMember, ActionCreditDelegation, ActionSwapTokens, InterestRateType } from "./types"
 import {
   getFunctionFragment
 } from "@aragon/sdk-client-common";
@@ -10,8 +11,10 @@ import { AVAILABLE_FUNCTION_SIGNATURES, CHAIN_METADATA, SupportedNetworks } from
 import {
   DaoAction
 } from '@aragon/sdk-client-common';
-import { ethers } from "ethers";
 import { getTokenInfo } from "./tokens";
+import { ethers } from "ethers";
+import { TOP_ETH_SYMBOL_ADDRESSES } from "./constants/topSymbolAddresses";
+import { SUPPORTED_TOKENS } from "./config";
 
 export const decodeCreditDelegationAction = async (
   data: Uint8Array,
@@ -63,6 +66,38 @@ export const decodeGroupedActions = (data: Uint8Array): DaoAction[] | undefined 
     );
 
     return result['_actions']
+
+  } catch (error) {
+
+  }
+}
+
+export const decodeSwapAction = async (
+  data: Uint8Array,
+): Promise<ActionSwapTokens | undefined> => {
+  try {
+    const iface = Uniswapv3__factory.createInterface()
+    const hexBytes = bytesToHex(data)
+
+    const expectedfunction = iface.getFunction("swap");
+    const result = iface.decodeFunctionData(
+      expectedfunction,
+      hexBytes,
+    );
+
+    const tokenIn = result['tokenIn'].toString().toLowerCase()
+    const tokenOut = result['tokenOut'].toString().toLowerCase()
+    const tokenInput = SUPPORTED_TOKENS['maticmum'].find(token => token.address.toLowerCase() === tokenOut);
+    const tokenOutput = SUPPORTED_TOKENS['maticmum'].find(token => token.address.toLowerCase() === tokenIn);
+
+    return {
+      name: "swap_tokens",
+      inputs: {
+        amount: Number(result['amountIn']) / Math.pow(10, tokenInput?.decimals || 18),
+        tokenInput: tokenInput?.name || "",
+        tokenOutput: tokenOutput?.name || ""
+      }
+    }
 
   } catch (error) {
 
