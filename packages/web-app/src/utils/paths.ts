@@ -11,6 +11,7 @@ export const Finance = '/daos/:network/:dao/finance';
 export const Lending = '/daos/:network/:dao/finance/lending';
 export const Governance = '/daos/:network/:dao/governance';
 export const Community = '/daos/:network/:dao/community';
+export const Marketplace = '/daos/:network/:dao/marketplace';
 export const Settings = '/daos/:network/:dao/settings';
 export const EditSettings = '/daos/:network/:dao/settings/edit';
 export const ProposeNewSettings = '/daos/:network/:dao/settings/new-proposal';

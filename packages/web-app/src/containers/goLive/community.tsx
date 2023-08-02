@@ -23,7 +23,6 @@ const Community: React.FC<CommunityProps> = ({ editionStep }) => {
     tokenSymbol,
     tokenTotalSupply,
     multisigWallets,
-    reviewCheckError,
     eligibilityType,
     eligibilityTokenAmount,
   } = getValues();
@@ -36,16 +35,11 @@ const Community: React.FC<CommunityProps> = ({ editionStep }) => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({field: {onChange, value}}) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.voters')}
           onEditClick={() => setStep(editionStep)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
           tagLabel={t('labels.changeableVote')}
-          onChecked={() => onChange(!value)}
         >
           <Dl>
             <Dt>{t('labels.review.eligibleVoters')}</Dt>
