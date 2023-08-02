@@ -9,7 +9,7 @@ import {
 import {BigNumber} from 'ethers';
 
 import {i18n} from '../../../i18n.config';
-import {Dashboard, Community, Finance, Governance, Settings} from '../paths';
+import {Dashboard, Community, Finance, Governance, Settings, Marketplace} from '../paths';
 import { CreditDelegator__factory } from 'typechain-types/CreditDelegator__factory';
 import { Subgovernance__factory } from 'typechain-types/Subgovernance__factory';
 
@@ -59,6 +59,11 @@ export const NAV_LINKS_DATA: NavLinkData[] = [
   {
     label: i18n.t('navLinks.community'),
     path: Community,
+    icon: IconCommunity,
+  },
+  {
+    label: i18n.t('navLinks.marketplace'),
+    path: Marketplace,
     icon: IconCommunity,
   },
   {
