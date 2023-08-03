@@ -808,21 +808,22 @@
       "description": "Select blockchain The chain you choose is where your tokens and assets are stored. If you already have a token, choose the chain your token is minted on. This cannot be changed later. For help selecting your chain, read our guide on choosing the best blockchain for your DAO."
     },
     "step2": {
+      "pluginsTitle": "Choose plugins",
       "subGovernance": {
         "title": "Sub-governance",
-        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+        "description": "Create groups within the DAO and delegate in them certain tasks of investments e.g. Grant allocation, Operational budget or Credit analysis"
       },
       "creditDelegation": {
         "title": "Credit delegation",
-        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+        "description": "Leverage your Treasury: secure your yield in AAVE as you invest in other projects, DAOs or lending products"
       },
       "vault": {
-        "title": "Vault",
-        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+        "title": "Vaults",
+        "description": "Allocate a specific budget to certain strategies or groups. Organize your investments and limiting exposures"
       },
       "uniswap": {
-        "title": "Uniswap v3",
-        "description": "Tokens acts as voting chips. The more Tokens you hold the more voting power you have"
+        "title": "Uniswap",
+        "description": "Complete swaps or provide liquidity to Uniswap pools without taking your treasury outside your DAO"
       }
     }
   },

@@ -8,9 +8,8 @@ import GoLive, { GoLiveHeader, GoLiveFooter } from 'containers/goLive';
 import { WalletField } from '../components/addWallets/row';
 import { Landing } from 'utils/paths';
 import { CreateDaoProvider } from 'context/createDao';
-import { CHAIN_METADATA, getSupportedNetworkByChainId } from 'utils/constants';
+import { CHAIN_METADATA } from 'utils/constants';
 import { useNetwork } from 'context/network';
-import { useWallet } from 'hooks/useWallet';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import CommunityTokenSetup from 'containers/communityToken';
 import CommunityVotingSetup from 'containers/communityVoting';
@@ -81,7 +80,6 @@ const defaultValues = {
 
 const CreateUnityDAO: React.FC = () => {
     const { t } = useTranslation();
-    const { chainId } = useWallet();
     const { setNetwork } = useNetwork();
     const formMethods = useForm<CreateUnityDaoFormData>({
         mode: 'onChange',
