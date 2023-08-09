@@ -5,7 +5,15 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { SUPPORTED_TOKENS } from "utils/config";
 import { SupportedNetwork } from "utils/types";
-import { CollateralType, FundingSource } from "pages/fundOpportunity";
+import { CollateralType, FundingSource, IsPersistent } from "pages/fundOpportunity";
+
+const isPersistentOptions: {
+    label: string;
+    value: IsPersistent;
+}[] = [
+    { label: 'Yes', value: 'Yes' },
+    { label: 'No', value: 'No' },
+];
 
 const FundOpportunityStepTwo: React.FC = () => {
     const { t } = useTranslation();
@@ -189,8 +197,8 @@ const FundOpportunityStepTwo: React.FC = () => {
                     render={({ field: { onChange, value, name } }) => (
                         <StyledSelect {...{ name, value, onChange }}>
                             <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
-                            {['Yes', 'No'].map((item, index) => (
-                                <option key={`${item}-${index}`} value={item}>{item}</option>
+                            {isPersistentOptions.map((item, index) => (
+                                <option key={`${item.value}-${index}`} value={item.value}>{item.label}</option>
                             ))}
                         </StyledSelect>
                     )}
