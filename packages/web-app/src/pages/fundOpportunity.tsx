@@ -9,12 +9,7 @@ import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { usePluginSettings } from 'hooks/usePluginSettings';
 import { Loading } from 'components/temporary';
 import { ActionsProvider } from 'context/actions';
-
-export type FundingSource = 'DAO' | 'AAVE';
-
-export type CollateralType = 'ERC20' | 'NFT';
-
-export type IsPersistent = 'Yes' | 'No';
+import { CollateralType, FundingSource, IsPersistent } from 'utils/types';
 
 export type FundOpportunityAction = {
     name: 'fund_opportunity';

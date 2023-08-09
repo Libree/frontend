@@ -305,6 +305,29 @@ export type ActionMintToken = {
   };
 };
 
+export type FundingSource = 'DAO' | 'AAVE';
+export type CollateralType = 'ERC20' | 'NFT';
+export type IsPersistent = 'Yes' | 'No';
+
+export type ActionFundOpportunity = {
+  name: 'fund_opportunity';
+  inputs: {
+    fundingSource: FundingSource;
+    collateralType: CollateralType;
+
+    collateralAddress: string;
+    collateralAmount: number;
+    collateralId: number;
+    principalAsset: string;
+    loanAmount: number;
+    loanYield: number;
+    durationTime: number;
+    expirationTime: number;
+    borrower: string;
+    isPersistent: IsPersistent;
+  };
+}
+
 export type ActionCreditDelegation = {
   name: 'credit_delegation';
   inputs: {
@@ -393,6 +416,7 @@ export type Action =
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken
+  | ActionFundOpportunity
   | ActionUpdatePluginSettings
   | ActionUpdateMetadata
   | ActionUpdateMinimumApproval

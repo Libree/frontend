@@ -3,8 +3,7 @@ import { Label } from "@aragon/ui-components";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { CollateralType, FundingSource } from "pages/fundOpportunity";
-import { ActionIndex } from "utils/types";
+import { ActionIndex, CollateralType, FundingSource } from "utils/types";
 
 const fundingSourceOptions: {
     label: string;

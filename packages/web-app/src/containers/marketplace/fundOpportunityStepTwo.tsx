@@ -4,8 +4,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { SUPPORTED_TOKENS } from "utils/config";
-import { SupportedNetwork } from "utils/types";
-import { CollateralType, FundingSource, IsPersistent } from "pages/fundOpportunity";
+import { CollateralType, FundingSource, IsPersistent, SupportedNetwork } from "utils/types";
 
 const isPersistentOptions: {
     label: string;
