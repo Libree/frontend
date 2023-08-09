@@ -31,3 +31,5 @@ export const MintTokensProposal = '/daos/:network/:dao/community/mint-tokens';
 export const ManageMembersProposal =
   '/daos/:network/:dao/community/manage-members';
 export const CreateGroupProposal = '/daos/:network/:dao/community/create-group';
+
+export const FundOpportunity = '/daos/:network/:dao/marketplace/fund-opportunity';

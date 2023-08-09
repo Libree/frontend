@@ -22,6 +22,7 @@ type GlobalModalsContextType = {
   isGatingOpen: boolean;
   isDepositOpen: boolean;
   isPoapClaimOpen: boolean;
+  isGetFundedOpen: boolean;
   isFundOpportunityOpen: boolean;
   open: (arg?: MenuTypes) => void;
   close: (arg?: MenuTypes) => void;
@@ -42,6 +43,7 @@ export type MenuTypes =
   | 'gating'
   | 'deposit'
   | 'poapClaim'
+  | 'getFunded'
   | 'fundOpportunity';
 
 type Props = Record<'children', ReactNode>;
@@ -77,6 +79,8 @@ const GlobalModalsProvider: React.FC<Props> = ({children}) => {
     useState<GlobalModalsContextType['isDepositOpen']>(false);
   const [isPoapClaimOpen, setIsPoapClaimOpen] =
     useState<GlobalModalsContextType['isPoapClaimOpen']>(false);
+  const [isGetFundedOpen, setIsGetFundedOpen] =
+    useState<GlobalModalsContextType['isGetFundedOpen']>(false);
   const [isFundOpportunityOpen, setIsFundOpportunityOpen] =
     useState<GlobalModalsContextType['isFundOpportunityOpen']>(false);
 
@@ -117,6 +121,9 @@ const GlobalModalsProvider: React.FC<Props> = ({children}) => {
         break;
       case 'poapClaim':
         setIsPoapClaimOpen(true);
+        break;
+      case 'getFunded':
+        setIsGetFundedOpen(true);
         break;
       case 'fundOpportunity':
         setIsFundOpportunityOpen(true);
@@ -165,6 +172,9 @@ const GlobalModalsProvider: React.FC<Props> = ({children}) => {
       case 'poapClaim':
         setIsPoapClaimOpen(false);
         break;
+      case 'getFunded':
+        setIsGetFundedOpen(false);
+        break;
       case 'fundOpportunity':
         setIsFundOpportunityOpen(false);
         break;
@@ -198,6 +208,7 @@ const GlobalModalsProvider: React.FC<Props> = ({children}) => {
       isGatingOpen,
       isDepositOpen,
       isPoapClaimOpen,
+      isGetFundedOpen,
       isFundOpportunityOpen,
       open,
       close,
@@ -216,6 +227,7 @@ const GlobalModalsProvider: React.FC<Props> = ({children}) => {
       isTransferOpen,
       isUtcOpen,
       isWalletOpen,
+      isGetFundedOpen,
       isFundOpportunityOpen,
     ]
   );

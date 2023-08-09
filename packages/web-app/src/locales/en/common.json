@@ -1378,15 +1378,32 @@
     "title": "Marketplace",
     "openOpportunities": "Open opportunities",
     "getFundedAction": "Get Funded",
+    "fundOpportunityAction": "Fund an opportunity",
     "noOpportunities": "No opportunities yet",
-    "fundOpportunity": {
-      "headerTitle": "Fund a opportunity",
+    "getFunded": {
+      "headerTitle": "Get funded",
       "headerDescription": "Send assets to the opportunity",
       "collateralInput": "Collateralized borrowing",
       "collateralDescription": "Borrow against your NFT or tokens",
       "raiseFundingInput": "Raise funding",
       "raiseFundingDescription": "Raise capital by selling your DAO governance tokens",
       "confirmLabel": "Confirm"
+    },
+    "fundOpportunity": {
+      "headerTitle": "Fund an opportunity",
+      "fundingSource": "Source of funding",
+      "collateralType": "Collateral type",
+      "collateralAddress": "Collateral address",
+      "collateralId": "Collateral ID",
+      "collateralAmount": "Collateral amount",
+      "principalAsset": "Principal asset",
+      "loanAmount": "Loan amount",
+      "loanYield": "Loan yield",
+      "duration": "Duration (in days)",
+      "expiration": "Expiration (in days)",
+      "borrower": "Borrower",
+      "isPersistent": "Is Persistent",
+      "interestRateType":"Interest rate type"
     }
   }
 }
