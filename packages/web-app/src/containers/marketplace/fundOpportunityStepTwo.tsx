@@ -58,7 +58,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                             name="collateralAmount"
                             control={control}
                             render={({ field: { onChange, value, name } }) => (
-                                <NumberInput {...{ onChange, value, name }} />
+                                <NumberInput
+                                    {...{ onChange, value, name }}
+                                    placeholder="0"
+                                />
                             )}
                         />
                     </FormItem>
@@ -75,7 +78,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                             name="collateralId"
                             control={control}
                             render={({ field: { onChange, value, name } }) => (
-                                <NumberInput {...{ onChange, value, name }} />
+                                <NumberInput
+                                    {...{ onChange, value, name }}
+                                    placeholder="..."
+                                />
                             )}
                         />
                     </FormItem>
@@ -114,7 +120,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                         name="loanAmount"
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
-                            <NumberInput {...{ onChange, value, name }} />
+                            <NumberInput
+                                {...{ onChange, value, name }}
+                                placeholder="0"    
+                            />
                         )}
                     />
                 </FormItem>
@@ -129,7 +138,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                         name="loanYield"
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
-                            <NumberInput {...{ onChange, value, name }} />
+                            <NumberInput
+                                {...{ onChange, value, name }}
+                                placeholder="0"
+                            />
                         )}
                     />
                 </FormItem>
@@ -146,7 +158,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                         name="durationTime"
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
-                            <NumberInput {...{ onChange, value, name }} />
+                            <NumberInput
+                                {...{ onChange, value, name }}
+                                placeholder="..."    
+                            />
                         )}
                     />
                 </FormItem>
@@ -161,7 +176,10 @@ const FundOpportunityStepTwo: React.FC = () => {
                         name="expirationTime"
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
-                            <NumberInput {...{ onChange, value, name }} />
+                            <NumberInput
+                                {...{ onChange, value, name }}
+                                placeholder="..."
+                            />
                         )}
                     />
                 </FormItem>
