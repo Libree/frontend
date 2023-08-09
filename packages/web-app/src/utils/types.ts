@@ -225,7 +225,8 @@ export type ActionsTypes =
   | 'modify_token_voting_settings'
   | 'modify_metadata'
   | 'modify_multisig_voting_settings'
-  | 'update_minimum_approval';
+  | 'update_minimum_approval'
+  | 'fund_opportunity';
 
 export type ActionWithdraw = {
   amount: number;

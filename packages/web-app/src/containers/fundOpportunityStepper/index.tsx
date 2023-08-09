@@ -4,13 +4,13 @@ import { SupportedVotingSettings } from "utils/types";
 import { useTranslation } from "react-i18next";
 import { FullScreenStepper, Step } from "components/fullScreenStepper";
 import { Marketplace } from "utils/paths";
-import FundOpportunityStepOne from "containers/marketplace/fundOpportunityStepOne";
 import FundOpportunityStepTwo from "containers/marketplace/fundOpportunityStepTwo";
 import DefineProposal, {
     isValid as defineProposalIsValid,
 } from 'containers/defineProposal';
 import ReviewProposal from "containers/reviewProposal";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
+import ConfigureActions from "containers/configureActions";
 
 type FundOpportunityStepperProps = {
     enableTxModal: () => void;
@@ -20,8 +20,6 @@ type FundOpportunityStepperProps = {
 
 const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
     enableTxModal,
-    daoDetails,
-    pluginSettings,
 }) => {
     const { t } = useTranslation();
     const { control } = useFormContext();
@@ -32,8 +30,8 @@ const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
     ] = useWatch({
         control: control,
         name: [
-            'fundingSource',
-            'collateralType',
+            'actions.0.inputs.fundingSource',
+            'actions.0.inputs.collateralType',
         ],
     });
 
@@ -60,7 +58,13 @@ const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
                 returnPath={Marketplace}
             >
                 <Step isNextButtonDisabled={!stepOneIsValid}>
-                    <FundOpportunityStepOne />
+                    <ConfigureActions
+                        label=""
+                        initialActions={['fund_opportunity']}
+                        disableAddAction
+                        hideAlert
+                        allowEmpty={false}
+                    />
                 </Step>
                 <Step isNextButtonDisabled={!stepTwoIsValid}>
                     <FundOpportunityStepTwo />

@@ -23,6 +23,7 @@ const FundOpportunityStepTwo: React.FC = () => {
         control: control,
         name: ['collateralType', 'fundingSource'],
     });
+    const actionIndex = 0;
 
     return (
         <Container>
@@ -33,11 +34,14 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
 
                 <Controller
-                    name="collateralAddress"
+                    name={`actions.${actionIndex}.inputs.collateralAddress`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect {...{ name, value, onChange }}>
-                            <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                        <StyledSelect
+                            {...{ name, value, onChange }}
+                            defaultValue={""}
+                        >
+                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                             {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                 <option key={token.address} value={token.address}>{token.name}</option>
                             ))}
@@ -55,7 +59,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                         />
 
                         <Controller
-                            name="collateralAmount"
+                            name={`actions.${actionIndex}.inputs.collateralAmount`}
                             control={control}
                             render={({ field: { onChange, value, name } }) => (
                                 <NumberInput
@@ -75,7 +79,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                         />
 
                         <Controller
-                            name="collateralId"
+                            name={`actions.${actionIndex}.inputs.collateralId`}
                             control={control}
                             render={({ field: { onChange, value, name } }) => (
                                 <NumberInput
@@ -95,11 +99,14 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
 
                 <Controller
-                    name="principalAsset"
+                    name={`actions.${actionIndex}.inputs.principalAsset`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect {...{ name, value, onChange }}>
-                            <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                        <StyledSelect
+                            {...{ name, value, onChange }}
+                            defaultValue={""}
+                        >
+                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                             {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token, index) => (
                                 <option key={token.name} value={index}>{token.name}</option>
                             ))}
@@ -117,7 +124,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                     />
 
                     <Controller
-                        name="loanAmount"
+                        name={`actions.${actionIndex}.inputs.loanAmount`}
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
@@ -135,7 +142,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                     />
 
                     <Controller
-                        name="loanYield"
+                        name={`actions.${actionIndex}.inputs.loanYield`}
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
@@ -155,7 +162,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                     />
 
                     <Controller
-                        name="durationTime"
+                        name={`actions.${actionIndex}.inputs.durationTime`}
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
@@ -173,7 +180,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                     />
 
                     <Controller
-                        name="expirationTime"
+                        name={`actions.${actionIndex}.inputs.expirationTime`}
                         control={control}
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
@@ -192,7 +199,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
 
                 <Controller
-                    name="borrower"
+                    name={`actions.${actionIndex}.inputs.borrower`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
                         <NumberInput
@@ -210,11 +217,14 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
 
                 <Controller
-                    name="isPersistent"
+                    name={`actions.${actionIndex}.inputs.isPersistent`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect {...{ name, value, onChange }}>
-                            <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                        <StyledSelect
+                            {...{ name, value, onChange }}
+                            defaultValue={""}
+                        >
+                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                             {isPersistentOptions.map((item, index) => (
                                 <option key={`${item.value}-${index}`} value={item.value}>{item.label}</option>
                             ))}
@@ -232,11 +242,14 @@ const FundOpportunityStepTwo: React.FC = () => {
                         />
 
                         <Controller
-                            name="interestRateType"
+                            name={`actions.${actionIndex}.inputs.interestRateType`}
                             control={control}
                             render={({ field: { onChange, value, name } }) => (
-                                <StyledSelect {...{ name, value, onChange }}>
-                                    <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                                <StyledSelect
+                                    {...{ name, value, onChange }}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                                     {['Stable', 'Variable'].map((item, index) => (
                                         <option key={`${item}-${index}`} value={item}>{item}</option>
                                     ))}

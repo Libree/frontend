@@ -1,30 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Label } from "@aragon/ui-components";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { CollateralType, FundingSource } from "pages/fundOpportunity";
+import { ActionIndex } from "utils/types";
 
 const fundingSourceOptions: {
     label: string;
     value: FundingSource;
 }[] = [
-    { label: 'DAO treasury', value: 'DAO' },
-    { label: 'Aave borrow', value: 'AAVE' },
-];
+        { label: 'DAO treasury', value: 'DAO' },
+        { label: 'Aave borrow', value: 'AAVE' },
+    ];
 
 const collateralTypeOptions: {
     label: string;
     value: CollateralType;
 }[] = [
-    { label: 'ERC20 token', value: 'ERC20' },
-    { label: 'NFT token', value: 'NFT' },
-];
+        { label: 'ERC20 token', value: 'ERC20' },
+        { label: 'NFT token', value: 'NFT' },
+    ];
 
-const FundOpportunityStepOne: React.FC = () => {
+type FundOpportunityActionProps = ActionIndex;
+
+const FundOpportunityAction: React.FC<FundOpportunityActionProps> = ({
+    actionIndex,
+}) => {
     const { t } = useTranslation();
-    const { control } = useFormContext();
+    const { control, setValue } = useFormContext();
 
+    const [name] = useWatch({
+        control: control,
+        name: [
+            `actions.${actionIndex}.name`,
+        ],
+    });
+
+    /*************************************************
+     *                    Hooks                      *
+     *************************************************/
+    useEffect(() => {
+        if (!name) {
+            setValue(`actions.${actionIndex}.name`, 'fund_opportunity');
+        }
+    }, [name]);
+
+    /*************************************************
+     *                    Render                     *
+     *************************************************/
     return (
         <Container>
             {/* Source of funding */}
@@ -34,11 +58,14 @@ const FundOpportunityStepOne: React.FC = () => {
                 />
 
                 <Controller
-                    name="fundingSource"
+                    name={`actions.${actionIndex}.inputs.fundingSource`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect {...{ name, value, onChange }}>
-                            <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                        <StyledSelect
+                            {...{ name, value, onChange }}
+                            defaultValue={""}
+                        >
+                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                             {fundingSourceOptions.map((item) => (
                                 <option key={item.value} value={item.value}>{item.label}</option>
                             ))}
@@ -54,11 +81,14 @@ const FundOpportunityStepOne: React.FC = () => {
                 />
 
                 <Controller
-                    name="collateralType"
+                    name={`actions.${actionIndex}.inputs.collateralType`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect {...{ name, value, onChange }}>
-                            <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
+                        <StyledSelect
+                            {...{ name, value, onChange }}
+                            defaultValue={""}
+                        >
+                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
                             {collateralTypeOptions.map((item) => (
                                 <option key={item.value} value={item.value}>{item.label}</option>
                             ))}
@@ -70,7 +100,7 @@ const FundOpportunityStepOne: React.FC = () => {
     )
 };
 
-export default FundOpportunityStepOne;
+export default FundOpportunityAction;
 
 const Container = styled.div.attrs({
     className: 'flex flex-col w-full space-y-2'

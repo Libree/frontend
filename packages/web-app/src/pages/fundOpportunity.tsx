@@ -16,26 +16,31 @@ export type CollateralType = 'ERC20' | 'NFT';
 
 export type IsPersistent = 'Yes' | 'No';
 
-export type CreateFundOpportunityFormData = {
-    fundingSource: FundingSource;
-    collateralType: CollateralType;
+export type FundOpportunityAction = {
+    name: 'fund_opportunity';
+    inputs: {
+        fundingSource: FundingSource;
+        collateralType: CollateralType;
 
-    collateralAddress: string;
-    collateralAmount: number;
-    collateralId: number;
-    principalAsset: string;
-    loanAmount: number;
-    loanYield: number;
-    durationTime: number;
-    expirationTime: number;
-    borrower: string;
-    isPersistent: IsPersistent;
+        collateralAddress: string;
+        collateralAmount: number;
+        collateralId: number;
+        principalAsset: string;
+        loanAmount: number;
+        loanYield: number;
+        durationTime: number;
+        expirationTime: number;
+        borrower: string;
+        isPersistent: IsPersistent;
+    }
+};
+
+type FundOpportunityFormData = {
+    actions: FundOpportunityAction[];
 };
 
 const defaultValues = {
-    collateralAddress: '',
-    principalAsset: '',
-    borrower: '',
+    actions: [],
 };
 
 const FundOpportunity: React.FC = () => {
@@ -51,7 +56,7 @@ const FundOpportunity: React.FC = () => {
         )?.id as PluginTypes
     );
 
-    const formMethods = useForm<CreateFundOpportunityFormData>({
+    const formMethods = useForm<FundOpportunityFormData>({
         mode: 'onChange',
         defaultValues,
     });

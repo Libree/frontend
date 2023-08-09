@@ -32,6 +32,7 @@ import SCCAction from './scc';
 import CreateGroupAction from './createGroup';
 import ProvideLiquidityAction from './provideLiquidity/provideLiquidityAction';
 import BudgetAllocationAction from './budgetAllocation';
+import FundOpportunityAction from './fundOpportunity';
 
 /**
  * This Component is responsible for generating all actions that append to pipeline context (actions)
@@ -85,6 +86,8 @@ const Action: React.FC<ActionsComponentProps> = ({
       return <AddMemberAction {...{ actionIndex, allowRemove }} />;
     case 'mint_tokens':
       return <MintTokens {...{ actionIndex, allowRemove }} />;
+    case 'fund_opportunity':
+      return <FundOpportunityAction {...{ actionIndex }} />;
     case 'external_contract_modal':
       return <SCC actionIndex={actionIndex} />;
     case 'external_contract_action':
