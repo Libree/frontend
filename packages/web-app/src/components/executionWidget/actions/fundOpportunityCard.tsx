@@ -108,7 +108,7 @@ export const FundOpportunityCard: React.FC<{
                 <CardText
                     type='label'
                     title={t('marketplace.fundOpportunity.isPersistent')}
-                    content={isPersistent ? t('labels.yes') : t('labels.no')}
+                    content={isPersistent}
                     bgWhite
                 />
                 <CardText
