@@ -8,6 +8,7 @@ import { PluginTypes } from 'hooks/usePluginClient';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { usePluginSettings } from 'hooks/usePluginSettings';
 import { Loading } from 'components/temporary';
+import { ActionsProvider } from 'context/actions';
 
 export type FundingSource = 'DAO' | 'AAVE';
 
@@ -64,16 +65,18 @@ const FundOpportunity: React.FC = () => {
 
     return (
         <FormProvider {...formMethods}>
-            <CreateProposalProvider
-                showTxModal={showTxModal}
-                setShowTxModal={setShowTxModal}
-            >
-                <FundOpportunityStepper
-                    daoDetails={daoDetails}
-                    pluginSettings={pluginSettings}
-                    enableTxModal={() => setShowTxModal(true)}
-                />
-            </CreateProposalProvider>
+            <ActionsProvider daoId={daoDetails?.address as string}>
+                <CreateProposalProvider
+                    showTxModal={showTxModal}
+                    setShowTxModal={setShowTxModal}
+                >
+                    <FundOpportunityStepper
+                        daoDetails={daoDetails}
+                        pluginSettings={pluginSettings}
+                        enableTxModal={() => setShowTxModal(true)}
+                    />
+                </CreateProposalProvider>
+            </ActionsProvider>
         </FormProvider>
     );
 };
