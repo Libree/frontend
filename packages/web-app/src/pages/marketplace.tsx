@@ -13,11 +13,17 @@ import { sortTokens } from 'utils/tokens';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { IconAdd, OpportunityListItem } from '@aragon/ui-components';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import { useNetwork } from 'context/network';
+import { FundOpportunity } from 'utils/paths';
 
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();
     const { data: daoDetails, isLoading } = useDaoDetailsQuery();
     const { open } = useGlobalModalContext();
+    const { network }= useNetwork();
+    const { dao } = useParams();
+    const navigate = useNavigate();
 
     const { tokens } = useDaoVault();
 
@@ -56,7 +62,12 @@ const Marketplace: React.FC = () => {
                 primaryBtnProps={{
                     label: t('marketplace.getFundedAction'),
                     iconLeft: <IconAdd />,
-                    onClick: () => open('fundOpportunity'),
+                    onClick: () => open('getFunded'),
+                }}
+                secondaryBtnProps={{
+                    label: t('marketplace.fundOpportunityAction'),
+                    iconLeft: <IconAdd />,
+                    onClick: () => navigate(generatePath(FundOpportunity, {network, dao: dao})),
                 }}
             >
                 {opportunities.length !== 0 && (

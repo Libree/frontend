@@ -9,29 +9,29 @@ import styled from 'styled-components';
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
 import { useGlobalModalContext } from 'context/globalModals';
 
-const FundOpportunityModal: React.FC = () => {
+const GetFundedModal: React.FC = () => {
     const { t } = useTranslation();
-    const { isFundOpportunityOpen, close } = useGlobalModalContext();
+    const { isGetFundedOpen, close } = useGlobalModalContext();
 
-    const handleClick = (action: string) => {};
+    const handleClick = (action: string) => { };
 
     return (
         <ModalBottomSheetSwitcher
-            isOpen={isFundOpportunityOpen}
-            onClose={() => close('fundOpportunity')}
-            title={t('marketplace.fundOpportunity.headerTitle')}
-            subtitle={t('marketplace.fundOpportunity.headerDescription')}
+            isOpen={isGetFundedOpen}
+            onClose={() => close('getFunded')}
+            title={t('marketplace.getFunded.headerTitle')}
+            subtitle={t('marketplace.getFunded.headerDescription')}
         >
             <Container>
                 <ListItemAction
-                    title={t('marketplace.fundOpportunity.collateralInput')}
-                    subtitle={t('marketplace.fundOpportunity.collateralDescription')}
+                    title={t('marketplace.getFunded.collateralInput')}
+                    subtitle={t('marketplace.getFunded.collateralDescription')}
                     iconRight={<IconChevronRight />}
                     onClick={() => handleClick('collateralized_borrowing')}
                 />
                 <ListItemAction
-                    title={t('marketplace.fundOpportunity.raiseFundingInput')}
-                    subtitle={t('marketplace.fundOpportunity.raiseFundingDescription')}
+                    title={t('marketplace.getFunded.raiseFundingInput')}
+                    subtitle={t('marketplace.getFunded.raiseFundingDescription')}
                     iconRight={<IconChevronRight />}
                     onClick={() => handleClick('raise_funding')}
                 />
@@ -44,4 +44,4 @@ const Container = styled.div.attrs({
     className: 'space-y-1.5 p-3',
 })``;
 
-export default FundOpportunityModal;
+export default GetFundedModal;

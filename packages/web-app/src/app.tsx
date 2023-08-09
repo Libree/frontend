@@ -30,7 +30,7 @@ import { NotFound } from 'utils/paths';
 import '../i18n.config';
 import DepositModal from 'containers/transactionModals/DepositModal';
 import PoapClaimModal from 'containers/poapClaiming/PoapClaimModal';
-import FundOpportunityModal from 'containers/marketplace/fundOpportunityModal';
+import GetFundedModal from 'containers/marketplace/getFundedModal';
 
 const ExplorePage = lazy(() => import('pages/explore'));
 const NotFoundPage = lazy(() => import('pages/notFound'));
@@ -43,6 +43,7 @@ const SettingsPage = lazy(() => import('pages/settings'));
 const EditSettingsPage = lazy(() => import('pages/editSettings'));
 const ProposeSettingsPage = lazy(() => import('pages/proposeSettings'));
 const MarketplacePage = lazy(() => import('pages/marketplace'));
+const FundOpportunityForm = lazy(() => import('pages/fundOpportunity'))
 
 const TokensPage = lazy(() => import('pages/tokens'));
 const TransfersPage = lazy(() => import('pages/transfers'));
@@ -174,6 +175,7 @@ function App() {
               />
               <Route path="community" element={<CommunityPage />} />
               <Route path="marketplace" element={<MarketplacePage />} />
+              <Route path="marketplace/fund-opportunity" element={<FundOpportunityForm />} />
               <Route path="settings" element={<SettingsPage />} />
               {/* Redirects the user to the dashboard page by default if no dao-specific page is specified. */}
               <Route index element={<Navigate to={'dashboard'} replace />} />
@@ -186,7 +188,7 @@ function App() {
       <DaoSelectMenu />
       <WalletMenu />
       <PoapClaimModal />
-      <FundOpportunityModal />
+      <GetFundedModal />
       <NetworkErrorMenu />
     </>
   );
