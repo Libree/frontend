@@ -325,6 +325,7 @@ export type ActionFundOpportunity = {
     expirationTime: number;
     borrower: string;
     isPersistent: IsPersistent;
+    interestRateType?: InterestRateType;
   };
 }
 

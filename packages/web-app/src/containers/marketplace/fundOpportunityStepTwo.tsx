@@ -4,7 +4,7 @@ import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { SUPPORTED_TOKENS } from "utils/config";
-import { CollateralType, FundingSource, IsPersistent, SupportedNetwork } from "utils/types";
+import { CollateralType, FundingSource, InterestRateType, IsPersistent, SupportedNetwork } from "utils/types";
 
 const isPersistentOptions: {
     label: string;
@@ -157,7 +157,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 {/* Duration (in days) */}
                 <FormItem>
                     <Label
-                        label={t('marketplace.fundOpportunity.duration')}
+                        label={t('marketplace.fundOpportunity.durationTime')}
                     />
 
                     <Controller
@@ -175,7 +175,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 {/* Expiration (in days) */}
                 <FormItem>
                     <Label
-                        label={t('marketplace.fundOpportunity.expiration')}
+                        label={t('marketplace.fundOpportunity.expirationTime')}
                     />
 
                     <Controller

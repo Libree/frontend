@@ -9,7 +9,7 @@ import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { usePluginSettings } from 'hooks/usePluginSettings';
 import { Loading } from 'components/temporary';
 import { ActionsProvider } from 'context/actions';
-import { CollateralType, FundingSource, IsPersistent } from 'utils/types';
+import { CollateralType, FundingSource, InterestRateType, IsPersistent } from 'utils/types';
 
 export type FundOpportunityAction = {
     name: 'fund_opportunity';
@@ -27,6 +27,7 @@ export type FundOpportunityAction = {
         expirationTime: number;
         borrower: string;
         isPersistent: IsPersistent;
+        interestRateType?: InterestRateType;
     }
 };
 
