@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 import { withTransaction } from '@elastic/apm-rum-react';
-import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import { Marketplace } from 'utils/paths';
-import FundOpportunityStepOne from 'containers/marketplace/fundOpportunityStepOne';
-import FundOpportunityStepTwo from 'containers/marketplace/fundOpportunityStepTwo';
+import { CreateProposalProvider } from 'context/createProposal';
+import FundOpportunityStepper from 'containers/fundOpportunityStepper';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { usePluginSettings } from 'hooks/usePluginSettings';
+import { Loading } from 'components/temporary';
 
 export type FundingSource = 'DAO' | 'AAVE';
 
@@ -32,62 +33,47 @@ export type CreateFundOpportunityFormData = {
 
 const defaultValues = {
     collateralAddress: '',
-    collateralAmount: 0,
-    collateralId: 0,
     principalAsset: '',
-    loanAmount: 0,
-    loanYield: 0,
-    durationTime: 0,
-    expirationTime: 0,
     borrower: '',
 };
 
 const FundOpportunity: React.FC = () => {
-    const { t } = useTranslation();
+    const [showTxModal, setShowTxModal] = useState(false);
+
+    const { data: daoDetails, isLoading: detailsLoading } = useDaoDetailsQuery();
+    const { data: pluginSettings, isLoading: settingsLoading } = usePluginSettings(
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.instanceAddress as string,
+        daoDetails?.plugins.find(
+            plugin => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        )?.id as PluginTypes
+    );
+
     const formMethods = useForm<CreateFundOpportunityFormData>({
         mode: 'onChange',
         defaultValues,
     });
 
-    const [
-        fundingSource,
-        collateralType,
-    ] = useWatch({
-        control: formMethods.control,
-        name: [
-            'fundingSource',
-            'collateralType',
-        ],
-    });
-
-    /*************************************************
-     *             Step Validation States            *
-     *************************************************/
-    const stepOneIsValid = useMemo(() => {
-        if (!fundingSource || !collateralType) return false;
-        return true;
-    }, [
-        fundingSource,
-        collateralType,
-    ]);
-
     /*************************************************
      *                    Render                     *
      *************************************************/
+    if (!daoDetails || !pluginSettings || detailsLoading || settingsLoading) {
+        return <Loading />;
+    }
+
     return (
         <FormProvider {...formMethods}>
-            <FullScreenStepper
-                wizardProcessName={t('marketplace.fundOpportunity.headerTitle')}
-                navLabel={t('marketplace.fundOpportunity.headerTitle')}
-                returnPath={Marketplace}
+            <CreateProposalProvider
+                showTxModal={showTxModal}
+                setShowTxModal={setShowTxModal}
             >
-                <Step isNextButtonDisabled={!stepOneIsValid}>
-                    <FundOpportunityStepOne />
-                </Step>
-                <Step>
-                    <FundOpportunityStepTwo />
-                </Step>
-            </FullScreenStepper>
+                <FundOpportunityStepper
+                    daoDetails={daoDetails}
+                    pluginSettings={pluginSettings}
+                    enableTxModal={() => setShowTxModal(true)}
+                />
+            </CreateProposalProvider>
         </FormProvider>
     );
 };
