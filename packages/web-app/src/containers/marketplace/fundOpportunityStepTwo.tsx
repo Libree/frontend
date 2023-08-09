@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { SUPPORTED_TOKENS } from "utils/config";
 import { SupportedNetwork } from "utils/types";
+import { CollateralType, FundingSource } from "pages/fundOpportunity";
 
 const FundOpportunityStepTwo: React.FC = () => {
     const { t } = useTranslation();
@@ -37,7 +38,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
             </FormItem>
 
-            {collateralType === 'ERC20' ? (
+            {collateralType as CollateralType === 'ERC20' ? (
                 <>
                     {/* Collateral amount */}
                     <FormItem>
@@ -196,7 +197,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 />
             </FormItem>
 
-            {fundingSource === 'AAVE' && (
+            {fundingSource as FundingSource === 'AAVE' && (
                 <>
                     {/* Interest Rate Type */}
                     <FormItem>

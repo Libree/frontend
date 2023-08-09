@@ -8,9 +8,15 @@ import { Marketplace } from 'utils/paths';
 import FundOpportunityStepOne from 'containers/marketplace/fundOpportunityStepOne';
 import FundOpportunityStepTwo from 'containers/marketplace/fundOpportunityStepTwo';
 
+export type FundingSource = 'DAO' | 'AAVE';
+
+export type CollateralType = 'ERC20' | 'NFT';
+
+export type IsPersistent = 'Yes' | 'No';
+
 export type CreateFundOpportunityFormData = {
-    fundingSource: string;
-    collateralType: string;
+    fundingSource: FundingSource;
+    collateralType: CollateralType;
 
     collateralAddress: string;
     collateralAmount: number;
@@ -21,13 +27,10 @@ export type CreateFundOpportunityFormData = {
     durationTime: number;
     expirationTime: number;
     borrower: string;
-    isPersistent: string;
+    isPersistent: IsPersistent;
 };
 
 const defaultValues = {
-    fundingSource: '',
-    collateralType: '',
-
     collateralAddress: '',
     collateralAmount: 0,
     collateralId: 0,
@@ -37,7 +40,6 @@ const defaultValues = {
     durationTime: 0,
     expirationTime: 0,
     borrower: '',
-    isPersistent: '',
 };
 
 const FundOpportunity: React.FC = () => {

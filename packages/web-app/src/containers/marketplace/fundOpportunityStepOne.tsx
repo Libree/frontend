@@ -3,6 +3,23 @@ import { Label } from "@aragon/ui-components";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { CollateralType, FundingSource } from "pages/fundOpportunity";
+
+const fundingSourceOptions: {
+    label: string;
+    value: FundingSource;
+}[] = [
+    { label: 'DAO treasury', value: 'DAO' },
+    { label: 'Aave borrow', value: 'AAVE' },
+];
+
+const collateralTypeOptions: {
+    label: string;
+    value: CollateralType;
+}[] = [
+    { label: 'ERC20 token', value: 'ERC20' },
+    { label: 'NFT token', value: 'NFT' },
+];
 
 const FundOpportunityStepOne: React.FC = () => {
     const { t } = useTranslation();
@@ -22,8 +39,8 @@ const FundOpportunityStepOne: React.FC = () => {
                     render={({ field: { onChange, value, name } }) => (
                         <StyledSelect {...{ name, value, onChange }}>
                             <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
-                            {[{ name: 'DAO treasury', value: 'DAO' }, { name: 'Aave borrow', value: 'AAVE' }].map((item, index) => (
-                                <option key={item.name} value={item.value}>{item.name}</option>
+                            {fundingSourceOptions.map((item) => (
+                                <option key={item.value} value={item.value}>{item.label}</option>
                             ))}
                         </StyledSelect>
                     )}
@@ -42,8 +59,8 @@ const FundOpportunityStepOne: React.FC = () => {
                     render={({ field: { onChange, value, name } }) => (
                         <StyledSelect {...{ name, value, onChange }}>
                             <option value="" disabled selected>{t('creditDelegation.selectAnOption')}</option>
-                            {[{ name: 'ERC20 token', value: 'ERC20' }, { name: 'NFT token', value: 'NFT' }].map((item, index) => (
-                                <option key={item.name} value={item.value}>{item.name}</option>
+                            {collateralTypeOptions.map((item) => (
+                                <option key={item.value} value={item.value}>{item.label}</option>
                             ))}
                         </StyledSelect>
                     )}
