@@ -64,7 +64,7 @@ const FundOpportunityAction: React.FC<FundOpportunityActionProps> = ({
                             {...{ name, value, onChange }}
                             defaultValue={""}
                         >
-                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                            <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {fundingSourceOptions.map((item) => (
                                 <option key={item.value} value={item.value}>{item.label}</option>
                             ))}
@@ -87,7 +87,7 @@ const FundOpportunityAction: React.FC<FundOpportunityActionProps> = ({
                             {...{ name, value, onChange }}
                             defaultValue={""}
                         >
-                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                            <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {collateralTypeOptions.map((item) => (
                                 <option key={item.value} value={item.value}>{item.label}</option>
                             ))}

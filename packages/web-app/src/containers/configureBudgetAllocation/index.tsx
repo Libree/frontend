@@ -69,7 +69,7 @@ const ConfigureBudgetAllocationForm: React.FC<ConfigureBudgetAllocationFormProps
                                 onChange={onChange}
                                 defaultValue={""}
                             >
-                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {protocols.map((ptocol) => (
                                     <option key={ptocol} value={ptocol}>{ptocol}</option>
                                 ))}
@@ -102,7 +102,7 @@ const ConfigureBudgetAllocationForm: React.FC<ConfigureBudgetAllocationFormProps
                                 onChange={onChange}
                                 defaultValue={""}
                             >
-                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -171,7 +171,7 @@ const ConfigureBudgetAllocationForm: React.FC<ConfigureBudgetAllocationFormProps
                                 onChange={onChange}
                                 defaultValue={""}
                             >
-                                <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {groups.map((group) => (
                                     <option key={group.id} value={group.id}>{group.name}</option>
                                 ))}

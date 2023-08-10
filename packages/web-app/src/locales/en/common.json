@@ -239,7 +239,8 @@
     "seeAllGroups": "See all groups",
     "advanced": "Advanced",
     "seeAllOpportunities": "See all opportunities",
-    "latestActivity": "Latest activity"
+    "latestActivity": "Latest activity",
+    "selectAnOption":"Select an option"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -903,7 +904,6 @@
     "input1Subtitle": "The wallet that will be included in the group",
     "interestRateType": "Interest rate type",
     "interestRateTypeDescription": "Select the interest rate type for the credit line",
-    "selectAnOption": "Select an option",
     "ctaAddAnother": "Add another credit",
     "setupVoting": {
       "title": "Initiate the vote",

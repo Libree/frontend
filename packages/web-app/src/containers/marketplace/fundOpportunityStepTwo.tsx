@@ -40,7 +40,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                             {...{ name, value, onChange }}
                             defaultValue={""}
                         >
-                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                            <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                 <option key={token.address} value={token.address}>{token.name}</option>
                             ))}
@@ -105,7 +105,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                             {...{ name, value, onChange }}
                             defaultValue={""}
                         >
-                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                            <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token, index) => (
                                 <option key={token.name} value={index}>{token.name}</option>
                             ))}
@@ -223,7 +223,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                             {...{ name, value, onChange }}
                             defaultValue={""}
                         >
-                            <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                            <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {isPersistentOptions.map((item, index) => (
                                 <option key={`${item.value}-${index}`} value={item.value}>{item.label}</option>
                             ))}
@@ -248,7 +248,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                                     {...{ name, value, onChange }}
                                     defaultValue={""}
                                 >
-                                    <option value="" disabled>{t('creditDelegation.selectAnOption')}</option>
+                                    <option value="" disabled>{t('labels.selectAnOption')}</option>
                                     {['Stable', 'Variable'].map((item, index) => (
                                         <option key={`${item}-${index}`} value={item}>{item}</option>
                                     ))}
