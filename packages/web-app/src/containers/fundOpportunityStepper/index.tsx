@@ -70,19 +70,17 @@ const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
                     <FundOpportunityStepTwo />
                 </Step>
                 <Step
-                    wizardTitle={t('creditDelegation.defineProposal.heading')}
-                    wizardDescription={t('creditDelegation.defineProposal.description')}
+                    wizardTitle={t('marketplace.defineProposal.heading')}
+                    wizardDescription={t('marketplace.defineProposal.description')}
                     isNextButtonDisabled={!defineProposalIsValid(dirtyFields, errors)}
                 >
                     <DefineProposal />
                 </Step>
                 <Step
-                    wizardTitle={t('creditDelegation.reviewProposal.heading')}
-                    wizardDescription={t('creditDelegation.reviewProposal.description')}
+                    wizardTitle={t('marketplace.reviewProposal.heading')}
+                    wizardDescription={t('marketplace.reviewProposal.description')}
                     nextButtonLabel={t('labels.submitProposal')}
-                    onNextButtonClicked={() => {
-                        enableTxModal();
-                    }}
+                    onNextButtonClicked={() => enableTxModal()}
                     fullWidth
                 >
                     <ReviewProposal
