@@ -17,7 +17,7 @@ const SelectPlugins: React.FC = () => {
             }
             onChange(value);
         }
-    , [setValue]);
+        , [setValue]);
 
     return (
         <>
@@ -74,6 +74,19 @@ const SelectPlugins: React.FC = () => {
                             title={t('createUnityDAO.step2.uniswap.title')}
                             subtitle={t('createUnityDAO.step2.uniswap.description')}
                             onClick={() => handlePluginChanged(!value, 'uniswapV3Plugin', onChange)}
+                        />
+                    )}
+                />
+                <Controller
+                    name="pwnPlugin"
+                    control={control}
+                    render={({ field: { value } }) => (
+                        <ListItemAction
+                            bgWhite
+                            mode={value ? 'selected' : 'default'}
+                            title={t('createUnityDAO.step2.pwn.title')}
+                            subtitle={t('createUnityDAO.step2.pwn.description')}
+                            onClick={() => { }}
                         />
                     )}
                 />

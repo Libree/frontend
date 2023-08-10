@@ -804,7 +804,7 @@
       "proposalCreation": "Token holders with ≥{{token}} {{symbol}}"
     }
   },
-  "createUnityDAO" : {
+  "createUnityDAO": {
     "step1": {
       "description": "Select blockchain The chain you choose is where your tokens and assets are stored. If you already have a token, choose the chain your token is minted on. This cannot be changed later. For help selecting your chain, read our guide on choosing the best blockchain for your DAO."
     },
@@ -825,6 +825,10 @@
       "uniswap": {
         "title": "Uniswap",
         "description": "Complete swaps or provide liquidity to Uniswap pools without taking your treasury outside your DAO"
+      },
+      "pwn": {
+        "title": "PWN",
+        "description": "Access to a collateralized peer-to-peer lending market to fund opportunities or get funded"
       }
     }
   },
@@ -981,7 +985,7 @@
     "title": "Budget Allocation",
     "subtitle": "Create a budget allocation plan",
     "description": "Assing fixed budgets to specific groups and protocols",
-    "protocolInput":"Protocol",
+    "protocolInput": "Protocol",
     "protocolDescription": "This is the destination protocol where you want to allocate this budget",
     "tokenInput": "Token",
     "tokenDescription": "Select the token to allocate",
