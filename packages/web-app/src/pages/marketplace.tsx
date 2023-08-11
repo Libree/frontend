@@ -1,5 +1,5 @@
 import { withTransaction } from '@elastic/apm-rum-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -12,18 +12,23 @@ import { useDaoVault } from 'hooks/useDaoVault';
 import { sortTokens } from 'utils/tokens';
 import { Loading } from 'components/temporary';
 import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { IconAdd, OpportunityListItem } from '@aragon/ui-components';
+import { ButtonGroup, IconAdd, OpportunityListItem, Option } from '@aragon/ui-components';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useNetwork } from 'context/network';
 import { FundOpportunity } from 'utils/paths';
+
+// TODO: move this to the corresponding type file
+type MarketplaceFilter = 'lending' | 'borrowing';
 
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();
     const { data: daoDetails, isLoading } = useDaoDetailsQuery();
     const { open } = useGlobalModalContext();
-    const { network }= useNetwork();
+    const { network } = useNetwork();
     const { dao } = useParams();
     const navigate = useNavigate();
+
+    const [filterValue, setFilterValue] = useState<MarketplaceFilter>('lending')
 
     const { tokens } = useDaoVault();
 
@@ -49,6 +54,14 @@ const Marketplace: React.FC = () => {
     sortTokens(tokens, 'treasurySharePercentage', true);
 
     /*************************************************
+     *                   Handlers                    *
+     *************************************************/
+    const handleFilterChange = (filterValue: string) => {
+        setFilterValue(filterValue as unknown as MarketplaceFilter);
+    };
+
+
+    /*************************************************
      *                    Render                     *
      *************************************************/
     if (isLoading) {
@@ -67,9 +80,19 @@ const Marketplace: React.FC = () => {
                 secondaryBtnProps={{
                     label: t('marketplace.fundOpportunityAction'),
                     iconLeft: <IconAdd />,
-                    onClick: () => navigate(generatePath(FundOpportunity, {network, dao: dao})),
+                    onClick: () => navigate(generatePath(FundOpportunity, { network, dao: dao })),
                 }}
             >
+                <ButtonGroupContainer>
+                    <ButtonGroup
+                        defaultValue={filterValue}
+                        onChange={handleFilterChange}
+                        bgWhite={false}
+                    >
+                        <Option label={t('marketplace.filter.lending')} value="lending" />
+                        <Option label={t('marketplace.filter.borrowing')} value="borrowing" />
+                    </ButtonGroup>
+                </ButtonGroupContainer>
                 {opportunities.length !== 0 && (
                     <>
                         <div className={'h-4'} />
@@ -94,6 +117,10 @@ export default withTransaction('Marketplace', 'component')(Marketplace);
 
 const ListContainer = styled.div.attrs({
     className: 'py-2 space-y-2',
+})``;
+
+const ButtonGroupContainer = styled.div.attrs({
+    className: 'flex',
 })``;
 
 
