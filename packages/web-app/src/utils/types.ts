@@ -225,7 +225,8 @@ export type ActionsTypes =
   | 'modify_token_voting_settings'
   | 'modify_metadata'
   | 'modify_multisig_voting_settings'
-  | 'update_minimum_approval';
+  | 'update_minimum_approval'
+  | 'fund_opportunity';
 
 export type ActionWithdraw = {
   amount: number;
@@ -303,6 +304,30 @@ export type ActionMintToken = {
     totalMembers?: number;
   };
 };
+
+export type FundingSource = 'DAO' | 'AAVE';
+export type CollateralType = 'ERC20' | 'NFT';
+export type IsPersistent = 'Yes' | 'No';
+
+export type ActionFundOpportunity = {
+  name: 'fund_opportunity';
+  inputs: {
+    fundingSource: FundingSource;
+    collateralType: CollateralType;
+
+    collateralAddress: string;
+    collateralAmount: number;
+    collateralId: number;
+    principalAsset: string;
+    loanAmount: number;
+    loanYield: number;
+    durationTime: number;
+    expirationTime: number;
+    borrower: string;
+    isPersistent: IsPersistent;
+    interestRateType?: InterestRateType;
+  };
+}
 
 export type ActionCreditDelegation = {
   name: 'credit_delegation';
@@ -392,6 +417,7 @@ export type Action =
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken
+  | ActionFundOpportunity
   | ActionUpdatePluginSettings
   | ActionUpdateMetadata
   | ActionUpdateMinimumApproval
