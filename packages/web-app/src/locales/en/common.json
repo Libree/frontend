@@ -240,7 +240,7 @@
     "advanced": "Advanced",
     "seeAllOpportunities": "See all opportunities",
     "latestActivity": "Latest activity",
-    "selectAnOption":"Select an option"
+    "selectAnOption": "Select an option"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -1407,7 +1407,33 @@
       "expirationTime": "Expiration (in days)",
       "borrower": "Borrower",
       "isPersistent": "Is Persistent",
-      "interestRateType":"Interest rate type"
+      "interestRateType": "Interest rate type"
+    },
+    "setupVoting": {
+      "title": "Initiate the vote",
+      "description": "Set the choices, start date, and end date for your vote.",
+      "optionLabel": {
+        "title": "Options"
+      },
+      "yesNoLabel": {
+        "title": "Yes, no, or abstain",
+        "helpText": "Members can vote for, against, or abstain."
+      },
+      "tokenVoting": {
+        "endDateDescription": "Define how long the voting should last in days, or add an exact date and time for it to conclude."
+      },
+      "multisig": {
+        "optionDescription": "Options for voting",
+        "votingOption": {
+          "label": "Approve",
+          "description": "Each multisig member has the ability to approve the proposal and any associated optional actions. The proposal will be executed if three out of four members approve it.",
+          "alert": "Approval is the only option for Multisig DAOs."
+        },
+        "startLabel": "Start time",
+        "startDescription": "Define when a proposal should be active to receive approvals. If now is selected, the proposal is immediately active after publishing.",
+        "expiration": "Expiration time",
+        "expirationDescription": "Define when a proposal should expire. After the expiration time, there is no way to approve or execute the proposal."
+      }
     },
     "defineProposal": {
       "heading": "Create a proposal",
