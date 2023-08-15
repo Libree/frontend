@@ -64,8 +64,9 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('labels.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -132,8 +133,9 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('labels.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -200,8 +202,9 @@ const ConfigureProvideLiquidityForm: React.FC<ConfigureProvideLiquidityFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('provideLiquidity.feeTierPlaceholder')}</option>
+                                <option value="" disabled>{t('provideLiquidity.feeTierPlaceholder')}</option>
                                 <option value={0.01}>{"0.01%"}</option>
                                 <option value={0.05}>{"0.05%"}</option>
                                 <option value={0.3}>{"0.3%"}</option>

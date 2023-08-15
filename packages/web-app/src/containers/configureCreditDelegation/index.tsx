@@ -96,8 +96,9 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('labels.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                                     <option key={token.address} value={token.address}>{token.name}</option>
                                 ))}
@@ -162,8 +163,9 @@ const ConfigureCreditDelegationForm: React.FC<ConfigureCreditDelegationFormProps
                                 name={name}
                                 value={value}
                                 onChange={onChange}
+                                defaultValue={""}
                             >
-                                <option value="" disabled selected>{t('labels.selectAnOption')}</option>
+                                <option value="" disabled>{t('labels.selectAnOption')}</option>
                                 <option value={InterestRateType.STABLE}>{InterestRateType.STABLE}</option>
                                 <option value={InterestRateType.VARIABLE}>{InterestRateType.VARIABLE}</option>
                             </StyledSelect>

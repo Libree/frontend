@@ -10,19 +10,22 @@ const isPersistentOptions: {
     label: string;
     value: IsPersistent;
 }[] = [
-    { label: 'Yes', value: 'Yes' },
-    { label: 'No', value: 'No' },
-];
+        { label: 'Yes', value: 'Yes' },
+        { label: 'No', value: 'No' },
+    ];
 
 const FundOpportunityStepTwo: React.FC = () => {
     const { t } = useTranslation();
     const { control } = useFormContext();
 
+    const actionIndex = 0;
     const [collateralType, fundingSource] = useWatch({
         control: control,
-        name: ['collateralType', 'fundingSource'],
+        name: [
+            `actions.${actionIndex}.inputs.collateralType`,
+            `actions.${actionIndex}.inputs.fundingSource`,
+        ],
     });
-    const actionIndex = 0;
 
     return (
         <Container>
@@ -36,15 +39,24 @@ const FundOpportunityStepTwo: React.FC = () => {
                     name={`actions.${actionIndex}.inputs.collateralAddress`}
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect
-                            {...{ name, value, onChange }}
-                            defaultValue={""}
-                        >
-                            <option value="" disabled>{t('labels.selectAnOption')}</option>
-                            {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
-                                <option key={token.address} value={token.address}>{token.name}</option>
-                            ))}
-                        </StyledSelect>
+                        <>
+                            {collateralType as CollateralType === 'NFT' ? (
+                                <NumberInput
+                                    {...{ onChange, value, name }}
+                                    placeholder="..."
+                                />
+                            ) : (
+                                <StyledSelect
+                                    {...{ name, value, onChange }}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>{t('labels.selectAnOption')}</option>
+                                    {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
+                                        <option key={token.address} value={token.address}>{token.name}</option>
+                                    ))}
+                                </StyledSelect>
+                            )}
+                        </>
                     )}
                 />
             </FormItem>
@@ -128,7 +140,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
                                 {...{ onChange, value, name }}
-                                placeholder="0"    
+                                placeholder="0"
                             />
                         )}
                     />
@@ -166,7 +178,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                         render={({ field: { onChange, value, name } }) => (
                             <NumberInput
                                 {...{ onChange, value, name }}
-                                placeholder="..."    
+                                placeholder="..."
                             />
                         )}
                     />
