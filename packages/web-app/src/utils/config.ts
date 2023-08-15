@@ -74,7 +74,7 @@ export const PLUGIN_IDS: { [K in SupportedNetwork]: PluginsDeployment } = {
         subgovernance: "my-cool-plugin-6002",
         uniswapV3: "my-cool-plugin-6017",
         vault: "my-cool-plugin-6005",
-        pwn: "",
+        pwn: "my-cool-plugin-6020",
     },
     [SupportedNetwork.GOERLI]: {
         creditDelegation: "",
