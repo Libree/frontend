@@ -59,6 +59,7 @@ export type CreateDaoFormData = {
   subGovernancePlugin: string;
   vaultPlugin: string;
   uniswapV3Plugin: string;
+  pwnPlugin: string;
 };
 
 const defaultValues = {

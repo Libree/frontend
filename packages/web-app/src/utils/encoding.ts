@@ -105,6 +105,28 @@ export const getPluginInstallUniswapV3 = (
     };
 }
 
+export const getPluginInstallPwn = (
+    network: Networkish
+): PluginInstallItem => {
+    const networkName = getNetwork(network).name as SupportedNetwork;
+
+    if (!SupportedNetworksArray.includes(networkName)) {
+        throw new UnsupportedNetworkError(networkName);
+    }
+    const hexBytes = ethers.utils.defaultAbiCoder.encode(
+        ["address pwnSimpleLoanOfferAddress", "address pwnSimpleLoanAddress"],
+        [
+            CONTRACT_ADDRESSES[networkName].pwnSimpleLoanOfferAddress,
+            CONTRACT_ADDRESSES[networkName].pwnSimpleLoanAddress,
+        ],
+    );
+
+    return {
+        id: PLUGIN_ADDRESSES[networkName].pwn,
+        data: hexToBytes(hexBytes),
+    }
+};
+
 export const encodeCreditDelegationAction = async (
     token: string,
     amount: number,
