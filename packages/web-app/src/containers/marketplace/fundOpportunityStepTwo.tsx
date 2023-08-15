@@ -18,11 +18,14 @@ const FundOpportunityStepTwo: React.FC = () => {
     const { t } = useTranslation();
     const { control } = useFormContext();
 
+    const actionIndex = 0;
     const [collateralType, fundingSource] = useWatch({
         control: control,
-        name: ['collateralType', 'fundingSource'],
+        name: [
+            `actions.${actionIndex}.inputs.collateralType`,
+            `actions.${actionIndex}.inputs.fundingSource`,
+        ],
     });
-    const actionIndex = 0;
 
     return (
         <Container>
