@@ -82,6 +82,7 @@ const Marketplace: React.FC = () => {
                     iconLeft: <IconAdd />,
                     onClick: () => navigate(generatePath(FundOpportunity, { network, dao: dao })),
                 }}
+                secondaryBtnMode={'primary'}
             >
                 <ButtonGroupContainer>
                     <ButtonGroup

@@ -16,6 +16,7 @@ import { CreateGroupCard } from './actions/createGroupCard';
 import { SwapTokensCard } from './actions/swapTokensCard';
 import { ProvideLiquidityCard } from './actions/provideLiquidityCard';
 import { BudgetAllocationCard } from './actions/budgetAllocationCard';
+import { FundOpportunityCard } from './actions/fundOpportunityCard';
 
 type ActionsFilterProps = {
   action: Action;
@@ -47,6 +48,8 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       return <RemoveAddressCard action={action} />;
     case 'mint_tokens':
       return <MintTokenCard action={action} />;
+    case 'fund_opportunity':
+      return <FundOpportunityCard action={action} />;
     case 'modify_metadata':
       return <ModifyMetadataCard action={action} />;
     case 'modify_token_voting_settings':

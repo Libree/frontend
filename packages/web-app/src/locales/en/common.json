@@ -239,7 +239,8 @@
     "seeAllGroups": "See all groups",
     "advanced": "Advanced",
     "seeAllOpportunities": "See all opportunities",
-    "latestActivity": "Latest activity"
+    "latestActivity": "Latest activity",
+    "selectAnOption":"Select an option"
   },
   "placeHolders": {
     "selectToken": "Select a token …",
@@ -907,7 +908,6 @@
     "input1Subtitle": "The wallet that will be included in the group",
     "interestRateType": "Interest rate type",
     "interestRateTypeDescription": "Select the interest rate type for the credit line",
-    "selectAnOption": "Select an option",
     "ctaAddAnother": "Add another credit",
     "setupVoting": {
       "title": "Initiate the vote",
@@ -1403,8 +1403,8 @@
       "principalAsset": "Principal asset",
       "loanAmount": "Loan amount",
       "loanYield": "Loan yield",
-      "duration": "Duration (in days)",
-      "expiration": "Expiration (in days)",
+      "durationTime": "Duration (in days)",
+      "expirationTime": "Expiration (in days)",
       "borrower": "Borrower",
       "isPersistent": "Is Persistent",
       "interestRateType": "Interest rate type"
@@ -1412,6 +1412,20 @@
     "filter": {
       "lending": "Lending",
       "borrowing": "Borrowing"
+    },
+    "defineProposal": {
+      "heading": "Create a proposal",
+      "description": "Provide the information voters will need to make their decision here.",
+      "title": "Title",
+      "titlePlaceholder": "Give your proposal a title",
+      "summaryPlaceholder": "Describe your proposal in 2-3 sentences. This will appear in in the proposal overview.",
+      "proposal": "Proposal",
+      "body": "Body",
+      "proposalPlaceholder": "Write the body of the proposal here."
+    },
+    "reviewProposal": {
+      "heading": "Review proposal",
+      "description": "Check to make sure everything is correct before putting it to vote. You can't edit a proposal once it's published."
     }
   }
 }
