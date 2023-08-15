@@ -94,6 +94,13 @@ const Marketplace: React.FC = () => {
                         <Option label={t('marketplace.filter.borrowing')} value="borrowing" />
                     </ButtonGroup>
                 </ButtonGroupContainer>
+                <SelectWrapper>
+                    <StyledSelect
+                        defaultValue={""}
+                    >
+                        <option value="" disabled hidden>Collateralized lending</option>
+                    </StyledSelect>
+                </SelectWrapper>
                 {opportunities.length !== 0 && (
                     <>
                         <div className={'h-4'} />
@@ -124,6 +131,20 @@ const ButtonGroupContainer = styled.div.attrs({
     className: 'flex',
 })``;
 
+const StyledSelect = styled.select.attrs({
+    className: `flex items-center h-6 space-x-1.5 p-0.75 px-2 text-ui-600 
+    rounded-xl border-2 border-ui-100 focus-within:ring-2 focus-within:ring-primary-500
+    hover:border-ui-300 active:border-primary-500 active:ring-0`,
+})``;
+
+const SelectWrapper = styled.div.attrs({
+    className: 'my-2',
+})``;
+
+
+/*************************************************
+ *           Opportunity List component          *
+ *************************************************/
 
 type OpportunityListProps = {
     opportunities: Array<any>;
