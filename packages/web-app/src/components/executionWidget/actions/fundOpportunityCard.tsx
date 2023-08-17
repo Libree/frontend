@@ -49,14 +49,16 @@ export const FundOpportunityCard: React.FC<{
                         bgWhite
                     />
                 </div>
-                <div className='col-span-3 tablet:col-span-2'>
-                    <CardText
-                        type='label'
-                        title={t('marketplace.fundOpportunity.collateralAddress')}
-                        content={getTokenSymbol(collateralAddress)}
-                        bgWhite
-                    />
-                </div>
+                {collateralAddress && (
+                    <div className='col-span-3 tablet:col-span-2'>
+                        <CardText
+                            type='label'
+                            title={t('marketplace.fundOpportunity.collateralAddress')}
+                            content={getTokenSymbol(collateralAddress)}
+                            bgWhite
+                        />
+                    </div>
+                )}
                 <div className='col-span-3 tablet:col-span-2'>
                     {collateralAmount && (
                         <CardText
