@@ -9,9 +9,21 @@ import {useGlobalModalContext} from 'context/globalModals';
 import {useNetwork} from 'context/network';
 import {useWallet} from 'hooks/useWallet';
 import {trackEvent} from 'services/analytics';
-import {BudgetAllocation, NewCreditDelegation, NewWithDraw, ProvideLiquidity, SwapTokens} from 'utils/paths';
+import {
+  BudgetAllocation,
+  NewCreditDelegation,
+  NewWithDraw,
+  ProvideLiquidity,
+  SwapTokens,
+} from 'utils/paths';
 
-type Action = 'deposit_assets' | 'withdraw_assets' | 'credit_delegation' | 'swap_tokens' | 'provide_liquidity' | 'budget_allocation';
+type Action =
+  | 'deposit_assets'
+  | 'withdraw_assets'
+  | 'credit_delegation'
+  | 'swap_tokens'
+  | 'provide_liquidity'
+  | 'budget_allocation';
 
 const TransferMenu: React.FC = () => {
   const {isTransferOpen, close, open} = useGlobalModalContext();

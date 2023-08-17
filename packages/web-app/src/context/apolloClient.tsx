@@ -14,9 +14,7 @@ import {
   VotingMode,
 } from '@aragon/sdk-client';
 
-import {
-  PluginInstallItem
-} from '@aragon/sdk-client-common';
+import {PluginInstallItem} from '@aragon/sdk-client-common';
 import {RestLink} from 'apollo-link-rest';
 import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 
@@ -143,9 +141,8 @@ const clientPlugin: Record<
   string,
   ApolloClient<NormalizedCacheObject> | undefined
 > = {
-  'mumbai': mumbaiClientPlugin,
+  mumbai: mumbaiClientPlugin,
 };
-
 
 /*************************************************
  *            FAVORITE & SELECTED DAOS           *
@@ -325,5 +322,5 @@ export {
   // proposals
   pendingMultisigProposalsVar,
   pendingTokenBasedProposalsVar,
-  clientPlugin
+  clientPlugin,
 };

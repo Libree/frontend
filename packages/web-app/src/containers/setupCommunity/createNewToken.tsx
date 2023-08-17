@@ -98,7 +98,7 @@ const CreateNewToken: React.FC = () => {
         />
         <AddWallets />
       </WideFormItem>
-    </ Container>
+    </Container>
   );
 };
 

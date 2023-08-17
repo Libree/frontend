@@ -1,7 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-import { CardGroup } from 'components/groupCard';
+import {CardGroup} from 'components/groupCard';
 
 type GroupListProps = {
   groups: any[];
@@ -12,8 +12,8 @@ const usdFormatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 
-const GroupList: React.FC<GroupListProps> = ({ groups }) => {
-  const { t } = useTranslation();
+const GroupList: React.FC<GroupListProps> = ({groups}) => {
+  const {t} = useTranslation();
 
   if (groups.length === 0)
     return <p data-testid="groupList">{t('community.groups.noGroupsData')}</p>;

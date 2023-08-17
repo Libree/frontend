@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import {ApolloClient} from '@apollo/client';
 
 import {
   ASSET_PLATFORMS,
@@ -9,9 +9,12 @@ import {
   SupportedNetworks,
   TimeFilter,
 } from 'utils/constants';
-import { TOKEN_DATA_QUERY } from 'queries/coingecko/tokenData';
-import { isNativeToken } from 'utils/tokens';
-import { AAVE_TOKEN, TOP_ETH_SYMBOL_ADDRESSES } from 'utils/constants/topSymbolAddresses';
+import {TOKEN_DATA_QUERY} from 'queries/coingecko/tokenData';
+import {isNativeToken} from 'utils/tokens';
+import {
+  AAVE_TOKEN,
+  TOP_ETH_SYMBOL_ADDRESSES,
+} from 'utils/constants/topSymbolAddresses';
 
 export type TokenPrices = {
   [key: string]: {
@@ -108,7 +111,7 @@ async function fetchTokenData(
   ) {
     fetchAddress = TOP_ETH_SYMBOL_ADDRESSES[symbol.toLowerCase()];
     fetchNetwork = 'ethereum';
-    isAaveToken = AAVE_TOKEN[symbol.toLowerCase()]
+    isAaveToken = AAVE_TOKEN[symbol.toLowerCase()];
   }
 
   // network unsupported, or testnet
@@ -120,12 +123,10 @@ async function fetchTokenData(
     ? `/coins/${getNativeTokenId(fetchNetwork)}`
     : `/coins/${platformId}/contract/${fetchAddress}`;
 
-
-  const { data, error } = await client.query({
+  const {data, error} = await client.query({
     query: TOKEN_DATA_QUERY,
-    variables: { url },
+    variables: {url},
   });
-
 
   if (!error && data.tokenData && !isAaveToken) {
     return {
@@ -133,9 +134,9 @@ async function fetchTokenData(
       ...(nativeToken
         ? CHAIN_METADATA[network].nativeCurrency
         : {
-          name: data.tokenData.name,
-          symbol: data.tokenData.symbol.toUpperCase(),
-        }),
+            name: data.tokenData.name,
+            symbol: data.tokenData.symbol.toUpperCase(),
+          }),
 
       imgUrl: data.tokenData.image.large,
       address: address,
@@ -149,9 +150,9 @@ async function fetchTokenData(
       ...(nativeToken
         ? CHAIN_METADATA[network].nativeCurrency
         : {
-          name: undefined,
-          symbol: undefined,
-        }),
+            name: undefined,
+            symbol: undefined,
+          }),
 
       imgUrl: data.tokenData.image.large,
       address: address,
@@ -197,8 +198,8 @@ async function fetchTokenPrice(
   const endPoint = `/simple/token_price/${platformId}?vs_currencies=usd&contract_addresses=`;
   const url = nativeToken
     ? `${BASE_URL}/simple/price?ids=${getNativeTokenId(
-      fetchNetwork
-    )}&vs_currencies=usd`
+        fetchNetwork
+      )}&vs_currencies=usd`
     : `${BASE_URL}${endPoint}${fetchAddress}`;
 
   try {
@@ -227,4 +228,4 @@ function getNativeTokenId(network: SupportedNetworks): string {
 
   return NATIVE_TOKEN_ID.default;
 }
-export { fetchTokenMarketData, fetchTokenData, fetchTokenPrice };
+export {fetchTokenMarketData, fetchTokenData, fetchTokenPrice};

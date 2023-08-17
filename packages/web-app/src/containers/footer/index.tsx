@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import {GridLayout} from 'components/layout';
 import useScreen from 'hooks/useScreen';
-import IconLogoBlue from 'public/iconLogoBlue.svg';
 import {EXPLORE_NAV_LINKS, PRIVACY_NAV_LINKS} from 'utils/constants';
 import {useWallet} from 'hooks/useWallet';
 
@@ -84,10 +83,6 @@ const ActionContainer = styled.div.attrs({
 
 const FlexDiv = styled.div.attrs({
   className: 'flex space-x-4 items-center',
-})``;
-
-const LogoContainer = styled.img.attrs({
-  className: 'h-5',
 })``;
 
 const StyledNavList = styled.ul.attrs({

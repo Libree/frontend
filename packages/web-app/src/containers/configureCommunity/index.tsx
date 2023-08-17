@@ -133,7 +133,9 @@ const ConfigureCommunity: React.FC = () => {
   );
 
   const percentageInputValidator = (value: string | number) => {
-    return value as number <= 100 && value as number >= 0 ? true : t('errors.percentage');
+    return (value as number) <= 100 && (value as number) >= 0
+      ? true
+      : t('errors.percentage');
   };
 
   /*************************************************
@@ -295,7 +297,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
-          
+
           {/* Min Duration */}
           <FormItem>
             <Label
@@ -438,7 +440,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
-          
+
           {/* Vote replacement */}
           <FormItem>
             <Label
@@ -530,7 +532,8 @@ const TimeLabel = styled.span.attrs({
 })``;
 
 const ApprovalContainer = styled.div.attrs({
-  className: 'flex flex-col tablet:flex-row tablet:items-center p-3 space-y-3 tablet:space-y-0 tablet:space-x-3 rounded-xl bg-ui-0',
+  className:
+    'flex flex-col tablet:flex-row tablet:items-center p-3 space-y-3 tablet:space-y-0 tablet:space-x-3 rounded-xl bg-ui-0',
 })``;
 
 const ParticipationContainer = styled.div.attrs({

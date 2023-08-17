@@ -1,7 +1,6 @@
 import {useReactiveVar} from '@apollo/client';
 import React from 'react';
 import styled from 'styled-components';
-import {useTranslation} from 'react-i18next';
 
 import BottomSheet from 'components/bottomSheet';
 import {DaoSelector} from 'components/daoSelector';
@@ -9,7 +8,6 @@ import NavLinks from 'components/navLinks';
 import {selectedDaoVar} from 'context/apolloClient';
 import {useGlobalModalContext} from 'context/globalModals';
 import {usePrivacyContext} from 'context/privacyContext';
-import {ButtonText, IconFeedback} from '@aragon/ui-components';
 
 type MobileNavMenuProps = {
   onFeedbackClick: () => void;
@@ -18,7 +16,6 @@ type MobileNavMenuProps = {
 const MobileNavMenu = (props: MobileNavMenuProps) => {
   const currentDao = useReactiveVar(selectedDaoVar);
   const {open, close, isMobileMenuOpen} = useGlobalModalContext();
-  const {t} = useTranslation();
 
   const {handleWithFunctionalPreferenceMenu} = usePrivacyContext();
 

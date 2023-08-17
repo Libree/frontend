@@ -2,12 +2,10 @@ import {
   Client,
   DaoListItem,
   DaoSortBy,
-  DaoQueryParams
+  DaoQueryParams,
 } from '@aragon/sdk-client';
 
-import {
-  SortDirection,
-} from '@aragon/sdk-client-common';
+import {SortDirection} from '@aragon/sdk-client-common';
 
 import {InfiniteData, useInfiniteQuery} from '@tanstack/react-query';
 

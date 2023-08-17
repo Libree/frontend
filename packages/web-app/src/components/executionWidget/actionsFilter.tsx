@@ -11,12 +11,12 @@ import {RemoveAddressCard} from './actions/removeAddressCard';
 import {WithdrawCard} from './actions/withdrawCard';
 import {AddMemberCard} from './actions/addMemberCard';
 import {SCCExecutionCard} from './actions/sccExecutionWidget';
-import { CreditDelegationCard } from './actions/creditDelegationCard';
-import { CreateGroupCard } from './actions/createGroupCard';
-import { SwapTokensCard } from './actions/swapTokensCard';
-import { ProvideLiquidityCard } from './actions/provideLiquidityCard';
-import { BudgetAllocationCard } from './actions/budgetAllocationCard';
-import { FundOpportunityCard } from './actions/fundOpportunityCard';
+import {CreditDelegationCard} from './actions/creditDelegationCard';
+import {CreateGroupCard} from './actions/createGroupCard';
+import {SwapTokensCard} from './actions/swapTokensCard';
+import {ProvideLiquidityCard} from './actions/provideLiquidityCard';
+import {BudgetAllocationCard} from './actions/budgetAllocationCard';
+import {FundOpportunityCard} from './actions/fundOpportunityCard';
 
 type ActionsFilterProps = {
   action: Action;

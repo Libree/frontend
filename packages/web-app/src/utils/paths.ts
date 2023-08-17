@@ -20,7 +20,8 @@ export const AllTokens = '/daos/:network/:dao/finance/tokens';
 export const AllTransfers = '/daos/:network/:dao/finance/transfers';
 export const NewDeposit = '/daos/:network/:dao/finance/new-deposit';
 export const NewWithDraw = '/daos/:network/:dao/finance/new-withdrawal';
-export const NewCreditDelegation = '/daos/:network/:dao/finance/credit-delegation';
+export const NewCreditDelegation =
+  '/daos/:network/:dao/finance/credit-delegation';
 export const SwapTokens = '/daos/:network/:dao/finance/swap';
 export const ProvideLiquidity = '/daos/:network/:dao/finance/provide-liquidity';
 export const BudgetAllocation = '/daos/:network/:dao/finance/budget-allocation';
@@ -32,4 +33,5 @@ export const ManageMembersProposal =
   '/daos/:network/:dao/community/manage-members';
 export const CreateGroupProposal = '/daos/:network/:dao/community/create-group';
 
-export const FundOpportunity = '/daos/:network/:dao/marketplace/fund-opportunity';
+export const FundOpportunity =
+  '/daos/:network/:dao/marketplace/fund-opportunity';

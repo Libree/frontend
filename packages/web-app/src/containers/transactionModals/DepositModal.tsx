@@ -5,23 +5,23 @@ import {
   Spinner,
   WalletInputLegacy,
 } from '@aragon/ui-components';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ModalBottomSheetSwitcher from 'components/modalBottomSheetSwitcher';
-import { useAlertContext } from 'context/alert';
-import { useGlobalModalContext } from 'context/globalModals';
-import { useNetwork } from 'context/network';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { toDisplayEns } from 'utils/library';
-import { useCreditDelegation } from 'hooks/useCreditDelegation';
-import { getTokenInfo } from 'utils/tokens';
-import { CHAIN_METADATA, TransactionState } from 'utils/constants';
-import { useSpecificProvider } from 'context/providers';
-import { SUPPORTED_TOKENS } from 'utils/config';
-import { SupportedNetwork } from 'utils/types';
+import {useAlertContext} from 'context/alert';
+import {useGlobalModalContext} from 'context/globalModals';
+import {useNetwork} from 'context/network';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {toDisplayEns} from 'utils/library';
+import {useCreditDelegation} from 'hooks/useCreditDelegation';
+import {getTokenInfo} from 'utils/tokens';
+import {CHAIN_METADATA, TransactionState} from 'utils/constants';
+import {useSpecificProvider} from 'context/providers';
+import {SUPPORTED_TOKENS} from 'utils/config';
+import {SupportedNetwork} from 'utils/types';
 
 const icons = {
   [TransactionState.APPROVE]: undefined,
@@ -32,12 +32,14 @@ const icons = {
 };
 
 const DepositModal: React.FC = () => {
-  const { t } = useTranslation();
-  const { isDepositOpen, close } = useGlobalModalContext();
-  const { data: daoDetails } = useDaoDetailsQuery();
-  const { network } = useNetwork();
-  const { alert } = useAlertContext();
-  const { deposit, tokenAllowance, approve } = useCreditDelegation(daoDetails?.address);
+  const {t} = useTranslation();
+  const {isDepositOpen, close} = useGlobalModalContext();
+  const {data: daoDetails} = useDaoDetailsQuery();
+  const {network} = useNetwork();
+  const {alert} = useAlertContext();
+  const {deposit, tokenAllowance, approve} = useCreditDelegation(
+    daoDetails?.address
+  );
   const navigate = useNavigate();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
   const [input, setInput] = useState({
@@ -64,7 +66,7 @@ const DepositModal: React.FC = () => {
         amount: '',
         tokenAddress: '',
       });
-    }
+    };
   }, [isDepositOpen]);
 
   const waitForTx = async (tx: any) => {
@@ -78,11 +80,11 @@ const DepositModal: React.FC = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput({...input, [e.target.name]: e.target.value});
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput({...input, [e.target.name]: e.target.value});
   };
 
   const handleCtaClicked = useCallback(async () => {
@@ -90,13 +92,15 @@ const DepositModal: React.FC = () => {
       input.tokenAddress,
       provider,
       CHAIN_METADATA[network].nativeCurrency
-    )
+    );
     const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
     const allowance = await tokenAllowance(input.tokenAddress);
     if (allowance < amount) {
       setDepositProcessState(TransactionState.LOADING);
       try {
-        const txStatus = await waitForTx(await approve(input.tokenAddress, amount));
+        const txStatus = await waitForTx(
+          await approve(input.tokenAddress, amount)
+        );
         txStatus.status === 1
           ? setDepositProcessState(TransactionState.WAITING)
           : setDepositProcessState(TransactionState.ERROR);
@@ -107,14 +111,23 @@ const DepositModal: React.FC = () => {
     }
     try {
       setDepositProcessState(TransactionState.LOADING);
-      const txStatus = await waitForTx(await deposit(input.tokenAddress, amount.toString()));
+      const txStatus = await waitForTx(
+        await deposit(input.tokenAddress, amount.toString())
+      );
       txStatus.status === 1
         ? setDepositProcessState(TransactionState.SUCCESS)
         : setDepositProcessState(TransactionState.ERROR);
     } catch (err) {
       setDepositProcessState(TransactionState.ERROR);
     }
-  }, [close, daoDetails?.address, daoDetails?.ensDomain, navigate, network, input]);
+  }, [
+    close,
+    daoDetails?.address,
+    daoDetails?.ensDomain,
+    navigate,
+    network,
+    input,
+  ]);
 
   const handleOnClick = () => {
     if (depositProcessState === TransactionState.SUCCESS) {
@@ -149,7 +162,9 @@ const DepositModal: React.FC = () => {
           <>
             <EnsHeaderWrapper>
               <InputTitle>{t('modal.deposit.inputLabelEns')}</InputTitle>
-              <InputSubtitle>{t('modal.deposit.inputHelptextEns')}</InputSubtitle>
+              <InputSubtitle>
+                {t('modal.deposit.inputHelptextEns')}
+              </InputSubtitle>
             </EnsHeaderWrapper>
             <WalletInputLegacy
               adornmentText={t('labels.copy')}
@@ -166,13 +181,17 @@ const DepositModal: React.FC = () => {
               <InputTitle>{t('modal.deposit.inputTokenAddress')}</InputTitle>
             </InputTitleWrapper>
             <StyledSelect
-              name='tokenAddress'
+              name="tokenAddress"
               value={input.tokenAddress}
               onChange={handleSelectChange}
             >
-              <option value="" disabled selected>{t('labels.selectAnOption')}</option>
-              {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
-                <option key={token.address} value={token.address}>{token.name}</option>
+              <option value="" disabled selected>
+                {t('labels.selectAnOption')}
+              </option>
+              {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map(token => (
+                <option key={token.address} value={token.address}>
+                  {token.name}
+                </option>
               ))}
             </StyledSelect>
           </div>
@@ -181,10 +200,10 @@ const DepositModal: React.FC = () => {
               <InputTitle>{t('labels.amount')}</InputTitle>
             </InputTitleWrapper>
             <DepositInput
-              name='amount'
+              name="amount"
               value={input.amount}
               onChange={handleInputChange}
-              placeholder='100'
+              placeholder="100"
             />
           </div>
           <ActionWrapper>
@@ -195,16 +214,17 @@ const DepositModal: React.FC = () => {
                 label={label[depositProcessState]}
                 iconLeft={icons[depositProcessState]}
                 onClick={handleOnClick}
-                className='w-full'
+                className="w-full"
                 disabled={isBtnDisabled}
               />
-              {(!depositProcessState || depositProcessState === TransactionState.WAITING) && (
+              {(!depositProcessState ||
+                depositProcessState === TransactionState.WAITING) && (
                 <ButtonText
                   mode="secondary"
                   size="large"
                   label={t('modal.deposit.cancelLabel')}
                   onClick={() => close('deposit')}
-                  className='w-full'
+                  className="w-full"
                 />
               )}
             </ButtonsContainer>

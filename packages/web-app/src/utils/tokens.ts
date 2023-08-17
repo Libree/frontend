@@ -306,4 +306,3 @@ export function timeFilterToMinutes(tf: TimeFilter) {
     }
   }
 }
-

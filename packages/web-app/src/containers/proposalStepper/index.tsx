@@ -1,10 +1,10 @@
 import React from 'react';
-import { useFormContext, useFormState, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { generatePath } from 'react-router-dom';
+import {useFormContext, useFormState, useWatch} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
+import {generatePath} from 'react-router-dom';
 
-import { FullScreenStepper, Step } from 'components/fullScreenStepper';
-import { Loading } from 'components/temporary';
+import {FullScreenStepper, Step} from 'components/fullScreenStepper';
+import {Loading} from 'components/temporary';
 import ConfigureActions from 'containers/configureActions';
 import DefineProposal, {
   isValid as defineProposalIsValid,
@@ -13,22 +13,22 @@ import ReviewProposal from 'containers/reviewProposal';
 import SetupVotingForm, {
   isValid as setupVotingIsValid,
 } from 'containers/setupVotingForm';
-import { useActionsContext } from 'context/actions';
-import { useGlobalModalContext } from 'context/globalModals';
-import { useNetwork } from 'context/network';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { PluginTypes } from 'hooks/usePluginClient';
+import {useActionsContext} from 'context/actions';
+import {useGlobalModalContext} from 'context/globalModals';
+import {useNetwork} from 'context/network';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {PluginTypes} from 'hooks/usePluginClient';
 import {
   isMultisigVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
-import { useWallet } from 'hooks/useWallet';
-import { trackEvent } from 'services/analytics';
-import { getCanonicalUtcOffset } from 'utils/date';
-import { removeUnchangedMinimumApprovalAction } from 'utils/library';
-import { Governance } from 'utils/paths';
-import { Action } from 'utils/types';
-import { actionsAreValid } from 'utils/validators';
+import {useWallet} from 'hooks/useWallet';
+import {trackEvent} from 'services/analytics';
+import {getCanonicalUtcOffset} from 'utils/date';
+import {removeUnchangedMinimumApprovalAction} from 'utils/library';
+import {Governance} from 'utils/paths';
+import {Action} from 'utils/types';
+import {actionsAreValid} from 'utils/validators';
 
 type ProposalStepperType = {
   enableTxModal: () => void;
@@ -37,30 +37,34 @@ type ProposalStepperType = {
 const ProposalStepper: React.FC<ProposalStepperType> = ({
   enableTxModal,
 }: ProposalStepperType) => {
-  const { data: daoDetails, isLoading } = useDaoDetailsQuery();
-  const { data: pluginSettings, isLoading: settingsLoading } = usePluginSettings(
+  const {data: daoDetails, isLoading} = useDaoDetailsQuery();
+  const {data: pluginSettings, isLoading: settingsLoading} = usePluginSettings(
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.instanceAddress as string,
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.id as PluginTypes as PluginTypes
   );
 
-  const { actions } = useActionsContext();
-  const { open } = useGlobalModalContext();
+  const {actions} = useActionsContext();
+  const {open} = useGlobalModalContext();
 
-  const { t } = useTranslation();
-  const { network } = useNetwork();
-  const { trigger, control, getValues, setValue } = useFormContext();
-  const { address, isConnected } = useWallet();
+  const {t} = useTranslation();
+  const {network} = useNetwork();
+  const {trigger, control, getValues, setValue} = useFormContext();
+  const {address, isConnected} = useWallet();
 
   const [formActions] = useWatch({
     name: ['actions'],
     control,
   });
 
-  const { errors, dirtyFields } = useFormState({
+  const {errors, dirtyFields} = useFormState({
     control,
   });
 
@@ -78,7 +82,7 @@ const ProposalStepper: React.FC<ProposalStepperType> = ({
       wizardProcessName={t('newProposal.title')}
       processType="ProposalCreation"
       navLabel={t('newProposal.title')}
-      returnPath={generatePath(Governance, { network, dao: daoDetails.address })}
+      returnPath={generatePath(Governance, {network, dao: daoDetails.address})}
     >
       <Step
         wizardTitle={t('newWithdraw.defineProposal.heading')}

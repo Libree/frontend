@@ -1,35 +1,35 @@
-import { ButtonText, ListItemAction } from '@aragon/ui-components';
+import {ButtonText, ListItemAction} from '@aragon/ui-components';
 import Big from 'big.js';
-import { BigNumber } from 'ethers';
-import { isAddress } from 'ethers/lib/utils';
-import React, { useEffect, useState } from 'react';
+import {BigNumber} from 'ethers';
+import {isAddress} from 'ethers/lib/utils';
+import React, {useEffect, useState} from 'react';
 import {
   FieldError,
   useFieldArray,
   useFormContext,
   useWatch,
 } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import { AccordionMethod } from 'components/accordionMethod';
-import { useActionsContext } from 'context/actions';
-import { useAlertContext } from 'context/alert';
-import { useNetwork } from 'context/network';
-import { useProviders } from 'context/providers';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { useDaoMembers } from 'hooks/useDaoMembers';
-import { useDaoToken } from 'hooks/useDaoToken';
-import { PluginTypes } from 'hooks/usePluginClient';
+import {AccordionMethod} from 'components/accordionMethod';
+import {useActionsContext} from 'context/actions';
+import {useAlertContext} from 'context/alert';
+import {useNetwork} from 'context/network';
+import {useProviders} from 'context/providers';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {useDaoMembers} from 'hooks/useDaoMembers';
+import {useDaoToken} from 'hooks/useDaoToken';
+import {PluginTypes} from 'hooks/usePluginClient';
 import useScreen from 'hooks/useScreen';
-import { CHAIN_METADATA } from 'utils/constants';
-import { formatUnits, toDisplayEns } from 'utils/library';
-import { fetchBalance, getTokenInfo } from 'utils/tokens';
-import { ActionIndex } from 'utils/types';
-import { AddressAndTokenRow } from './addressTokenRow';
+import {CHAIN_METADATA} from 'utils/constants';
+import {formatUnits, toDisplayEns} from 'utils/library';
+import {fetchBalance, getTokenInfo} from 'utils/tokens';
+import {ActionIndex} from 'utils/types';
+import {AddressAndTokenRow} from './addressTokenRow';
 import MintTokensToTreasuryMenu from 'containers/mintTokensToTreasuryMenu';
 
-type MintTokensProps = ActionIndex & { allowRemove?: boolean };
+type MintTokensProps = ActionIndex & {allowRemove?: boolean};
 
 type MintInfo = {
   address: string;
@@ -45,11 +45,11 @@ const MintTokens: React.FC<MintTokensProps> = ({
   actionIndex,
   allowRemove = true,
 }) => {
-  const { t } = useTranslation();
-  const { alert } = useAlertContext();
+  const {t} = useTranslation();
+  const {alert} = useAlertContext();
 
-  const { removeAction } = useActionsContext();
-  const { setValue, clearErrors, resetField } = useFormContext();
+  const {removeAction} = useActionsContext();
+  const {setValue, clearErrors, resetField} = useFormContext();
 
   const handleReset = () => {
     clearErrors(`actions.${actionIndex}`);
@@ -110,34 +110,40 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
   actionIndex,
   standAlone = false,
 }) => {
-  const { t } = useTranslation();
-  const { isDesktop } = useScreen();
-  const { network } = useNetwork();
-  const { infura } = useProviders();
-  const { alert } = useAlertContext();
+  const {t} = useTranslation();
+  const {isDesktop} = useScreen();
+  const {network} = useNetwork();
+  const {infura} = useProviders();
+  const {alert} = useAlertContext();
   const nativeCurrency = CHAIN_METADATA[network].nativeCurrency;
 
-  const { data: daoDetails } = useDaoDetailsQuery();
-  const { data: daoToken, isLoading: daoTokenLoading } = useDaoToken(
-    daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-    )?.instanceAddress as string || ''
+  const {data: daoDetails} = useDaoDetailsQuery();
+  const {data: daoToken, isLoading: daoTokenLoading} = useDaoToken(
+    (daoDetails?.plugins.find(
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
+    )?.instanceAddress as string) || ''
   );
 
   const {
-    data: { members },
+    data: {members},
     isLoading: isMembersLoading,
   } = useDaoMembers(
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.instanceAddress as string,
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.id as PluginTypes
   );
 
-  const { setValue, trigger, formState, control } = useFormContext();
-  const { fields, append, remove, update } = useFieldArray({
+  const {setValue, trigger, formState, control} = useFormContext();
+  const {fields, append, remove, update} = useFieldArray({
     name: `actions.${actionIndex}.inputs.mintTokensToWallets`,
   });
 
@@ -177,7 +183,7 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
   useEffect(() => {
     // set-up form on first load/reset
     if (fields.length === 0) {
-      append({ address: '', amount: '0' });
+      append({address: '', amount: '0'});
     }
 
     if (!actionName) {
@@ -277,7 +283,7 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
               false
             ).then(b => {
               //add address to promise to keep track later
-              return { address: m.address, balance: b };
+              return {address: m.address, balance: b};
             })
         );
         Promise.all(promises)
@@ -353,11 +359,11 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
    *             Callbacks and Handlers            *
    *************************************************/
   const handleAddWallet = () => {
-    append({ address: '', amount: '0' });
+    append({address: '', amount: '0'});
   };
 
   const handleClearWallet = (index: number) => {
-    update(index, { address: '', amount: mints[index].amount });
+    update(index, {address: '', amount: mints[index].amount});
   };
 
   const handleDeleteWallet = (index: number) => {
@@ -411,7 +417,7 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
               {t('labels.whitelistWallets.address')}
             </p>
             <p className="flex-1 font-bold">{t('finance.tokens')}</p>
-            <p className="flex-1 font-bold" style={{ maxWidth: '11ch' }}>
+            <p className="flex-1 font-bold" style={{maxWidth: '11ch'}}>
               {t('finance.allocation')}
             </p>
             <div className="w-6" />
@@ -518,10 +524,11 @@ export const MintTokenForm: React.FC<MintTokenFormProps> = ({
   );
 };
 
-const Container = styled.div.attrs<{ standAlone: boolean }>(({ standAlone }) => ({
-  className: `bg-white border divide-y border-ui-100 divide-ui-100 ${standAlone ? 'rounded-xl' : 'rounded-b-xl border-t-0'
-    }`,
-})) <{ standAlone: boolean }>``;
+const Container = styled.div.attrs<{standAlone: boolean}>(({standAlone}) => ({
+  className: `bg-white border divide-y border-ui-100 divide-ui-100 ${
+    standAlone ? 'rounded-xl' : 'rounded-b-xl border-t-0'
+  }`,
+}))<{standAlone: boolean}>``;
 
 const ButtonContainer = styled.div.attrs({
   className:

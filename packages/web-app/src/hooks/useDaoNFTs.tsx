@@ -23,7 +23,7 @@ export const useDaoNFTs = (
   const request = useMemo(
     () => ({
       method: 'GET',
-      url: `${url}?owner=${daoAddress}`
+      url: `${url}?owner=${daoAddress}`,
     }),
     [daoAddress]
   );
@@ -37,8 +37,7 @@ export const useDaoNFTs = (
         const res = await fetch(request.url, {method: request.method});
         const tokenList = await res.json();
 
-        setData(tokenList.ownedNfts)
-
+        setData(tokenList.ownedNfts);
       } catch (error) {
         console.error(error);
         setError(error as Error);

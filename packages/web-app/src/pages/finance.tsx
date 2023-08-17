@@ -1,9 +1,4 @@
-import {
-  Breadcrumb,
-  ButtonText,
-  IconAdd,
-  Tag,
-} from '@aragon/ui-components';
+import {Breadcrumb, ButtonText, IconAdd, Tag} from '@aragon/ui-components';
 import {withTransaction} from '@elastic/apm-rum-react';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -46,7 +41,6 @@ const Finance: React.FC = () => {
 
   const {handleTransferClicked} = useTransactionDetailContext();
   const {tokens, totalAssetChange, totalAssetValue, transfers} = useDaoVault();
-
 
   sortTokens(tokens, 'treasurySharePercentage', true);
 

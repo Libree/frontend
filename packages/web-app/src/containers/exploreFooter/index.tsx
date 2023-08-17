@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import {GridLayout} from 'components/layout';
 import useScreen from 'hooks/useScreen';
 import Green from 'public/greenGradient.svg';
-import IconLogo from 'public/iconLogo.svg';
 import Purple from 'public/purpleGradient.svg';
 import {EXPLORE_NAV_LINKS, PRIVACY_NAV_LINKS} from 'utils/constants';
 
@@ -78,16 +77,8 @@ const FlexDiv = styled.div.attrs({
   className: 'flex space-x-4 items-center',
 })``;
 
-const LogoContainer = styled.img.attrs({
-  className: 'h-5',
-})``;
-
 const StyledNavList = styled.ul.attrs({
   className: 'flex space-x-4',
-})``;
-
-const Copyright = styled.span.attrs({
-  className: 'text-ui-0 font-normal',
 })``;
 
 const GradientGreen = styled.img.attrs({

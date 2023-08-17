@@ -24,10 +24,7 @@ type Props = {
   transfers: Transfer[];
 };
 
-const TreasurySnapshot: React.FC<Props> = ({
-  daoAddressOrEns,
-  transfers,
-}) => {
+const TreasurySnapshot: React.FC<Props> = ({daoAddressOrEns, transfers}) => {
   const {t} = useTranslation();
   const {open} = useGlobalModalContext();
   const navigate = useNavigate();
@@ -59,7 +56,7 @@ const TreasurySnapshot: React.FC<Props> = ({
       <ListItemHeader
         icon={<IconFinance />}
         value={t('labels.latestActivity')}
-        label={""}
+        label={''}
         orientation="horizontal"
       />
       {transfers.slice(0, 3).map(({tokenAmount, ...rest}) => (

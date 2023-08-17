@@ -41,7 +41,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
 
   const handleImageError = useCallback(
     (error: {code: string; message: string}) => {
-      const imgError: FieldError = { type: 'manual' };
+      const imgError: FieldError = {type: 'manual'};
       const {minDimension, maxDimension, maxFileSize} = DAO_LOGO;
 
       switch (error.code) {
@@ -93,7 +93,6 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
 
   return (
     <>
-
       {/* Name */}
       <FormItem>
         <Label
@@ -126,58 +125,58 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
         />
       </FormItem>
 
-      {/* ENS Ens Name */}	
-      {!isSettingPage && !isL2Network && (	
-        <FormItem>	
-          <Label	
-            label={t('labels.daoEnsName')}	
-            helpText={t('createDAO.step2.ensNameSubtitle')}	
-          />	
+      {/* ENS Ens Name */}
+      {!isSettingPage && !isL2Network && (
+        <FormItem>
+          <Label
+            label={t('labels.daoEnsName')}
+            helpText={t('createDAO.step2.ensNameSubtitle')}
+          />
 
-          <Controller	
-            name="daoEnsName"	
-            control={control}	
-            defaultValue=""	
-            rules={{	
-              required: t('errors.required.ensName'),	
-              validate: value =>	
-                isDaoEnsNameValid(	
-                  value,	
-                  provider,	
-                  setError,	
-                  clearErrors,	
-                  getValues	
-                ),	
-            }}	
-            render={({	
-              field: {onBlur, onChange, value, name},	
-              fieldState: {error},	
-            }) => (	
-              <>	
-                <TextInput	
-                  {...{	
-                    name,	
-                    value,	
-                    onBlur,	
-                    onChange: event => {	
-                      event.target.value = event.target.value.toLowerCase();	
-                      onChange(event);	
-                    },	
-                  }}	
-                  placeholder={t('placeHolders.ensName')}	
-                  rightAdornment={	
-                    <div className="flex items-center px-2 h-full bg-ui-50 rounded-r-xl">	
-                      .dao.eth	
-                    </div>	
-                  }	
-                />	
-                <InputCount>{`${value.length}/128`}</InputCount>	
-                <ErrorHandler {...{value, error}} />	
-              </>	
-            )}	
-          />	
-        </FormItem>	
-      )}	
+          <Controller
+            name="daoEnsName"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: t('errors.required.ensName'),
+              validate: value =>
+                isDaoEnsNameValid(
+                  value,
+                  provider,
+                  setError,
+                  clearErrors,
+                  getValues
+                ),
+            }}
+            render={({
+              field: {onBlur, onChange, value, name},
+              fieldState: {error},
+            }) => (
+              <>
+                <TextInput
+                  {...{
+                    name,
+                    value,
+                    onBlur,
+                    onChange: event => {
+                      event.target.value = event.target.value.toLowerCase();
+                      onChange(event);
+                    },
+                  }}
+                  placeholder={t('placeHolders.ensName')}
+                  rightAdornment={
+                    <div className="flex items-center px-2 h-full bg-ui-50 rounded-r-xl">
+                      .dao.eth
+                    </div>
+                  }
+                />
+                <InputCount>{`${value.length}/128`}</InputCount>
+                <ErrorHandler {...{value, error}} />
+              </>
+            )}
+          />
+        </FormItem>
+      )}
 
       {/* Logo */}
       <FormItem>
@@ -191,7 +190,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
         <Controller
           name="daoLogo"
           control={control}
-          render={({ field: {value, onChange}, fieldState: {error} }) => {
+          render={({field: {value, onChange}, fieldState: {error}}) => {
             let preview = '';
 
             try {
@@ -238,7 +237,7 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
               isOnlyWhitespace(value) ? t('errors.required.summary') : true,
           }}
           control={control}
-          render={({ field, fieldState: {error} }) => (
+          render={({field, fieldState: {error}}) => (
             <>
               <TextareaSimple
                 {...field}
@@ -253,13 +252,13 @@ const DefineMetadata: React.FC<DefineMetadataProps> = ({
       </FormItem>
 
       {/* Links */}
-      <FormItem>	
-        <Label	
-          label={t('labels.links')}	
-          helpText={t('createDAO.step2.linksSubtitle')}	
-          isOptional	
-        />	
-        <AddLinks arrayName={arrayName} bgWhite={bgWhite} />	
+      <FormItem>
+        <Label
+          label={t('labels.links')}
+          helpText={t('createDAO.step2.linksSubtitle')}
+          isOptional
+        />
+        <AddLinks arrayName={arrayName} bgWhite={bgWhite} />
       </FormItem>
     </>
   );

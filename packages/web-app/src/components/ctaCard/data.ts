@@ -21,7 +21,7 @@ const CTACards = [
     imgSrc: otherImg,
     subtitle: i18n.t('cta.unity.description'),
     title: i18n.t('cta.unity.title'),
-  }
+  },
 ];
 
 export {CTACards};

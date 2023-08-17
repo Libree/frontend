@@ -7,40 +7,40 @@ import {
   IlluObject,
   IllustrationHuman,
 } from '@aragon/ui-components';
-import { withTransaction } from '@elastic/apm-rum-react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import {withTransaction} from '@elastic/apm-rum-react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {generatePath, useNavigate, useParams} from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Loading } from 'components/temporary';
-import { MembershipSnapshot } from 'containers/membershipSnapshot';
+import {Loading} from 'components/temporary';
+import {MembershipSnapshot} from 'containers/membershipSnapshot';
 import TreasurySnapshot from 'containers/treasurySnapshot';
-import { ActiveContent } from 'containers/activeContent';
-import { useAlertContext } from 'context/alert';
-import { NavigationDao } from 'context/apolloClient';
-import { useNetwork } from 'context/network';
-import { useDaoQuery } from 'hooks/useDaoDetails';
-import { useDaoVault } from 'hooks/useDaoVault';
+import {ActiveContent} from 'containers/activeContent';
+import {useAlertContext} from 'context/alert';
+import {NavigationDao} from 'context/apolloClient';
+import {useNetwork} from 'context/network';
+import {useDaoQuery} from 'hooks/useDaoDetails';
+import {useDaoVault} from 'hooks/useDaoVault';
 import {
   useAddFavoriteDaoMutation,
   useFavoritedDaosQuery,
   useRemoveFavoriteDaoMutation,
 } from 'hooks/useFavoritedDaos';
-import { usePendingDao, useRemovePendingDaoMutation } from 'hooks/usePendingDao';
-import { PluginTypes } from 'hooks/usePluginClient';
-import { useProposals } from 'hooks/useProposals';
+import {usePendingDao, useRemovePendingDaoMutation} from 'hooks/usePendingDao';
+import {PluginTypes} from 'hooks/usePluginClient';
+import {useProposals} from 'hooks/useProposals';
 import useScreen from 'hooks/useScreen';
-import { CHAIN_METADATA } from 'utils/constants';
-import { formatDate } from 'utils/date';
-import { toDisplayEns } from 'utils/library';
-import { Dashboard as DashboardPath, NotFound } from 'utils/paths';
-import { Container } from './governance';
+import {CHAIN_METADATA} from 'utils/constants';
+import {formatDate} from 'utils/date';
+import {toDisplayEns} from 'utils/library';
+import {Dashboard as DashboardPath, NotFound} from 'utils/paths';
+import {Container} from './governance';
 import {
   EmptyStateContainer,
   EmptyStateHeading,
 } from 'containers/pageEmptyState';
-import { useGlobalModalContext } from 'context/globalModals';
+import {useGlobalModalContext} from 'context/globalModals';
 import NFTOverview from 'containers/nftOverview';
 
 enum DaoCreationState {
@@ -50,14 +50,14 @@ enum DaoCreationState {
 }
 
 const Dashboard: React.FC = () => {
-  const { t } = useTranslation();
-  const { alert } = useAlertContext();
-  const { isDesktop, isMobile } = useScreen();
+  const {t} = useTranslation();
+  const {alert} = useAlertContext();
+  const {isDesktop, isMobile} = useScreen();
 
   const navigate = useNavigate();
-  const { network } = useNetwork();
-  const { dao: urlAddressOrEns } = useParams();
-  const { open } = useGlobalModalContext();
+  const {network} = useNetwork();
+  const {dao: urlAddressOrEns} = useParams();
+  const {open} = useGlobalModalContext();
 
   const [pollInterval, setPollInterval] = useState(0);
   const [daoCreationState, setDaoCreationState] = useState<DaoCreationState>(
@@ -73,7 +73,7 @@ const Dashboard: React.FC = () => {
     alert(t('alert.chip.unfavorite'))
   );
 
-  const { data: favoritedDaos, isLoading: favoritedDaosLoading } =
+  const {data: favoritedDaos, isLoading: favoritedDaosLoading} =
     useFavoritedDaosQuery();
 
   // live DAO
@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
   const liveAddressOrEns = toDisplayEns(liveDao?.ensDomain) || liveDao?.address;
 
   // pending DAO
-  const { data: pendingDao, isLoading: pendingDaoLoading } =
+  const {data: pendingDao, isLoading: pendingDaoLoading} =
     usePendingDao(urlAddressOrEns);
 
   const removePendingDaoMutation = useRemovePendingDaoMutation(() => {
@@ -174,9 +174,9 @@ const Dashboard: React.FC = () => {
     async (dao: NavigationDao) => {
       try {
         if (isFavoritedDao) {
-          await removeFavoriteDaoMutation.mutateAsync({ dao });
+          await removeFavoriteDaoMutation.mutateAsync({dao});
         } else {
-          await addFavoriteDaoMutation.mutateAsync({ dao });
+          await addFavoriteDaoMutation.mutateAsync({dao});
         }
       } catch (error) {
         const action = isFavoritedDao
@@ -220,15 +220,15 @@ const Dashboard: React.FC = () => {
             sunglass="big_rounded"
             hair="short"
             {...(isMobile
-              ? { height: 165, width: 295 }
-              : { height: 225, width: 400 })}
+              ? {height: 165, width: 295}
+              : {height: 225, width: 400})}
           />
           <div className="absolute transform -translate-x-2/3">
             <IlluObject
               object="build"
               {...(isMobile
-                ? { height: 120, width: 120 }
-                : { height: 160, width: 160 })}
+                ? {height: 120, width: 120}
+                : {height: 160, width: 160})}
             />
           </div>
 
@@ -317,7 +317,7 @@ const Dashboard: React.FC = () => {
     // navigate to notFound
     navigate(NotFound, {
       replace: true,
-      state: { incorrectDao: urlAddressOrEns },
+      state: {incorrectDao: urlAddressOrEns},
     });
   }
 
@@ -342,12 +342,11 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const { transfers } = useDaoVault();
-  const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
+  const {transfers} = useDaoVault();
+  const {data: proposals} = useProposals(daoAddressOrEns, pluginType);
 
   const proposalCount = proposals.length;
   const transactionCount = transfers.length;
-
 
   if (!proposalCount) {
     return (
@@ -355,9 +354,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         <ActiveContent />
         {!transactionCount ? (
           <EqualDivide>
-            <NFTOverview
-              daoAddressOrEns={daoAddressOrEns}
-            />
+            <NFTOverview daoAddressOrEns={daoAddressOrEns} />
             <TreasurySnapshot
               daoAddressOrEns={daoAddressOrEns}
               transfers={transfers}
@@ -366,9 +363,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         ) : (
           <>
             <LeftWideContent>
-              <NFTOverview
-                daoAddressOrEns={daoAddressOrEns}
-              />
+              <NFTOverview daoAddressOrEns={daoAddressOrEns} />
             </LeftWideContent>
             <RightNarrowContent>
               <TreasurySnapshot
@@ -395,9 +390,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
       <ActiveContent />
       <React.Fragment>
         <LeftWideContent>
-          <NFTOverview
-            daoAddressOrEns={daoAddressOrEns}
-          />
+          <NFTOverview daoAddressOrEns={daoAddressOrEns} />
         </LeftWideContent>
         <RightNarrowContent>
           <TreasurySnapshot
@@ -442,15 +435,13 @@ const MobileDashboardContent: React.FC<DashboardContentProps> = ({
   pluginType,
   pluginAddress,
 }) => {
-  const { transfers, totalAssetValue } = useDaoVault();
-  const { data: proposals } = useProposals(daoAddressOrEns, pluginType);
+  const {transfers, totalAssetValue} = useDaoVault();
+  const {data: proposals} = useProposals(daoAddressOrEns, pluginType);
 
   return (
     <MobileLayout>
       <ActiveContent />
-      <NFTOverview
-        daoAddressOrEns={daoAddressOrEns}
-      />
+      <NFTOverview daoAddressOrEns={daoAddressOrEns} />
       <TreasurySnapshot
         daoAddressOrEns={daoAddressOrEns}
         transfers={transfers}

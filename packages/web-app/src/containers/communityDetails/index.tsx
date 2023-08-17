@@ -4,12 +4,12 @@ import SelectChainDetails from './selectChainDetails';
 import DefineMetadataDetails from './defineMetadataDetails';
 
 const CommunityDetailsSetup: React.FC = () => {
-    return (
-        <>
-            <SelectChainDetails />
-            <DefineMetadataDetails />
-        </>
-    );
+  return (
+    <>
+      <SelectChainDetails />
+      <DefineMetadataDetails />
+    </>
+  );
 };
 
 export default CommunityDetailsSetup;

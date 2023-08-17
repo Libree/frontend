@@ -35,11 +35,15 @@ const MintToken: React.FC = () => {
   const {data: daoDetails, isLoading} = useDaoDetailsQuery();
   const {data: pluginSettings, isLoading: settingsLoading} = usePluginSettings(
     daoDetails?.plugins.find(
-      (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-  )?.instanceAddress as string,
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
+    )?.instanceAddress as string,
     daoDetails?.plugins.find(
-      (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-  )?.id as PluginTypes
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
+    )?.id as PluginTypes
   );
 
   const {t} = useTranslation();

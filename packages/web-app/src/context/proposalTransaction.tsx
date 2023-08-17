@@ -1,4 +1,4 @@
-import { useReactiveVar } from '@apollo/client';
+import {useReactiveVar} from '@apollo/client';
 import {
   ExecuteProposalStep,
   MultisigClient,
@@ -7,7 +7,7 @@ import {
   VoteProposalStep,
   VoteValues,
 } from '@aragon/sdk-client';
-import { BigNumber } from 'ethers';
+import {BigNumber} from 'ethers';
 import React, {
   ReactNode,
   createContext,
@@ -16,14 +16,14 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import {useParams} from 'react-router-dom';
 
 import PublishModal from 'containers/transactionModals/publishModal';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { PluginTypes, usePluginClient } from 'hooks/usePluginClient';
-import { usePollGasFee } from 'hooks/usePollGasfee';
-import { useWallet } from 'hooks/useWallet';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {PluginTypes, usePluginClient} from 'hooks/usePluginClient';
+import {usePollGasFee} from 'hooks/usePollGasfee';
+import {useWallet} from 'hooks/useWallet';
 import {
   CHAIN_METADATA,
   PENDING_EXECUTION_KEY,
@@ -32,18 +32,18 @@ import {
   PENDING_VOTES_KEY,
   TransactionState,
 } from 'utils/constants';
-import { customJSONReplacer } from 'utils/library';
-import { fetchBalance } from 'utils/tokens';
-import { ProposalId } from 'utils/types';
+import {customJSONReplacer} from 'utils/library';
+import {fetchBalance} from 'utils/tokens';
+import {ProposalId} from 'utils/types';
 import {
   pendingMultisigApprovalsVar,
   pendingMultisigExecutionVar,
   pendingTokenBasedExecutionVar,
   pendingTokenBasedVotesVar,
 } from './apolloClient';
-import { useNetwork } from './network';
-import { usePrivacyContext } from './privacyContext';
-import { useProviders } from './providers';
+import {useNetwork} from './network';
+import {usePrivacyContext} from './privacyContext';
+import {useProviders} from './providers';
 
 //TODO: currently a context, but considering there might only ever be one child,
 // might need to turn it into a wrapper that passes props to proposal page
@@ -69,13 +69,13 @@ type Props = Record<'children', ReactNode>;
 const ProposalTransactionContext =
   createContext<ProposalTransactionContextType | null>(null);
 
-const ProposalTransactionProvider: React.FC<Props> = ({ children }) => {
-  const { t } = useTranslation();
-  const { id: urlId } = useParams();
+const ProposalTransactionProvider: React.FC<Props> = ({children}) => {
+  const {t} = useTranslation();
+  const {id: urlId} = useParams();
 
-  const { address, isConnected } = useWallet();
-  const { network } = useNetwork();
-  const { infura: provider } = useProviders();
+  const {address, isConnected} = useWallet();
+  const {network} = useNetwork();
+  const {infura: provider} = useProviders();
 
   const [tokenAddress, setTokenAddress] = useState<string>();
   const [showVoteModal, setShowVoteModal] = useState(false);
@@ -100,26 +100,33 @@ const ProposalTransactionProvider: React.FC<Props> = ({ children }) => {
     useState<TransactionState>();
   const [transactionHash, setTransactionHash] = useState<string>('');
 
-  const { data: daoDetails, isLoading } = useDaoDetailsQuery();
+  const {data: daoDetails, isLoading} = useDaoDetailsQuery();
 
-  const { pluginAddress, pluginType } = useMemo(() => {
+  const {pluginAddress, pluginType} = useMemo(() => {
     return {
-      pluginAddress: daoDetails?.plugins.find(
-        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-      )?.instanceAddress as string || '',
+      pluginAddress:
+        (daoDetails?.plugins.find(
+          (plugin: any) =>
+            plugin.id.includes('token-voting') ||
+            plugin.id.includes('multisig.plugin')
+        )?.instanceAddress as string) || '',
       pluginType: daoDetails?.plugins.find(
-        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+        (plugin: any) =>
+          plugin.id.includes('token-voting') ||
+          plugin.id.includes('multisig.plugin')
       )?.id as PluginTypes,
     };
   }, [daoDetails?.plugins]);
 
   const pluginClient = usePluginClient(
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.id as PluginTypes
   );
 
-  const { preferences } = usePrivacyContext();
+  const {preferences} = usePrivacyContext();
 
   const shouldPollVoteFees = useMemo(
     () =>
@@ -264,7 +271,7 @@ const ProposalTransactionProvider: React.FC<Props> = ({ children }) => {
 
         newCache = {
           ...cachedTokenBasedVotes,
-          [cachedProposalId]: { address, vote, weight: weight.toBigInt() },
+          [cachedProposalId]: {address, vote, weight: weight.toBigInt()},
         };
         cacheKey = PENDING_VOTES_KEY;
         pendingTokenBasedVotesVar(newCache);
@@ -574,4 +581,4 @@ function useProposalTransactionContext(): ProposalTransactionContextType {
   return context;
 }
 
-export { ProposalTransactionProvider, useProposalTransactionContext };
+export {ProposalTransactionProvider, useProposalTransactionContext};

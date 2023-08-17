@@ -86,9 +86,9 @@ function getInfuraProvider(network: SupportedNetworks) {
       chainId: CHAIN_METADATA[network].id,
       name: translateToNetworkishName(network),
       ensAddress:
-      LIVE_CONTRACTS[
-        translateToNetworkishName(network) as sdkSupportedNetworks
-      ].ensRegistry,
+        LIVE_CONTRACTS[
+          translateToNetworkishName(network) as sdkSupportedNetworks
+        ].ensRegistry,
     });
   } else {
     return new InfuraProvider(CHAIN_METADATA[network].id, infuraApiKey);

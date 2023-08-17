@@ -1,4 +1,4 @@
-import { ProposalStatus } from '@aragon/sdk-client-common';
+import {ProposalStatus} from '@aragon/sdk-client-common';
 import {
   ButtonGroup,
   ButtonText,
@@ -8,28 +8,28 @@ import {
   Spinner,
   IllustrationHuman,
 } from '@aragon/ui-components';
-import { withTransaction } from '@elastic/apm-rum-react';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {withTransaction} from '@elastic/apm-rum-react';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ProposalList from 'components/proposalList';
-import { Loading } from 'components/temporary';
-import { PageWrapper } from 'components/wrappers';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { PluginTypes } from 'hooks/usePluginClient';
-import { useProposals } from 'hooks/useProposals';
-import { trackEvent } from 'services/analytics';
-import { ProposalListItem } from 'utils/types';
+import {Loading} from 'components/temporary';
+import {PageWrapper} from 'components/wrappers';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {PluginTypes} from 'hooks/usePluginClient';
+import {useProposals} from 'hooks/useProposals';
+import {trackEvent} from 'services/analytics';
+import {ProposalListItem} from 'utils/types';
 import PageEmptyState from 'containers/pageEmptyState';
-import { toDisplayEns } from 'utils/library';
+import {toDisplayEns} from 'utils/library';
 import useScreen from 'hooks/useScreen';
-import { htmlIn } from 'utils/htmlIn';
+import {htmlIn} from 'utils/htmlIn';
 
 const Governance: React.FC = () => {
-  const { data: daoDetails, isLoading: isDaoLoading } = useDaoDetailsQuery();
-  const { isMobile } = useScreen();
+  const {data: daoDetails, isLoading: isDaoLoading} = useDaoDetailsQuery();
+  const {isMobile} = useScreen();
 
   // The number of proposals displayed on each page
   const PROPOSALS_PER_PAGE = 6;
@@ -45,7 +45,9 @@ const Governance: React.FC = () => {
   } = useProposals(
     daoDetails?.address as string,
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.id as PluginTypes,
     PROPOSALS_PER_PAGE,
     skip,
@@ -66,7 +68,7 @@ const Governance: React.FC = () => {
     }
   }, [isInitialLoading, proposals]);
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const navigate = useNavigate();
 
   const handleShowMoreClick = () => {
@@ -97,8 +99,8 @@ const Governance: React.FC = () => {
               sunglass: 'big_rounded',
             }}
             {...(isMobile
-              ? { height: 165, width: 295 }
-              : { height: 225, width: 400 })}
+              ? {height: 165, width: 295}
+              : {height: 225, width: 400})}
           />
         }
         buttonLabel={t('newProposal.title')}
@@ -152,12 +154,20 @@ const Governance: React.FC = () => {
               (daoDetails?.address as string)
             }
             proposals={displayedProposals}
-            pluginAddress={daoDetails?.plugins.find(
-              (plugin:any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-          )?.instanceAddress as string}
-            pluginType={daoDetails?.plugins.find(
-              (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
-            )?.id as PluginTypes}
+            pluginAddress={
+              daoDetails?.plugins.find(
+                (plugin: any) =>
+                  plugin.id.includes('token-voting') ||
+                  plugin.id.includes('multisig.plugin')
+              )?.instanceAddress as string
+            }
+            pluginType={
+              daoDetails?.plugins.find(
+                (plugin: any) =>
+                  plugin.id.includes('token-voting') ||
+                  plugin.id.includes('multisig.plugin')
+              )?.id as PluginTypes
+            }
             isLoading={isLoading}
           />
         </ListWrapper>

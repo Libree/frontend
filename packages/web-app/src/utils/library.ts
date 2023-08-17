@@ -41,13 +41,12 @@ import {
   ActionWithdraw,
   Input,
   SupportedNetwork,
-  SupportedToken,
 } from 'utils/types';
 import {i18n} from '../../i18n.config';
 import {addABI, decodeMethod} from './abiDecoder';
 import {getTokenInfo} from './tokens';
 import {isAddress} from 'ethers/lib/utils';
-import { SUPPORTED_TOKENS } from './config';
+import {SUPPORTED_TOKENS} from './config';
 
 export function formatUnits(amount: BigNumberish, decimals: number) {
   if (amount.toString().includes('.') || !decimals) {
@@ -417,7 +416,7 @@ export async function decodeSCCToAction(
           });
         }
 
-        if(actionSCC.functionName === 'approve') return
+        if (actionSCC.functionName === 'approve') return;
 
         return actionSCC;
       }
@@ -605,15 +604,15 @@ export function translateToNetworkishName(
     return 'unsupported';
   }
 
-    switch (appNetwork) {
-      case 'polygon':
-        return SdkSupportedNetworks.POLYGON;
-      case 'mumbai':
-        return SdkSupportedNetworks.MUMBAI;
-      case 'ethereum':
-        return SdkSupportedNetworks.MAINNET;
-      case 'goerli':
-        return SdkSupportedNetworks.GOERLI;
+  switch (appNetwork) {
+    case 'polygon':
+      return SdkSupportedNetworks.POLYGON;
+    case 'mumbai':
+      return SdkSupportedNetworks.MUMBAI;
+    case 'ethereum':
+      return SdkSupportedNetworks.MAINNET;
+    case 'goerli':
+      return SdkSupportedNetworks.GOERLI;
   }
 
   return 'unsupported';
@@ -780,6 +779,8 @@ export function shortenAddress(address: string | null) {
 
 export function getTokenSymbol(tokenAddress: string) {
   const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-  const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
+  const token = supportedTokens.find(
+    tokenInfo => tokenInfo.address === tokenAddress
+  );
   return token ? token.name : '';
-};
+}

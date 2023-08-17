@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ButtonText } from '@aragon/ui-components';
+import {ButtonText} from '@aragon/ui-components';
 import useScreen from 'hooks/useScreen';
 
 type Props = {
@@ -16,16 +16,15 @@ type Props = {
 };
 
 const CTACard: React.FC<Props> = props => {
-  const { isTablet, isDesktop } = useScreen();
+  const {isTablet, isDesktop} = useScreen();
 
   return (
     <CTACardWrapper className={props.className}>
       <Content>
-
         {isDesktop ? (
-          <StyledImg src={props.imgSrc}/>
+          <StyledImg src={props.imgSrc} />
         ) : (
-          <div style={{ width: isTablet ? '6rem' : '4rem' }}>
+          <div style={{width: isTablet ? '6rem' : '4rem'}}>
             <img src={props.imgSrc} />
           </div>
         )}
@@ -38,8 +37,8 @@ const CTACard: React.FC<Props> = props => {
           size="large"
           label={props.actionLabel}
           {...(props.actionAvailable
-            ? { mode: 'primary' }
-            : { mode: 'ghost', disabled: true })}
+            ? {mode: 'primary'}
+            : {mode: 'ghost', disabled: true})}
           onClick={() => props.onClick(props.path)}
           className={`${!isDesktop && 'w-full'}`}
         />
@@ -58,7 +57,8 @@ const CTACardWrapper = styled.div.attrs({
 `;
 
 const Content = styled.div.attrs({
-  className: 'flex max-h-[4rem] desktop:max-h-none desktop:items-start items-center flex-col desktop:mb-0 mb-3',
+  className:
+    'flex max-h-[4rem] desktop:max-h-none desktop:items-start items-center flex-col desktop:mb-0 mb-3',
 })``;
 
 const Title = styled.p.attrs({

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import React, { SyntheticEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {SyntheticEvent} from 'react';
+import {useNavigate} from 'react-router-dom';
 
-import FallbackImg from '../../../../ui-components/src/assets/avatar-token.svg'
+import FallbackImg from '../../../../ui-components/src/assets/avatar-token.svg';
 
 export type CardGroupProps = {
   groupId: string;
@@ -21,14 +21,18 @@ export const CardGroup: React.FC<CardGroupProps> = ({
   const navigate = useNavigate();
 
   /*************************************************
-     *                    Handlers                   *
-     *************************************************/
+   *                    Handlers                   *
+   *************************************************/
   const navigateToGroupDetails = () => {
     navigate(props.groupId);
   };
 
   return (
-    <Card data-testid="cardToken" bgWhite={bgWhite} onClick={() => navigateToGroupDetails()}>
+    <Card
+      data-testid="cardToken"
+      bgWhite={bgWhite}
+      onClick={() => navigateToGroupDetails()}
+    >
       <GroupDetailsWithImage>
         <GroupImage
           src={props.groupImageUrl}
@@ -38,7 +42,9 @@ export const CardGroup: React.FC<CardGroupProps> = ({
         />
         <GroupDetails>
           <GroupName>{props.groupName}</GroupName>
-          <SecondaryGroupDetails>{props.groupDescription}</SecondaryGroupDetails>
+          <SecondaryGroupDetails>
+            {props.groupDescription}
+          </SecondaryGroupDetails>
         </GroupDetails>
       </GroupDetailsWithImage>
       <MarketProperties>
@@ -51,16 +57,17 @@ export const CardGroup: React.FC<CardGroupProps> = ({
 
 type CardProps = Pick<CardGroupProps, 'bgWhite'>;
 
-const Card = styled.div.attrs(({ bgWhite }: CardProps) => ({
-  className: `flex flex-col tablet:flex-row justify-between space-x-4 tablet:items-center py-1.5 tablet:py-2.5 px-2.5 tablet:px-3 overflow-hidden ${bgWhite ? 'bg-ui-50' : 'bg-ui-0'
-    } rounded-xl hover:shadow-100 hover:bg-ui-100 cursor-pointer`,
-})) <CardProps>``;
+const Card = styled.div.attrs(({bgWhite}: CardProps) => ({
+  className: `flex flex-col tablet:flex-row justify-between space-x-4 tablet:items-center py-1.5 tablet:py-2.5 px-2.5 tablet:px-3 overflow-hidden ${
+    bgWhite ? 'bg-ui-50' : 'bg-ui-0'
+  } rounded-xl hover:shadow-100 hover:bg-ui-100 cursor-pointer`,
+}))<CardProps>``;
 
 const GroupDetailsWithImage = styled.div.attrs({
   className: 'flex items-center flex-auto',
 })``;
 
-const GroupImage = styled.img.attrs(({ src }) => ({
+const GroupImage = styled.img.attrs(({src}) => ({
   className: 'w-3 h-3 tablet:h-5 tablet:w-5 rounded-full',
   src,
 }))``;
@@ -78,7 +85,8 @@ const SecondaryGroupDetails = styled.div.attrs({
 })``;
 
 const MarketProperties = styled.div.attrs({
-  className: 'ft-text-sm ml-2 pl-1 tablet:pl-0 tablet:text-right tablet:space-y-1 tablet:flex-auto tablet:overflow-hidden',
+  className:
+    'ft-text-sm ml-2 pl-1 tablet:pl-0 tablet:text-right tablet:space-y-1 tablet:flex-auto tablet:overflow-hidden',
 })``;
 
 const MemberCount = styled.h1.attrs({

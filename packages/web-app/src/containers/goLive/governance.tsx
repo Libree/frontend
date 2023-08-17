@@ -5,9 +5,9 @@ import {useTranslation} from 'react-i18next';
 import {Dd, DescriptionListContainer, Dl, Dt} from 'components/descriptionList';
 import {useFormStep} from 'components/fullScreenStepper';
 
-type GovernanceProps = { editionStep: number };
+type GovernanceProps = {editionStep: number};
 
-const Governance: React.FC<GovernanceProps> = ({ editionStep }) => {
+const Governance: React.FC<GovernanceProps> = ({editionStep}) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {t} = useTranslation();

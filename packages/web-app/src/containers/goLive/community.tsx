@@ -8,9 +8,9 @@ import {useFormStep} from 'components/fullScreenStepper';
 import CommunityAddressesModal from 'containers/communityAddressesModal';
 import {useGlobalModalContext} from 'context/globalModals';
 
-type CommunityProps = { editionStep: number };
+type CommunityProps = {editionStep: number};
 
-const Community: React.FC<CommunityProps> = ({ editionStep }) => {
+const Community: React.FC<CommunityProps> = ({editionStep}) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {open} = useGlobalModalContext();

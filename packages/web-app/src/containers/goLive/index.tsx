@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { useFormContext } from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
+import {useFormContext} from 'react-hook-form';
 // import {DAOFactory} from 'typechain';
 // TODO reintroduce this by adding back the postInstall script in packages.json
 // that executes the generate-abis-and-types command.
@@ -11,21 +11,21 @@ import {
   ButtonText,
   IconChevronRight,
 } from '@aragon/ui-components';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Blockchain from './blockchain';
 import DaoMetadata from './daoMetadata';
 import Community from './community';
 import Governance from './governance';
 import goLive from 'public/goLive.svg';
-import { Landing } from 'utils/paths';
-import { useCreateDaoContext } from 'context/createDao';
-import { useWallet } from 'hooks/useWallet';
-import { useGlobalModalContext } from 'context/globalModals';
-import { trackEvent } from 'services/analytics';
+import {Landing} from 'utils/paths';
+import {useCreateDaoContext} from 'context/createDao';
+import {useWallet} from 'hooks/useWallet';
+import {useGlobalModalContext} from 'context/globalModals';
+import {trackEvent} from 'services/analytics';
 
 export const GoLiveHeader: React.FC = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const navigate = useNavigate();
 
   const clickHandler = (path: string) => {
@@ -36,7 +36,7 @@ export const GoLiveHeader: React.FC = () => {
     <div className="tablet:p-3 desktop:p-6 px-2 pt-2 desktop:pt-3 pb-3 bg-ui-0 tablet:rounded-xl">
       <div className="desktop:hidden">
         <Breadcrumb
-          crumbs={{ label: t('createDAO.title'), path: Landing }}
+          crumbs={{label: t('createDAO.title'), path: Landing}}
           onClick={clickHandler}
         />
       </div>
@@ -68,7 +68,7 @@ const GoLive: React.FC<GoLiveProps> = ({
   communityEditStep,
   governanceEditStep,
 }) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <Container>
@@ -82,11 +82,11 @@ const GoLive: React.FC<GoLiveProps> = ({
 };
 
 export const GoLiveFooter: React.FC = () => {
-  const { getValues } = useFormContext();
-  const { t } = useTranslation();
-  const { handlePublishDao } = useCreateDaoContext();
-  const { open } = useGlobalModalContext();
-  const { isConnected, provider, isOnWrongNetwork } = useWallet();
+  const {getValues} = useFormContext();
+  const {t} = useTranslation();
+  const {handlePublishDao} = useCreateDaoContext();
+  const {open} = useGlobalModalContext();
+  const {isConnected, provider, isOnWrongNetwork} = useWallet();
 
   const publishDao = (e: React.MouseEvent) => {
     e.stopPropagation();

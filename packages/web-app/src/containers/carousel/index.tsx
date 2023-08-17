@@ -1,19 +1,19 @@
-import React, { useMemo, useCallback } from 'react';
-import { Carousel as ReactResponsiveCarousel } from 'react-responsive-carousel';
+import React, {useMemo, useCallback} from 'react';
+import {Carousel as ReactResponsiveCarousel} from 'react-responsive-carousel';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import CTACard from 'components/ctaCard';
-import { CTACards } from 'components/ctaCard/data';
+import {CTACards} from 'components/ctaCard/data';
 import useScreen from 'hooks/useScreen';
-import { useWallet } from 'hooks/useWallet';
-import { trackEvent } from 'services/analytics';
+import {useWallet} from 'hooks/useWallet';
+import {trackEvent} from 'services/analytics';
 
 const Carousel: React.FC = () => {
-  const { isDesktop } = useScreen();
+  const {isDesktop} = useScreen();
   const navigate = useNavigate();
-  const { methods, isConnected } = useWallet();
+  const {methods, isConnected} = useWallet();
 
   // TODO
   // this prevents the user from entering the creation
@@ -131,8 +131,7 @@ const Subtitle = styled.h2.attrs({
 })``;
 
 const DesktopCTA = styled.div.attrs({
-  className:
-    'relative flex desktop:flex-row flex-col space-x-3 max-w-fit',
+  className: 'relative flex desktop:flex-row flex-col space-x-3 max-w-fit',
 })``;
 
 const MobileCTA = styled.div.attrs({

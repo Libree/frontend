@@ -1,23 +1,23 @@
-import {
-  CheckboxListItem,
-  Label,
-} from '@aragon/ui-components';
-import React, { useCallback } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import {CheckboxListItem, Label} from '@aragon/ui-components';
+import React, {useCallback} from 'react';
+import {Controller, useFormContext} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-
 const ConfigurePlugins: React.FC = () => {
-  const { t } = useTranslation();
-  const { control, setValue, getValues } = useFormContext();
+  const {t} = useTranslation();
+  const {control, setValue, getValues} = useFormContext();
 
   /*************************************************
    *             Callbacks and Handlers            *
    *************************************************/
 
   const handlePluginChanged = useCallback(
-    (value: boolean, pluginName: string, onChange: (value: boolean) => void) => {
+    (
+      value: boolean,
+      pluginName: string,
+      onChange: (value: boolean) => void
+    ) => {
       if (value) {
         setValue(pluginName, true);
       }
@@ -25,7 +25,6 @@ const ConfigurePlugins: React.FC = () => {
     },
     [getValues, setValue]
   );
-
 
   /*************************************************
    *                   Render                     *
@@ -43,10 +42,14 @@ const ConfigurePlugins: React.FC = () => {
             <Controller
               name="subGovernancePlugin"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <ToggleCheckList
                   onChange={changeValue =>
-                    handlePluginChanged(changeValue, "subGovernancePlugin", onChange)
+                    handlePluginChanged(
+                      changeValue,
+                      'subGovernancePlugin',
+                      onChange
+                    )
                   }
                   value={value as boolean}
                 />
@@ -62,10 +65,14 @@ const ConfigurePlugins: React.FC = () => {
             <Controller
               name="creditDelegationPlugin"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <ToggleCheckList
                   onChange={changeValue =>
-                    handlePluginChanged(changeValue, "creditDelegationPlugin", onChange)
+                    handlePluginChanged(
+                      changeValue,
+                      'creditDelegationPlugin',
+                      onChange
+                    )
                   }
                   value={value as boolean}
                 />
@@ -82,10 +89,10 @@ const ConfigurePlugins: React.FC = () => {
             <Controller
               name="vaultPlugin"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <ToggleCheckList
                   onChange={changeValue =>
-                    handlePluginChanged(changeValue, "vaultPlugin", onChange)
+                    handlePluginChanged(changeValue, 'vaultPlugin', onChange)
                   }
                   value={value as boolean}
                 />
@@ -102,10 +109,14 @@ const ConfigurePlugins: React.FC = () => {
             <Controller
               name="uniswapV3Plugin"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <ToggleCheckList
                   onChange={changeValue =>
-                    handlePluginChanged(changeValue, "uniswapV3Plugin", onChange)
+                    handlePluginChanged(
+                      changeValue,
+                      'uniswapV3Plugin',
+                      onChange
+                    )
                   }
                   value={value as boolean}
                 />
@@ -129,7 +140,7 @@ const ToggleCheckList = ({
   value: boolean;
   onChange: (value: boolean) => void;
 }) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <ToggleCheckListContainer>
@@ -160,7 +171,7 @@ const ToggleCheckListContainer = styled.div.attrs({
   className: 'flex gap-x-3',
 })``;
 
-const ToggleCheckListItemWrapper = styled.div.attrs({ className: 'flex-1' })``;
+const ToggleCheckListItemWrapper = styled.div.attrs({className: 'flex-1'})``;
 
 const FormItem = styled.div.attrs({
   className: 'space-y-1.5',

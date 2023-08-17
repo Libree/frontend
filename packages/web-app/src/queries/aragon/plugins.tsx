@@ -1,20 +1,20 @@
 import {gql} from '@apollo/client';
 
 export const PLUGIN_DATA_QUERY = gql`
-query Dao($address: ID!) {
-    dao(id: $address){
+  query Dao($address: ID!) {
+    dao(id: $address) {
       id
       subdomain
       metadata
       createdAt
-      plugins{
+      plugins {
         appliedPreparation {
           pluginAddress
         }
         appliedPluginRepo {
           subdomain
         }
-        appliedVersion{
+        appliedVersion {
           build
           release {
             release

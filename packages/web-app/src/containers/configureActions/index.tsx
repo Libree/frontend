@@ -1,18 +1,18 @@
-import { AlertInline, ButtonText, IconAdd, Label } from '@aragon/ui-components';
-import React, { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import {AlertInline, ButtonText, IconAdd, Label} from '@aragon/ui-components';
+import React, {useEffect, useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useParams} from 'react-router-dom';
 import styled from 'styled-components';
 
-import { StateEmpty } from 'components/stateEmpty';
+import {StateEmpty} from 'components/stateEmpty';
 import ActionBuilder from 'containers/actionBuilder';
 import AddActionMenu from 'containers/addActionMenu';
-import { useActionsContext } from 'context/actions';
-import { useGlobalModalContext } from 'context/globalModals';
-import { useDaoActions } from 'hooks/useDaoActions';
-import { i18n } from '../../../i18n.config';
-import { ActionsTypes } from 'utils/types';
-import { trackEvent } from 'services/analytics';
+import {useActionsContext} from 'context/actions';
+import {useGlobalModalContext} from 'context/globalModals';
+import {useDaoActions} from 'hooks/useDaoActions';
+import {i18n} from '../../../i18n.config';
+import {ActionsTypes} from 'utils/types';
+import {trackEvent} from 'services/analytics';
 
 interface ConfigureActionsProps {
   label?: string;
@@ -39,11 +39,11 @@ const ConfigureActions: React.FC<ConfigureActionsProps> = ({
   allowEmpty = true,
   disableAddAction = false,
 }) => {
-  const { dao: daoAddressOrEns } = useParams();
-  const { t } = useTranslation();
-  const { open } = useGlobalModalContext();
-  const { actions, addAction } = useActionsContext();
-  const { data: possibleActions } = useDaoActions(daoAddressOrEns ?? '');
+  const {dao: daoAddressOrEns} = useParams();
+  const {t} = useTranslation();
+  const {open} = useGlobalModalContext();
+  const {actions, addAction} = useActionsContext();
+  const {data: possibleActions} = useDaoActions(daoAddressOrEns ?? '');
 
   const allowedActions = useMemo(() => {
     if (!whitelistedActions) return possibleActions;
@@ -62,7 +62,7 @@ const ConfigureActions: React.FC<ConfigureActionsProps> = ({
       const alreadyAddedActionIndex = existentActions.indexOf(actionType);
 
       if (alreadyAddedActionIndex === -1) {
-        addAction({ name: actionType });
+        addAction({name: actionType});
       } else {
         existentActions.splice(alreadyAddedActionIndex, 1);
       }

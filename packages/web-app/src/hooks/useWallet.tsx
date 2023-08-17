@@ -43,9 +43,8 @@ export const useWallet = (): IUseWallet => {
         chainId: CHAIN_METADATA[network].id,
         name: translateToNetworkishName(network),
         ensAddress:
-          LIVE_CONTRACTS[
-            translateToNetworkishName(network) as SupportedNetwork
-          ].ensRegistry,
+          LIVE_CONTRACTS[translateToNetworkishName(network) as SupportedNetwork]
+            .ensRegistry,
       });
     } else return signerProvider;
   }, [signerProvider, network]);

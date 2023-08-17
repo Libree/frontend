@@ -1,7 +1,4 @@
-import {
-  MultisigClient,
-  TokenVotingClient,
-} from '@aragon/sdk-client';
+import {MultisigClient, TokenVotingClient} from '@aragon/sdk-client';
 
 import {useEffect, useState} from 'react';
 

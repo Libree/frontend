@@ -9,10 +9,10 @@ import {
   VoteValues,
   VotingSettings,
 } from '@aragon/sdk-client';
-import { BigNumber } from 'ethers/lib/ethers';
+import {BigNumber} from 'ethers/lib/ethers';
 
-import { TimeFilter, TransferTypes } from './constants';
-import { Web3Address } from './library';
+import {TimeFilter, TransferTypes} from './constants';
+import {Web3Address} from './library';
 
 /*************************************************
  *                   Finance types               *
@@ -80,7 +80,7 @@ export type VaultToken = TokenWithMarketData & {
   treasurySharePercentage?: number;
 };
 
-export type PollTokenOptions = { interval?: number; filter: TimeFilter };
+export type PollTokenOptions = {interval?: number; filter: TimeFilter};
 
 // Transfers
 /** A transfer transaction */
@@ -246,7 +246,7 @@ export type ActionAddMember = {
   name: 'add_member';
   inputs: {
     address: string;
-  }
+  };
 };
 
 export type ActionCreateGroup = {
@@ -254,7 +254,7 @@ export type ActionCreateGroup = {
   inputs: {
     groupName: string;
   };
-}
+};
 
 // TODO: merge these types
 export type ActionAddAddress = {
@@ -327,7 +327,7 @@ export type ActionFundOpportunity = {
     isPersistent: IsPersistent;
     interestRateType?: InterestRateType;
   };
-}
+};
 
 export type ActionCreditDelegation = {
   name: 'credit_delegation';
@@ -336,7 +336,7 @@ export type ActionCreditDelegation = {
     token: string; // token address type
     amount: number;
     interestRateType: string;
-  }
+  };
 };
 
 export type ActionSwapTokens = {
@@ -358,8 +358,8 @@ export type ActionProvideLiquidity = {
     feeTier: string;
     maxPrice: string;
     minPrice: string;
-  }
-}
+  };
+};
 
 export type ActionBudgetAllocation = {
   name: 'budget_allocation';
@@ -368,7 +368,7 @@ export type ActionBudgetAllocation = {
     token: string;
     amount: number;
     group: string;
-  }
+  };
 };
 
 export type ActionUpdateMultisigPluginSettings = {
@@ -594,10 +594,10 @@ export type SupportedToken = {
 };
 
 export enum SupportedNetwork {
-  MUMBAI = "maticmum",
-  HOMESTEAD = "homestead",
-  GOERLI = "goerli",
-  MATIC = "matic",
+  MUMBAI = 'maticmum',
+  HOMESTEAD = 'homestead',
+  GOERLI = 'goerli',
+  MATIC = 'matic',
 }
 
 export interface PluginInstallItem {
@@ -614,6 +614,6 @@ export type MetadataAbiInput = {
 };
 
 export enum InterestRateType {
-  STABLE = "Stable",
-  VARIABLE = "Variable"
+  STABLE = 'Stable',
+  VARIABLE = 'Variable',
 }

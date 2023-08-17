@@ -1,18 +1,18 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import {useFormContext} from 'react-hook-form';
 
-import { MultisigVotingSettings } from '@aragon/sdk-client';
-import { TemporarySection } from 'components/temporary';
+import {MultisigVotingSettings} from '@aragon/sdk-client';
+import {TemporarySection} from 'components/temporary';
 import TokenMenu from 'containers/tokenMenu';
-import { useActionsContext } from 'context/actions';
-import { useNetwork } from 'context/network';
-import { useDaoBalances } from 'hooks/useDaoBalances';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
-import { useDaoMembers } from 'hooks/useDaoMembers';
-import { PluginTypes } from 'hooks/usePluginClient';
-import { usePluginSettings } from 'hooks/usePluginSettings';
-import { fetchTokenPrice } from 'services/prices';
-import { formatUnits } from 'utils/library';
+import {useActionsContext} from 'context/actions';
+import {useNetwork} from 'context/network';
+import {useDaoBalances} from 'hooks/useDaoBalances';
+import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
+import {useDaoMembers} from 'hooks/useDaoMembers';
+import {PluginTypes} from 'hooks/usePluginClient';
+import {usePluginSettings} from 'hooks/usePluginSettings';
+import {fetchTokenPrice} from 'services/prices';
+import {formatUnits} from 'utils/library';
 import {
   ActionIndex,
   ActionItem,
@@ -52,18 +52,22 @@ const Action: React.FC<ActionsComponentProps> = ({
   allowRemove = true,
 }) => {
   // dao data
-  const { data: daoDetails } = useDaoDetailsQuery();
+  const {data: daoDetails} = useDaoDetailsQuery();
 
   // plugin data
-  const { data: votingSettings } = usePluginSettings(
+  const {data: votingSettings} = usePluginSettings(
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.instanceAddress as string,
     daoDetails?.plugins.find(
-      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
     )?.id as PluginTypes
   );
-  const { data: daoMembers } = useDaoMembers(
+  const {data: daoMembers} = useDaoMembers(
     daoDetails?.plugins?.[0]?.instanceAddress || '',
     (daoDetails?.plugins?.[0]?.id as PluginTypes) || undefined
   );
@@ -71,23 +75,23 @@ const Action: React.FC<ActionsComponentProps> = ({
 
   switch (name) {
     case 'withdraw_assets':
-      return <WithdrawAction {...{ actionIndex, allowRemove }} />;
+      return <WithdrawAction {...{actionIndex, allowRemove}} />;
     case 'credit_delegation':
-      return <CreditDelegationAction {...{ actionIndex, allowRemove }} />;
+      return <CreditDelegationAction {...{actionIndex, allowRemove}} />;
     case 'swap_tokens':
-      return <SwapTokensAction {...{ actionIndex, allowRemove }} />;
+      return <SwapTokensAction {...{actionIndex, allowRemove}} />;
     case 'provide_liquidity':
-      return <ProvideLiquidityAction {...{ actionIndex, allowRemove }} />;
+      return <ProvideLiquidityAction {...{actionIndex, allowRemove}} />;
     case 'budget_allocation':
-      return <BudgetAllocationAction {...{ actionIndex, allowRemove }} />;
+      return <BudgetAllocationAction {...{actionIndex, allowRemove}} />;
     case 'create_group':
-      return <CreateGroupAction {...{ actionIndex }} />;
+      return <CreateGroupAction {...{actionIndex}} />;
     case 'add_member':
-      return <AddMemberAction {...{ actionIndex, allowRemove }} />;
+      return <AddMemberAction {...{actionIndex, allowRemove}} />;
     case 'mint_tokens':
-      return <MintTokens {...{ actionIndex, allowRemove }} />;
+      return <MintTokens {...{actionIndex, allowRemove}} />;
     case 'fund_opportunity':
-      return <FundOpportunityAction {...{ actionIndex }} />;
+      return <FundOpportunityAction {...{actionIndex}} />;
     case 'external_contract_modal':
       return <SCC actionIndex={actionIndex} />;
     case 'external_contract_action':
@@ -129,12 +133,12 @@ interface ActionBuilderProps {
   allowEmpty?: boolean;
 }
 
-const ActionBuilder: React.FC<ActionBuilderProps> = ({ allowEmpty = true }) => {
-  const { data: daoDetails } = useDaoDetailsQuery();
-  const { network } = useNetwork();
-  const { selectedActionIndex: index, actions } = useActionsContext();
-  const { data: tokens } = useDaoBalances(daoDetails?.address || '');
-  const { setValue, resetField, clearErrors } = useFormContext();
+const ActionBuilder: React.FC<ActionBuilderProps> = ({allowEmpty = true}) => {
+  const {data: daoDetails} = useDaoDetailsQuery();
+  const {network} = useNetwork();
+  const {selectedActionIndex: index, actions} = useActionsContext();
+  const {data: tokens} = useDaoBalances(daoDetails?.address || '');
+  const {setValue, resetField, clearErrors} = useFormContext();
 
   /*************************************************
    *             Callbacks and Handlers            *

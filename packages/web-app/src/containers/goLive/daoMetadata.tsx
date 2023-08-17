@@ -7,15 +7,14 @@ import {useFormStep} from 'components/fullScreenStepper';
 import {DescriptionListContainer, Dl, Dt, Dd} from 'components/descriptionList';
 import {useNetwork} from 'context/network';
 
-type DaoMetadataProps = { editionStep: number };
+type DaoMetadataProps = {editionStep: number};
 
-const DaoMetadata: React.FC<DaoMetadataProps> = ({ editionStep }) => {
+const DaoMetadata: React.FC<DaoMetadataProps> = ({editionStep}) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {isL2Network} = useNetwork();
   const {t} = useTranslation();
-  const {daoLogo, daoName, daoEnsName, daoSummary, links} =
-    getValues();
+  const {daoLogo, daoName, daoEnsName, daoSummary, links} = getValues();
 
   return (
     <Controller

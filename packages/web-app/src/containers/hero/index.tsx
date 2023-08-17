@@ -4,14 +4,13 @@ import Logo from 'public/coloredLogo.svg';
 import Green from 'public/circleGreenGradient.svg';
 import Purple from 'public/purpleGradient.svg';
 import LogoBg from 'public/libree-bg-logo.png';
-import { useTranslation } from 'react-i18next';
-import { GridLayout } from 'components/layout';
+import {useTranslation} from 'react-i18next';
+import {GridLayout} from 'components/layout';
 
 function Hero() {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Container>
-
       <MobileLogoWrapper>
         <MobileLogo src={LogoBg} />
       </MobileLogoWrapper>
@@ -26,9 +25,7 @@ function Hero() {
             <Title>{t('explore.hero.title')}</Title>
             <Subtitle>{t('explore.hero.subtitle1')}</Subtitle>
           </ContentWrapper>
-          <ImageWrapper>
-            {/* <StyledImage src={Logo} /> */}
-          </ImageWrapper>
+          <ImageWrapper>{/* <StyledImage src={Logo} /> */}</ImageWrapper>
           <GradientContainer>
             <GradientWrapper>
               {/* <GradientGreen src={Green} /> */}
@@ -78,7 +75,8 @@ const ImageWrapper = styled.div.attrs({
 })``;
 
 const MobileLogoWrapper = styled.div.attrs({
-  className: 'absolute mt-10 top-0 left-0 w-full h-full flex justify-center items-center object-cover desktop:hidden',
+  className:
+    'absolute mt-10 top-0 left-0 w-full h-full flex justify-center items-center object-cover desktop:hidden',
 })``;
 
 const MobileLogo = styled.img.attrs({

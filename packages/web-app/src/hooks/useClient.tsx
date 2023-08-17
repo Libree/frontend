@@ -1,8 +1,4 @@
-import {
-  Client,
-  Context as SdkContext,
-  ContextParams,
-} from '@aragon/sdk-client';
+import {Client, Context as SdkContext, ContextParams} from '@aragon/sdk-client';
 
 import {
   LIVE_CONTRACTS,
