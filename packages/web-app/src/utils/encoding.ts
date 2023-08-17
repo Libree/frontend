@@ -22,6 +22,7 @@ import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 import { VotingMode, VotingSettings } from "@aragon/sdk-client";
 import { getTokenInfo } from "./tokens";
 import { CHAIN_METADATA, SupportedNetworks } from "./constants";
+import { Pwn__factory } from "typechain-types/Pwn__factory";
 
 export const getPluginInstallCreditDelegation = (
     network: Networkish
@@ -105,6 +106,28 @@ export const getPluginInstallUniswapV3 = (
     };
 }
 
+export const getPluginInstallPwn = (
+    network: Networkish
+): PluginInstallItem => {
+    const networkName = getNetwork(network).name as SupportedNetwork;
+
+    if (!SupportedNetworksArray.includes(networkName)) {
+        throw new UnsupportedNetworkError(networkName);
+    }
+    const hexBytes = ethers.utils.defaultAbiCoder.encode(
+        ["address pwnSimpleLoanOfferAddress", "address pwnSimpleLoanAddress"],
+        [
+            CONTRACT_ADDRESSES[networkName].pwnSimpleLoanOfferAddress,
+            CONTRACT_ADDRESSES[networkName].pwnSimpleLoanAddress,
+        ],
+    );
+
+    return {
+        id: PLUGIN_ADDRESSES[networkName].pwn,
+        data: hexToBytes(hexBytes),
+    }
+};
+
 export const encodeCreditDelegationAction = async (
     token: string,
     amount: number,
@@ -146,6 +169,49 @@ export const encodeCreditDelegationAction = async (
     }
 }
 
+export const encodeMakeOfferAction = (
+    collateralCategory: string,
+    collateralAddress: string,
+    collateralId: number,
+    collateralAmount: number,
+    loanAssetAddress: string,
+    loanAmount: number,
+    loanYield: number,
+    duration: number,
+    expiration: number,
+    borrower: string,
+    lender: string,
+    isPersistent: boolean,
+    nonce: number,
+    pluginAddress: string,
+): DaoAction => {
+    const iface = Pwn__factory.createInterface();
+
+    const hexData = iface.encodeFunctionData(
+        'makeOffer',
+        [
+            collateralCategory,
+            collateralAddress,
+            collateralId,
+            collateralAmount,
+            loanAssetAddress,
+            loanAmount,
+            loanYield,
+            duration,
+            expiration,
+            borrower,
+            lender,
+            isPersistent,
+            nonce
+        ],
+    );
+
+    return {
+        to: pluginAddress,
+        value: ethers.utils.parseEther('0').toBigInt(),
+        data: hexToBytes(hexData),
+    };
+};
 
 export const encodeCreateGroupAction = (
     groupName: string,

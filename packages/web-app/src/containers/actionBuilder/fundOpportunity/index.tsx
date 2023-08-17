@@ -43,7 +43,7 @@ const FundOpportunityAction: React.FC<FundOpportunityActionProps> = ({
         if (!name) {
             setValue(`actions.${actionIndex}.name`, 'fund_opportunity');
         }
-    }, [name]);
+    }, [actionIndex, name, setValue]);
 
     /*************************************************
      *                    Render                     *

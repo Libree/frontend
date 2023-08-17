@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 import { FullScreenStepper, Step } from "components/fullScreenStepper";
 import { Marketplace } from "utils/paths";
 import FundOpportunityStepTwo from "containers/marketplace/fundOpportunityStepTwo";
+import SetupVotingForm, {
+    isValid as setupVotingIsValid,
+} from 'containers/setupVotingForm';
 import DefineProposal, {
     isValid as defineProposalIsValid,
 } from 'containers/defineProposal';
@@ -20,6 +23,7 @@ type FundOpportunityStepperProps = {
 
 const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
     enableTxModal,
+    pluginSettings,
 }) => {
     const { t } = useTranslation();
     const { control } = useFormContext();
@@ -68,6 +72,13 @@ const FundOpportunityStepper: React.FC<FundOpportunityStepperProps> = ({
                 </Step>
                 <Step isNextButtonDisabled={!stepTwoIsValid}>
                     <FundOpportunityStepTwo />
+                </Step>
+                <Step
+                    wizardTitle={t('marketplace.setupVoting.title')}
+                    wizardDescription={t('marketplace.setupVoting.description')}
+                    isNextButtonDisabled={!setupVotingIsValid(errors)}
+                >
+                    <SetupVotingForm pluginSettings={pluginSettings} />
                 </Step>
                 <Step
                     wizardTitle={t('marketplace.defineProposal.heading')}

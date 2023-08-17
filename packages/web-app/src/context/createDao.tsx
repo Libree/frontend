@@ -38,7 +38,13 @@ import { readFile, translateToNetworkishName } from 'utils/library';
 import { Dashboard } from 'utils/paths';
 import { useGlobalModalContext } from './globalModals';
 import { useNetwork } from './network';
-import { getPluginInstallCreditDelegation, getPluginInstallSubgovernance, getPluginInstallUniswapV3, getPluginInstallVault } from 'utils/encoding';
+import {
+  getPluginInstallCreditDelegation,
+  getPluginInstallSubgovernance,
+  getPluginInstallUniswapV3,
+  getPluginInstallVault,
+  getPluginInstallPwn,
+} from 'utils/encoding';
 
 type CreateDaoContextType = {
   /** Prepares the creation data and awaits user confirmation to start process */
@@ -241,7 +247,8 @@ const CreateDaoProvider: React.FC = ({ children }) => {
       subGovernancePlugin,
       creditDelegationPlugin,
       vaultPlugin,
-      uniswapV3Plugin
+      uniswapV3Plugin,
+      pwnPlugin,
     } =
       getValues();
 
@@ -300,6 +307,11 @@ const CreateDaoProvider: React.FC = ({ children }) => {
     if (uniswapV3Plugin) {
       const uniswapV3PluginPluginData = getPluginInstallUniswapV3(networkSelected)
       plugins.push(uniswapV3PluginPluginData);
+    }
+
+    if (pwnPlugin) {
+      const pwnPluginData = getPluginInstallPwn(networkSelected);
+      plugins.push(pwnPluginData);
     }
 
     const metadata: DaoMetadata = {

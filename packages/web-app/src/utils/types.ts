@@ -575,6 +575,8 @@ export type ContractsDeployment = {
   aavePool: string;
   uniswapRouterAddress: string;
   nonfungiblePositionManagerAddress: string;
+  pwnSimpleLoanOfferAddress: string;
+  pwnSimpleLoanAddress: string;
 };
 
 export type PluginsDeployment = {
@@ -582,6 +584,7 @@ export type PluginsDeployment = {
   subgovernance: string;
   uniswapV3: string;
   vault: string;
+  pwn: string;
 };
 
 export type SupportedToken = {
