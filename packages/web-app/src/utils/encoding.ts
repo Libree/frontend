@@ -189,7 +189,7 @@ export const encodeMakeOfferAction = (
 
     const hexData = iface.encodeFunctionData(
         'makeOffer',
-        [
+        [{
             collateralCategory,
             collateralAddress,
             collateralId,
@@ -203,7 +203,7 @@ export const encodeMakeOfferAction = (
             lender,
             isPersistent,
             nonce
-        ],
+        }],
     );
 
     return {
