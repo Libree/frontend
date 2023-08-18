@@ -78,7 +78,8 @@ import {
   encodeCreateGroupAction,
   encodeCreditDelegationAction,
   encodeSwapAction,
-  encodeProvideLiquidityAction
+  encodeProvideLiquidityAction,
+  encodeMakeOfferAction
 } from 'utils/encoding';
 import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
@@ -138,7 +139,8 @@ const CreateProposalProvider: React.FC<Props> = ({
   const {
     creditDelegation: creditDelegationAddress,
     subgovernance: subgovernancePlugin,
-    uniswapV3: uniswapV3Plugin
+    uniswapV3: uniswapV3Plugin,
+    pwn: pwnPlugin
   } = useInstalledPlugins(daoDetails?.address)
 
   const shouldPoll = useMemo(
@@ -354,6 +356,24 @@ const CreateProposalProvider: React.FC<Props> = ({
                 uniswapV3Plugin?.instanceAddress || '',
                 provider,
                 network
+              )))
+          break;
+        }
+        case 'fund_opportunity': {
+          actions.push(
+            Promise.resolve(
+              encodeMakeOfferAction(
+                action.inputs.fundingSource,
+                action.inputs.collateralType,
+                action.inputs.collateralAddress,
+                action.inputs.collateralId,
+                action.inputs.collateralAmount,
+                action.inputs.principalAsset,
+                action.inputs.loanAmount,
+                action.inputs.loanYield,
+                action.inputs.durationTime,
+                action.inputs.expirationTime,
+                pwnPlugin?.instanceAddress || ""
               )))
           break;
         }
