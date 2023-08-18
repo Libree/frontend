@@ -119,7 +119,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                         >
                             <option value="" disabled>{t('labels.selectAnOption')}</option>
                             {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token, index) => (
-                                <option key={token.name} value={index}>{token.name}</option>
+                                <option key={index} value={token.address}>{token.name}</option>
                             ))}
                         </StyledSelect>
                     )}
@@ -202,47 +202,6 @@ const FundOpportunityStepTwo: React.FC = () => {
                     />
                 </FormItem>
             </DoubleItem>
-
-            {/* Borrower */}
-            <FormItem>
-                <Label
-                    label={t('marketplace.fundOpportunity.borrower')}
-                />
-
-                <Controller
-                    name={`actions.${actionIndex}.inputs.borrower`}
-                    control={control}
-                    render={({ field: { onChange, value, name } }) => (
-                        <NumberInput
-                            {...{ onChange, value, name }}
-                            placeholder="0x..."
-                        />
-                    )}
-                />
-            </FormItem>
-
-            {/* Is persistent */}
-            <FormItem>
-                <Label
-                    label={t('marketplace.fundOpportunity.isPersistent')}
-                />
-
-                <Controller
-                    name={`actions.${actionIndex}.inputs.isPersistent`}
-                    control={control}
-                    render={({ field: { onChange, value, name } }) => (
-                        <StyledSelect
-                            {...{ name, value, onChange }}
-                            defaultValue={""}
-                        >
-                            <option value="" disabled>{t('labels.selectAnOption')}</option>
-                            {isPersistentOptions.map((item, index) => (
-                                <option key={`${item.value}-${index}`} value={item.value}>{item.label}</option>
-                            ))}
-                        </StyledSelect>
-                    )}
-                />
-            </FormItem>
 
             {fundingSource as FundingSource === 'AAVE' && (
                 <>

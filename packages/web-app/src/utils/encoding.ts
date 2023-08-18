@@ -14,7 +14,7 @@ import {
     encodeRatio
 } from "@aragon/sdk-common";
 import { CONTRACT_ADDRESSES, PLUGIN_ADDRESSES } from "./config";
-import { InterestRateType, PluginInstallItem } from "./types";
+import { CollateralType, InterestRateType, PluginInstallItem } from "./types";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 import { ERC20__factory } from "typechain-types/ERC20__factory";
 import { Uniswapv3__factory } from "typechain-types/Uniswapv3__factory";
@@ -170,7 +170,8 @@ export const encodeCreditDelegationAction = async (
 }
 
 export const encodeMakeOfferAction = (
-    collateralCategory: string,
+    fundingSource: string,
+    collateralCategory: CollateralType,
     collateralAddress: string,
     collateralId: number,
     collateralAmount: number,
@@ -179,30 +180,30 @@ export const encodeMakeOfferAction = (
     loanYield: number,
     duration: number,
     expiration: number,
-    borrower: string,
-    lender: string,
-    isPersistent: boolean,
-    nonce: number,
     pluginAddress: string,
 ): DaoAction => {
     const iface = Pwn__factory.createInterface();
 
+    const orderParams = {
+        collateralCategory: collateralCategory === 'ERC20' ? 0 : 1 ,
+        collateralAddress,
+        collateralId: collateralId ? collateralId : 0,
+        collateralAmount,
+        loanAssetAddress,
+        loanAmount,
+        loanYield,
+        duration,
+        expiration,
+        borrower: ethers.constants.AddressZero,
+        lender: pluginAddress,
+        isPersistent: true,
+    }
+
     const hexData = iface.encodeFunctionData(
         'makeOffer',
         [{
-            collateralCategory,
-            collateralAddress,
-            collateralId,
-            collateralAmount,
-            loanAssetAddress,
-            loanAmount,
-            loanYield,
-            duration,
-            expiration,
-            borrower,
-            lender,
-            isPersistent,
-            nonce
+            ...orderParams,
+            nonce: ethers.utils.id(JSON.stringify(orderParams))
         }],
     );
 

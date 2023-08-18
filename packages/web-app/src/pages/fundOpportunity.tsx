@@ -16,7 +16,6 @@ export type FundOpportunityAction = {
     inputs: {
         fundingSource: FundingSource;
         collateralType: CollateralType;
-
         collateralAddress: string;
         collateralAmount: number;
         collateralId: number;
