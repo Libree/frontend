@@ -20,7 +20,6 @@ const LoanOfferAction: React.FC<AddMemberActionProps> = ({
     const { t } = useTranslation();
     const { removeAction, duplicateAction } = useActionsContext();
     const { setValue, clearErrors, resetField, getValues } = useFormContext();
-    const { actions } = getValues();
     const { alert } = useAlertContext();
 
     const resetAddMemberFields = () => {
@@ -29,12 +28,11 @@ const LoanOfferAction: React.FC<AddMemberActionProps> = ({
         setValue(`actions.${actionIndex}.inputs`, {
             address: '',
         });
-        const actionIndexOffset = actions[0].name === 'create_group' ? -1 : 0;
-        setValue(`addresses.${actionIndex + actionIndexOffset}`, '');
+        setValue(`addresses.${actionIndex}`, '');
         alert(t('alert.chip.resetAction'));
     };
 
-    const removeAddMemberFields = (actionIndex: number) => {
+    const removeLoanOfferFields = (actionIndex: number) => {
         removeAction(actionIndex);
     };
 
@@ -61,7 +59,7 @@ const LoanOfferAction: React.FC<AddMemberActionProps> = ({
                     <ListItemAction title={t('labels.removeEntireAction')} bgWhite />
                 ),
                 callback: () => {
-                    removeAddMemberFields(actionIndex);
+                    removeLoanOfferFields(actionIndex);
                     alert(t('alert.chip.removedAction'));
                 },
             });
