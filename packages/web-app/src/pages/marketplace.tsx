@@ -16,6 +16,7 @@ import { ButtonGroup, IconAdd, OpportunityListItem, Option } from '@aragon/ui-co
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useNetwork } from 'context/network';
 import { FundOpportunity } from 'utils/paths';
+import { LoanOfferTable } from 'components/loanOfferTable';
 
 // TODO: move this to the corresponding type file
 type MarketplaceFilter = 'lending' | 'borrowing';
@@ -50,6 +51,24 @@ const Marketplace: React.FC = () => {
             usdValue: '5000 $STARTUP',
         },
     ];
+
+    const loanOffers = [
+        {
+            id: 2,
+            collateralCategory: 0,
+            collateralAddress: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
+            collateralAmount: 1000,
+            loanAssetAddress: "0xe9DcE89B076BA6107Bb64EF30678efec11939234",
+            loanAmount: 1000,
+            loanYield: 5,
+            duration: 1000,
+            expiration: 0,
+            borrower: "0x0000000000000000000000000000000000000000",
+            lender: "0x75f25C7f75992b17EEC14B7e702BD4b55C763f49",
+            isPersistent: false,
+            nonce: "0xb81415eeea3b749577614cd7eee7670471ea30e96b9c7aba53f4dcb8576be57f",
+        }
+    ]
 
     sortTokens(tokens, 'treasurySharePercentage', true);
 
@@ -100,6 +119,17 @@ const Marketplace: React.FC = () => {
                         <option value="" disabled hidden>Collateralized lending</option>
                     </StyledSelect>
                 </SelectWrapper>
+                {loanOffers.length ? (
+                    <>
+                        <LoanOfferTable />
+                    </>
+                ) : (
+                    <>
+                        <p>
+                            {t('marketplace.noOpportunities')}
+                        </p>
+                    </>
+                )}
                 {opportunities.length !== 0 && (
                     <>
                         <div className={'h-4'} />
