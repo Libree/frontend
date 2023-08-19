@@ -8,6 +8,7 @@ export interface IUseInstalledPlugins {
   subgovernance: InstalledPluginListItem | null
   uniswapV3: InstalledPluginListItem | null
   vault: InstalledPluginListItem | null
+  pwn: InstalledPluginListItem | null
 }
 
 export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstalledPlugins => {
@@ -17,6 +18,7 @@ export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstall
   const [subgovernance, setSubgovernace] = useState<InstalledPluginListItem | null>(null);
   const [uniswapV3, setUniswapV3] = useState<InstalledPluginListItem | null>(null);
   const [vault, setVault] = useState<InstalledPluginListItem | null>(null);
+  const [pwn, setPwn] = useState<InstalledPluginListItem | null>(null);
 
   const getPlugin = (plugins: InstalledPluginListItem[] | undefined, id: string) => {
     return plugins?.find(plugin => plugin.id === id) 
@@ -30,6 +32,7 @@ export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstall
     setSubgovernace(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].subgovernance) || null)
     setUniswapV3(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].uniswapV3) || null)
     setVault(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].vault) || null)
+    setPwn(getPlugin(installedPlugins, PLUGIN_IDS['maticmum'].pwn) || null)
   }
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export const useInstalledPlugins = (daoAddress: string | undefined): IUseInstall
     creditDelegation,
     subgovernance,
     uniswapV3,
-    vault
+    vault,
+    pwn
   };
 };

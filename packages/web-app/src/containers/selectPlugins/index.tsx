@@ -80,13 +80,13 @@ const SelectPlugins: React.FC = () => {
                 <Controller
                     name="pwnPlugin"
                     control={control}
-                    render={({ field: { value } }) => (
+                    render={({ field: { onChange, value } }) => (
                         <ListItemAction
                             bgWhite
                             mode={value ? 'selected' : 'default'}
                             title={t('createUnityDAO.step2.pwn.title')}
                             subtitle={t('createUnityDAO.step2.pwn.description')}
-                            onClick={() => { }}
+                            onClick={() => handlePluginChanged(!value, 'pwnPlugin', onChange)}
                         />
                     )}
                 />
