@@ -113,9 +113,7 @@ const Marketplace: React.FC = () => {
                     </ButtonGroup>
                 </ButtonGroupContainer>
                 <SelectWrapper>
-                    <StyledSelect
-                        defaultValue={""}
-                    >
+                    <StyledSelect defaultValue={""}>
                         <option value="" disabled hidden>Collateralized lending</option>
                     </StyledSelect>
                 </SelectWrapper>
@@ -161,7 +159,8 @@ const ButtonGroupContainer = styled.div.attrs({
 })``;
 
 const StyledSelect = styled.select.attrs({
-    className: `flex items-center h-6 space-x-1.5 p-0.75 px-2 text-ui-600 
+    className: `flex items-center tablet:h-6 space-x-1.5 p-0.5 tablet:p-0.75 px-1.5 tablet:px-2
+    text-ui-600 text-sm tablet:text-base
     rounded-xl border-2 border-ui-100 focus-within:ring-2 focus-within:ring-primary-500
     hover:border-ui-300 active:border-primary-500 active:ring-0`,
 })``;
