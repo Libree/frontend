@@ -1,6 +1,7 @@
 import {
   AlertInline,
   ButtonText,
+  CheckboxListItem,
   IconReload,
   Spinner,
   WalletInputLegacy,
@@ -43,6 +44,7 @@ const DepositModal: React.FC = () => {
   const [input, setInput] = useState({
     amount: '',
     tokenAddress: '',
+    aaveDestination: false,
   });
   const [depositProcessState, setDepositProcessState] =
     useState<TransactionState>(TransactionState.APPROVE);
@@ -63,6 +65,7 @@ const DepositModal: React.FC = () => {
       setInput({
         amount: '',
         tokenAddress: '',
+        aaveDestination: false,
       });
     }
   }, [isDepositOpen]);
@@ -169,8 +172,9 @@ const DepositModal: React.FC = () => {
               name='tokenAddress'
               value={input.tokenAddress}
               onChange={handleSelectChange}
+              defaultValue={""}
             >
-              <option value="" disabled selected>{t('labels.selectAnOption')}</option>
+              <option value="" disabled>{t('labels.selectAnOption')}</option>
               {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
                 <option key={token.address} value={token.address}>{token.name}</option>
               ))}
@@ -186,6 +190,30 @@ const DepositModal: React.FC = () => {
               onChange={handleInputChange}
               placeholder='100'
             />
+          </div>
+          <div>
+            <InputTitleWrapper>
+              <InputTitle>{t("modal.deposit.inputDestinationLabel")}</InputTitle>
+              <InputSubtitle>{t("modal.deposit.inputHelpertextDestination")}</InputSubtitle>
+            </InputTitleWrapper>
+            <CheckboxWrapper>
+              <CheckboxListItem
+                label={t('modal.deposit.daoOption')}
+                multiSelect={false}
+                onClick={() => {
+                  setInput({ ...input, aaveDestination: false });
+                }}
+                {...(!input.aaveDestination ? { type: 'active' } : {})}
+              />
+              <CheckboxListItem
+                label={t('modal.deposit.aaveOption')}
+                multiSelect={false}
+                onClick={() => {
+                  setInput({ ...input, aaveDestination: true });
+                }}
+                {...(input.aaveDestination ? { type: 'active' } : {})}
+              />
+            </CheckboxWrapper>
           </div>
           <ActionWrapper>
             <ButtonsContainer>
@@ -279,6 +307,10 @@ const StyledSelect = styled.select.attrs({
   className: `w-full flex items-center h-6 space-x-1.5 p-0.75 pl-2 text-ui-600 
   rounded-xl border-2 border-ui-100 focus-within:ring-2 focus-within:ring-primary-500
   hover:border-ui-300 active:border-primary-500 active:ring-0`,
+})``;
+
+const CheckboxWrapper = styled.div.attrs({
+  className: 'w-full flex items-center justify-center space-x-1',
 })``;
 
 export default DepositModal;
