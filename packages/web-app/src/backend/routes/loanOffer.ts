@@ -17,7 +17,7 @@ type LoanOfferData = {
 };
 
 export const postLoanOffer = async (loanOffer: LoanOfferData) => {
-    const res = await fetch(`${MARKETPLACE_BACKEND_URL}/`, {
+    const res = await fetch(`${MARKETPLACE_BACKEND_URL}/loan-offer`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
