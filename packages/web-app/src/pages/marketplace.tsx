@@ -17,9 +17,7 @@ import { useNetwork } from 'context/network';
 import { FundOpportunity } from 'utils/paths';
 import { LoanOfferTable } from 'components/loanOfferTable';
 import { useLoanOffers } from 'hooks/useLoanOffers';
-
-// TODO: move this to the corresponding type file
-type MarketplaceFilter = 'lending' | 'borrowing';
+import { MarketplaceFilter } from 'utils/types';
 
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();

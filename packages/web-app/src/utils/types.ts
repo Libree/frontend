@@ -640,6 +640,8 @@ export enum InterestRateType {
   VARIABLE = "Variable"
 }
 
+export type MarketplaceFilter = 'lending' | 'borrowing';
+
 export type LoanOffer = {
   id: number;
   collateralCategory: number;
