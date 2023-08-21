@@ -783,3 +783,7 @@ export function getTokenSymbol(tokenAddress: string) {
   const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
   return token ? token.name : '';
 };
+
+export function getTokenLogo(tokenAddress: string) {
+  return '';
+};

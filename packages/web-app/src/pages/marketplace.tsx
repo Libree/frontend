@@ -119,7 +119,7 @@ const Marketplace: React.FC = () => {
                 </SelectWrapper>
                 {loanOffers.length ? (
                     <>
-                        <LoanOfferTable />
+                        <LoanOfferTable loanOffers={loanOffers}/>
                     </>
                 ) : (
                     <>

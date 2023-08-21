@@ -1,6 +1,31 @@
 import React from 'react';
+import { getTokenLogo, getTokenSymbol } from 'utils/library';
+import useScreen from 'hooks/useScreen';
 
-export const LoanOfferTable: React.FC = () => {
+type LoanOffer = {
+    id: number;
+    collateralCategory: number;
+    collateralAddress: string;
+    collateralAmount: number;
+    loanAssetAddress: string;
+    loanAmount: number;
+    loanYield: number;
+    duration: number;
+    expiration: number;
+    borrower: string;
+    lender: string;
+    isPersistent: boolean;
+    nonce: string;
+};
+
+type LoanOfferTableProps = {
+    loanOffers: LoanOffer[];
+};
+
+export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
+    loanOffers,
+}) => {
+    const { isMobile } = useScreen();
     return (
         <>
             <div className='text-ui-800 my-1 overflow-x-auto'>
@@ -15,64 +40,48 @@ export const LoanOfferTable: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody className='text-ui-500 my-1'>
-                        <tr className='text-sm tablet:text-base'>
-                            <td className='py-1 font-semibold'>
-                                <div className='w-full h-full p-2 bg-white rounded-l-2xl'>
-                                    <p className='font-semibold'>
-                                        Token backed
-                                    </p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>ETH</p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>30 Days</p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>5%</p>
-                                </div>
-                            </td>
-                            <td className='py-1 rounded-r-2xl font-semibold'>
-                                <div className='p-2 bg-white rounded-r-2xl'>
-                                    <p className='font-semibold'>1000 USDC</p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr className='text-sm tablet:text-base'>
-                            <td className='py-1 font-semibold'>
-                                <div className='w-full h-full p-2 bg-white rounded-l-2xl'>
-                                    <p className='font-semibold'>
-                                        Token backed
-                                    </p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>ETH</p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>30 Days</p>
-                                </div>
-                            </td>
-                            <td className='py-1 font-semibold'>
-                                <div className='p-2 bg-white'>
-                                    <p className='font-semibold'>5%</p>
-                                </div>
-                            </td>
-                            <td className='py-1 rounded-r-2xl font-semibold'>
-                                <div className='p-2 bg-white rounded-r-2xl'>
-                                    <p className='font-semibold'>1000 USDC</p>
-                                </div>
-                            </td>
-                        </tr>
+                        {loanOffers.map((loanOffer) => (
+                            <tr
+                                key={loanOffer.id}
+                                className='text-sm tablet:text-base'
+                            >
+                                <td className='py-1 font-semibold'>
+                                    <div className='w-full h-full p-1.5 tablet:p-2 bg-white rounded-l-2xl'>
+                                        <p className='font-semibold'>
+                                            {loanOffer.collateralCategory === 0 ? 'ERC20' : 'ERC721'}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td className='py-1 font-semibold'>
+                                    <div className='p-1.5 tablet:p-2 bg-white'>
+                                        <p className='font-semibold'>
+                                            {getTokenSymbol(loanOffer.collateralAddress)}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td className='py-1 font-semibold'>
+                                    <div className='p-1.5 tablet:p-2 bg-white'>
+                                        <p className='font-semibold'>
+                                            {`${loanOffer.duration} Days`}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td className='py-1 font-semibold'>
+                                    <div className='p-1.5 tablet:p-2 bg-white'>
+                                        <p className='font-semibold'>
+                                            {`${loanOffer.loanYield}%`}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td className='py-1 rounded-r-2xl font-semibold'>
+                                    <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl'>
+                                        <p className='font-semibold'>
+                                            {`${loanOffer.loanAmount} ${isMobile ? '' : getTokenSymbol(loanOffer.loanAssetAddress)}`}
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
