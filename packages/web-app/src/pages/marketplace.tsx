@@ -58,7 +58,7 @@ const Marketplace: React.FC = () => {
             collateralCategory: 0,
             collateralAddress: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
             collateralAmount: 1000,
-            loanAssetAddress: "0xe9DcE89B076BA6107Bb64EF30678efec11939234",
+            loanAssetAddress: "0xe9dce89b076ba6107bb64ef30678efec11939234",
             loanAmount: 1000,
             loanYield: 5,
             duration: 1000,

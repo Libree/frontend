@@ -780,10 +780,12 @@ export function shortenAddress(address: string | null) {
 
 export function getTokenSymbol(tokenAddress: string) {
   const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
-  const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress);
+  const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress.toLowerCase());
   return token ? token.name : '';
 };
 
-export function getTokenLogo(tokenAddress: string) {
-  return '';
+export function getTokenIcon(tokenAddress: string) {
+  const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
+  const icon = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress.toLowerCase())?.icon;
+  return icon ? icon : '';
 };

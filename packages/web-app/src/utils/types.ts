@@ -591,6 +591,7 @@ export type SupportedToken = {
   name: string;
   address: string;
   decimals: number;
+  icon: string;
 };
 
 export enum SupportedNetwork {
