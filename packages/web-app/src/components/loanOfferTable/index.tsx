@@ -1,22 +1,7 @@
 import React from 'react';
 import { getTokenIcon, getTokenSymbol } from 'utils/library';
 import useScreen from 'hooks/useScreen';
-
-type LoanOffer = {
-    id: number;
-    collateralCategory: number;
-    collateralAddress: string;
-    collateralAmount: number;
-    loanAssetAddress: string;
-    loanAmount: number;
-    loanYield: number;
-    duration: number;
-    expiration: number;
-    borrower: string;
-    lender: string;
-    isPersistent: boolean;
-    nonce: string;
-};
+import { LoanOffer } from 'utils/types';
 
 type LoanOfferTableProps = {
     loanOffers: LoanOffer[];
@@ -63,7 +48,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                                     <td className='py-1 font-semibold'>
                                         <div className='p-1.5 tablet:p-2 bg-white'>
                                             <p className='font-semibold'>
-                                                {getTokenSymbol(loanOffer.collateralAddress)}
+                                                {getTokenSymbol(loanOffer.collateralAddress) || <span className='invisible'>{'N/A'}</span> }
                                             </p>
                                         </div>
                                     </td>

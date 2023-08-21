@@ -11,19 +11,18 @@ import { useGlobalModalContext } from 'context/globalModals';
 import { useDaoVault } from 'hooks/useDaoVault';
 import { sortTokens } from 'utils/tokens';
 import { Loading } from 'components/temporary';
-import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
 import { ButtonGroup, IconAdd, OpportunityListItem, Option } from '@aragon/ui-components';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useNetwork } from 'context/network';
 import { FundOpportunity } from 'utils/paths';
 import { LoanOfferTable } from 'components/loanOfferTable';
+import { useLoanOffers } from 'hooks/useLoanOffers';
 
 // TODO: move this to the corresponding type file
 type MarketplaceFilter = 'lending' | 'borrowing';
 
 const Marketplace: React.FC = () => {
     const { t } = useTranslation();
-    const { data: daoDetails, isLoading } = useDaoDetailsQuery();
     const { open } = useGlobalModalContext();
     const { network } = useNetwork();
     const { dao } = useParams();
@@ -32,6 +31,7 @@ const Marketplace: React.FC = () => {
     const [filterValue, setFilterValue] = useState<MarketplaceFilter>('lending')
 
     const { tokens } = useDaoVault();
+    const { data: loanOffers, isLoading } = useLoanOffers();
 
     let opportunities: any = [
         {
@@ -51,24 +51,6 @@ const Marketplace: React.FC = () => {
             usdValue: '5000 $STARTUP',
         },
     ];
-
-    const loanOffers = [
-        {
-            id: 2,
-            collateralCategory: 0,
-            collateralAddress: "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
-            collateralAmount: 1000,
-            loanAssetAddress: "0xe9dce89b076ba6107bb64ef30678efec11939234",
-            loanAmount: 1000,
-            loanYield: 5,
-            duration: 1000,
-            expiration: 0,
-            borrower: "0x0000000000000000000000000000000000000000",
-            lender: "0x75f25C7f75992b17EEC14B7e702BD4b55C763f49",
-            isPersistent: false,
-            nonce: "0xb81415eeea3b749577614cd7eee7670471ea30e96b9c7aba53f4dcb8576be57f",
-        }
-    ]
 
     sortTokens(tokens, 'treasurySharePercentage', true);
 
@@ -117,7 +99,7 @@ const Marketplace: React.FC = () => {
                         <option value="" disabled hidden>Collateralized lending</option>
                     </StyledSelect>
                 </SelectWrapper>
-                {loanOffers.length ? (
+                {loanOffers?.length ? (
                     <>
                         <LoanOfferTable loanOffers={loanOffers}/>
                     </>
