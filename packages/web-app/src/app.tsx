@@ -64,6 +64,7 @@ const Groups = lazy(() => import('pages/communityGroups'));
 const NewGroupPage = lazy(() => import('pages/createGroup'));
 const GroupDetails = lazy(() => import('pages/groupDetails'));
 const AddMembersProposalPage = lazy(() => import('pages/addMembers'));
+const LoanOfferPage = lazy(() => import('pages/loanOffer'));
 
 function App() {
   // TODO this needs to be inside a Routes component. Will be moved there with
@@ -176,6 +177,7 @@ function App() {
               <Route path="community" element={<CommunityPage />} />
               <Route path="marketplace" element={<MarketplacePage />} />
               <Route path="marketplace/fund-opportunity" element={<FundOpportunityForm />} />
+              <Route path="marketplace/loan-offer" element={<LoanOfferPage />} />
               <Route path="settings" element={<SettingsPage />} />
               {/* Redirects the user to the dashboard page by default if no dao-specific page is specified. */}
               <Route index element={<Navigate to={'dashboard'} replace />} />

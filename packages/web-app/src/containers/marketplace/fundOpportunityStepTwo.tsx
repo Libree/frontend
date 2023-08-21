@@ -203,7 +203,7 @@ const FundOpportunityStepTwo: React.FC = () => {
                 </FormItem>
             </DoubleItem>
 
-            {fundingSource as FundingSource === 'AAVE' && (
+            {fundingSource as FundingSource === 'AAVESTABLE' && (
                 <>
                     {/* Interest Rate Type */}
                     <FormItem>
