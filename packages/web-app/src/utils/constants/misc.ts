@@ -13,6 +13,8 @@ import {Dashboard, Community, Finance, Governance, Settings, Marketplace} from '
 import { CreditDelegator__factory } from 'typechain-types/CreditDelegator__factory';
 import { Subgovernance__factory } from 'typechain-types/Subgovernance__factory';
 import { Uniswapv3__factory } from 'typechain-types/Uniswapv3__factory';
+import { Pwn__factory } from 'typechain-types/Pwn__factory';
+
 
 /** Time period options for token price change */
 export const enum TimeFilter {
@@ -163,5 +165,6 @@ export const PRODUCTION_ENABLED = import.meta.env.VITE_PRODUCTION_ENABLED as str
 export const AVAILABLE_FUNCTION_SIGNATURES: string[] = [
   CreditDelegator__factory.createInterface().getFunction("borrowAndTransfer").format("minimal"),
   Subgovernance__factory.createInterface().getFunction("createGroup").format("minimal"),
-  Uniswapv3__factory.createInterface().getFunction("swap").format("minimal")
+  Uniswapv3__factory.createInterface().getFunction("swap").format("minimal"),
+  Pwn__factory.createInterface().getFunction("makeOffer").format("minimal")
 ];

@@ -76,14 +76,16 @@ import {
   isMultisigProposal,
   stripPlgnAdrFromProposalId,
 } from 'utils/proposals';
-import { Action, ProposalId } from 'utils/types';
-import { 
-  decodeCreateGroupAction, 
-  decodeCreditDelegationAction, 
-  decodeGroupedActions, 
-  decodeSwapAction, 
-  findInterfaceCustomPlugins 
+import { Action, ActionLoanOffer, ProposalId } from 'utils/types';
+import {
+  decodeCreateGroupAction,
+  decodeCreditDelegationAction,
+  decodeGroupedActions,
+  decodeMakeOfferAction,
+  decodeSwapAction,
+  findInterfaceCustomPlugins
 } from 'utils/dencoding';
+import { postLoanOffer } from 'backend/routes/loanOffer';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -301,10 +303,12 @@ const Proposal: React.FC = () => {
             return decodeMetadataToAction(action.data, client);
           case 'borrowAndTransfer':
             return decodeCreditDelegationAction(action.data, groupedActions ? true : false, provider, network);
-            case 'swap':
-              return decodeSwapAction(action.data);
+          case 'swap':
+            return decodeSwapAction(action.data);
           case 'createGroup':
             return decodeCreateGroupAction(action.data)
+          case 'makeOffer':
+            return decodeMakeOfferAction(action.data)
           default:
             return decodeSCCToAction(action, network, t);
         }
@@ -543,7 +547,7 @@ const Proposal: React.FC = () => {
   ]);
 
   // handler for execution
-  const handleExecuteNowClicked = () => {
+  const handleExecuteNowClicked = async () => {
     if (!address) {
       open('wallet');
       statusRef.current.wasNotLoggedIn = true;
@@ -552,8 +556,58 @@ const Proposal: React.FC = () => {
       open('network');
     } else {
       handleExecuteProposal();
+      await publishOfferMarketplace(decodedActions)
     }
   };
+
+  const publishOfferMarketplace = async (actions?: (Action | undefined)[]) => {
+
+    if (actions) {
+      let makeOfferID = -1
+      for (let i = 0; i < actions.length; i++) {
+        if (actions[i]?.name === 'loan_offer') {
+          makeOfferID = i
+          break;
+        }
+      }
+
+      if (makeOfferID >= 0) {
+        const offer = actions[makeOfferID] as ActionLoanOffer
+        const {
+          borrower,
+          collateralAddress,
+          collateralAmount,
+          collateralId,
+          collateralType,
+          durationTime,
+          expirationTime,
+          fundingSource,
+          isPersistent,
+          loanAmount,
+          loanYield,
+          principalAsset,
+          interestRateType
+        } = offer.inputs
+
+        await postLoanOffer({
+          borrower,
+          collateralAddress,
+          collateralAmount,
+          collateralCategory: Number(collateralType),
+          collateralId,
+          duration: durationTime,
+          expiration: expirationTime,
+          isPersistent: true,
+          lender: "",
+          loanAmount,
+          loanAssetAddress: principalAsset,
+          loanYield,
+          nonce: "nonce"
+        })
+
+      }
+    }
+  }
 
   // alert message, only shown when not eligible to vote
   const alertMessage = useMemo(() => {
