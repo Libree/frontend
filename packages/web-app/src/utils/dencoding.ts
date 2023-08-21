@@ -3,7 +3,7 @@ import { bytesToHex, hexToBytes } from "@aragon/sdk-common";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 import { Subgovernance__factory } from "typechain-types/Subgovernance__factory";
 import { Uniswapv3__factory } from "typechain-types/Uniswapv3__factory";
-import { Action, ActionAddMember, ActionCreditDelegation, ActionSwapTokens, InterestRateType } from "./types"
+import { Action, ActionAddMember, ActionCreditDelegation, ActionLoanOffer, ActionSwapTokens, InterestRateType } from "./types"
 import {
   getFunctionFragment
 } from "@aragon/sdk-client-common";
@@ -12,9 +12,8 @@ import {
   DaoAction
 } from '@aragon/sdk-client-common';
 import { getTokenInfo } from "./tokens";
-import { ethers } from "ethers";
-import { TOP_ETH_SYMBOL_ADDRESSES } from "./constants/topSymbolAddresses";
 import { SUPPORTED_TOKENS } from "./config";
+import { Pwn__factory } from "typechain-types/Pwn__factory";
 
 export const decodeCreditDelegationAction = async (
   data: Uint8Array,
@@ -96,6 +95,46 @@ export const decodeSwapAction = async (
         amount: Number(result['amountIn']) / Math.pow(10, tokenInput?.decimals || 18),
         tokenInput: tokenInput?.name || "",
         tokenOutput: tokenOutput?.name || ""
+      }
+    }
+
+  } catch (error) {
+
+  }
+}
+
+
+export const decodeMakeOfferAction = async (
+  data: Uint8Array,
+): Promise<ActionLoanOffer | undefined> => {
+  try {
+    const iface = Pwn__factory.createInterface()
+    const hexBytes = bytesToHex(data)
+
+    const expectedfunction = iface.getFunction("makeOffer");
+    const result = iface.decodeFunctionData(
+      expectedfunction,
+      hexBytes,
+    );
+
+    const {offer} = result
+
+    return {
+      name: "loan_offer",
+      inputs: {
+        borrower: offer['borrower'],
+        collateralAddress: offer['collateralAddress'],
+        collateralAmount: Number(offer['collateralAmount']),
+        collateralId: Number(offer['collateralId']),
+        collateralType: offer['collateralCategory'],
+        durationTime: Number(offer['duration']),
+        expirationTime: Number(offer['expiration']),
+        fundingSource: "AAVESTABLE",
+        isPersistent: "Yes",
+        loanAmount: Number(offer['loanAmount']),
+        loanYield: Number(offer['loanYield']),
+        principalAsset: offer['loanAssetAddress'],
+        interestRateType: InterestRateType.STABLE
       }
     }
 

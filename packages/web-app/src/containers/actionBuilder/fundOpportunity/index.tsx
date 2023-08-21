@@ -10,7 +10,7 @@ const fundingSourceOptions: {
     value: FundingSource;
 }[] = [
         { label: 'DAO treasury', value: 'DAO' },
-        { label: 'Aave borrow', value: 'AAVE' },
+        { label: 'Aave borrow', value: 'AAVESTABLE' },
     ];
 
 const collateralTypeOptions: {

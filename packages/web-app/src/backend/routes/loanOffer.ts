@@ -18,8 +18,14 @@ type LoanOfferData = {
 };
 
 export const postLoanOffer = async (loanOffer: LoanOfferData) => {
-    const res = await axios.post(`${MARKETPLACE_BACKEND_URL}/`, loanOffer);
-    return res.data;
+    const res = await fetch(`${MARKETPLACE_BACKEND_URL}/loan-offer`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loanOffer),
+    });
+    return res.json();
 };
 
 export const getAllLoanOffers = async () => {

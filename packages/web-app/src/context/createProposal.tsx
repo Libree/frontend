@@ -359,7 +359,7 @@ const CreateProposalProvider: React.FC<Props> = ({
               )))
           break;
         }
-        case 'fund_opportunity': {
+        case 'loan_offer': {
           actions.push(
             Promise.resolve(
               encodeMakeOfferAction(

@@ -179,13 +179,13 @@ export const encodeMakeOfferAction = (
     loanAmount: number,
     loanYield: number,
     duration: number,
-    expiration: number,
+    expiration: number = 0,
     pluginAddress: string,
 ): DaoAction => {
     const iface = Pwn__factory.createInterface();
 
     const orderParams = {
-        collateralCategory: collateralCategory === 'ERC20' ? 0 : 1 ,
+        collateralCategory: collateralCategory === 'ERC20' ? 0 : 1,
         collateralAddress,
         collateralId: collateralId ? collateralId : 0,
         collateralAmount,
