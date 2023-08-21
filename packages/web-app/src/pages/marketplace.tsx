@@ -105,9 +105,7 @@ const Marketplace: React.FC = () => {
                     </>
                 ) : (
                     <>
-                        <p>
-                            {t('marketplace.noOpportunities')}
-                        </p>
+                        <p>{t('marketplace.noOpportunities')}</p>
                     </>
                 )}
                 {opportunities.length !== 0 && (
