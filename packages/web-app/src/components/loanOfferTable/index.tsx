@@ -3,6 +3,7 @@ import { getTokenIcon, getTokenSymbol } from 'utils/library';
 import useScreen from 'hooks/useScreen';
 import { LoanOffer } from 'utils/types';
 import { useTranslation } from 'react-i18next';
+import { IconOutlineCart, IconSolidCart } from '@aragon/ui-components/src/components/icons';
 
 type LoanOfferTableProps = {
     loanOffers: LoanOffer[];
@@ -30,6 +31,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                             </th>
                             <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header4')}</th>
                             <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header5')}</th>
+                            <th />
                         </tr>
                     </thead>
                     <tbody className='text-ui-500 my-1'>
@@ -68,12 +70,17 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                                             </p>
                                         </div>
                                     </td>
-                                    <td className='py-1 rounded-r-2xl font-semibold'>
-                                        <div className='flex items-center p-1.5 tablet:p-2 space-x-0.5 tablet:space-x-1 bg-white rounded-r-2xl'>
+                                    <td className='py-1 font-semibold'>
+                                        <div className='flex items-center p-1.5 tablet:p-2 space-x-0.5 tablet:space-x-1 bg-white'>
                                             <img src={loanAssetIcon} alt='' width={20} height={20} />
                                             <p className='font-semibold'>
                                                 {`${loanOffer.loanAmount} ${isMobile ? '' : getTokenSymbol(loanOffer.loanAssetAddress)}`}
                                             </p>
+                                        </div>
+                                    </td>
+                                    <td className='py-1 rounded-r-2xl'>
+                                        <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl'>
+                                            <IconSolidCart height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
                                         </div>
                                     </td>
                                 </tr>
