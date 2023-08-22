@@ -134,7 +134,8 @@ export const decodeMakeOfferAction = async (
         loanAmount: Number(offer['loanAmount']),
         loanYield: Number(offer['loanYield']),
         principalAsset: offer['loanAssetAddress'],
-        interestRateType: InterestRateType.STABLE
+        interestRateType: InterestRateType.STABLE,
+        pwnPluginAddress: ""
       }
     }
 

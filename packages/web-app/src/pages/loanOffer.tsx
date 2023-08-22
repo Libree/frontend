@@ -26,6 +26,7 @@ export type LoanOfferAction = {
         borrower: string;
         isPersistent: IsPersistent;
         interestRateType?: InterestRateType;
+        pwnPluginAddress: string
     }
 };
 
