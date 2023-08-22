@@ -232,8 +232,8 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
                                     defaultValue={""}
                                 >
                                     <option value="" disabled>{t('labels.selectAnOption')}</option>
-                                    {collateralTypeOptions.map((item) => (
-                                        <option key={item.value} value={item.value}>{item.label}</option>
+                                    {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
+                                        <option key={token.address} value={token.address}>{token.name}</option>
                                     ))}
                                 </StyledSelect>
                             ) : (
