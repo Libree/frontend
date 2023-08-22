@@ -43,10 +43,11 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
     const { data } = useDaoDetailsQuery()
     const { pwn } = useInstalledPlugins(data?.address)
 
-    const [name] =
+    const [name, collateralType] =
         useWatch({
             name: [
                 `actions.${actionIndex}.name`,
+                `actions.${actionIndex}.inputs.collateralType`,
             ],
         });
 
@@ -223,14 +224,29 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
                         fieldState: { error },
                     }) => (
                         <>
-                            <StyledInput
-                                mode={error ? 'critical' : 'default'}
-                                name={name}
-                                type="text"
-                                value={value}
-                                placeholder="0x..."
-                                onBlur={onBlur}
-                            />
+                            {collateralType as CollateralType === 'ERC20' ? (
+                                <StyledSelect
+                                    name={name}
+                                    value={value}
+                                    onChange={onChange}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>{t('labels.selectAnOption')}</option>
+                                    {SUPPORTED_TOKENS[SupportedNetwork.MUMBAI].map((token) => (
+                                        <option key={token.address} value={token.address}>{token.name}</option>
+                                    ))}
+                                </StyledSelect>
+                            ) : (
+                                <StyledInput
+                                    mode={error ? 'critical' : 'default'}
+                                    name={name}
+                                    type="text"
+                                    value={value}
+                                    placeholder="..."
+                                    onBlur={onBlur}
+                                    onChange={onChange}
+                                />
+                            )}
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}

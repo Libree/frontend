@@ -89,8 +89,8 @@ const Action: React.FC<ActionsComponentProps> = ({
       return <MintTokens {...{ actionIndex, allowRemove }} />;
     case 'fund_opportunity':
       return <FundOpportunityAction {...{ actionIndex }} />;
-      case 'loan_offer':
-        return <LoanOfferAction {...{ actionIndex, allowRemove }} />;
+    case 'loan_offer':
+      return <LoanOfferAction {...{ actionIndex, allowRemove }} />;
     case 'external_contract_modal':
       return <SCC actionIndex={actionIndex} />;
     case 'external_contract_action':
