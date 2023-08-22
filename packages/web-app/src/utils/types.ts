@@ -612,6 +612,7 @@ export type SupportedToken = {
   name: string;
   address: string;
   decimals: number;
+  icon: string;
 };
 
 export enum SupportedNetwork {
@@ -638,3 +639,21 @@ export enum InterestRateType {
   STABLE = "Stable",
   VARIABLE = "Variable"
 }
+
+export type MarketplaceFilter = 'lending' | 'borrowing';
+
+export type LoanOffer = {
+  id: number;
+  collateralCategory: number;
+  collateralAddress: string;
+  collateralAmount: number;
+  loanAssetAddress: string;
+  loanAmount: number;
+  loanYield: number;
+  duration: number;
+  expiration: number;
+  borrower: string;
+  lender: string;
+  isPersistent: boolean;
+  nonce: string;
+};

@@ -4,6 +4,11 @@ import {
     PluginsDeployment,
     SupportedToken
 } from "./types"
+import UsdcIcon from "../public/usdc-icon.png";
+import DaiIcon from "../public/dai-icon.png";
+import UsdtIcon from "../public/tether-icon.png";
+import WethIcon from "../public/eth-icon.png";
+import WbtcIcon from "../public/btc-icon.png";
 
 export const CONTRACT_ADDRESSES: { [K in SupportedNetwork]: ContractsDeployment } = {
     [SupportedNetwork.MUMBAI]: {
@@ -101,11 +106,11 @@ export const PLUGIN_IDS: { [K in SupportedNetwork]: PluginsDeployment } = {
 
 export const SUPPORTED_TOKENS: { [K in SupportedNetwork]: SupportedToken[] } = {
     [SupportedNetwork.MUMBAI]: [
-        { name: "USDC", address: "0xe9dce89b076ba6107bb64ef30678efec11939234", decimals: 6 },
-        { name: "DAI", address: "0xf14f9596430931e177469715c591513308244e8f", decimals: 18 },
-        { name: "USDT", address: "0xacde43b9e5f72a4f554d4346e69e8e7ac8f352f0", decimals: 6 },
-        { name: "WETH", address: "0xd087ff96281dcf722aea82aca57e8545ea9e6c96", decimals: 18 },
-        { name: "WBTC", address: "0x97e8de167322a3bca28e8a49bc46f6ce128fec68", decimals: 18 },
+        { name: "USDC", address: "0xe9dce89b076ba6107bb64ef30678efec11939234", decimals: 6, icon: UsdcIcon },
+        { name: "DAI", address: "0xf14f9596430931e177469715c591513308244e8f", decimals: 18, icon: DaiIcon },
+        { name: "USDT", address: "0xacde43b9e5f72a4f554d4346e69e8e7ac8f352f0", decimals: 6, icon: UsdtIcon },
+        { name: "WETH", address: "0xd087ff96281dcf722aea82aca57e8545ea9e6c96", decimals: 18, icon: WethIcon },
+        { name: "WBTC", address: "0x97e8de167322a3bca28e8a49bc46f6ce128fec68", decimals: 18, icon: WbtcIcon },
 
     ],
     [SupportedNetwork.GOERLI]: [],

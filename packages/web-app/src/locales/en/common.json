@@ -1440,6 +1440,10 @@
       "isPersistent": "Is Persistent",
       "interestRateType": "Interest rate type"
     },
+    "filter": {
+      "lending": "Lending",
+      "borrowing": "Borrowing"
+    },
     "setupVoting": {
       "title": "Initiate the vote",
       "description": "Set the choices, start date, and end date for your vote.",
