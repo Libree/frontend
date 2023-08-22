@@ -39,10 +39,11 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
     const { t } = useTranslation();
     const { control, setValue } = useFormContext();
 
-    const [name] =
+    const [name, collateralType] =
         useWatch({
             name: [
                 `actions.${actionIndex}.name`,
+                `actions.${actionIndex}.inputs.collateralType`,
             ],
         });
 
@@ -219,18 +220,32 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
                         fieldState: { error },
                     }) => (
                         <>
-                            <StyledInput
-                                mode={error ? 'critical' : 'default'}
-                                name={name}
-                                type="text"
-                                value={value}
-                                placeholder="0x..."
-                                onBlur={onBlur}
-                                onChange={(e) => {
-                                    onChange(e);
-                                    handleAddMember(e.target.value);
-                                }}
-                            />
+                            {collateralType as CollateralType === 'ERC20' ? (
+                                <StyledSelect
+                                    name={name}
+                                    value={value}
+                                    onChange={onChange}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>{t('labels.selectAnOption')}</option>
+                                    {collateralTypeOptions.map((item) => (
+                                        <option key={item.value} value={item.value}>{item.label}</option>
+                                    ))}
+                                </StyledSelect>
+                            ) : (
+                                <StyledInput
+                                    mode={error ? 'critical' : 'default'}
+                                    name={name}
+                                    type="text"
+                                    value={value}
+                                    placeholder="..."
+                                    onBlur={onBlur}
+                                    onChange={(e) => {
+                                        onChange(e);
+                                        handleAddMember(e.target.value);
+                                    }}
+                                />
+                            )}
                             {error?.message && (
                                 <AlertInline label={error.message} mode="critical" />
                             )}
@@ -240,7 +255,7 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
             </FormItem>
 
 
-                        {/* Collateral Amount*/}
+            {/* Collateral Amount*/}
             <FormItem>
                 <Label
                     label={t('loanOffer.card.collateralAmount')}
