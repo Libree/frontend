@@ -35,79 +35,114 @@ export const FundOpportunityCard: React.FC<{
             verified
         >
             <Container>
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.fundingSource')}
-                    content={fundingSource}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.collateralType')}
-                    content={collateralType}
-                />
+                <div className='col-span-6 flex'>
+                    <CardText
+                        type='title'
+                        title={t('marketplace.fundOpportunity.fundingSource')}
+                        content={fundingSource}
+                        bgWhite
+                    />
+                    <CardText
+                        type='title'
+                        title={t('marketplace.fundOpportunity.collateralType')}
+                        content={collateralType}
+                        bgWhite
+                    />
+                </div>
                 {collateralAddress && (
-                    <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.collateralAddress')}
-                        content={getTokenSymbol(collateralAddress)}
-                    />
+                    <div className='col-span-3 tablet:col-span-2'>
+                        <CardText
+                            type='label'
+                            title={t('marketplace.fundOpportunity.collateralAddress')}
+                            content={getTokenSymbol(collateralAddress)}
+                            bgWhite
+                        />
+                    </div>
                 )}
-                {collateralAmount && (
+                <div className='col-span-3 tablet:col-span-2'>
+                    {collateralAmount && (
+                        <CardText
+                            type='label'
+                            title={t('marketplace.fundOpportunity.collateralAmount')}
+                            content={collateralAmount as unknown as string}
+                            bgWhite
+                        />
+                    )}
+                    {collateralId && (
+                        <CardText
+                            type='label'
+                            title={t('marketplace.fundOpportunity.collateralId')}
+                            content={collateralId as unknown as string}
+                            bgWhite
+                        />
+                    )}
+                </div>
+                <div className='col-span-3 tablet:col-span-2'>
                     <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.collateralAmount')}
-                        content={collateralAmount as unknown as string}
+                        type='label'
+                        title={t('marketplace.fundOpportunity.principalAsset')}
+                        content={principalAsset}
+                        bgWhite
                     />
-                )}
-                {collateralId && (
+                </div>
+                <div className='col-span-3'>
                     <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.collateralId')}
-                        content={collateralId as unknown as string}
+                        type='label'
+                        title={t('marketplace.fundOpportunity.loanAmount')}
+                        content={loanAmount as unknown as string}
+                        bgWhite
                     />
-                )}
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.principalAsset')}
-                    content={principalAsset}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.loanAmount')}
-                    content={loanAmount as unknown as string}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.loanYield')}
-                    content={loanYield as unknown as string}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.durationTime')}
-                    content={durationTime as unknown as string}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.expirationTime')}
-                    content={expirationTime as unknown as string}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.borrower')}
-                    content={borrower}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.isPersistent')}
-                    content={isPersistent}
-                />
-                {interestRateType && (
+                </div>
+                <div className='col-span-3'>
                     <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.interestRateType')}
-                        content={interestRateType as string}
+                        type='label'
+                        title={t('marketplace.fundOpportunity.loanYield')}
+                        content={loanYield as unknown as string}
+                        bgWhite
                     />
-                )}
+                </div>
+                <div className='col-span-3'>
+                    <CardText
+                        type='label'
+                        title={t('marketplace.fundOpportunity.durationTime')}
+                        content={durationTime as unknown as string}
+                        bgWhite
+                    />
+                </div>
+                <div className='col-span-3'>
+                    <CardText
+                        type='label'
+                        title={t('marketplace.fundOpportunity.expirationTime')}
+                        content={expirationTime as unknown as string}
+                        bgWhite
+                    />
+                </div>
+                <div className='col-span-6'>
+                    <CardText
+                        type='label'
+                        title={t('marketplace.fundOpportunity.borrower')}
+                        content={borrower}
+                        bgWhite
+                    />
+                </div>
+                <div className='col-span-3'>
+                    <CardText
+                        type='label'
+                        title={t('marketplace.fundOpportunity.isPersistent')}
+                        content={isPersistent}
+                        bgWhite
+                    />
+                </div>
+                <div className='col-span-3'>
+                    {interestRateType && (
+                        <CardText
+                            type='label'
+                            title={t('marketplace.fundOpportunity.interestRateType')}
+                            content={interestRateType as string}
+                            bgWhite
+                        />
+                    )}
+                </div>
             </Container>
         </AccordionMethod>
     );
