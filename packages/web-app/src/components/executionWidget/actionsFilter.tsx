@@ -1,16 +1,16 @@
 import React from 'react';
 
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {Action} from 'utils/types';
-import {AddAddressCard} from './actions/addAddressCard';
-import {MintTokenCard} from './actions/mintTokenCard';
-import {ModifyMetadataCard} from './actions/modifyMetadataCard';
-import {ModifyMultisigSettingsCard} from './actions/modifyMultisigSettingsCard';
-import {ModifyMvSettingsCard} from './actions/modifySettingsCard';
-import {RemoveAddressCard} from './actions/removeAddressCard';
-import {WithdrawCard} from './actions/withdrawCard';
-import {AddMemberCard} from './actions/addMemberCard';
-import {SCCExecutionCard} from './actions/sccExecutionWidget';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { Action, InterestRateType } from 'utils/types';
+import { AddAddressCard } from './actions/addAddressCard';
+import { MintTokenCard } from './actions/mintTokenCard';
+import { ModifyMetadataCard } from './actions/modifyMetadataCard';
+import { ModifyMultisigSettingsCard } from './actions/modifyMultisigSettingsCard';
+import { ModifyMvSettingsCard } from './actions/modifySettingsCard';
+import { RemoveAddressCard } from './actions/removeAddressCard';
+import { WithdrawCard } from './actions/withdrawCard';
+import { AddMemberCard } from './actions/addMemberCard';
+import { SCCExecutionCard } from './actions/sccExecutionWidget';
 import { CreditDelegationCard } from './actions/creditDelegationCard';
 import { CreateGroupCard } from './actions/createGroupCard';
 import { SwapTokensCard } from './actions/swapTokensCard';
@@ -23,8 +23,8 @@ type ActionsFilterProps = {
   action: Action;
 };
 
-export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
-  const {data: dao} = useDaoDetailsQuery();
+export const ActionsFilter: React.FC<ActionsFilterProps> = ({ action }) => {
+  const { data: dao } = useDaoDetailsQuery();
   // all actions have names
   switch (action.name) {
     case 'withdraw_assets':
@@ -51,8 +51,24 @@ export const ActionsFilter: React.FC<ActionsFilterProps> = ({action}) => {
       return <MintTokenCard action={action} />;
     case 'fund_opportunity':
       return <FundOpportunityCard action={action} />;
-      case 'loan_offer':
-        return <LoanOfferCard action={action} />;
+    case 'loan_offer':
+      return <> {action.inputs.fundingSource === 'AAVESTABLE' || action.inputs.fundingSource === 'AAVEVARIABLE'
+        ?
+        <>
+          <CreditDelegationCard action={{
+            name: 'credit_delegation',
+            inputs: {
+              amount: action.inputs.loanAmount,
+              interestRateType: action.inputs.fundingSource === 'AAVESTABLE' ? InterestRateType.STABLE : InterestRateType.VARIABLE,
+              token: action.inputs.principalAsset,
+              user: action.inputs.pwnPluginAddress
+            }
+          }} />
+          <LoanOfferCard action={action} />
+        </>
+        :
+        <LoanOfferCard action={action} />
+      } </>;
     case 'modify_metadata':
       return <ModifyMetadataCard action={action} />;
     case 'modify_token_voting_settings':

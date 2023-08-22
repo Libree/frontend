@@ -364,6 +364,7 @@ const CreateProposalProvider: React.FC<Props> = ({
             Promise.resolve(
               encodeMakeOfferAction(
                 action.inputs.fundingSource,
+                daoDetails?.address || "",
                 action.inputs.collateralType,
                 action.inputs.collateralAddress,
                 action.inputs.collateralId,
@@ -373,7 +374,10 @@ const CreateProposalProvider: React.FC<Props> = ({
                 action.inputs.loanYield,
                 action.inputs.durationTime,
                 action.inputs.expirationTime,
-                pwnPlugin?.instanceAddress || ""
+                pwnPlugin?.instanceAddress || "",
+                creditDelegationAddress?.instanceAddress || "",
+                provider,
+                network
               )))
           break;
         }
