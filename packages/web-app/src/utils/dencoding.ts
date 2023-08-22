@@ -129,13 +129,14 @@ export const decodeMakeOfferAction = async (
         collateralType: offer['collateralCategory'],
         durationTime: Number(offer['duration']),
         expirationTime: Number(offer['expiration']),
-        fundingSource: "AAVESTABLE",
+        fundingSource: "DAO",
         isPersistent: "Yes",
         loanAmount: Number(offer['loanAmount']),
         loanYield: Number(offer['loanYield']),
         principalAsset: offer['loanAssetAddress'],
         interestRateType: InterestRateType.STABLE,
-        pwnPluginAddress: ""
+        pwnPluginAddress: "",
+        nonce: offer['nonce']
       }
     }
 

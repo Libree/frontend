@@ -581,12 +581,10 @@ const Proposal: React.FC = () => {
           collateralType,
           durationTime,
           expirationTime,
-          fundingSource,
-          isPersistent,
           loanAmount,
           loanYield,
           principalAsset,
-          interestRateType
+          nonce
         } = offer.inputs
 
         await postLoanOffer({
@@ -602,7 +600,7 @@ const Proposal: React.FC = () => {
           loanAmount,
           loanAssetAddress: principalAsset,
           loanYield,
-          nonce: "nonce"
+          nonce: nonce
         })
 
       }
