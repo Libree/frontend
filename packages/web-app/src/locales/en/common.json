@@ -1415,6 +1415,14 @@
     "getFundedAction": "Get Funded",
     "fundOpportunityAction": "Fund an opportunity",
     "noOpportunities": "No opportunities yet",
+    "loanOffersTable": {
+        "header1": "Opportunity Type",
+        "header2": "Collateral",
+        "header3": "Duration",
+        "inDays": "(in Days)",
+        "header4": "APY",
+        "header5": "Amount"
+    },
     "getFunded": {
       "headerTitle": "Get funded",
       "headerDescription": "Send assets to the opportunity",

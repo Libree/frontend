@@ -14,7 +14,7 @@ import {
     encodeRatio
 } from "@aragon/sdk-common";
 import { CONTRACT_ADDRESSES, PLUGIN_ADDRESSES } from "./config";
-import { CollateralType, InterestRateType, PluginInstallItem } from "./types";
+import { CollateralType, FundingSource, InterestRateType, PluginInstallItem } from "./types";
 import { CreditDelegator__factory } from "typechain-types/CreditDelegator__factory";
 import { ERC20__factory } from "typechain-types/ERC20__factory";
 import { Uniswapv3__factory } from "typechain-types/Uniswapv3__factory";
@@ -169,8 +169,9 @@ export const encodeCreditDelegationAction = async (
     }
 }
 
-export const encodeMakeOfferAction = (
-    fundingSource: string,
+export const encodeMakeOfferAction = async (
+    fundingSource: FundingSource,
+    onBehalfOf: string,
     collateralCategory: CollateralType,
     collateralAddress: string,
     collateralId: number,
@@ -180,9 +181,27 @@ export const encodeMakeOfferAction = (
     loanYield: number,
     duration: number,
     expiration: number = 0,
-    pluginAddress: string,
-): DaoAction => {
+    pwnPluginAddress: string,
+    aavePluginAddress: string,
+    provider: ethers.providers.Web3Provider | null,
+    network: SupportedNetworks
+): Promise<DaoAction[]> => {
     const iface = Pwn__factory.createInterface();
+
+    let creditDelegationAction
+
+    if (fundingSource === 'AAVESTABLE' || fundingSource === 'AAVEVARIABLE') {
+        creditDelegationAction = await encodeCreditDelegationAction(
+            loanAssetAddress,
+            loanAmount,
+            fundingSource === 'AAVESTABLE' ? InterestRateType.STABLE : InterestRateType.VARIABLE,
+            onBehalfOf,
+            pwnPluginAddress,
+            aavePluginAddress,
+            provider,
+            network
+        )
+    }
 
     const orderParams = {
         collateralCategory: collateralCategory === 'ERC20' ? 0 : 1,
@@ -195,7 +214,7 @@ export const encodeMakeOfferAction = (
         duration,
         expiration,
         borrower: ethers.constants.AddressZero,
-        lender: pluginAddress,
+        lender: pwnPluginAddress,
         isPersistent: true,
     }
 
@@ -207,11 +226,15 @@ export const encodeMakeOfferAction = (
         }],
     );
 
-    return {
-        to: pluginAddress,
+    let actions = [{
+        to: pwnPluginAddress,
         value: ethers.utils.parseEther('0').toBigInt(),
         data: hexToBytes(hexData),
-    };
+    }]
+
+    if (creditDelegationAction) actions.unshift(creditDelegationAction)
+
+    return actions
 };
 
 export const encodeCreateGroupAction = (

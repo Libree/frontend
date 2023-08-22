@@ -2,6 +2,7 @@ import React from 'react';
 import { getTokenIcon, getTokenSymbol } from 'utils/library';
 import useScreen from 'hooks/useScreen';
 import { LoanOffer } from 'utils/types';
+import { useTranslation } from 'react-i18next';
 
 type LoanOfferTableProps = {
     loanOffers: LoanOffer[];
@@ -10,6 +11,7 @@ type LoanOfferTableProps = {
 export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
     loanOffers,
 }) => {
+    const { t } = useTranslation()
     const { isMobile } = useScreen();
     return (
         <>
@@ -17,17 +19,17 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                 <table className='w-full'>
                     <thead>
                         <tr className='text-left text-sm tablet:text-base'>
-                            <th className='font-bold px-2'>Opportunity Type</th>
-                            <th className='font-bold px-2'>Collateral</th>
+                            <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header1')}</th>
+                            <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header2')}</th>
                             <th className='font-bold px-2'>
-                                Duration
+                                {t('marketplace.loanOffersTable.header3')}
                                 &nbsp;
                                 {isMobile && (
-                                    <span className='font-bold text-xs'>(in Days)</span>
+                                    <span className='font-bold text-xs'>{t('marketplace.loanOffersTable.inDays')}</span>
                                 )}
                             </th>
-                            <th className='font-bold px-2'>APY</th>
-                            <th className='font-bold px-2'>Amount</th>
+                            <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header4')}</th>
+                            <th className='font-bold px-2'>{t('marketplace.loanOffersTable.header5')}</th>
                         </tr>
                     </thead>
                     <tbody className='text-ui-500 my-1'>
@@ -48,7 +50,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                                     <td className='py-1 font-semibold'>
                                         <div className='p-1.5 tablet:p-2 bg-white'>
                                             <p className='font-semibold'>
-                                                {getTokenSymbol(loanOffer.collateralAddress) || <span className='invisible'>{'N/A'}</span> }
+                                                {getTokenSymbol(loanOffer.collateralAddress) || <span className='invisible'>{'N/A'}</span>}
                                             </p>
                                         </div>
                                     </td>

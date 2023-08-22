@@ -3,6 +3,8 @@ import {
     Label,
     ValueInput,
 } from '@aragon/ui-components';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 import React, { useEffect } from 'react';
 import {
     Controller,
@@ -38,6 +40,8 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
 }) => {
     const { t } = useTranslation();
     const { control, setValue } = useFormContext();
+    const { data } = useDaoDetailsQuery()
+    const { pwn } = useInstalledPlugins(data?.address)
 
     const [name, collateralType] =
         useWatch({
@@ -55,19 +59,19 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
         if (!name) {
             setValue(`actions.${actionIndex}.name`, 'loan_offer');
         }
-    }, [actionIndex, name, setValue]);
+        if(pwn){
+            setValue(`actions.${actionIndex}.pwnPluginAddress`, pwn.instanceAddress)
+        }
+    }, [actionIndex, name, setValue, pwn]);
 
     /*************************************************
      *                    Validators                 *
      *************************************************/
 
-    const handleAddMember = (data: any) => {
-        setValue(`addresses.${actionIndex}`, data);
-    };
 
-     /*************************************************
-     *                    Render                     *
-     *************************************************/
+    /*************************************************
+    *                    Render                     *
+    *************************************************/
     return (
         <>
             {/* Source of funds */}
@@ -240,10 +244,7 @@ const ConfigureLoanOfferForm: React.FC<ConfigureLoanOfferFormProps> = ({
                                     value={value}
                                     placeholder="..."
                                     onBlur={onBlur}
-                                    onChange={(e) => {
-                                        onChange(e);
-                                        handleAddMember(e.target.value);
-                                    }}
+                                    onChange={onChange}
                                 />
                             )}
                             {error?.message && (
