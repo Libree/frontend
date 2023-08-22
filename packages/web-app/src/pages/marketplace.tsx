@@ -106,21 +106,6 @@ const Marketplace: React.FC = () => {
                         <p>{t('marketplace.noOpportunities')}</p>
                     </>
                 )}
-                {opportunities.length !== 0 && (
-                    <>
-                        <div className={'h-4'} />
-                        <OpportunitiesSectionWrapper
-                            title={t('marketplace.openOpportunities')}
-                            showButton
-                        >
-                            <ListContainer>
-                                <OpportunityList
-                                    opportunities={opportunities.slice(0, 5)}
-                                />
-                            </ListContainer>
-                        </OpportunitiesSectionWrapper>
-                    </>
-                )}
             </PageWrapper>
         </>
     );
