@@ -16,15 +16,10 @@ export const LoanOfferCard: React.FC<{
         collateralType,
         collateralAddress,
         collateralAmount,
-        collateralId,
         principalAsset,
         loanAmount,
         loanYield,
         durationTime,
-        expirationTime,
-        borrower,
-        isPersistent,
-        interestRateType,
     } = action.inputs;
 
     return (
@@ -35,16 +30,6 @@ export const LoanOfferCard: React.FC<{
             verified
         >
             <Container>
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.fundingSource')}
-                    content={fundingSource}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.collateralType')}
-                    content={collateralType}
-                />
                 {collateralAddress && (
                     <CardText
                         type='title'
@@ -57,13 +42,6 @@ export const LoanOfferCard: React.FC<{
                         type='title'
                         title={t('marketplace.fundOpportunity.collateralAmount')}
                         content={collateralAmount as unknown as string}
-                    />
-                )}
-                {collateralId && (
-                    <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.collateralId')}
-                        content={collateralId as unknown as string}
                     />
                 )}
                 <CardText
@@ -86,28 +64,6 @@ export const LoanOfferCard: React.FC<{
                     title={t('marketplace.fundOpportunity.durationTime')}
                     content={durationTime as unknown as string}
                 />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.expirationTime')}
-                    content={expirationTime as unknown as string}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.borrower')}
-                    content={borrower}
-                />
-                <CardText
-                    type='title'
-                    title={t('marketplace.fundOpportunity.isPersistent')}
-                    content={isPersistent}
-                />
-                {interestRateType && (
-                    <CardText
-                        type='title'
-                        title={t('marketplace.fundOpportunity.interestRateType')}
-                        content={interestRateType as string}
-                    />
-                )}
             </Container>
         </AccordionMethod>
     );

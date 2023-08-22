@@ -1047,8 +1047,8 @@
     }
   },
   "loanOffer": {
-    "processName": "Collateralised Loan offer",
-    "title": "Collateralised Loan offer",
+    "processName": "Collateralized Loan offer",
+    "title": "Collateralized Loan offer",
     "description": "Design the terms of your loan. Your loan opportunity will get published into Libree’s marketplace and will be automatically execute when someone meets your criteria. You can publish multiple loans at once.",
     "ctaAddAnother": "Add another loan offer",
     "subtitle": "You can either Lend tokens you have within your treasury or use your credit line on your AAVE deposits. The later will allow you to keep your exposures while lending to others",
