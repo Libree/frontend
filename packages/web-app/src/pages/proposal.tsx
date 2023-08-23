@@ -86,6 +86,7 @@ import {
   findInterfaceCustomPlugins
 } from 'utils/dencoding';
 import { postLoanOffer } from 'backend/routes/loanOffer';
+import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 // TODO: @Sepehr Please assign proper tags on action decoding
 // const PROPOSAL_TAGS = ['Finance', 'Withdraw'];
@@ -181,6 +182,8 @@ const Proposal: React.FC = () => {
     pluginType,
     proposal?.status as string
   );
+
+  const { pwn } = useInstalledPlugins(daoDetails?.address)
 
   const pluginClient = usePluginClient(pluginType);
 
@@ -584,7 +587,8 @@ const Proposal: React.FC = () => {
           loanAmount,
           loanYield,
           principalAsset,
-          nonce
+          nonce,
+          pwnPluginAddress
         } = offer.inputs
 
         await postLoanOffer({
@@ -596,11 +600,11 @@ const Proposal: React.FC = () => {
           duration: durationTime,
           expiration: expirationTime,
           isPersistent: true,
-          lender: "",
+          lender: pwn?.instanceAddress || "",
           loanAmount,
           loanAssetAddress: principalAsset,
           loanYield,
-          nonce: nonce
+          nonce
         })
 
       }

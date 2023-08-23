@@ -14,6 +14,7 @@ import {
 import { getTokenInfo } from "./tokens";
 import { SUPPORTED_TOKENS } from "./config";
 import { Pwn__factory } from "typechain-types/Pwn__factory";
+import { ethers } from "ethers";
 
 export const decodeCreditDelegationAction = async (
   data: Uint8Array,
@@ -136,7 +137,7 @@ export const decodeMakeOfferAction = async (
         principalAsset: offer['loanAssetAddress'],
         interestRateType: InterestRateType.STABLE,
         pwnPluginAddress: "",
-        nonce: offer['nonce']
+        nonce: ethers.utils.id(`nonce_${Number(offer['loanAmount'])}`)
       }
     }
 
