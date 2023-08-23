@@ -38,7 +38,14 @@ const DepositModal: React.FC = () => {
   const { data: daoDetails } = useDaoDetailsQuery();
   const { network } = useNetwork();
   const { alert } = useAlertContext();
-  const { deposit, tokenAllowance, approve } = useCreditDelegation(daoDetails?.address);
+  const {
+    depositOnAave,
+    tokenAllowanceAave,
+    tokenAllowanceDAO,
+    approveAave,
+    approveDAO,
+    depositIntoDAO
+  } = useCreditDelegation(daoDetails?.address);
   const navigate = useNavigate();
   const provider = useSpecificProvider(CHAIN_METADATA[network].id);
   const [input, setInput] = useState({
@@ -94,12 +101,22 @@ const DepositModal: React.FC = () => {
       provider,
       CHAIN_METADATA[network].nativeCurrency
     )
+    
     const amount = Number(input.amount) * Math.pow(10, tokenInfo.decimals);
-    const allowance = await tokenAllowance(input.tokenAddress);
+    let allowance
+    input.aaveDestination ?
+      allowance = await tokenAllowanceAave(input.tokenAddress)
+      :
+      allowance = await tokenAllowanceDAO(input.tokenAddress)
+
     if (allowance < amount) {
       setDepositProcessState(TransactionState.LOADING);
       try {
-        const txStatus = await waitForTx(await approve(input.tokenAddress, amount));
+        let txStatus
+        input.aaveDestination ?
+          txStatus = await waitForTx(await approveAave(input.tokenAddress, amount))
+          :
+          txStatus = await waitForTx(await approveDAO(input.tokenAddress, amount));
         txStatus.status === 1
           ? setDepositProcessState(TransactionState.WAITING)
           : setDepositProcessState(TransactionState.ERROR);
@@ -110,7 +127,11 @@ const DepositModal: React.FC = () => {
     }
     try {
       setDepositProcessState(TransactionState.LOADING);
-      const txStatus = await waitForTx(await deposit(input.tokenAddress, amount.toString()));
+      let txStatus
+      input.aaveDestination ?
+        txStatus = await waitForTx(await depositOnAave(input.tokenAddress, amount.toString()))
+        :
+        txStatus = await waitForTx(await depositIntoDAO(input.tokenAddress, amount.toString()));
       txStatus.status === 1
         ? setDepositProcessState(TransactionState.SUCCESS)
         : setDepositProcessState(TransactionState.ERROR);

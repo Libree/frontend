@@ -68,4 +68,4 @@ export const NATIVE_TOKEN_ID = {
 
 export const COVALENT_API_KEY = import.meta.env.VITE_COVALENT_API_KEY as string;
 
-export const MARKETPLACE_BACKEND_URL = import.meta.env.VITE_COVALENT_API_KEY as string || 'https://marketplace-backend-iota.vercel.app'
+export const MARKETPLACE_BACKEND_URL = import.meta.env.VITE_MARKETPLACE_BACKEND_URL || 'https://marketplace-backend-iota.vercel.app'
