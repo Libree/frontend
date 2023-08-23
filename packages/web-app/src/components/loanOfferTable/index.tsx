@@ -3,15 +3,28 @@ import { getTokenIcon, getTokenSymbol } from 'utils/library';
 import useScreen from 'hooks/useScreen';
 import { LoanOffer } from 'utils/types';
 import { useTranslation } from 'react-i18next';
-import { IconOutlineCart, IconSolidCart } from '@aragon/ui-components/src/components/icons';
+import { IconSolidCart } from '@aragon/ui-components/src/components/icons';
+import { usePWN } from 'hooks/usePWN';
 
 type LoanOfferTableProps = {
     loanOffers: LoanOffer[];
 };
 
+
+
+
 export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
     loanOffers,
 }) => {
+
+    const { createLoan } = usePWN()
+
+    const handleBuy = async (e: any) => {
+        const tx = await createLoan(loanOffers[Number(e.currentTarget.id) - 1])
+        await tx?.wait()
+    }
+
+
     const { t } = useTranslation()
     const { isMobile } = useScreen();
     return (
@@ -79,7 +92,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                                         </div>
                                     </td>
                                     <td className='py-1 rounded-r-2xl'>
-                                        <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl'>
+                                        <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl' onClick={handleBuy} id={loanOffer.id.toString()}>
                                             <IconSolidCart height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
                                         </div>
                                     </td>

@@ -117,3 +117,7 @@ export const SUPPORTED_TOKENS: { [K in SupportedNetwork]: SupportedToken[] } = {
     [SupportedNetwork.HOMESTEAD]: [],
     [SupportedNetwork.MATIC]: []
 };
+
+
+export const pwnSimpleLoanOfferAddress: string = '0xAbA34804D2aDE17dd5064Ac7183e7929E4F940BD'
+export const pwnSimpleLoanAddress: string = '0x50160ff9c19fbE2B5643449e1A321cAc15af2b2C'

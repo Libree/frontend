@@ -222,7 +222,7 @@ export const encodeMakeOfferAction = async (
         'makeOffer',
         [{
             ...orderParams,
-            nonce: ethers.utils.id(JSON.stringify(orderParams))
+            nonce: ethers.utils.id(`nonce_${orderParams.loanAmount}`)
         }],
     );
 
