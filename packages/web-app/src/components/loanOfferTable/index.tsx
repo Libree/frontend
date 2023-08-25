@@ -20,7 +20,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
     const { createLoan } = usePWN()
 
     const handleBuy = async (e: any) => {
-        const tx = await createLoan(loanOffers[Number(e.currentTarget.id) - 1])
+        const tx = await createLoan(loanOffers[Number(e.currentTarget.id)])
         await tx?.wait()
     }
 
@@ -48,7 +48,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                         </tr>
                     </thead>
                     <tbody className='text-ui-500 my-1'>
-                        {loanOffers.map((loanOffer) => {
+                        {loanOffers.map((loanOffer, index) => {
                             const loanAssetIcon = getTokenIcon(loanOffer.loanAssetAddress);
                             return (
                                 <tr
@@ -92,7 +92,7 @@ export const LoanOfferTable: React.FC<LoanOfferTableProps> = ({
                                         </div>
                                     </td>
                                     <td className='py-1 rounded-r-2xl'>
-                                        <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl' onClick={handleBuy} id={loanOffer.id.toString()}>
+                                        <div className='p-1.5 tablet:p-2 bg-white rounded-r-2xl' onClick={handleBuy} id={index.toString()}>
                                             <IconSolidCart height={isMobile ? 20 : 24} width={isMobile ? 20 : 24} />
                                         </div>
                                     </td>
