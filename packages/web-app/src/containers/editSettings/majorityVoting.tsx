@@ -199,7 +199,7 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     eligibilityType !== formattedEligibilityType;
 
   // plugins settings changes
-  const isPluginsChanged = false || true;
+  const isPluginsChanged = false;
 
   const setCurrentMetadata = useCallback(() => {
     setValue('daoName', daoDetails?.metadata.name);
@@ -277,10 +277,13 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     setValue,
   ]);
 
-  const setCurrentPlugins = useCallback(() => {});
+  const setCurrentPlugins = useCallback(() => {}, []);
 
   const settingsUnchanged =
-    !isGovernanceChanged && !isMetadataChanged && !isCommunityChanged;
+    !isGovernanceChanged &&
+    !isMetadataChanged &&
+    !isCommunityChanged &&
+    !isPluginsChanged;
 
   const handleResetChanges = () => {
     setCurrentMetadata();
@@ -291,8 +294,8 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
 
   useEffect(() => {
     setValue('isMetadataChanged', isMetadataChanged);
-    setValue('areSettingsChanged', isCommunityChanged || isGovernanceChanged); // herexd
-    setValue('arePluginsChanged', isPluginsChanged); // Thing this should be up there
+    setValue('areSettingsChanged', isCommunityChanged || isGovernanceChanged); // here
+    setValue('arePluginsChanged', isPluginsChanged); // maybe this should be up there
 
     // intentionally using settingsUnchanged because it monitors all
     // the setting changes
