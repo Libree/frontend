@@ -16,11 +16,11 @@ const FeatureCard: React.FC<Props> = props => {
         <Description>{props.description}</Description>
       </Content>
 
-      <div className='absolute bottom-2 sm:bottom-3 right-2 sm:right-3'>
-        <div className='flex items-center h-4.5 tablet:h-6'>
+      <IconsWrapper>
+        <IconsContainer>
           <RenderImages images={props.images} />
-        </div>
-      </div>
+        </IconsContainer>
+      </IconsWrapper>
 
     </CTACardWrapper>
   );
@@ -45,6 +45,14 @@ const Title = styled.p.attrs({
 
 const Description = styled.p.attrs({
   className: 'text-ui-600 h-12 ft-text-sm tablet:ft-text-base desktop:mt-1.5 mt-1',
+})``;
+
+const IconsWrapper = styled.div.attrs({
+  className: 'absolute bottom-2 sm:bottom-3 right-2 sm:right-3',
+})``;
+
+const IconsContainer = styled.div.attrs({
+  className: 'flex items-center h-4.5 tablet:h-6',
 })``;
 
 
