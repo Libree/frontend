@@ -49,7 +49,7 @@ const DesktopCTA = styled.div.attrs({
 })``;
 
 const MobileCTA = styled.div.attrs({
-  className: 'relative grid grid-cols-2 gap-2 max-w-fit',
+  className: 'relative grid grid-cols-2 gap-1 max-w-fit',
 })``;
 
 export default MainFeatures;
