@@ -1,36 +1,40 @@
-import {IconLinkExternal, Link, ListItemAddress} from '@aragon/ui-components';
+import { IconLinkExternal, Link, ListItemAddress } from '@aragon/ui-components';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import {AccordionMethod} from 'components/accordionMethod';
-import {useNetwork} from 'context/network';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useDaoMembers} from 'hooks/useDaoMembers';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {CHAIN_METADATA} from 'utils/constants';
-import {ActionMintToken} from 'utils/types';
+import { AccordionMethod } from 'components/accordionMethod';
+import { useNetwork } from 'context/network';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useDaoMembers } from 'hooks/useDaoMembers';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { CHAIN_METADATA } from 'utils/constants';
+import { ActionMintToken } from 'utils/types';
 
 export const MintTokenCard: React.FC<{
   action: ActionMintToken;
-}> = ({action}) => {
-  const {t} = useTranslation();
-  const {network} = useNetwork();
+}> = ({ action }) => {
+  const { t } = useTranslation();
+  const { network } = useNetwork();
 
-  const {data: daoDetails} = useDaoDetailsQuery();
+  const { data: daoDetails } = useDaoDetailsQuery();
 
   const {
-    data: {members},
+    data: { members },
   } = useDaoMembers(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes
   );
 
   const newTotalSupply = action.summary.newTokens + action.summary.tokenSupply;
 
-  const newHolders = action.inputs.mintTokensToWallets.filter(({address}) => {
+  const newHolders = action.inputs.mintTokensToWallets.filter(({ address }) => {
     return members.find(
-      (addr: {address: string}) =>
+      (addr: { address: string }) =>
         addr.address.toUpperCase() !== address.toUpperCase()
     );
   });

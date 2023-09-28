@@ -8,7 +8,9 @@ import {useFormStep} from 'components/fullScreenStepper';
 import CommunityAddressesModal from 'containers/communityAddressesModal';
 import {useGlobalModalContext} from 'context/globalModals';
 
-const Community: React.FC = () => {
+type CommunityProps = { editionStep: number };
+
+const Community: React.FC<CommunityProps> = ({ editionStep }) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {open} = useGlobalModalContext();
@@ -21,7 +23,6 @@ const Community: React.FC = () => {
     tokenSymbol,
     tokenTotalSupply,
     multisigWallets,
-    reviewCheckError,
     eligibilityType,
     eligibilityTokenAmount,
   } = getValues();
@@ -34,16 +35,11 @@ const Community: React.FC = () => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({field: {onChange, value}}) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.voters')}
-          onEditClick={() => setStep(4)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
+          onEditClick={() => setStep(editionStep)}
           tagLabel={t('labels.changeableVote')}
-          onChecked={() => onChange(!value)}
         >
           <Dl>
             <Dt>{t('labels.review.eligibleVoters')}</Dt>

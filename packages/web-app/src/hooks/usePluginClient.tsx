@@ -1,8 +1,8 @@
 import {
-  ContextPlugin,
   MultisigClient,
   TokenVotingClient,
 } from '@aragon/sdk-client';
+
 import {useEffect, useState} from 'react';
 
 import {useClient} from './useClient';
@@ -53,17 +53,13 @@ export const usePluginClient = <T extends PluginTypes = PluginTypes>(
     } else {
       switch (pluginType as PluginTypes) {
         case 'multisig.plugin.dao.eth':
-          setPluginClient(
-            new MultisigClient(ContextPlugin.fromContext(context))
-          );
+          setPluginClient(new MultisigClient(context));
           break;
         case 'token-voting.plugin.dao.eth':
-          setPluginClient(
-            new TokenVotingClient(ContextPlugin.fromContext(context))
-          );
+          setPluginClient(new TokenVotingClient(context));
           break;
         default:
-          throw new Error('The requested plugin type is invalid');
+          break;
       }
     }
   }, [client, context, pluginType]);

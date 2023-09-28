@@ -67,6 +67,7 @@ type Props = {
 };
 
 const icons = {
+  [TransactionState.APPROVE]: undefined,
   [TransactionState.WAITING]: undefined,
   [TransactionState.LOADING]: undefined,
   [TransactionState.SUCCESS]: <IconChevronRight />,
@@ -306,6 +307,7 @@ const ContractAddressValidation: React.FC<Props> = props => {
   ]);
 
   const label = {
+    [TransactionState.APPROVE]: '',
     [TransactionState.WAITING]: t('scc.validation.ctaLabelWaiting'),
     [TransactionState.LOADING]: '',
     [TransactionState.SUCCESS]: t('scc.validation.ctaLabelSuccess'),

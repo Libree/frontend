@@ -1,4 +1,4 @@
-import {LIVE_CONTRACTS, SupportedNetworks} from '@aragon/sdk-client';
+import {LIVE_CONTRACTS, SupportedNetwork} from '@aragon/sdk-client-common';
 import {JsonRpcProvider} from '@ethersproject/providers';
 import {SignerValue, useSigner} from 'context/signer';
 import {BigNumber} from 'ethers';
@@ -14,7 +14,7 @@ export interface IUseWallet extends SignerValue {
   ensName: string;
   isConnected: boolean;
   /**
-   * Returns true iff the wallet is connected and it is on the wrong network
+   * Returns true if the wallet is connected and it is on the wrong network
    * (i.e., the chainId returned by the useSigner context does not agree with
    * the network name returned by the useNetwork context).
    */
@@ -44,7 +44,7 @@ export const useWallet = (): IUseWallet => {
         name: translateToNetworkishName(network),
         ensAddress:
           LIVE_CONTRACTS[
-            translateToNetworkishName(network) as SupportedNetworks
+            translateToNetworkishName(network) as SupportedNetwork
           ].ensRegistry,
       });
     } else return signerProvider;

@@ -40,3 +40,7 @@ export {IconStorage} from './icon_storage';
 export {IconReload} from './icon_reload';
 export {IconFlag} from './icon_flag';
 export {IconFeedback} from './icon_feedback';
+export {IconArrowRight} from './icon_arrow_right';
+export {IconArrowLeft} from './icon_arrow_left';
+export {IconOutlineCart} from './icon_outline_cart';
+export {IconSolidCart} from './icon_solid_cart';

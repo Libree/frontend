@@ -1,44 +1,48 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
-import {VotingMode, VotingSettings} from '@aragon/sdk-client';
-import {Link, Tag} from '@aragon/ui-components';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { VotingMode, VotingSettings } from '@aragon/sdk-client';
+import { Link, Tag } from '@aragon/ui-components';
 
-import {Dd, DescriptionListContainer, Dl, Dt} from 'components/descriptionList';
-import {useNetwork} from 'context/network';
-import {useDaoMembers} from 'hooks/useDaoMembers';
-import {useDaoToken} from 'hooks/useDaoToken';
-import {PluginTypes} from 'hooks/usePluginClient';
-import {usePluginSettings} from 'hooks/usePluginSettings';
-import {useTokenSupply} from 'hooks/useTokenSupply';
-import {getDHMFromSeconds} from 'utils/date';
-import {formatUnits} from 'utils/library';
-import {Community} from 'utils/paths';
-import {IPluginSettings} from 'pages/settings';
+import { Dd, DescriptionListContainer, Dl, Dt } from 'components/descriptionList';
+import { useNetwork } from 'context/network';
+import { useDaoMembers } from 'hooks/useDaoMembers';
+import { useDaoToken } from 'hooks/useDaoToken';
+import { PluginTypes } from 'hooks/usePluginClient';
+import { usePluginSettings } from 'hooks/usePluginSettings';
+import { useTokenSupply } from 'hooks/useTokenSupply';
+import { getDHMFromSeconds } from 'utils/date';
+import { formatUnits } from 'utils/library';
+import { Community } from 'utils/paths';
+import { IPluginSettings } from 'pages/settings';
 
-const MajorityVotingSettings: React.FC<IPluginSettings> = ({daoDetails}) => {
-  const {t} = useTranslation();
-  const {network} = useNetwork(); // TODO get the network from daoDetails
+const MajorityVotingSettings: React.FC<IPluginSettings> = ({ daoDetails }) => {
+  const { t } = useTranslation();
+  const { network } = useNetwork(); // TODO get the network from daoDetails
   const navigate = useNavigate();
 
-  const {data: votingSettings} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data: votingSettings } = usePluginSettings(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes
   );
 
-  const {data: daoMembers} = useDaoMembers(
+  const { data: daoMembers } = useDaoMembers(
     daoDetails?.plugins?.[0]?.instanceAddress || '',
     (daoDetails?.plugins?.[0]?.id as PluginTypes) || undefined
   );
 
-  const {data: daoToken} = useDaoToken(
+  const { data: daoToken } = useDaoToken(
     daoDetails?.plugins?.[0]?.instanceAddress || ''
   );
-  const {data: tokenSupply} = useTokenSupply(daoToken?.address || '');
+  const { data: tokenSupply } = useTokenSupply(daoToken?.address || '');
 
   const daoSettings = votingSettings as VotingSettings;
 
-  const {days, hours, minutes} = getDHMFromSeconds(daoSettings.minDuration);
+  const { days, hours, minutes } = getDHMFromSeconds(daoSettings.minDuration);
 
   const votingMode = {
     // Note: This implies that earlyExecution and voteReplacement may never be
@@ -92,7 +96,7 @@ const MajorityVotingSettings: React.FC<IPluginSettings> = ({daoDetails}) => {
               })}
               onClick={() =>
                 navigate(
-                  generatePath(Community, {network, dao: daoDetails?.address})
+                  generatePath(Community, { network, dao: daoDetails?.address })
                 )
               }
             />

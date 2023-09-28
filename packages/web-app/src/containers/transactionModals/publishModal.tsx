@@ -31,6 +31,7 @@ type PublishModalProps = {
 };
 
 const icons = {
+  [TransactionState.APPROVE]: undefined,
   [TransactionState.WAITING]: undefined,
   [TransactionState.LOADING]: <Spinner size="xs" color="white" />,
   [TransactionState.SUCCESS]: undefined,
@@ -57,8 +58,9 @@ const PublishModal: React.FC<PublishModalProps> = ({
   const {network} = useNetwork();
 
   const label = {
+    [TransactionState.APPROVE]: '',
     [TransactionState.WAITING]:
-      buttonLabel || t('TransactionModal.publishDaoButtonLabel'),
+      buttonLabel || t('TransactionModal.approveTransaction'),
     [TransactionState.LOADING]: t('TransactionModal.waiting'),
     [TransactionState.SUCCESS]:
       buttonLabelSuccess || t('TransactionModal.goToProposal'),
@@ -108,8 +110,8 @@ const PublishModal: React.FC<PublishModalProps> = ({
           </NoShrinkVStack>
           <VStack>
             <StrongText>
-              <div className="truncate">{formattedAverage}</div>
-              <div>{`${nativeCurrency.symbol}`}</div>
+              <p className="truncate">{formattedAverage}</p>
+              <p>{`${nativeCurrency.symbol}`}</p>
             </StrongText>
             <div className="flex justify-end space-x-0.5 text-sm text-right text-ui-500">
               <div className="truncate">{formattedMax}</div>
@@ -124,8 +126,8 @@ const PublishModal: React.FC<PublishModalProps> = ({
           </NoShrinkVStack>
           <VStack>
             <StrongText>
-              <div className="truncate">{formattedAverage}</div>
-              <div>{`${nativeCurrency.symbol}`}</div>
+              <p className="truncate">{formattedAverage}</p>
+              <p>{`${nativeCurrency.symbol}`}</p>
             </StrongText>
             <p className="text-sm text-right text-ui-500">{totalCost}</p>
           </VStack>
@@ -199,7 +201,7 @@ const VStack = styled.div.attrs({
   className: 'space-y-0.25 overflow-hidden',
 })``;
 
-const StrongText = styled.p.attrs({
+const StrongText = styled.div.attrs({
   className: 'font-bold text-right text-ui-600 flex space-x-0.5',
 })``;
 

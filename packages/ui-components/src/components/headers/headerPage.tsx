@@ -12,6 +12,7 @@ export type HeaderPageProps = {
   primaryBtnProps?: Omit<ButtonTextProps, 'mode' | 'size'>;
   /** Secondary action button properties */
   secondaryBtnProps?: Omit<ButtonTextProps, 'mode' | 'size' | 'bgWhite'>;
+  secondaryBtnMode?: ButtonTextProps['mode'];
   /** Breadcrumb properties */
   breadCrumbs: DefaultCrumbProps & NonNullable<Omit<BreadcrumbProps, 'tag'>>;
 };
@@ -22,6 +23,7 @@ export const HeaderPage: React.FC<HeaderPageProps> = ({
   breadCrumbs,
   primaryBtnProps,
   secondaryBtnProps,
+  secondaryBtnMode = 'secondary',
 }) => {
   return (
     <Card data-testid="header-page">
@@ -39,7 +41,7 @@ export const HeaderPage: React.FC<HeaderPageProps> = ({
             <ButtonText
               {...secondaryBtnProps}
               size="large"
-              mode="secondary"
+              mode={secondaryBtnMode}
               bgWhite
             />
           )}

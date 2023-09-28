@@ -138,7 +138,8 @@
     "selectWallets": "Select Wallets",
     "cancel": "Cancel",
     "addNWallets": "Add {{walletCount}} Wallets",
-    "noAddressSelected": "No address selected"
+    "noAddressSelected": "No address selected",
+    "newGroup": "New Group"
   },
   "placeHolders": {
     "selectToken": "Select a Token ...",
@@ -306,7 +307,7 @@
     "noAddresses": "No address Found"
   },
   "TransactionModal": {
-    "approveSubtitle": "To sign your first transaction, you must approve Aragon App to make a transaction with your token.",
+    "approveSubtitle": "To sign your first transaction, you must approve Libree App to make a transaction with your token.",
     "approveToken": "Approve token",
     "depositTitle": "Sign Deposit",
     "dismiss": "Dismiss",
@@ -520,7 +521,7 @@
   },
   "explore": {
     "hero": {
-      "title": "EXPLORE THE DAO WORLD",
+      "title": "One Click Investment DAOs",
       "subtitle1": "Welcome to the Aragon Explore Portal.",
       "subtitle2": "Take a look to the ecosystem,find inspiration and learn."
     },

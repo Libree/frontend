@@ -11,9 +11,12 @@ import {
   CreateDaoParams,
   DaoMetadata,
   InstalledPluginListItem,
-  IPluginInstallItem,
   VotingMode,
 } from '@aragon/sdk-client';
+
+import {
+  PluginInstallItem
+} from '@aragon/sdk-client-common';
 import {RestLink} from 'apollo-link-rest';
 import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 
@@ -29,6 +32,7 @@ import {
   PENDING_PROPOSALS_KEY,
   PENDING_VOTES_KEY,
   SUBGRAPH_API_URL,
+  SUBGRAPH_API_URL_PLUGIN,
   SupportedChainID,
   SupportedNetworks,
 } from 'utils/constants';
@@ -116,6 +120,11 @@ const arbitrumTestClient = new ApolloClient({
   link: restLink.concat(new HttpLink({uri: SUBGRAPH_API_URL['arbitrum-test']})),
 });
 
+const mumbaiClientPlugin = new ApolloClient({
+  cache,
+  link: restLink.concat(new HttpLink({uri: SUBGRAPH_API_URL_PLUGIN['mumbai']})),
+});
+
 // TODO: remove undefined when all clients are defined
 const client: Record<
   SupportedNetworks,
@@ -130,6 +139,14 @@ const client: Record<
   unsupported: undefined,
 };
 
+const clientPlugin: Record<
+  string,
+  ApolloClient<NormalizedCacheObject> | undefined
+> = {
+  'mumbai': mumbaiClientPlugin,
+};
+
+
 /*************************************************
  *            FAVORITE & SELECTED DAOS           *
  *************************************************/
@@ -142,7 +159,7 @@ export type NavigationDao = Omit<DaoListItem, 'metadata' | 'plugins'> & {
     avatar?: string;
     description?: string;
   };
-  plugins: InstalledPluginListItem[] | IPluginInstallItem[];
+  plugins: InstalledPluginListItem[] | PluginInstallItem[];
 };
 const favoriteDaos = JSON.parse(
   localStorage.getItem(FAVORITE_DAOS_KEY) || '[]'
@@ -308,4 +325,5 @@ export {
   // proposals
   pendingMultisigProposalsVar,
   pendingTokenBasedProposalsVar,
+  clientPlugin
 };

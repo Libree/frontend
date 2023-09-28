@@ -1,6 +1,6 @@
 /* SUPPORTED NETWORK TYPES ================================================== */
 
-import {infuraApiKey} from './api';
+import { infuraApiKey } from './api';
 
 export const SUPPORTED_CHAIN_ID = [1, 5, 137, 80001, 42161, 421613] as const;
 export type SupportedChainID = typeof SUPPORTED_CHAIN_ID[number];
@@ -27,6 +27,9 @@ export type availableNetworks = 'mainnet' | 'goerli' | 'polygon' | 'mumbai';
 export type SupportedNetworks =
   | typeof SUPPORTED_NETWORKS[number]
   | 'unsupported';
+
+export type SupportedNetworksPlugin =
+  | 'mumbaiPlugin'
 
 export function isSupportedNetwork(
   network: string
@@ -77,8 +80,10 @@ export type ChainData = {
   etherscanApi: string;
   etherscanApiKey?: string;
   alchemyApi: string;
+  alchemyApiNFT?: string;
   supportsEns: boolean;
   lookupURL?: string;
+  covalentApi?: string
 };
 
 const etherscanApiKey = import.meta.env.VITE_ETHERSCAN_API_KEY;
@@ -145,6 +150,7 @@ export const CHAIN_METADATA: ChainList = {
     etherscanApiKey: polygonscanApiKey,
     alchemyApi: 'https://polygon-mainnet.g.alchemy.com/v2',
     supportsEns: false,
+    covalentApi: 'https://api.covalenthq.com/v1/matic-mainnet',
   },
   'arbitrum-test': {
     id: 421613,
@@ -183,6 +189,7 @@ export const CHAIN_METADATA: ChainList = {
     etherscanApiKey: etherscanApiKey,
     alchemyApi: 'https://eth-goerli.g.alchemy.com/v2',
     supportsEns: true,
+    covalentApi: 'https://api.covalenthq.com/v1/eth-goerli',
   },
   mumbai: {
     id: 80001,
@@ -203,7 +210,9 @@ export const CHAIN_METADATA: ChainList = {
     etherscanApi: 'https://api-testnet.polygonscan.com/api',
     etherscanApiKey: polygonscanApiKey,
     alchemyApi: 'https://polygon-mumbai.g.alchemy.com/v2',
+    alchemyApiNFT: 'https://polygon-mumbai.g.alchemy.com/nft/v2',
     supportsEns: false,
+    covalentApi: 'https://api.covalenthq.com/v1/matic-mumbai',
   },
   unsupported: {
     id: 1,
@@ -221,6 +230,7 @@ export const CHAIN_METADATA: ChainList = {
     etherscanApi: '',
     alchemyApi: '',
     supportsEns: false,
+    covalentApi: '',
   },
 };
 

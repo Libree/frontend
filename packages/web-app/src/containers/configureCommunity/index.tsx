@@ -133,7 +133,7 @@ const ConfigureCommunity: React.FC = () => {
   );
 
   const percentageInputValidator = (value: string | number) => {
-    return value <= 100 && value >= 0 ? true : t('errors.percentage');
+    return value as number <= 100 && value as number >= 0 ? true : t('errors.percentage');
   };
 
   /*************************************************
@@ -158,7 +158,7 @@ const ConfigureCommunity: React.FC = () => {
             <Controller
               name="minimumApproval"
               control={control}
-              defaultValue="50"
+              defaultValue={50}
               rules={{
                 validate: value => percentageInputValidator(value),
               }}
@@ -232,7 +232,7 @@ const ConfigureCommunity: React.FC = () => {
             <Controller
               name="minimumParticipation"
               control={control}
-              defaultValue="15"
+              defaultValue={15}
               rules={{
                 validate: value => percentageInputValidator(value),
               }}
@@ -295,6 +295,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
+          
           {/* Min Duration */}
           <FormItem>
             <Label
@@ -417,6 +418,7 @@ const ConfigureCommunity: React.FC = () => {
               />
             )}
           </FormItem>
+
           {/* Early execution */}
           <FormItem>
             <Label
@@ -436,6 +438,7 @@ const ConfigureCommunity: React.FC = () => {
               )}
             />
           </FormItem>
+          
           {/* Vote replacement */}
           <FormItem>
             <Label
@@ -515,7 +518,7 @@ const ApprovalWrapper = styled.div.attrs({
 
 const DurationContainer = styled.div.attrs({
   className:
-    'flex flex-col tablet:flex-row space-y-1.5 tablet:space-y-0 tablet:space-x-1.5 p-3 bg-ui-0 rounded-xl',
+    'flex flex-col tablet:flex-row items-center space-y-1.5 tablet:space-y-0 tablet:space-x-1.5 p-3 bg-ui-0 rounded-xl',
 })``;
 
 const TimeLabelWrapper = styled.div.attrs({
@@ -527,7 +530,7 @@ const TimeLabel = styled.span.attrs({
 })``;
 
 const ApprovalContainer = styled.div.attrs({
-  className: 'flex items-center p-3 space-x-3 rounded-xl bg-ui-0',
+  className: 'flex flex-col tablet:flex-row tablet:items-center p-3 space-y-3 tablet:space-y-0 tablet:space-x-3 rounded-xl bg-ui-0',
 })``;
 
 const ParticipationContainer = styled.div.attrs({

@@ -4,7 +4,6 @@ import {ButtonWallet} from '@aragon/ui-components';
 import {useTranslation} from 'react-i18next';
 
 import {useWallet} from 'hooks/useWallet';
-import Logo from 'public/logo.svg';
 import {useGlobalModalContext} from 'context/globalModals';
 import {Container, GridLayout} from 'components/layout';
 
@@ -12,7 +11,6 @@ const ExploreNav: React.FC = () => {
   const {t} = useTranslation();
   const {address, ensName, ensAvatarUrl, isConnected, methods} = useWallet();
   const {open} = useGlobalModalContext();
-  const path = t('logo.linkURL');
 
   const handleWalletButtonClick = () => {
     if (isConnected) {
@@ -30,12 +28,6 @@ const ExploreNav: React.FC = () => {
     <Container data-testid="navbar">
       <Menu>
         <GridLayout>
-          <LeftContent>
-            <LogoContainer
-              src={Logo}
-              onClick={() => window.open(path, '_blank')}
-            />
-          </LeftContent>
           <RightContent>
             <ActionsWrapper>
               <ButtonWallet
@@ -57,17 +49,7 @@ const ExploreNav: React.FC = () => {
 };
 
 const Menu = styled.nav.attrs({
-  className: 'py-2 desktop:py-3',
-})`
-  background: linear-gradient(180deg, #3164fa 0%, rgba(49, 100, 250, 0) 100%);
-`;
-
-const LeftContent = styled.div.attrs({
-  className: 'col-span-3 tablet:col-span-2 flex items-center',
-})``;
-
-const LogoContainer = styled.img.attrs({
-  className: 'h-4 cursor-pointer',
+  className: 'py-1 desktop:py-2 bg-neutral-200',
 })``;
 
 const RightContent = styled.div.attrs({

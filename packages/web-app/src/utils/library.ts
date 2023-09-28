@@ -2,17 +2,19 @@
 import {ApolloClient} from '@apollo/client';
 import {
   Client,
-  DaoAction,
   DaoDetails,
   Erc20TokenDetails,
-  IMintTokenParams,
+  MintTokenParams,
   MultisigClient,
   MultisigVotingSettings,
   Context as SdkContext,
-  SupportedNetworks as SdkSupportedNetworks,
   TokenVotingClient,
   VotingMode,
 } from '@aragon/sdk-client';
+import {
+  DaoAction,
+  SupportedNetwork as SdkSupportedNetworks,
+} from '@aragon/sdk-client-common';
 import {bytesToHex, resolveIpfsCid} from '@aragon/sdk-common';
 import {NavigationDao} from 'context/apolloClient';
 import {BigNumber, BigNumberish, constants, ethers, providers} from 'ethers';
@@ -38,11 +40,14 @@ import {
   ActionUpdatePluginSettings,
   ActionWithdraw,
   Input,
+  SupportedNetwork,
+  SupportedToken,
 } from 'utils/types';
 import {i18n} from '../../i18n.config';
 import {addABI, decodeMethod} from './abiDecoder';
 import {getTokenInfo} from './tokens';
 import {isAddress} from 'ethers/lib/utils';
+import { SUPPORTED_TOKENS } from './config';
 
 export function formatUnits(amount: BigNumberish, decimals: number) {
   if (amount.toString().includes('.') || !decimals) {
@@ -210,7 +215,7 @@ export async function decodeMintTokensToAction(
 
     const decoded = data.map(action => {
       // decode action
-      const {amount, address}: IMintTokenParams =
+      const {amount, address}: MintTokenParams =
         client.decoding.mintTokenAction(action);
 
       // update new tokens count
@@ -412,6 +417,8 @@ export async function decodeSCCToAction(
           });
         }
 
+        if(actionSCC.functionName === 'approve') return
+
         return actionSCC;
       }
     }
@@ -598,15 +605,15 @@ export function translateToNetworkishName(
     return 'unsupported';
   }
 
-  switch (appNetwork) {
-    case 'polygon':
-      return 'matic';
-    case 'mumbai':
-      return 'maticmum';
-    case 'ethereum':
-      return 'homestead';
-    case 'goerli':
-      return 'goerli';
+    switch (appNetwork) {
+      case 'polygon':
+        return SdkSupportedNetworks.POLYGON;
+      case 'mumbai':
+        return SdkSupportedNetworks.MUMBAI;
+      case 'ethereum':
+        return SdkSupportedNetworks.MAINNET;
+      case 'goerli':
+        return SdkSupportedNetworks.GOERLI;
   }
 
   return 'unsupported';
@@ -770,3 +777,15 @@ export function shortenAddress(address: string | null) {
     );
   else return address;
 }
+
+export function getTokenSymbol(tokenAddress: string) {
+  const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
+  const token = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress.toLowerCase());
+  return token ? token.name : '';
+};
+
+export function getTokenIcon(tokenAddress: string) {
+  const supportedTokens = SUPPORTED_TOKENS[SupportedNetwork.MUMBAI];
+  const icon = supportedTokens.find((tokenInfo) => tokenInfo.address === tokenAddress.toLowerCase())?.icon;
+  return icon ? icon : '';
+};

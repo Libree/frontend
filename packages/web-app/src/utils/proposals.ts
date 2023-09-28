@@ -14,14 +14,13 @@ import {
   Erc20TokenDetails,
   MultisigProposal,
   MultisigProposalListItem,
-  ProposalMetadata,
-  ProposalStatus,
   TokenVotingProposal,
   TokenVotingProposalResult,
   VoteValues,
   VotingMode,
   VotingSettings,
 } from '@aragon/sdk-client';
+import {ProposalStatus, ProposalMetadata} from '@aragon/sdk-client-common';
 import {ModeType, ProgressStatusProps, VoterType} from '@aragon/ui-components';
 import Big from 'big.js';
 import {format, formatDistanceToNow, Locale} from 'date-fns';
@@ -733,7 +732,7 @@ export function addVoteToProposal(
         .add((vote as Erc20ProposalVote).weight)
         .toBigInt(),
     },
-    usedVotingWeight: BigNumber.from(proposal.usedVotingWeight)
+    usedVotingWeight: BigNumber.from(proposal.usedVotingWeight || 0)
       .add((vote as Erc20ProposalVote).weight)
       .toBigInt(),
   } as TokenVotingProposal;

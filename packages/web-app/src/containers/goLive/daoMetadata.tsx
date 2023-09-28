@@ -7,12 +7,14 @@ import {useFormStep} from 'components/fullScreenStepper';
 import {DescriptionListContainer, Dl, Dt, Dd} from 'components/descriptionList';
 import {useNetwork} from 'context/network';
 
-const DaoMetadata: React.FC = () => {
+type DaoMetadataProps = { editionStep: number };
+
+const DaoMetadata: React.FC<DaoMetadataProps> = ({ editionStep }) => {
   const {control, getValues} = useFormContext();
   const {setStep} = useFormStep();
   const {isL2Network} = useNetwork();
   const {t} = useTranslation();
-  const {daoLogo, daoName, daoEnsName, daoSummary, links, reviewCheckError} =
+  const {daoLogo, daoName, daoEnsName, daoSummary, links} =
     getValues();
 
   return (
@@ -23,16 +25,11 @@ const DaoMetadata: React.FC = () => {
       rules={{
         required: t('errors.required.recipient'),
       }}
-      render={({field: {onChange, value}}) => (
+      render={() => (
         <DescriptionListContainer
           title={t('labels.review.daoMetadata')}
-          onEditClick={() => setStep(3)}
-          checkBoxErrorMessage={t('createDAO.review.acceptContent')}
-          checkedState={
-            value ? 'active' : reviewCheckError ? 'error' : 'default'
-          }
+          onEditClick={() => setStep(editionStep)}
           tagLabel={t('labels.changeableVote')}
-          onChecked={() => onChange(!value)}
         >
           <Dl>
             <Dt>{t('labels.logo')}</Dt>

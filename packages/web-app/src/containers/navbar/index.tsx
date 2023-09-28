@@ -145,7 +145,7 @@ export const processes: StringIndexed = {
     returnURL: EditSettings,
   },
   [MintTokensProposal]: {
-    processLabel: i18n.t('labels.addMember'),
+    processLabel: i18n.t('labels.addMembers'),
     returnURL: Community,
   },
   [ManageMembersProposal]: {

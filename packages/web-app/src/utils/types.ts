@@ -9,10 +9,10 @@ import {
   VoteValues,
   VotingSettings,
 } from '@aragon/sdk-client';
-import {BigNumber} from 'ethers/lib/ethers';
+import { BigNumber } from 'ethers/lib/ethers';
 
-import {TimeFilter, TransferTypes} from './constants';
-import {Web3Address} from './library';
+import { TimeFilter, TransferTypes } from './constants';
+import { Web3Address } from './library';
 
 /*************************************************
  *                   Finance types               *
@@ -80,7 +80,7 @@ export type VaultToken = TokenWithMarketData & {
   treasurySharePercentage?: number;
 };
 
-export type PollTokenOptions = {interval?: number; filter: TimeFilter};
+export type PollTokenOptions = { interval?: number; filter: TimeFilter };
 
 // Transfers
 /** A transfer transaction */
@@ -212,14 +212,23 @@ export type ActionParameter = {
 export type ActionsTypes =
   | 'add_address'
   | 'remove_address'
+  | 'create_group'
+  | 'add_member'
   | 'withdraw_assets'
+  | 'credit_delegation'
+  | 'swap_tokens'
+  | 'provide_liquidity'
+  | 'budget_allocation'
   | 'mint_tokens'
   | 'external_contract_modal'
   | 'external_contract_action'
   | 'modify_token_voting_settings'
   | 'modify_metadata'
   | 'modify_multisig_voting_settings'
-  | 'update_minimum_approval';
+  | 'update_minimum_approval'
+  | 'fund_opportunity'
+  | 'loan_offer';
+
 
 export type ActionWithdraw = {
   amount: number;
@@ -234,6 +243,20 @@ export type ActionWithdraw = {
   tokenSymbol: string;
   isCustomToken: boolean;
 };
+
+export type ActionAddMember = {
+  name: 'add_member';
+  inputs: {
+    address: string;
+  }
+};
+
+export type ActionCreateGroup = {
+  name: 'create_group';
+  inputs: {
+    groupName: string;
+  };
+}
 
 // TODO: merge these types
 export type ActionAddAddress = {
@@ -284,6 +307,92 @@ export type ActionMintToken = {
   };
 };
 
+export type FundingSource = 'DAO' | 'AAVESTABLE' | 'AAVEVARIABLE';
+export type CollateralType = 'ERC20' | 'NFT';
+export type IsPersistent = 'Yes' | 'No';
+
+export type ActionFundOpportunity = {
+  name: 'fund_opportunity';
+  inputs: {
+    fundingSource: FundingSource;
+    collateralType: CollateralType;
+    collateralAddress: string;
+    collateralAmount: number;
+    collateralId: number;
+    principalAsset: string;
+    loanAmount: number;
+    loanYield: number;
+    durationTime: number;
+    expirationTime: number;
+    borrower: string;
+    isPersistent: IsPersistent;
+    interestRateType?: InterestRateType;
+  };
+}
+
+export type ActionLoanOffer = {
+  name: 'loan_offer';
+  inputs: {
+    fundingSource: FundingSource;
+    collateralType: CollateralType;
+    collateralAddress: string;
+    collateralAmount: number;
+    collateralId: number;
+    principalAsset: string;
+    loanAmount: number;
+    loanYield: number;
+    durationTime: number;
+    expirationTime: number;
+    borrower: string;
+    isPersistent: IsPersistent;
+    interestRateType?: InterestRateType;
+    pwnPluginAddress: string;
+    nonce: string
+  };
+}
+
+export type ActionCreditDelegation = {
+  name: 'credit_delegation';
+  inputs: {
+    user: string; // address type
+    token: string; // token address type
+    amount: number;
+    interestRateType: string;
+  }
+};
+
+export type ActionSwapTokens = {
+  name: 'swap_tokens';
+  inputs: {
+    tokenInput: string;
+    amount: number;
+    tokenOutput: string;
+  };
+};
+
+export type ActionProvideLiquidity = {
+  name: 'provide_liquidity';
+  inputs: {
+    token0: string;
+    token0Amount: number;
+    token1: string;
+    token1Amount: number;
+    feeTier: string;
+    maxPrice: string;
+    minPrice: string;
+  }
+}
+
+export type ActionBudgetAllocation = {
+  name: 'budget_allocation';
+  inputs: {
+    protocol: string;
+    token: string;
+    amount: number;
+    group: string;
+  }
+};
+
 export type ActionUpdateMultisigPluginSettings = {
   name: 'modify_multisig_voting_settings';
   inputs: MultisigVotingSettings;
@@ -321,9 +430,17 @@ export type ActionSCC = {
 // union of those subtypes. [VR 11-08-2022]
 export type Action =
   | ActionWithdraw
+  | ActionAddMember
+  | ActionCreateGroup
+  | ActionCreditDelegation
+  | ActionSwapTokens
+  | ActionProvideLiquidity
+  | ActionBudgetAllocation
   | ActionAddAddress
   | ActionRemoveAddress
   | ActionMintToken
+  | ActionFundOpportunity
+  | ActionLoanOffer
   | ActionUpdatePluginSettings
   | ActionUpdateMetadata
   | ActionUpdateMinimumApproval
@@ -476,3 +593,69 @@ export class ProposalId {
     return this.id;
   }
 }
+
+export type ContractsDeployment = {
+  aavePool: string;
+  uniswapRouterAddress: string;
+  nonfungiblePositionManagerAddress: string;
+  pwnSimpleLoanOfferAddress: string;
+  pwnSimpleLoanAddress: string;
+};
+
+export type PluginsDeployment = {
+  creditDelegation: string;
+  subgovernance: string;
+  uniswapV3: string;
+  vault: string;
+  pwn: string;
+};
+
+export type SupportedToken = {
+  name: string;
+  address: string;
+  decimals: number;
+  icon: string;
+};
+
+export enum SupportedNetwork {
+  MUMBAI = "maticmum",
+  HOMESTEAD = "homestead",
+  GOERLI = "goerli",
+  MATIC = "matic",
+}
+
+export interface PluginInstallItem {
+  id: string; // ENS domain or address of the plugin's Repo
+  data: Uint8Array;
+}
+
+export type MetadataAbiInput = {
+  name: string;
+  type: string;
+  internalType: string;
+  description: string;
+  components?: MetadataAbiInput[];
+};
+
+export enum InterestRateType {
+  STABLE = "Stable",
+  VARIABLE = "Variable"
+}
+
+export type MarketplaceFilter = 'lending' | 'borrowing';
+
+export type LoanOffer = {
+  id: number;
+  collateralCategory: number;
+  collateralAddress: string;
+  collateralAmount: number;
+  loanAssetAddress: string;
+  loanAmount: number;
+  loanYield: number;
+  duration: number;
+  expiration: number;
+  borrower: string;
+  lender: string;
+  isPersistent: boolean;
+  nonce: string;
+};

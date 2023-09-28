@@ -1,13 +1,15 @@
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-import {ActionParameter, HookData} from 'utils/types';
-import {useDaoQuery} from './useDaoDetails';
+import { ActionParameter, HookData } from 'utils/types';
+import { useDaoQuery } from './useDaoDetails';
 
 export function useDaoActions(dao: string): HookData<ActionParameter[]> {
-  const {data: daoDetails, error, isLoading} = useDaoQuery(dao);
-  const multisig = daoDetails?.plugins[0].id === 'multisig.plugin.dao.eth';
+  const { data: daoDetails, error, isLoading } = useDaoQuery(dao);
+  const multisig = daoDetails?.plugins.find(
+    (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+  )?.id === 'multisig.plugin.dao.eth';
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const baseActions: ActionParameter[] = [
     {

@@ -86,6 +86,42 @@ export const TransferSectionWrapper = ({
   );
 };
 
+/**
+ * Section wrapper for fund opportunities overview. Consists of a header with a title, as
+ * well as a footer with a button that takes the user to the token overview. and
+ * a list of transfers (the children).
+ *
+ * NOTE: The wrapper imposes NO SPACING. It's entirely up to the children to
+ * define this.
+ */
+export const OpportunitiesSectionWrapper = ({
+  title,
+  children,
+  showButton = false,
+}: SectionWrapperProps) => {
+  const {t} = useTranslation();
+  const {network} = useNetwork();
+  const {dao} = useParams();
+
+  return (
+    <>
+      <SectionHeader title={title} />
+      {children}
+      {showButton && (
+        <div>
+          <Link to={generatePath(AllTransfers, {network, dao})}>
+            <ButtonText
+              mode="secondary"
+              label={t('labels.seeAllOpportunities')}
+              iconRight={<IconChevronRight />}
+            />
+          </Link>
+        </div>
+      )}
+    </>
+  );
+};
+
 const Title = styled.p.attrs({
   className: 'flex text-lg font-bold items-center text-ui-800',
 })``;
@@ -93,3 +129,23 @@ const Title = styled.p.attrs({
 const HeaderContainer = styled.div.attrs({
   className: 'flex justify-between content-center',
 })``;
+
+export const GroupSectionWrapper = ({title, children}: SectionWrapperProps) => {
+  const {t} = useTranslation();
+  const {network} = useNetwork();
+  const {dao} = useParams();
+
+  return (
+    <>
+      <SectionHeader title={title} />
+      {children}
+      <Link to={generatePath(AllTokens, {network, dao})}>
+        <ButtonText
+          mode="secondary"
+          label={t('labels.seeAllGroups')}
+          iconRight={<IconChevronRight />}
+        />
+      </Link>
+    </>
+  );
+};

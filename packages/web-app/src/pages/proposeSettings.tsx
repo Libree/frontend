@@ -1,21 +1,23 @@
-import {useReactiveVar} from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   CreateMajorityVotingProposalParams,
-  DaoAction,
   InstalledPluginListItem,
   ProposalCreationSteps,
-  ProposalMetadata,
   VotingMode,
   VotingSettings,
 } from '@aragon/sdk-client';
-import {withTransaction} from '@elastic/apm-rum-react';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useFormContext, useFormState} from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
+import {
+  DaoAction,
+  ProposalMetadata,
+} from '@aragon/sdk-client-common';
+import { withTransaction } from '@elastic/apm-rum-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFormContext, useFormState } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
 
-import {FullScreenStepper, Step} from 'components/fullScreenStepper';
-import {Loading} from 'components/temporary';
+import { FullScreenStepper, Step } from 'components/fullScreenStepper';
+import { Loading } from 'components/temporary';
 import CompareSettings from 'containers/compareSettings';
 import DefineProposal, {
   isValid as defineProposalIsValid,
@@ -27,12 +29,12 @@ import {
   pendingMultisigProposalsVar,
   pendingTokenBasedProposalsVar,
 } from 'context/apolloClient';
-import {useGlobalModalContext} from 'context/globalModals';
-import {useNetwork} from 'context/network';
-import {usePrivacyContext} from 'context/privacyContext';
-import {useClient} from 'hooks/useClient';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useDaoToken} from 'hooks/useDaoToken';
+import { useGlobalModalContext } from 'context/globalModals';
+import { useNetwork } from 'context/network';
+import { usePrivacyContext } from 'context/privacyContext';
+import { useClient } from 'hooks/useClient';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useDaoToken } from 'hooks/useDaoToken';
 import {
   PluginTypes,
   isMultisigClient,
@@ -44,9 +46,9 @@ import {
   isTokenVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
-import {usePollGasFee} from 'hooks/usePollGasfee';
-import {useTokenSupply} from 'hooks/useTokenSupply';
-import {useWallet} from 'hooks/useWallet';
+import { usePollGasFee } from 'hooks/usePollGasfee';
+import { useTokenSupply } from 'hooks/useTokenSupply';
+import { useWallet } from 'hooks/useWallet';
 import {
   PENDING_MULTISIG_PROPOSALS_KEY,
   PENDING_PROPOSALS_KEY,
@@ -63,9 +65,9 @@ import {
   minutesToMills,
   offsetToMills,
 } from 'utils/date';
-import {customJSONReplacer, readFile, toDisplayEns} from 'utils/library';
-import {EditSettings, Proposal} from 'utils/paths';
-import {CacheProposalParams, mapToCacheProposal} from 'utils/proposals';
+import { customJSONReplacer, readFile, toDisplayEns } from 'utils/library';
+import { EditSettings, Proposal } from 'utils/paths';
+import { CacheProposalParams, mapToCacheProposal } from 'utils/proposals';
 import {
   Action,
   ActionUpdateMetadata,
@@ -76,19 +78,23 @@ import {
 } from 'utils/types';
 
 const ProposeSettings: React.FC = () => {
-  const {t} = useTranslation();
-  const {network} = useNetwork();
+  const { t } = useTranslation();
+  const { network } = useNetwork();
 
-  const {getValues, setValue, control} = useFormContext();
+  const { getValues, setValue, control } = useFormContext();
   const [showTxModal, setShowTxModal] = useState(false);
-  const {errors, dirtyFields} = useFormState({
+  const { errors, dirtyFields } = useFormState({
     control,
   });
 
-  const {data: daoDetails, isLoading} = useDaoDetailsQuery();
-  const {data: pluginSettings, isLoading: settingsLoading} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+  const { data: daoDetails, isLoading } = useDaoDetailsQuery();
+  const { data: pluginSettings, isLoading: settingsLoading } = usePluginSettings(
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+    )?.id as PluginTypes
   );
 
   const enableTxModal = () => {
@@ -187,21 +193,21 @@ const ProposeSettingWrapper: React.FC<Props> = ({
   setShowTxModal,
   children,
 }) => {
-  const {t} = useTranslation();
-  const {open} = useGlobalModalContext();
+  const { t } = useTranslation();
+  const { open } = useGlobalModalContext();
   const navigate = useNavigate();
-  const {getValues, setValue} = useFormContext();
+  const { getValues, setValue } = useFormContext();
 
-  const {preferences} = usePrivacyContext();
-  const {network} = useNetwork();
-  const {address, isOnWrongNetwork} = useWallet();
+  const { preferences } = usePrivacyContext();
+  const { network } = useNetwork();
+  const { address, isOnWrongNetwork } = useWallet();
 
-  const {data: daoDetails, isLoading: daoDetailsLoading} = useDaoDetailsQuery();
+  const { data: daoDetails, isLoading: daoDetailsLoading } = useDaoDetailsQuery();
 
-  const {id: pluginType, instanceAddress: pluginAddress} =
+  const { id: pluginType, instanceAddress: pluginAddress } =
     daoDetails?.plugins[0] || ({} as InstalledPluginListItem);
 
-  const {data: pluginSettings} = usePluginSettings(
+  const { data: pluginSettings } = usePluginSettings(
     pluginAddress,
     pluginType as PluginTypes
   );
@@ -211,12 +217,12 @@ const ProposeSettingWrapper: React.FC<Props> = ({
     minutes: minMinutes,
   } = getDHMFromSeconds((pluginSettings as VotingSettings).minDuration);
 
-  const {data: daoToken} = useDaoToken(pluginAddress);
-  const {data: tokenSupply, isLoading: tokenSupplyIsLoading} = useTokenSupply(
+  const { data: daoToken } = useDaoToken(pluginAddress);
+  const { data: tokenSupply, isLoading: tokenSupplyIsLoading } = useTokenSupply(
     daoToken?.address || ''
   );
 
-  const {client} = useClient();
+  const { client } = useClient();
 
   const pluginClient = usePluginClient(pluginType as PluginTypes);
 
@@ -310,8 +316,8 @@ const ProposeSettingWrapper: React.FC<Props> = ({
             votingMode: earlyExecution
               ? VotingMode.EARLY_EXECUTION
               : voteReplacement
-              ? VotingMode.VOTE_REPLACEMENT
-              : VotingMode.STANDARD,
+                ? VotingMode.VOTE_REPLACEMENT
+                : VotingMode.STANDARD,
           },
         };
         setValue('actions', [metadataAction, voteSettingsAction]);
@@ -339,7 +345,7 @@ const ProposeSettingWrapper: React.FC<Props> = ({
 
       for (const action of getValues('actions') as Array<Action>) {
         if (action.name === 'modify_metadata') {
-          const preparedAction = {...action};
+          const preparedAction = { ...action };
 
           if (
             preparedAction.inputs.avatar &&
@@ -476,7 +482,7 @@ const ProposeSettingWrapper: React.FC<Props> = ({
 
           // Calculate the end date using duration
           const endDateTimeMill =
-            startDateTime.valueOf() + offsetToMills({days, hours, minutes});
+            startDateTime.valueOf() + offsetToMills({ days, hours, minutes });
 
           endDateTime = new Date(endDateTimeMill);
         } else {
@@ -705,7 +711,7 @@ const ProposeSettingWrapper: React.FC<Props> = ({
           ...cachedTokenBasedProposals,
           [daoDetails.address]: {
             ...cachedTokenBasedProposals[daoDetails.address],
-            [proposalGuid]: {...proposalToCache},
+            [proposalGuid]: { ...proposalToCache },
           },
         };
         pendingTokenBasedProposalsVar(newCache);
@@ -718,7 +724,7 @@ const ProposeSettingWrapper: React.FC<Props> = ({
           ...cachedMultisigProposals,
           [daoDetails.address]: {
             ...cachedMultisigProposals[daoDetails.address],
-            [proposalGuid]: {...proposalToCache},
+            [proposalGuid]: { ...proposalToCache },
           },
         };
         pendingMultisigProposalsVar(newCache);

@@ -9,7 +9,12 @@ import {
 import {BigNumber} from 'ethers';
 
 import {i18n} from '../../../i18n.config';
-import {Dashboard, Community, Finance, Governance, Settings} from '../paths';
+import {Dashboard, Community, Finance, Governance, Settings, Marketplace} from '../paths';
+import { CreditDelegator__factory } from 'typechain-types/CreditDelegator__factory';
+import { Subgovernance__factory } from 'typechain-types/Subgovernance__factory';
+import { Uniswapv3__factory } from 'typechain-types/Uniswapv3__factory';
+import { Pwn__factory } from 'typechain-types/Pwn__factory';
+
 
 /** Time period options for token price change */
 export const enum TimeFilter {
@@ -25,6 +30,7 @@ export const enum TransactionState {
   LOADING = 'LOADING',
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
+  APPROVE = 'APPROVE',
 }
 
 export const enum ManualABIFlowState {
@@ -56,6 +62,11 @@ export const NAV_LINKS_DATA: NavLinkData[] = [
   {
     label: i18n.t('navLinks.community'),
     path: Community,
+    icon: IconCommunity,
+  },
+  {
+    label: i18n.t('navLinks.marketplace'),
+    path: Marketplace,
     icon: IconCommunity,
   },
   {
@@ -107,6 +118,7 @@ export const MAX_TOKEN_AMOUNT = BigNumber.from(
 );
 
 export const MAX_TOKEN_DECIMALS = 18;
+export const MUMBAI_DECIMALS = 8;
 
 // TokenVoting duration boundaries
 export const MAX_DURATION_DAYS = 365;
@@ -148,3 +160,11 @@ export const PENDING_DAOS_KEY = 'pendingDaos';
 export const PENDING_EXECUTION_KEY = 'pendingExecution';
 export const PENDING_MULTISIG_EXECUTION_KEY = 'pendingMultisigExecution';
 export const VERIFIED_CONTRACTS_KEY = 'verifiedContracts';
+export const PRODUCTION_ENABLED = import.meta.env.VITE_PRODUCTION_ENABLED as string;
+
+export const AVAILABLE_FUNCTION_SIGNATURES: string[] = [
+  CreditDelegator__factory.createInterface().getFunction("borrowAndTransfer").format("minimal"),
+  Subgovernance__factory.createInterface().getFunction("createGroup").format("minimal"),
+  Uniswapv3__factory.createInterface().getFunction("swap").format("minimal"),
+  Pwn__factory.createInterface().getFunction("makeOffer").format("minimal")
+];

@@ -32,6 +32,7 @@ import {Layout} from 'pages/settings';
 import {getDHMFromSeconds} from 'utils/date';
 import {decodeVotingMode, formatUnits, toDisplayEns} from 'utils/library';
 import {ProposeNewSettings} from 'utils/paths';
+import {ConfigureInstalledPlugins} from 'containers/configureInstalledPlugins';
 
 type EditMvSettingsProps = {
   daoDetails: DaoDetails;
@@ -59,8 +60,16 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
   );
 
   const {data, isLoading: settingsAreLoading} = usePluginSettings(
-    daoDetails?.plugins[0].instanceAddress as string,
-    daoDetails?.plugins[0].id as PluginTypes
+    daoDetails?.plugins.find(
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
+    )?.instanceAddress as string,
+    daoDetails?.plugins.find(
+      (plugin: any) =>
+        plugin.id.includes('token-voting') ||
+        plugin.id.includes('multisig.plugin')
+    )?.id as PluginTypes as PluginTypes
   );
   const daoSettings = data as VotingSettings;
 
@@ -189,6 +198,9 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     eligibilityTokenAmount !== formattedProposerAmount ||
     eligibilityType !== formattedEligibilityType;
 
+  // plugins settings changes
+  const isPluginsChanged = false;
+
   const setCurrentMetadata = useCallback(() => {
     setValue('daoName', daoDetails?.metadata.name);
     setValue('daoSummary', daoDetails?.metadata.description);
@@ -245,7 +257,11 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     // TODO: Alerts share will be added later
     setValue(
       'membership',
-      daoDetails?.plugins[0].id === 'token-voting.plugin.dao.eth'
+      (daoDetails?.plugins.find(
+        (plugin: any) =>
+          plugin.id.includes('token-voting') ||
+          plugin.id.includes('multisig.plugin')
+      )?.id as PluginTypes) === 'token-voting.plugin.dao.eth'
         ? 'token'
         : 'wallet'
     );
@@ -261,18 +277,25 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     setValue,
   ]);
 
+  const setCurrentPlugins = useCallback(() => {}, []);
+
   const settingsUnchanged =
-    !isGovernanceChanged && !isMetadataChanged && !isCommunityChanged;
+    !isGovernanceChanged &&
+    !isMetadataChanged &&
+    !isCommunityChanged &&
+    !isPluginsChanged;
 
   const handleResetChanges = () => {
     setCurrentMetadata();
     setCurrentCommunity();
     setCurrentGovernance();
+    setCurrentPlugins();
   };
 
   useEffect(() => {
     setValue('isMetadataChanged', isMetadataChanged);
-    setValue('areSettingsChanged', isCommunityChanged || isGovernanceChanged);
+    setValue('areSettingsChanged', isCommunityChanged || isGovernanceChanged); // here
+    setValue('arePluginsChanged', isPluginsChanged); // maybe this should be up there
 
     // intentionally using settingsUnchanged because it monitors all
     // the setting changes
@@ -283,7 +306,13 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
     setCurrentMetadata();
     setCurrentCommunity();
     setCurrentGovernance();
-  }, [setCurrentGovernance, setCurrentCommunity, setCurrentMetadata]);
+    setCurrentPlugins();
+  }, [
+    setCurrentGovernance,
+    setCurrentCommunity,
+    setCurrentMetadata,
+    setCurrentPlugins,
+  ]);
 
   const metadataAction = [
     {
@@ -320,6 +349,19 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
         />
       ),
       callback: setCurrentGovernance,
+    },
+  ];
+
+  const pluginsAction = [
+    {
+      component: (
+        <ListItemAction
+          title={t('settings.resetChanges')}
+          bgWhite
+          mode={isPluginsChanged ? 'default' : 'disabled'}
+        />
+      ),
+      callback: setCurrentPlugins,
     },
   ];
 
@@ -383,6 +425,20 @@ export const EditMvSettings: React.FC<EditMvSettingsProps> = ({daoDetails}) => {
               >
                 <AccordionContent>
                   <ConfigureCommunity />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem
+                type="action-builder"
+                name="plugins"
+                methodName={'Edit plugins settings'}
+                alertLabel={
+                  isPluginsChanged ? t('settings.newSettings') : undefined
+                }
+                dropdownItems={pluginsAction}
+              >
+                <AccordionContent>
+                  <ConfigureInstalledPlugins />
                 </AccordionContent>
               </AccordionItem>
             </AccordionMultiple>

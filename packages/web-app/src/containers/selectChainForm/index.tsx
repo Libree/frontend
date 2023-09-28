@@ -5,14 +5,14 @@ import {
   // ListItemAction,
   ListItemBlockchain,
 } from '@aragon/ui-components';
-import React, {useState} from 'react';
-import {Controller, useFormContext} from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
+import React, { useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-import {useNetwork} from 'context/network';
+import { useNetwork } from 'context/network';
 import useScreen from 'hooks/useScreen';
-import {CHAIN_METADATA, SupportedNetworks} from 'utils/constants';
+import { CHAIN_METADATA, PRODUCTION_ENABLED, SupportedNetworks } from 'utils/constants';
 
 // import {trackEvent} from 'services/analytics';
 
@@ -20,10 +20,10 @@ type NetworkType = 'main' | 'test';
 // type SortFilter = 'cost' | 'popularity' | 'security';
 
 const SelectChainForm: React.FC = () => {
-  const {t} = useTranslation();
-  const {isMobile} = useScreen();
-  const {setNetwork, network} = useNetwork();
-  const {control, resetField} = useFormContext();
+  const { t } = useTranslation();
+  const { isMobile } = useScreen();
+  const { setNetwork, network } = useNetwork();
+  const { control, resetField } = useFormContext();
 
   // const [isOpen, setIsOpen] = useState(false);
   // const [sortFilter, setFilter] = useState<SortFilter>('cost');
@@ -65,16 +65,18 @@ const SelectChainForm: React.FC = () => {
     <>
       <Header>
         <NetworkTypeSwitcher>
-          <ButtonText
-            mode="ghost"
-            bgWhite
-            size={isMobile ? 'small' : 'medium'}
-            label={t('labels.mainNet')}
-            isActive={networkType === 'main'}
-            onClick={() => {
-              setNetworkType('main');
-            }}
-          />
+          {PRODUCTION_ENABLED === 'true' && (
+            <ButtonText
+              mode="ghost"
+              bgWhite
+              size={isMobile ? 'small' : 'medium'}
+              label={t('labels.mainNet')}
+              isActive={networkType === 'main'}
+              onClick={() => {
+                setNetworkType('main');
+              }}
+            />
+          )}
           <ButtonText
             mode="ghost"
             bgWhite
@@ -142,9 +144,9 @@ const SelectChainForm: React.FC = () => {
           <Controller
             key={selectedNetwork}
             name="blockchain"
-            rules={{required: true}}
+            rules={{ required: true }}
             control={control}
-            render={({field}) => (
+            render={({ field }) => (
               <ListItemBlockchain
                 onClick={() => {
                   setNetwork(selectedNetwork);
@@ -172,7 +174,7 @@ const SelectChainForm: React.FC = () => {
 
 export default SelectChainForm;
 
-const Header = styled.div.attrs({className: 'flex justify-between'})``;
+const Header = styled.div.attrs({ className: 'flex justify-between' })``;
 
 const NetworkTypeSwitcher = styled.div.attrs({
   className: 'flex p-0.5 space-x-0.25 bg-ui-0 rounded-xl',

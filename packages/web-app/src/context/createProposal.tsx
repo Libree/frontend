@@ -1,40 +1,43 @@
-import {useReactiveVar} from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   CreateMajorityVotingProposalParams,
-  DaoAction,
   InstalledPluginListItem,
   MultisigClient,
   MultisigVotingSettings,
   ProposalCreationSteps,
-  ProposalMetadata,
-  TokenType,
   TokenVotingClient,
   VotingSettings,
   WithdrawParams,
 } from '@aragon/sdk-client';
-import {hexToBytes} from '@aragon/sdk-common';
-import {ethers} from 'ethers';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useFormContext} from 'react-hook-form';
-import {useTranslation} from 'react-i18next';
-import {generatePath, useNavigate} from 'react-router-dom';
 
-import {Loading} from 'components/temporary';
+import {
+  DaoAction,
+  ProposalMetadata,
+  TokenType
+} from '@aragon/sdk-client-common';
+import { hexToBytes } from '@aragon/sdk-common';
+import { ethers } from 'ethers';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { generatePath, useNavigate } from 'react-router-dom';
+
+import { Loading } from 'components/temporary';
 import PublishModal from 'containers/transactionModals/publishModal';
-import {useClient} from 'hooks/useClient';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useDaoToken} from 'hooks/useDaoToken';
-import {PluginTypes, usePluginClient} from 'hooks/usePluginClient';
+import { useClient } from 'hooks/useClient';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useDaoToken } from 'hooks/useDaoToken';
+import { PluginTypes, usePluginClient } from 'hooks/usePluginClient';
 import {
   isMultisigVotingSettings,
   isTokenVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
-import {usePollGasFee} from 'hooks/usePollGasfee';
-import {useTokenSupply} from 'hooks/useTokenSupply';
-import {useWallet} from 'hooks/useWallet';
-import {trackEvent} from 'services/analytics';
-import {getEtherscanVerifiedContract} from 'services/etherscanAPI';
+import { usePollGasFee } from 'hooks/usePollGasfee';
+import { useTokenSupply } from 'hooks/useTokenSupply';
+import { useWallet } from 'hooks/useWallet';
+import { trackEvent } from 'services/analytics';
+import { getEtherscanVerifiedContract } from 'services/etherscanAPI';
 import {
   PENDING_MULTISIG_PROPOSALS_KEY,
   PENDING_PROPOSALS_KEY,
@@ -55,21 +58,30 @@ import {
   getDefaultPayableAmountInputName,
   toDisplayEns,
 } from 'utils/library';
-import {Proposal} from 'utils/paths';
+import { Proposal } from 'utils/paths';
 import {
   CacheProposalParams,
   getNonEmptyActions,
   mapToCacheProposal,
 } from 'utils/proposals';
-import {isNativeToken} from 'utils/tokens';
-import {ProposalId, ProposalResource} from 'utils/types';
+import { isNativeToken } from 'utils/tokens';
+import { ProposalId, ProposalResource } from 'utils/types';
 import {
   pendingMultisigProposalsVar,
   pendingTokenBasedProposalsVar,
 } from './apolloClient';
-import {useGlobalModalContext} from './globalModals';
-import {useNetwork} from './network';
-import {usePrivacyContext} from './privacyContext';
+import { useGlobalModalContext } from './globalModals';
+import { useNetwork } from './network';
+import { usePrivacyContext } from './privacyContext';
+import {
+  encodeActionsGroup,
+  encodeCreateGroupAction,
+  encodeCreditDelegationAction,
+  encodeSwapAction,
+  encodeProvideLiquidityAction,
+  encodeMakeOfferAction
+} from 'utils/encoding';
+import { useInstalledPlugins } from 'hooks/useInstalledPlugins';
 
 type Props = {
   showTxModal: boolean;
@@ -81,28 +93,31 @@ const CreateProposalProvider: React.FC<Props> = ({
   setShowTxModal,
   children,
 }) => {
-  const {t} = useTranslation();
-  const {open} = useGlobalModalContext();
-  const {preferences} = usePrivacyContext();
+  const { t } = useTranslation();
+  const { open } = useGlobalModalContext();
+  const { preferences } = usePrivacyContext();
 
   const navigate = useNavigate();
-  const {getValues} = useFormContext();
+  const { getValues } = useFormContext();
 
-  const {network} = useNetwork();
-  const {isOnWrongNetwork, provider, address} = useWallet();
+  const { network } = useNetwork();
+  const { isOnWrongNetwork, provider, address } = useWallet();
 
-  const {data: daoDetails, isLoading: daoDetailsLoading} = useDaoDetailsQuery();
-  const {id: pluginType, instanceAddress: pluginAddress} =
-    daoDetails?.plugins[0] || ({} as InstalledPluginListItem);
+  const { data: daoDetails, isLoading: daoDetailsLoading } = useDaoDetailsQuery();
+  const { id: pluginType, instanceAddress: pluginAddress } =
+    daoDetails?.plugins.find(
+      (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin"))
+    || ({} as InstalledPluginListItem);
 
-  const {data: daoToken} = useDaoToken(pluginAddress);
-  const {data: tokenSupply} = useTokenSupply(daoToken?.address || '');
-  const {data: pluginSettings} = usePluginSettings(
+
+  const { data: daoToken } = useDaoToken(pluginAddress);
+  const { data: tokenSupply } = useTokenSupply(daoToken?.address || '');
+  const { data: pluginSettings } = usePluginSettings(
     pluginAddress,
     pluginType as PluginTypes
   );
 
-  const {client} = useClient();
+  const { client } = useClient();
   const pluginClient = usePluginClient(pluginType as PluginTypes);
   const {
     days: minDays,
@@ -121,6 +136,13 @@ const CreateProposalProvider: React.FC<Props> = ({
     pendingTokenBasedProposalsVar
   );
 
+  const {
+    creditDelegation: creditDelegationAddress,
+    subgovernance: subgovernancePlugin,
+    uniswapV3: uniswapV3Plugin,
+    pwn: pwnPlugin
+  } = useInstalledPlugins(daoDetails?.address)
+
   const shouldPoll = useMemo(
     () =>
       creationProcessState === TransactionState.WAITING &&
@@ -136,7 +158,9 @@ const CreateProposalProvider: React.FC<Props> = ({
    *************************************************/
   const encodeActions = useCallback(async () => {
     const actionsFromForm = getValues('actions');
-    const actions: Array<Promise<DaoAction>> = [];
+    const actions: Array<Promise<DaoAction> | Promise<DaoAction[]>> = [];
+
+    let propagateActions: boolean = false;
 
     // return an empty array for undefined clients
     if (!pluginClient || !client) return Promise.resolve([] as DaoAction[]);
@@ -154,8 +178,8 @@ const CreateProposalProvider: React.FC<Props> = ({
                  fixed the issue */
               recipientAddressOrEns: action.to.address,
               ...(isNativeToken(action.tokenAddress)
-                ? {type: TokenType.NATIVE}
-                : {type: TokenType.ERC20, tokenAddress: action.tokenAddress}),
+                ? { type: TokenType.NATIVE }
+                : { type: TokenType.ERC20, tokenAddress: action.tokenAddress }),
             } as WithdrawParams)
           );
           break;
@@ -266,10 +290,112 @@ const CreateProposalProvider: React.FC<Props> = ({
           }
           break;
         }
+        case 'credit_delegation': {
+          actions.push(
+            Promise.resolve(
+              encodeCreditDelegationAction(
+                action.inputs.token,
+                action.inputs.amount,
+                action.inputs.interestRateType,
+                daoDetails?.address || "",
+                action.inputs.user,
+                creditDelegationAddress?.instanceAddress || "",
+                provider,
+                network
+              ))
+          );
+          propagateActions = true
+          break;
+        }
+        case 'create_group': {
+          const groupName = getValues('groupName');
+          const membersAddresses = getValues('addresses');
+          actions.push(
+            Promise.resolve(
+              encodeCreateGroupAction(
+                groupName,
+                membersAddresses,
+                subgovernancePlugin?.instanceAddress || ""
+              )
+            ));
+          break;
+        }
+        case 'add_member': {
+          const membersAddresses = getValues('addresses');
+          break;
+        }
+        case 'swap_tokens': {
+          //TODO - Remove hardcoded values
+          actions.push(
+            Promise.resolve(
+              encodeSwapAction(
+                action.inputs.tokenInput,
+                action.inputs.tokenOutput,
+                '3000',
+                daoDetails?.address || '',
+                action.inputs.amount.toString(),
+                '0',
+                '0',
+                uniswapV3Plugin?.instanceAddress || '',
+                provider,
+                network
+              )))
+          break;
+        }
+        case 'provide_liquidity': {
+          actions.push(
+            Promise.resolve(
+              encodeProvideLiquidityAction(
+                action.inputs.token0,
+                action.inputs.token1,
+                action.inputs.feeTier,
+                action.inputs.minPrice,
+                action.inputs.maxPrice,
+                action.inputs.token0Amount,
+                action.inputs.token1Amount,
+                uniswapV3Plugin?.instanceAddress || '',
+                provider,
+                network
+              )))
+          break;
+        }
+        case 'loan_offer': {
+          actions.push(
+            Promise.resolve(
+              encodeMakeOfferAction(
+                action.inputs.fundingSource,
+                daoDetails?.address || "",
+                action.inputs.collateralType,
+                action.inputs.collateralAddress,
+                action.inputs.collateralId,
+                action.inputs.collateralAmount,
+                action.inputs.principalAsset,
+                action.inputs.loanAmount,
+                action.inputs.loanYield,
+                action.inputs.durationTime,
+                action.inputs.expirationTime,
+                pwnPlugin?.instanceAddress || "",
+                creditDelegationAddress?.instanceAddress || "",
+                provider,
+                network
+              )))
+          break;
+        }
       }
     }
 
-    return Promise.all(actions);
+    const actionsEncoded = (await Promise.all(actions)).flat();
+
+    if (!propagateActions) return actionsEncoded
+
+    const actionsGrouped = encodeActionsGroup(
+      daoDetails?.address || "",
+      actionsEncoded,
+      creditDelegationAddress?.instanceAddress || ""
+    )
+
+    return actionsGrouped
+
   }, [
     getValues,
     pluginClient,
@@ -352,7 +478,7 @@ const CreateProposalProvider: React.FC<Props> = ({
 
         // Calculate the end date using duration
         const endDateTimeMill =
-          startDateTime.valueOf() + offsetToMills({days, hours, minutes});
+          startDateTime.valueOf() + offsetToMills({ days, hours, minutes });
 
         endDateTime = new Date(endDateTimeMill);
       } else {
@@ -518,7 +644,7 @@ const CreateProposalProvider: React.FC<Props> = ({
           ...cachedTokenBasedProposals,
           [daoDetails.address]: {
             ...cachedTokenBasedProposals[daoDetails.address],
-            [proposalGuid]: {...proposalToCache},
+            [proposalGuid]: { ...proposalToCache },
           },
         };
         pendingTokenBasedProposalsVar(newCache);
@@ -531,7 +657,7 @@ const CreateProposalProvider: React.FC<Props> = ({
           ...cachedMultisigProposals,
           [daoDetails.address]: {
             ...cachedMultisigProposals[daoDetails.address],
-            [proposalGuid]: {...proposalToCache},
+            [proposalGuid]: { ...proposalToCache },
           },
         };
         pendingMultisigProposalsVar(newCache);
@@ -701,4 +827,4 @@ const CreateProposalProvider: React.FC<Props> = ({
   );
 };
 
-export {CreateProposalProvider};
+export { CreateProposalProvider };

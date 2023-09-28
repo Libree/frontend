@@ -3,13 +3,23 @@ import styled from 'styled-components';
 import Logo from 'public/coloredLogo.svg';
 import Green from 'public/circleGreenGradient.svg';
 import Purple from 'public/purpleGradient.svg';
-import {useTranslation} from 'react-i18next';
-import {GridLayout} from 'components/layout';
+import LogoBg from 'public/libree-bg-logo.png';
+import { useTranslation } from 'react-i18next';
+import { GridLayout } from 'components/layout';
 
 function Hero() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Container>
+
+      <MobileLogoWrapper>
+        <MobileLogo src={LogoBg} />
+      </MobileLogoWrapper>
+
+      <DesktopLogoWrapper>
+        <img src={LogoBg} />
+      </DesktopLogoWrapper>
+
       <GridLayout>
         <Wrapper>
           <ContentWrapper>
@@ -17,12 +27,12 @@ function Hero() {
             <Subtitle>{t('explore.hero.subtitle1')}</Subtitle>
           </ContentWrapper>
           <ImageWrapper>
-            <StyledImage src={Logo} />
+            {/* <StyledImage src={Logo} /> */}
           </ImageWrapper>
           <GradientContainer>
             <GradientWrapper>
-              <GradientGreen src={Green} />
-              <GradientPurple src={Purple} />
+              {/* <GradientGreen src={Green} /> */}
+              {/* <GradientPurple src={Purple} /> */}
             </GradientWrapper>
           </GradientContainer>
         </Wrapper>
@@ -38,7 +48,7 @@ function Hero() {
 // desktop.
 const Container = styled.div.attrs({
   className:
-    'bg-primary-400 h-56 -mt-10 pt-10  desktop:h-67 desktop:pt-12 desktop:-mt-12 overflow-hidden',
+    'relative bg-neutral-100 h-56 -mt-10 pt-10 desktop:h-67 desktop:pt-12 desktop:-mt-12 overflow-hidden',
 })``;
 
 const Wrapper = styled.div.attrs({
@@ -65,6 +75,18 @@ const Subtitle = styled.h3.attrs({
 
 const ImageWrapper = styled.div.attrs({
   className: 'h-full',
+})``;
+
+const MobileLogoWrapper = styled.div.attrs({
+  className: 'absolute mt-10 top-0 left-0 w-full h-full flex justify-center items-center object-cover desktop:hidden',
+})``;
+
+const MobileLogo = styled.img.attrs({
+  className: 'w-full h-full object-cover opacity-40 tablet:opacity-50',
+})``;
+
+const DesktopLogoWrapper = styled.div.attrs({
+  className: 'absolute hidden desktop:block left-1/3 top-4 opacity-90',
 })``;
 
 const StyledImage = styled.img.attrs({

@@ -1,35 +1,39 @@
-import {ButtonGroup, Option} from '@aragon/ui-components';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { ButtonGroup, Option } from '@aragon/ui-components';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import {Loading} from 'components/temporary';
-import {useDaoDetailsQuery} from 'hooks/useDaoDetails';
-import {useDaoToken} from 'hooks/useDaoToken';
-import {PluginTypes} from 'hooks/usePluginClient';
+import { Loading } from 'components/temporary';
+import { useDaoDetailsQuery } from 'hooks/useDaoDetails';
+import { useDaoToken } from 'hooks/useDaoToken';
+import { PluginTypes } from 'hooks/usePluginClient';
 import {
   isMultisigVotingSettings,
   isTokenVotingSettings,
   usePluginSettings,
 } from 'hooks/usePluginSettings';
-import {CompareMetadata} from './compareMetadata';
-import {CompareMvCommunity} from './majorityVoting/compareCommunity';
-import {CompareMvGovernance} from './majorityVoting/compareGovernance';
-import {CompareMsGovernance} from './multisig/compareGovernance';
-import {toDisplayEns} from 'utils/library';
+import { CompareMetadata } from './compareMetadata';
+import { CompareMvCommunity } from './majorityVoting/compareCommunity';
+import { CompareMvGovernance } from './majorityVoting/compareGovernance';
+import { CompareMsGovernance } from './multisig/compareGovernance';
+import { toDisplayEns } from 'utils/library';
 
 export type Views = 'old' | 'new';
 
 const CompareSettings: React.FC = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
-  const {data: daoDetails, isLoading: areDetailsLoading} = useDaoDetailsQuery();
-  const {data: pluginSettings, isLoading: areSettingsLoading} =
+  const { data: daoDetails, isLoading: areDetailsLoading } = useDaoDetailsQuery();
+  const { data: pluginSettings, isLoading: areSettingsLoading } =
     usePluginSettings(
-      daoDetails?.plugins[0].instanceAddress as string,
-      daoDetails?.plugins[0].id as PluginTypes
+      daoDetails?.plugins.find(
+        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      )?.instanceAddress as string,
+      daoDetails?.plugins.find(
+        (plugin: any) => plugin.id.includes("token-voting") || plugin.id.includes("multisig.plugin")
+      )?.id as PluginTypes as PluginTypes
     );
 
-  const {data: daoToken, isLoading: tokensAreLoading} = useDaoToken(
+  const { data: daoToken, isLoading: tokensAreLoading } = useDaoToken(
     daoDetails?.plugins?.[0]?.instanceAddress || ''
   );
 

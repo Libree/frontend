@@ -36,24 +36,16 @@ const Footer: React.FC = () => {
             {isDesktop ? (
               <>
                 <FlexDiv>
-                  <LogoContainer src={IconLogo} />
                   <StyledNavList>{ExploreNavLinks}</StyledNavList>
                 </FlexDiv>
                 <FlexDiv>
                   <StyledNavList>{PrivacyNavLinks}</StyledNavList>
-                  <Copyright>
-                    &copy;{`  ${new Date().getFullYear()}  `}Aragon
-                  </Copyright>
                 </FlexDiv>
               </>
             ) : (
               <>
-                <LogoContainer src={IconLogo} />
                 <StyledNavList>{ExploreNavLinks}</StyledNavList>
                 <StyledNavList>{PrivacyNavLinks}</StyledNavList>
-                <Copyright>
-                  &copy;{`  ${new Date().getFullYear()}  `}Aragon
-                </Copyright>
               </>
             )}
           </ActionContainer>
@@ -61,7 +53,7 @@ const Footer: React.FC = () => {
       </GridLayout>
       <div className="flex z-10 justify-center items-center py-0.5 space-x-1 text-sm text-ui-0 bg-primary-400">
         <IconInfo />
-        <span>Aragon App Public Beta</span>
+        <span>Libree App Public Beta</span>
       </div>
     </Section>
   );
